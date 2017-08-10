@@ -1,0 +1,186 @@
+---
+title: "Data visualisation with ggplot"
+output: html_notebook
+---
+
+## Learning Objectives
+
+### Basic
+
+1. Understand what types of graphs are best for different types of data
+2. Create common types of graphs with ggplot2
+    + histogram
+    + density plot
+    + boxplot
+    + violin plot
+    + scatter plot
+    + line graph
+3. Represent factorial designs with different colours or facets
+4. Add lines to graphs
+5. Deal with overlapping data
+6. Use the `viridis` package to set colours
+7. Set custom labels
+
+### Advanced
+
+8. Superimpose different types of graphs
+    + boxplot on violin plot
+    + line graph on scatter plot
+9. Create less common types of graphs (e.g., heat map)
+10. Adjust axes (e.g., flip coordinates, set axis limits)
+11. Change the theme
+12. Create animated plots with [`gganimate`](https://github.com/dgrtwo/gganimate)
+
+
+## Prep
+
+* Read [Chapter 3](http://r4ds.had.co.nz/data-visualisation.html) of *R for Data Science*
+
+## Further Reading and Resources
+
+* [ggplot2 cheat sheet](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf)
+* [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/)
+* [The R Graph Gallery](http://www.r-graph-gallery.com/portfolio/ggplot2-package/) (this is really useful)
+* [R Graphics Cookbook](http://amzn.com/1449316956?tag=ggplot2-20) by Winston Chang
+* [The viridis color palettes](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
+* [ggplot extensions](https://www.ggplot2-exts.org/)
+* [plotly](https://plot.ly/ggplot2/) for creating interactive graphs
+
+## Examples
+
+```{r}
+library(tidyverse)
+library(viridis)
+```
+
+### Histogram
+
+```{r}
+
+data.frame(
+  age = rpois(1000, 2) + 18
+) %>%
+  ggplot(aes(age)) +
+  geom_histogram(binwidth = 1, fill="red", alpha=0.5)
+  
+```
+
+
+### Density plot
+
+```{r}
+
+df <- data.frame(
+  sex = rep(c("male", "female"), each = 500),
+  height = c(rnorm(500, 70, 4), rnorm(500, 65, 3.5))
+) 
+  
+ggplot(df, aes(height, fill=sex)) +
+  geom_density(alpha=0.5) +
+  geom_vline(xintercept = mean(df$height)) +
+  xlim(45, 90) +
+  xlab("Height (in inches)")
+
+```
+
+### Boxplot
+
+```{r}
+ggplot(df, aes(sex, height, fill=sex)) +
+  geom_hline(yintercept = mean(df$height)) +
+  geom_boxplot(alpha=0.5)
+```
+
+### Violin plot
+
+```{r}
+ggplot(df, aes(sex, height, fill=sex)) +
+  geom_violin(draw_quantiles = c(0.25, 0.5, 0.75), alpha=0.5)
+```
+
+### Scatter plot
+
+```{r}
+
+df2 <- data.frame(
+  x = rnorm(100)
+) %>%
+  mutate(y = x + rnorm(100, 0, 0.5))
+
+ggplot(df2, aes(x, y)) +
+  geom_point()
+
+```
+
+### Line graph
+
+```{r}
+ggplot(df2, aes(x, y)) +
+  geom_smooth(method="lm")
+```
+
+### Combined scatter and line graph
+
+```{r}
+ggplot(df2, aes(x, y)) +
+  geom_smooth(method="lm") +
+  geom_point()
+```
+
+### Overlapping Data
+
+You can deal with overlapping data points (very common if you're using Likert scales) by reducing the opacity of the points. You need to use trial and error to adjust these so they look right.
+
+```{r}
+
+df3 <- data.frame(
+  x = rbinom(1000, 10, 0.5)
+) %>%
+  mutate(y = x + rbinom(1000, 20, 0.5))
+
+ggplot(df3, aes(x, y)) +
+  geom_point(size = 5, alpha = .05) +
+  geom_smooth(method="lm")
+
+```
+
+Alternatively, you can transform your data to create a count column and use the count to set the dot colour.
+
+```{r}
+
+df3 %>%
+  group_by(x, y) %>%
+  summarise(count = n()) %>%
+  ggplot(aes(x, y, color=count)) +
+  geom_point(size = 5) +
+  scale_color_viridis()
+
+```
+
+
+### Heat map
+
+```{r}
+
+data.frame(
+  a1 = rnorm(100),
+  b1 = rnorm(100)
+) %>% 
+mutate(
+  a2 = a1 + rnorm(100),
+  a3 = a1 + rnorm(100),
+  a4 = a1 + rnorm(100),
+  b2 = b1 + rnorm(100),
+  b3 = b1 + rnorm(100),
+  b4 = b1 + rnorm(100)
+) %>%
+  cor() %>%
+  as.data.frame() %>%
+  rownames_to_column(var = "V1") %>%
+  gather("V2", "r", a1:b4) %>%
+  ggplot(aes(V1, V2, fill=r)) +
+  geom_tile() +
+  scale_fill_viridis()
+  
+```
+
