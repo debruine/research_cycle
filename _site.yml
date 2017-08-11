@@ -1,4 +1,5 @@
 name: "research_cycle"
+output_dir: "docs"
 author: "Dale Barr and Lisa DeBruine"
 navbar:
   title: "The Research Cycle"
