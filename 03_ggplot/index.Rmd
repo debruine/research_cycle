@@ -1,6 +1,9 @@
 ---
 title: "Data visualisation with ggplot"
-output: html_notebook
+output:
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 ## Learning Objectives
@@ -40,7 +43,7 @@ output: html_notebook
 
 * [ggplot2 cheat sheet](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf)
 * [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/)
-* [The R Graph Gallery](http://www.r-graph-gallery.com/portfolio/ggplot2-package/) (this is really useful)
+* [The R Graph Gallery](http://www.r-graph-gallery.com/) (this is really useful)
 * [R Graphics Cookbook](http://amzn.com/1449316956?tag=ggplot2-20) by Winston Chang
 * [The viridis color palettes](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
 * [ggplot extensions](https://www.ggplot2-exts.org/)
