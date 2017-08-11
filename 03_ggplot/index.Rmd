@@ -2,9 +2,22 @@
 title: "Data visualisation with ggplot"
 output:
   html_document:
-    toc: true
-    toc_float: true
+    self_contained: no
+    toc: yes
+    toc_float: yes
 ---
+
+```{r opts, echo = FALSE}
+#suppress the warnings and other messages from showing in the knitted file.
+knitr::opts_chunk$set(
+  fig.width  = 8, 
+  fig.height = 5, 
+  fig.path   = 'images/',
+  echo       = TRUE, 
+  warning    = FALSE, 
+  message    = FALSE
+)
+```
 
 ## Learning Objectives
 
@@ -58,7 +71,7 @@ library(viridis)
 
 ### Histogram
 
-```{r}
+```{r histogram}
 
 data.frame(
   age = rpois(1000, 2) + 18
@@ -71,7 +84,7 @@ data.frame(
 
 ### Density plot
 
-```{r}
+```{r density}
 
 df <- data.frame(
   sex = rep(c("male", "female"), each = 500),
@@ -88,7 +101,7 @@ ggplot(df, aes(height, fill=sex)) +
 
 ### Boxplot
 
-```{r}
+```{r boxplot}
 ggplot(df, aes(sex, height, fill=sex)) +
   geom_hline(yintercept = mean(df$height)) +
   geom_boxplot(alpha=0.5)
@@ -96,14 +109,14 @@ ggplot(df, aes(sex, height, fill=sex)) +
 
 ### Violin plot
 
-```{r}
+```{r violin}
 ggplot(df, aes(sex, height, fill=sex)) +
   geom_violin(draw_quantiles = c(0.25, 0.5, 0.75), alpha=0.5)
 ```
 
 ### Scatter plot
 
-```{r}
+```{r scatter}
 
 df2 <- data.frame(
   x = rnorm(100)
@@ -117,14 +130,14 @@ ggplot(df2, aes(x, y)) +
 
 ### Line graph
 
-```{r}
+```{r line}
 ggplot(df2, aes(x, y)) +
   geom_smooth(method="lm")
 ```
 
 ### Combined scatter and line graph
 
-```{r}
+```{r scatter_line}
 ggplot(df2, aes(x, y)) +
   geom_smooth(method="lm") +
   geom_point()
@@ -134,7 +147,7 @@ ggplot(df2, aes(x, y)) +
 
 You can deal with overlapping data points (very common if you're using Likert scales) by reducing the opacity of the points. You need to use trial and error to adjust these so they look right.
 
-```{r}
+```{r overlap_alpha}
 
 df3 <- data.frame(
   x = rbinom(1000, 10, 0.5)
@@ -149,7 +162,7 @@ ggplot(df3, aes(x, y)) +
 
 Alternatively, you can transform your data to create a count column and use the count to set the dot colour.
 
-```{r}
+```{r overlap_colour}
 
 df3 %>%
   group_by(x, y) %>%
@@ -163,7 +176,7 @@ df3 %>%
 
 ### Heat map
 
-```{r}
+```{r heatmap}
 
 data.frame(
   a1 = rnorm(100),
