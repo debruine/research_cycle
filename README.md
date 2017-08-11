@@ -6,7 +6,7 @@
 
 1. Introduction to R
 2. Data I/O and Tidy Data
-3. [Data visualisation with ggplot](03_ggplot.Rmd)
+3. Data visualisation with ggplot
 4. Data manipulation (`dplyr` verbs)
 5. Data joining
 6. Iteration and functions
