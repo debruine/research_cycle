@@ -5,6 +5,7 @@ output:
     self_contained: no
     toc: yes
     toc_float: yes
+    theme: spacelab
 ---
 
 ```{r opts, echo = FALSE}
@@ -19,29 +20,33 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Learning Objectives
+## Learning Objectives {.tabset}
 
 ### Basic
 
 1. Understand what types of graphs are best for different types of data
 2. Create common types of graphs with ggplot2
-    + histogram
-    + density plot
-    + boxplot
-    + violin plot
-    + scatter plot
-    + line graph
+    + bar plot (`geom_bar()`)
+    + violin plot (`geom_violin()`)
+    + boxplot (`geom_boxplot()`)
+    + histogram (`geom_histogram()`)
+    + density plot (`geom_density()`)
+    + scatter plot (`geom_point()`)
+    + line graph (`geom_smooth()`)
+    
+### Intermediate
+
 3. Represent factorial designs with different colours or facets
-4. Add lines to graphs
-5. Deal with overlapping data
-6. Use the `viridis` package to set colours
-7. Set custom labels
+4. Superimpose different types of graphs
+    + boxplot on violin plot
+    + line graph on scatter plot
+5. Add lines to graphs
+6. Deal with overlapping data
+7. Use the `viridis` package to set colours
+8. Set custom labels
 
 ### Advanced
 
-8. Superimpose different types of graphs
-    + boxplot on violin plot
-    + line graph on scatter plot
 9. Create less common types of graphs (e.g., heat map)
 10. Adjust axes (e.g., flip coordinates, set axis limits)
 11. Change the theme
@@ -52,7 +57,7 @@ knitr::opts_chunk$set(
 
 * Read [Chapter 3](http://r4ds.had.co.nz/data-visualisation.html) of *R for Data Science*
 
-## Further Reading and Resources
+## Resources
 
 * [ggplot2 cheat sheet](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf)
 * [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/)
@@ -62,68 +67,129 @@ knitr::opts_chunk$set(
 * [ggplot extensions](https://www.ggplot2-exts.org/)
 * [plotly](https://plot.ly/ggplot2/) for creating interactive graphs
 
-## Examples
+## Examples {.tabset .tabset-pills}
 
 ```{r}
+
+# libraries needed for these graphs
 library(tidyverse)
 library(viridis)
+
 ```
 
-### Histogram
+### Data
 
-```{r histogram}
+Here we've created some data frames with different types of data. 
 
-data.frame(
-  age = rpois(1000, 2) + 18
-) %>%
-  ggplot(aes(age)) +
-  geom_histogram(binwidth = 1, fill="red", alpha=0.5)
-  
-```
+* `demog` has `height` and `age` for 500 men and 500 women.
+* `x_vs_y` has two correlated continuous variables (`x` and `y`)
+* `overlap` has two correlated ordinal variables and 1000 observations so there is a lot of overlap
 
+First, think about what kinds of graphs are best for representing these different types of data.
 
-### Density plot
+```{r}
 
-```{r density}
-
-df <- data.frame(
+demog <- data.frame(
   sex = rep(c("male", "female"), each = 500),
-  height = c(rnorm(500, 70, 4), rnorm(500, 65, 3.5))
-) 
-  
-ggplot(df, aes(height, fill=sex)) +
-  geom_density(alpha=0.5) +
-  geom_vline(xintercept = mean(df$height)) +
-  xlim(45, 90) +
-  xlab("Height (in inches)")
+  height = c(rnorm(500, 70, 4), rnorm(500, 65, 3.5)),
+  age = rpois(1000, 3) + 20
+)
+
+x_vs_y <- data.frame(
+  x = rnorm(100)
+) %>%
+  mutate(y = x + rnorm(100, 0, 0.5))
+
+overlap <- data.frame(
+  x = rbinom(1000, 10, 0.5)
+) %>%
+  mutate(y = x + rbinom(1000, 20, 0.5))
+
+```
+
+### Violin plot
+
+```{r violin}
+
+ggplot(demog, aes(sex, height, fill=sex)) +
+  geom_violin(
+    trim = FALSE,
+    draw_quantiles = c(0.25, 0.5, 0.75), 
+    alpha=0.5
+  )
 
 ```
 
 ### Boxplot
 
 ```{r boxplot}
-ggplot(df, aes(sex, height, fill=sex)) +
-  geom_hline(yintercept = mean(df$height)) +
+
+ggplot(demog, aes(sex, height, fill=sex)) +
   geom_boxplot(alpha=0.5)
+
 ```
 
-### Violin plot
+### Violinbox plot
 
-```{r violin}
-ggplot(df, aes(sex, height, fill=sex)) +
-  geom_violin(draw_quantiles = c(0.25, 0.5, 0.75), alpha=0.5)
+To demonstrate the use of `facet_grid()` for factorial designs, I created a new column called `agegroup` to split the data into participnats older than the meadian age or younger than the median age. I also got rid of the legend because it was redundant with the x-axis labels and changed the default colours.
+
+```{r violinbox}
+
+demog %>%
+  mutate(agegroup = ifelse(age<median(age), "Younger", "Older")) %>%
+  ggplot(aes(sex, height, fill=sex)) +
+    geom_violin(trim = FALSE, alpha=0.5) +
+    geom_boxplot(width = 0.25, fill="white") +
+    facet_grid(.~agegroup) +
+    scale_fill_manual(values = c("orange", "green"), guide=FALSE)
+
+```
+
+### Bar plot
+
+I'll show you how to make these so you can recreate others' graphs, but we really should [#barbarplots](https://barbarplots.github.io/).
+
+```{r barplot}
+
+# calculate mean and SD for each sex
+demog %>%
+  group_by(sex) %>%
+  summarise(
+    mean = mean(height),
+    sd = sd(height)
+  ) %>%
+ggplot(aes(sex, mean, fill=sex)) +
+  geom_bar(stat="identity", alpha = 0.5) +
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25)
+
+```
+
+### Histogram
+
+```{r histogram}
+
+ggplot(demog, aes(height, fill=sex)) +
+  geom_histogram(binwidth = 1, alpha=0.5)
+  
+```
+
+### Density plot
+
+```{r density}
+
+ggplot(demog, aes(height, fill=sex)) +
+  geom_density(alpha=0.5) +
+  geom_vline(xintercept = mean(demog$height)) +
+  xlim(45, 90) +
+  xlab("Height (in inches)")
+
 ```
 
 ### Scatter plot
 
 ```{r scatter}
 
-df2 <- data.frame(
-  x = rnorm(100)
-) %>%
-  mutate(y = x + rnorm(100, 0, 0.5))
-
-ggplot(df2, aes(x, y)) +
+ggplot(x_vs_y, aes(x, y)) +
   geom_point()
 
 ```
@@ -131,16 +197,18 @@ ggplot(df2, aes(x, y)) +
 ### Line graph
 
 ```{r line}
-ggplot(df2, aes(x, y)) +
+ggplot(x_vs_y, aes(x, y)) +
   geom_smooth(method="lm")
 ```
 
 ### Combined scatter and line graph
 
 ```{r scatter_line}
-ggplot(df2, aes(x, y)) +
+
+ggplot(x_vs_y, aes(x, y)) +
   geom_smooth(method="lm") +
   geom_point()
+
 ```
 
 ### Overlapping Data
@@ -149,12 +217,7 @@ You can deal with overlapping data points (very common if you're using Likert sc
 
 ```{r overlap_alpha}
 
-df3 <- data.frame(
-  x = rbinom(1000, 10, 0.5)
-) %>%
-  mutate(y = x + rbinom(1000, 20, 0.5))
-
-ggplot(df3, aes(x, y)) +
+ggplot(overlap, aes(x, y)) +
   geom_point(size = 5, alpha = .05) +
   geom_smooth(method="lm")
 
@@ -164,7 +227,7 @@ Alternatively, you can transform your data to create a count column and use the 
 
 ```{r overlap_colour}
 
-df3 %>%
+overlap %>%
   group_by(x, y) %>%
   summarise(count = n()) %>%
   ggplot(aes(x, y, color=count)) +
@@ -178,7 +241,8 @@ df3 %>%
 
 ```{r heatmap}
 
-data.frame(
+# generate two sets of correlated variables (a and b)
+heatmap <- data.frame(
   a1 = rnorm(100),
   b1 = rnorm(100)
 ) %>% 
@@ -190,11 +254,12 @@ mutate(
   b3 = b1 + rnorm(100),
   b4 = b1 + rnorm(100)
 ) %>%
-  cor() %>%
-  as.data.frame() %>%
-  rownames_to_column(var = "V1") %>%
-  gather("V2", "r", a1:b4) %>%
-  ggplot(aes(V1, V2, fill=r)) +
+cor() %>% # create the correlation matrix
+as.data.frame() %>% # make it a data frame
+rownames_to_column(var = "V1") %>% # set rownames as V1
+gather("V2", "r", a1:b4) # wide to long (V2)
+
+ggplot(heatmap, aes(V1, V2, fill=r)) +
   geom_tile() +
   scale_fill_viridis()
   

@@ -1,0 +1,49 @@
+---
+title: "Introduction to R"
+output:
+  html_document:
+    self_contained: no
+    toc: yes
+    toc_float: yes
+    theme: spacelab
+---
+
+```{r opts, echo = FALSE}
+#suppress the warnings and other messages from showing in the knitted file.
+knitr::opts_chunk$set(
+  fig.width  = 8, 
+  fig.height = 5, 
+  fig.path   = 'images/01/',
+  echo       = TRUE, 
+  warning    = FALSE, 
+  message    = FALSE
+)
+```
+
+## Learning Objectives {.tabset}
+
+### Basic
+
+### Intermediate
+
+### Advanced
+
+
+## Prep
+
+* Read 
+
+
+## Resources
+
+* [Text](url)
+
+
+## Examples {.tabset .tabset-pills}
+
+```{r}
+
+# libraries needed for these examples
+library(tidyverse)
+
+```

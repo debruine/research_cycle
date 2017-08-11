@@ -1,0 +1,21 @@
+name: "research_cycle"
+author: "Dale Barr and Lisa DeBruine"
+navbar:
+  title: "The Research Cycle"
+  right:
+    - text: "1: intro"
+      href: 01_intro.html
+    - text: "2: tidy"
+      href: 02_tidy.html
+    - text: "3: ggplot"
+      href: 03_ggplot.html
+    - text: "4: dplyr"
+      href: 04_dplyr.html
+    - text: "5: joins"
+      href: 05_joins.html
+    - text: "6: functions"
+      href: 06_functions.html
+    - text: "7: simulation"
+      href: 07_simulation.html
+    - text: "8: glm"
+      href: 08_glm.html
