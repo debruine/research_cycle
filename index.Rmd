@@ -1,9 +1,6 @@
 ---
 title: "The Research Cycle"
-output:
-  html_document:
-    self_contained: no
-    theme: spacelab
+authors: "Dale Barr & Lisa DeBruine"
 ---
 
 ## Lessons

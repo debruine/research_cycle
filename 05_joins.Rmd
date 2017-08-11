@@ -1,11 +1,5 @@
 ---
 title: "Data joining"
-output:
-  html_document:
-    self_contained: no
-    toc: yes
-    toc_float: yes
-    theme: spacelab
 ---
 
 ```{r opts, echo = FALSE}
