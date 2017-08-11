@@ -13,18 +13,18 @@
 
 <title>Data visualisation with ggplot</title>
 
-<script src="../include/jquery-1.11.3/jquery.min.js"></script>
+<script src="include/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="../include/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-<script src="../include/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="../include/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="../include/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="../include/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="../include/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="../include/tocify-1.9.1/jquery.tocify.js"></script>
-<script src="../include/navigation-1.1/tabsets.js"></script>
-<link href="../include/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="../include/highlightjs-1.1/highlight.js"></script>
+<link href="include/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="include/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="include/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="include/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="include/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="include/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="include/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="include/navigation-1.1/tabsets.js"></script>
+<link href="include/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="include/highlightjs-1.1/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -284,7 +284,7 @@ library(viridis)</code></pre>
 ) %&gt;%
   ggplot(aes(age)) +
   geom_histogram(binwidth = 1, fill=&quot;red&quot;, alpha=0.5)</code></pre>
-<p><img src="images/histogram-1.png" width="768" /></p>
+<p><img src="images/03/histogram-1.png" width="768" /></p>
 </div>
 <div id="density-plot" class="section level3">
 <h3>Density plot</h3>
@@ -298,20 +298,20 @@ ggplot(df, aes(height, fill=sex)) +
   geom_vline(xintercept = mean(df$height)) +
   xlim(45, 90) +
   xlab(&quot;Height (in inches)&quot;)</code></pre>
-<p><img src="images/density-1.png" width="768" /></p>
+<p><img src="images/03/density-1.png" width="768" /></p>
 </div>
 <div id="boxplot" class="section level3">
 <h3>Boxplot</h3>
 <pre class="r"><code>ggplot(df, aes(sex, height, fill=sex)) +
   geom_hline(yintercept = mean(df$height)) +
   geom_boxplot(alpha=0.5)</code></pre>
-<p><img src="images/boxplot-1.png" width="768" /></p>
+<p><img src="images/03/boxplot-1.png" width="768" /></p>
 </div>
 <div id="violin-plot" class="section level3">
 <h3>Violin plot</h3>
 <pre class="r"><code>ggplot(df, aes(sex, height, fill=sex)) +
   geom_violin(draw_quantiles = c(0.25, 0.5, 0.75), alpha=0.5)</code></pre>
-<p><img src="images/violin-1.png" width="768" /></p>
+<p><img src="images/03/violin-1.png" width="768" /></p>
 </div>
 <div id="scatter-plot" class="section level3">
 <h3>Scatter plot</h3>
@@ -322,20 +322,20 @@ ggplot(df, aes(height, fill=sex)) +
 
 ggplot(df2, aes(x, y)) +
   geom_point()</code></pre>
-<p><img src="images/scatter-1.png" width="768" /></p>
+<p><img src="images/03/scatter-1.png" width="768" /></p>
 </div>
 <div id="line-graph" class="section level3">
 <h3>Line graph</h3>
 <pre class="r"><code>ggplot(df2, aes(x, y)) +
   geom_smooth(method=&quot;lm&quot;)</code></pre>
-<p><img src="images/line-1.png" width="768" /></p>
+<p><img src="images/03/line-1.png" width="768" /></p>
 </div>
 <div id="combined-scatter-and-line-graph" class="section level3">
 <h3>Combined scatter and line graph</h3>
 <pre class="r"><code>ggplot(df2, aes(x, y)) +
   geom_smooth(method=&quot;lm&quot;) +
   geom_point()</code></pre>
-<p><img src="images/scatter_line-1.png" width="768" /></p>
+<p><img src="images/03/scatter_line-1.png" width="768" /></p>
 </div>
 <div id="overlapping-data" class="section level3">
 <h3>Overlapping Data</h3>
@@ -348,7 +348,7 @@ ggplot(df2, aes(x, y)) +
 ggplot(df3, aes(x, y)) +
   geom_point(size = 5, alpha = .05) +
   geom_smooth(method=&quot;lm&quot;)</code></pre>
-<p><img src="images/overlap_alpha-1.png" width="768" /></p>
+<p><img src="images/03/overlap_alpha-1.png" width="768" /></p>
 <p>Alternatively, you can transform your data to create a count column and use the count to set the dot colour.</p>
 <pre class="r"><code>df3 %&gt;%
   group_by(x, y) %&gt;%
@@ -356,7 +356,7 @@ ggplot(df3, aes(x, y)) +
   ggplot(aes(x, y, color=count)) +
   geom_point(size = 5) +
   scale_color_viridis()</code></pre>
-<p><img src="images/overlap_colour-1.png" width="768" /></p>
+<p><img src="images/03/overlap_colour-1.png" width="768" /></p>
 </div>
 <div id="heat-map" class="section level3">
 <h3>Heat map</h3>
@@ -379,7 +379,7 @@ mutate(
   ggplot(aes(V1, V2, fill=r)) +
   geom_tile() +
   scale_fill_viridis()</code></pre>
-<p><img src="images/heatmap-1.png" width="768" /></p>
+<p><img src="images/03/heatmap-1.png" width="768" /></p>
 </div>
 </div>
 
