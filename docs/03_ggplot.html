@@ -497,6 +497,13 @@ ggplot(aes(sex, mean, fill=sex)) +
   geom_point(size = 5) +
   scale_color_viridis()</code></pre>
 <p><img src="images/03/overlap_colour-1.png" width="768" /></p>
+<p>Or you can set the size of the dot proportional to the number of overlapping observations.</p>
+<pre class="r"><code>overlap %&gt;%
+  group_by(x, y) %&gt;%
+  summarise(count = n()) %&gt;%
+  ggplot(aes(x, y, size=count)) +
+  geom_point(colour = &quot;#663399&quot;)</code></pre>
+<p><img src="images/03/overlap_size-1.png" width="768" /></p>
 </div>
 <div id="heat-map" class="section level3">
 <h3>Heat map</h3>

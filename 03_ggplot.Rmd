@@ -236,6 +236,17 @@ overlap %>%
 
 ```
 
+Or you can set the size of the dot proportional to the number of overlapping observations.
+
+```{r overlap_size}
+
+overlap %>%
+  group_by(x, y) %>%
+  summarise(count = n()) %>%
+  ggplot(aes(x, y, size=count)) +
+  geom_point(colour = "#663399")
+
+```
 
 ### Heat map
 
