@@ -1,12 +1,16 @@
 name: "research_cycle"
 author: "Dale Barr and Lisa DeBruine"
 output_dir: "docs"
+exclude: ["*.xls", "*.csv"]
 output:
   html_document:
-    self_contained: no
     toc: yes
     toc_float: yes
     theme: flatly
+    highlight: tango
+    css: style.css
+    include:
+      after_body: footer.html
 navbar:
   title: "The Research Cycle"
   right:

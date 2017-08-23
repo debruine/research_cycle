@@ -11,7 +11,7 @@
 
 
 
-<title>Data visualisation with ggplot</title>
+<title>Data visualisation</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,23 +23,51 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
 
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
-}
-</script>
-
 
 
 <style type="text/css">
@@ -69,6 +97,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 
 </head>
 
@@ -309,11 +338,14 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Data visualisation with ggplot</h1>
+<h1 class="title toc-ignore">Data visualisation</h1>
 
 </div>
 
 
+<div style="width: 25%; position: absolute; top: 0; right: 0; padding-top: 1em;">
+<p><img src="images/x-all-the-things.png" alt="Visualise all the things" style="width:100%;" /> Visualise all the things</p>
+</div>
 <div id="learning-objectives" class="section level2 tabset">
 <h2>Learning Objectives</h2>
 <div id="basic" class="section level3">
@@ -377,9 +409,9 @@ div.tocify {
 </div>
 <div id="examples" class="section level2 tabset tabset-pills">
 <h2>Examples</h2>
-<pre class="r"><code># libraries needed for these graphs
-library(tidyverse)
-library(viridis)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># libraries needed for these graphs</span>
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(viridis)</code></pre></div>
 <div id="data" class="section level3">
 <h3>Data</h3>
 <p>Here we’ve created some data frames with different types of data.</p>
@@ -389,149 +421,176 @@ library(viridis)</code></pre>
 <li><code>overlap</code> has two correlated ordinal variables and 1000 observations so there is a lot of overlap</li>
 </ul>
 <p>First, think about what kinds of graphs are best for representing these different types of data.</p>
-<pre class="r"><code>demog &lt;- data.frame(
-  sex = rep(c(&quot;male&quot;, &quot;female&quot;), each = 500),
-  height = c(rnorm(500, 70, 4), rnorm(500, 65, 3.5)),
-  age = rpois(1000, 3) + 20
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demog &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">sex =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;male&quot;</span>, <span class="st">&quot;female&quot;</span>), <span class="dt">each =</span> <span class="dv">500</span>),
+  <span class="dt">height =</span> <span class="kw">c</span>(<span class="kw">rnorm</span>(<span class="dv">500</span>, <span class="dv">70</span>, <span class="dv">4</span>), <span class="kw">rnorm</span>(<span class="dv">500</span>, <span class="dv">65</span>, <span class="fl">3.5</span>)),
+  <span class="dt">age =</span> <span class="kw">rpois</span>(<span class="dv">1000</span>, <span class="dv">3</span>) +<span class="st"> </span><span class="dv">20</span>
 )
 
-x_vs_y &lt;- data.frame(
-  x = rnorm(100)
+x_vs_y &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>)
 ) %&gt;%
-  mutate(y = x + rnorm(100, 0, 0.5))
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">y =</span> x +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="fl">0.5</span>))
 
-overlap &lt;- data.frame(
-  x = rbinom(1000, 10, 0.5)
+overlap &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">x =</span> <span class="kw">rbinom</span>(<span class="dv">1000</span>, <span class="dv">10</span>, <span class="fl">0.5</span>)
 ) %&gt;%
-  mutate(y = x + rbinom(1000, 20, 0.5))</code></pre>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">y =</span> x +<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1000</span>, <span class="dv">20</span>, <span class="fl">0.5</span>))</code></pre></div>
 </div>
 <div id="violin-plot" class="section level3">
 <h3>Violin plot</h3>
-<pre class="r"><code>ggplot(demog, aes(sex, height, fill=sex)) +
-  geom_violin(
-    trim = FALSE,
-    draw_quantiles = c(0.25, 0.5, 0.75), 
-    alpha=0.5
-  )</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_violin</span>(
+    <span class="dt">trim =</span> <span class="ot">FALSE</span>,
+    <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>), 
+    <span class="dt">alpha=</span><span class="fl">0.5</span>
+  )</code></pre></div>
 <p><img src="images/03/violin-1.png" width="768" /></p>
 </div>
 <div id="boxplot" class="section level3">
 <h3>Boxplot</h3>
-<pre class="r"><code>ggplot(demog, aes(sex, height, fill=sex)) +
-  geom_boxplot(alpha=0.5)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>)</code></pre></div>
 <p><img src="images/03/boxplot-1.png" width="768" /></p>
 </div>
 <div id="violinbox-plot" class="section level3">
 <h3>Violinbox plot</h3>
 <p>To demonstrate the use of <code>facet_grid()</code> for factorial designs, I created a new column called <code>agegroup</code> to split the data into participnats older than the meadian age or younger than the median age. I also got rid of the legend because it was redundant with the x-axis labels and changed the default colours.</p>
-<pre class="r"><code>demog %&gt;%
-  mutate(agegroup = ifelse(age&lt;median(age), &quot;Younger&quot;, &quot;Older&quot;)) %&gt;%
-  ggplot(aes(sex, height, fill=sex)) +
-    geom_violin(trim = FALSE, alpha=0.5) +
-    geom_boxplot(width = 0.25, fill=&quot;white&quot;) +
-    facet_grid(.~agegroup) +
-    scale_fill_manual(values = c(&quot;orange&quot;, &quot;green&quot;), guide=FALSE)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demog %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">agegroup =</span> <span class="kw">ifelse</span>(age&lt;<span class="kw">median</span>(age), <span class="st">&quot;Younger&quot;</span>, <span class="st">&quot;Older&quot;</span>)) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">    </span><span class="kw">geom_violin</span>(<span class="dt">trim =</span> <span class="ot">FALSE</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>) +
+<span class="st">    </span><span class="kw">geom_boxplot</span>(<span class="dt">width =</span> <span class="fl">0.25</span>, <span class="dt">fill=</span><span class="st">&quot;white&quot;</span>) +
+<span class="st">    </span><span class="kw">facet_grid</span>(.~agegroup) +
+<span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;orange&quot;</span>, <span class="st">&quot;green&quot;</span>), <span class="dt">guide=</span><span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="images/03/violinbox-1.png" width="768" /></p>
 </div>
 <div id="bar-plot" class="section level3">
 <h3>Bar plot</h3>
 <p>I’ll show you how to make these so you can recreate others’ graphs, but we really should <a href="https://barbarplots.github.io/">#barbarplots</a>.</p>
-<pre class="r"><code># calculate mean and SD for each sex
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate mean and SD for each sex</span>
 demog %&gt;%
-  group_by(sex) %&gt;%
-  summarise(
-    mean = mean(height),
-    sd = sd(height)
+<span class="st">  </span><span class="kw">group_by</span>(sex) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">mean =</span> <span class="kw">mean</span>(height),
+    <span class="dt">sd =</span> <span class="kw">sd</span>(height)
   ) %&gt;%
-ggplot(aes(sex, mean, fill=sex)) +
-  geom_bar(stat=&quot;identity&quot;, alpha = 0.5) +
-  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25)</code></pre>
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(sex, mean, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) +
+<span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean -<span class="st"> </span>sd, <span class="dt">ymax =</span> mean +<span class="st"> </span>sd), <span class="dt">width =</span> <span class="fl">0.25</span>)</code></pre></div>
 <p><img src="images/03/barplot-1.png" width="768" /></p>
 </div>
 <div id="histogram" class="section level3">
 <h3>Histogram</h3>
-<pre class="r"><code>ggplot(demog, aes(height, fill=sex)) +
-  geom_histogram(binwidth = 1, alpha=0.5)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)</code></pre></div>
 <p><img src="images/03/histogram-1.png" width="768" /></p>
 </div>
 <div id="density-plot" class="section level3">
 <h3>Density plot</h3>
-<pre class="r"><code>ggplot(demog, aes(height, fill=sex)) +
-  geom_density(alpha=0.5) +
-  geom_vline(xintercept = mean(demog$height)) +
-  xlim(45, 90) +
-  xlab(&quot;Height (in inches)&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>) +
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(demog$height)) +
+<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">45</span>, <span class="dv">90</span>) +
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Height (in inches)&quot;</span>)</code></pre></div>
 <p><img src="images/03/density-1.png" width="768" /></p>
 </div>
 <div id="scatter-plot" class="section level3">
 <h3>Scatter plot</h3>
-<pre class="r"><code>ggplot(x_vs_y, aes(x, y)) +
-  geom_point()</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(x_vs_y, <span class="kw">aes</span>(x, y)) +
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
 <p><img src="images/03/scatter-1.png" width="768" /></p>
 </div>
 <div id="line-graph" class="section level3">
 <h3>Line graph</h3>
-<pre class="r"><code>ggplot(x_vs_y, aes(x, y)) +
-  geom_smooth(method=&quot;lm&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(x_vs_y, <span class="kw">aes</span>(x, y)) +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)</code></pre></div>
 <p><img src="images/03/line-1.png" width="768" /></p>
 </div>
 <div id="combined-scatter-and-line-graph" class="section level3">
 <h3>Combined scatter and line graph</h3>
-<pre class="r"><code>ggplot(x_vs_y, aes(x, y)) +
-  geom_smooth(method=&quot;lm&quot;) +
-  geom_point()</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(x_vs_y, <span class="kw">aes</span>(x, y)) +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>) +
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
 <p><img src="images/03/scatter_line-1.png" width="768" /></p>
 </div>
 <div id="overlapping-data" class="section level3">
 <h3>Overlapping Data</h3>
 <p>You can deal with overlapping data points (very common if you’re using Likert scales) by reducing the opacity of the points. You need to use trial and error to adjust these so they look right.</p>
-<pre class="r"><code>ggplot(overlap, aes(x, y)) +
-  geom_point(size = 5, alpha = .05) +
-  geom_smooth(method=&quot;lm&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(overlap, <span class="kw">aes</span>(x, y)) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">5</span>, <span class="dt">alpha =</span> .<span class="dv">05</span>) +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)</code></pre></div>
 <p><img src="images/03/overlap_alpha-1.png" width="768" /></p>
 <p>Alternatively, you can transform your data to create a count column and use the count to set the dot colour.</p>
-<pre class="r"><code>overlap %&gt;%
-  group_by(x, y) %&gt;%
-  summarise(count = n()) %&gt;%
-  ggplot(aes(x, y, color=count)) +
-  geom_point(size = 5) +
-  scale_color_viridis()</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">overlap %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(x, y) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">count =</span> <span class="kw">n</span>()) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x, y, <span class="dt">color=</span>count)) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">5</span>) +
+<span class="st">  </span><span class="kw">scale_color_viridis</span>()</code></pre></div>
 <p><img src="images/03/overlap_colour-1.png" width="768" /></p>
 <p>Or you can set the size of the dot proportional to the number of overlapping observations.</p>
-<pre class="r"><code>overlap %&gt;%
-  group_by(x, y) %&gt;%
-  summarise(count = n()) %&gt;%
-  ggplot(aes(x, y, size=count)) +
-  geom_point(colour = &quot;#663399&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">overlap %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(x, y) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">count =</span> <span class="kw">n</span>()) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x, y, <span class="dt">size=</span>count)) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">colour =</span> <span class="st">&quot;#663399&quot;</span>)</code></pre></div>
 <p><img src="images/03/overlap_size-1.png" width="768" /></p>
 </div>
 <div id="heat-map" class="section level3">
 <h3>Heat map</h3>
-<pre class="r"><code># generate two sets of correlated variables (a and b)
-heatmap &lt;- data.frame(
-  a1 = rnorm(100),
-  b1 = rnorm(100)
-) %&gt;% 
-mutate(
-  a2 = a1 + rnorm(100),
-  a3 = a1 + rnorm(100),
-  a4 = a1 + rnorm(100),
-  b2 = b1 + rnorm(100),
-  b3 = b1 + rnorm(100),
-  b4 = b1 + rnorm(100)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># generate two sets of correlated variables (a and b)</span>
+heatmap &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">a1 =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>),
+  <span class="dt">b1 =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>)
+) %&gt;%<span class="st"> </span>
+<span class="kw">mutate</span>(
+  <span class="dt">a2 =</span> a1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>),
+  <span class="dt">a3 =</span> a1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>),
+  <span class="dt">a4 =</span> a1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>),
+  <span class="dt">b2 =</span> b1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>),
+  <span class="dt">b3 =</span> b1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>),
+  <span class="dt">b4 =</span> b1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>)
 ) %&gt;%
-cor() %&gt;% # create the correlation matrix
-as.data.frame() %&gt;% # make it a data frame
-rownames_to_column(var = &quot;V1&quot;) %&gt;% # set rownames as V1
-gather(&quot;V2&quot;, &quot;r&quot;, a1:b4) # wide to long (V2)
+<span class="kw">cor</span>() %&gt;%<span class="st"> </span><span class="co"># create the correlation matrix</span>
+<span class="kw">as.data.frame</span>() %&gt;%<span class="st"> </span><span class="co"># make it a data frame</span>
+<span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;V1&quot;</span>) %&gt;%<span class="st"> </span><span class="co"># set rownames as V1</span>
+<span class="kw">gather</span>(<span class="st">&quot;V2&quot;</span>, <span class="st">&quot;r&quot;</span>, a1:b4) <span class="co"># wide to long (V2)</span>
 
-ggplot(heatmap, aes(V1, V2, fill=r)) +
-  geom_tile() +
-  scale_fill_viridis()</code></pre>
+<span class="kw">ggplot</span>(heatmap, <span class="kw">aes</span>(V1, V2, <span class="dt">fill=</span>r)) +
+<span class="st">  </span><span class="kw">geom_tile</span>() +
+<span class="st">  </span><span class="kw">scale_fill_viridis</span>()</code></pre></div>
 <p><img src="images/03/heatmap-1.png" width="768" /></p>
 </div>
 </div>
+<div id="exercises" class="section level2 tabset tabset-pills">
+<h2>Exercises</h2>
+<div id="continuous-variable" class="section level3">
+<h3>1 continuous variable</h3>
+<p>Generate a vioin plot, boxplot, histogram, density plot, and bar plot for the following data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># dog weights estimated from http://petobesityprevention.org/ideal-weight-ranges/</span>
 
+dogs &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">breed =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;beagle&quot;</span>, <span class="st">&quot;boxer&quot;</span>, <span class="st">&quot;bulldog&quot;</span>), <span class="dt">each =</span> <span class="dv">100</span>),
+  <span class="dt">weight =</span> <span class="kw">c</span>(
+    <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">24</span>, <span class="dv">6</span>),
+    <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="fl">62.5</span>, <span class="fl">12.5</span>),
+    <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">45</span>, <span class="dv">5</span>)
+  )
+)</code></pre></div>
+</div>
+<div id="continuous-variables" class="section level3">
+<h3>2 continuous variables</h3>
+<p>Generate a combined scatter and line graph for…</p>
+</div>
+</div>
+
+<!--
+<p class="footer">
+  This course free to use in any way under the
+  <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 License</a>
+</p>
+-->
 
 
 </div>

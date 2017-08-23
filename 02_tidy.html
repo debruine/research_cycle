@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Data cleaning</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">The Research Cycle</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="01_intro.html">1: intro</a>
+</li>
+<li>
+  <a href="02_tidy.html">2: tidy</a>
+</li>
+<li>
+  <a href="03_ggplot.html">3: ggplot</a>
+</li>
+<li>
+  <a href="04_dplyr.html">4: dplyr</a>
+</li>
+<li>
+  <a href="05_joins.html">5: joins</a>
+</li>
+<li>
+  <a href="06_functions.html">6: functions</a>
+</li>
+<li>
+  <a href="07_simulation.html">7: simulation</a>
+</li>
+<li>
+  <a href="08_glm.html">8: glm</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Data cleaning</h1>
+
+</div>
+
+
+<div id="learning-objectives" class="section level2 tabset">
+<h2>Learning Objectives</h2>
+<div id="basic" class="section level3">
+<h3>Basic</h3>
+<ol style="list-style-type: decimal">
+<li>Understand the concept of “tidy data”</li>
+<li>Be able to use the 4 basic <code>tidyr</code> verbs
+<ul>
+<li><code>gather()</code></li>
+<li><code>spread()</code></li>
+<li><code>separate()</code></li>
+<li><code>unite()</code></li>
+</ul></li>
+</ol>
+</div>
+<div id="intermediate" class="section level3">
+<h3>Intermediate</h3>
+<ol start="3" style="list-style-type: decimal">
+<li>Be able to chain functions to load and tidy a dataset without creating several intermediate datasets</li>
+</ol>
+</div>
+<div id="advanced" class="section level3">
+<h3>Advanced</h3>
+<ol start="4" style="list-style-type: decimal">
+<li>Be able to use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html">regular expressions</a> to separate complex columns</li>
+</ol>
+</div>
+</div>
+<div id="prep" class="section level2">
+<h2>Prep</h2>
+<ul>
+<li>Read <a href="http://vita.had.co.nz/papers/tidy-data.html">Tidy Data</a></li>
+</ul>
+</div>
+<div id="resources" class="section level2">
+<h2>Resources</h2>
+<ul>
+<li><a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">Data wrangling cheat sheet</a></li>
+<li><a href="http://r4ds.had.co.nz/tidy-data.html">Chapter 12: Tidy Data</a> in <em>R for Data Science</em></li>
+</ul>
+</div>
+<div id="examples" class="section level2">
+<h2>Examples</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># libraries needed for these graphs</span>
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(readxl)</code></pre></div>
+<div id="load-data" class="section level3">
+<h3>Load Data</h3>
+<p>Get data on infant mortality rates from the CSV file “infmort.csv” in the directory “data”</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/infmort.csv&quot;</span>)</code></pre></div>
+<p>Get data on maternal mortality from from the excel file “matmort.xls” in the directory “data”</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span class="st">&quot;data/matmort.xls&quot;</span>)</code></pre></div>
+<p>Get data on country codes from <a href="https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv" class="uri">https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ccodes &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv&quot;</span>)</code></pre></div>
+</div>
+<div id="gather" class="section level3">
+<h3>gather()</h3>
+<p><code>gather(data, key, value, start.column:end.column)</code></p>
+<p><code>matmort</code> is in wide format, with a separate column for each year; change it to long format, with a row for each County/Year observation.</p>
+<ul>
+<li><code>key</code> is what you want to call the row headers; it’s “year” in this example.</li>
+<li><code>value</code> is what you want to call the values in the gathered columns; they’re “stats” in this example.</li>
+<li>You can refer to the start.column and end.column by their numbers of their names. This example is complicated because the names <em>are</em> numbers. If the column names are weird (e.g., have spaces, start with numbers, or have special characters), you can enclose them in backticks “`”</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort.long &lt;-<span class="st"> </span>matmort %&gt;%
+<span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;Year&quot;</span>, <span class="st">&quot;stats&quot;</span>, <span class="st">`</span><span class="dt">1990</span><span class="st">`</span>:<span class="st">`</span><span class="dt">2015</span><span class="st">`</span>)
+
+matmort.long[<span class="dv">1</span>:<span class="dv">5</span>, ]</code></pre></div>
+<pre><code>## # A tibble: 5 x 3
+##       Country  Year                stats
+##         &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt;
+## 1 Afghanistan  1990 1 340 [ 878 - 1 950]
+## 2     Albania  1990       71 [ 58 -  88]
+## 3     Algeria  1990    216 [ 141 -  327]
+## 4      Angola  1990 1 160 [ 627 - 2 020]
+## 5   Argentina  1990       72 [ 64 -  80]</code></pre>
+</div>
+<div id="separate" class="section level3">
+<h3>separate()</h3>
+<p><code>separate(data, col, into, sep)</code></p>
+<p>The data in the <code>stats</code> column is in a crazy format with some sort of confidence interval in brackets and lots of extra spaces. We don’t need any of the spaces, so first we’ll remove them with <code>mutate</code>. The <code>separate</code> function will usually separate your data on sensible charatcers like spaces, underscores, dashes, and brackets, so try it first without specifying the <code>sep</code> argument. The <code>into</code> argument is a list of new column names.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort.split &lt;-<span class="st"> </span>matmort.long %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stats =</span> <span class="kw">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;&quot;</span>, stats)) %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(stats, <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>))
+
+matmort.split[<span class="dv">1</span>:<span class="dv">5</span>, ]</code></pre></div>
+<pre><code>## # A tibble: 5 x 5
+##       Country  Year  rate ci_low ci_hi
+##         &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;
+## 1 Afghanistan  1990  1340    878  1950
+## 2     Albania  1990    71     58    88
+## 3     Algeria  1990   216    141   327
+## 4      Angola  1990  1160    627  2020
+## 5   Argentina  1990    72     64    80</code></pre>
+<p>Now do the same with <code>infmort</code>. It’s already in long format, so you don’t need to use <code>gather</code>, but the third column has a crazy long name.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort.split &lt;-<span class="st"> </span>infmort %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(<span class="dv">3</span>, <span class="kw">c</span>(<span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>)))
+
+infmort.split[<span class="dv">1</span>:<span class="dv">5</span>, ]</code></pre></div>
+<pre><code>## # A tibble: 5 x 5
+##       Country  Year  rate ci_low ci_hi
+##         &lt;chr&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;
+## 1 Afghanistan  2015    66      3    52
+## 2 Afghanistan  2014    68      1    55
+## 3 Afghanistan  2013    69      9    58
+## 4 Afghanistan  2012    71      7    61
+## 5 Afghanistan  2011    73      4    64</code></pre>
+<p>Wait, that didn’t work at all! It split the column on spaces, brackets and full stops. We just want to split on the spaces, brackets and dashes. So we need to manually set <code>sep</code> to what the delimiters are.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort.split &lt;-<span class="st"> </span>infmort %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(<span class="dv">3</span>, <span class="kw">c</span>(<span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;(</span><span class="ch">\\</span><span class="st">[|-)|]&quot;</span>)
+
+infmort.split[<span class="dv">1</span>:<span class="dv">5</span>, ]</code></pre></div>
+<pre><code>## # A tibble: 5 x 5
+##       Country  Year  rate ci_low ci_hi
+##         &lt;chr&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;
+## 1 Afghanistan  2015 66.3    52.7  83.9
+## 2 Afghanistan  2014 68.1    55.7  83.6
+## 3 Afghanistan  2013 69.9    58.7  83.5
+## 4 Afghanistan  2012 71.7    61.6  83.7
+## 5 Afghanistan  2011 73.4    64.4  84.2</code></pre>
+</div>
+<div id="data-types" class="section level3">
+<h3>Data types</h3>
+<p>That’s better. Notice the <em><chr></em> under <code>Year</code>, <code>rate</code>, <code>ci_low</code> and <code>ci_hi</code>. That means these columns hold characters (like words), not numbers or integers. This can cause problems when you try to do thigs like average the numbers (you can’t average words), so we can fix it like this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort.numeric &lt;-<span class="st"> </span>infmort.split %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">Year =</span> <span class="kw">as.integer</span>(Year),
+    <span class="dt">rate =</span> <span class="kw">as.numeric</span>(rate),
+    <span class="dt">ci_low =</span> <span class="kw">as.numeric</span>(ci_low),
+    <span class="dt">ci_hi =</span> <span class="kw">as.numeric</span>(ci_hi)
+  )
+
+infmort.numeric[<span class="dv">1</span>:<span class="dv">5</span>, ]</code></pre></div>
+<pre><code>## # A tibble: 5 x 5
+##       Country  Year  rate ci_low ci_hi
+##         &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 Afghanistan  2015  66.3   52.7  83.9
+## 2 Afghanistan  2014  68.1   55.7  83.6
+## 3 Afghanistan  2013  69.9   58.7  83.5
+## 4 Afghanistan  2012  71.7   61.6  83.7
+## 5 Afghanistan  2011  73.4   64.4  84.2</code></pre>
+<p>Do the same for <code>matmort</code> (<code>year</code> is already an integer).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort.numeric &lt;-<span class="st"> </span>matmort.split %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">rate =</span> <span class="kw">as.numeric</span>(rate),
+    <span class="dt">ci_low =</span> <span class="kw">as.numeric</span>(ci_low),
+    <span class="dt">ci_hi =</span> <span class="kw">as.numeric</span>(ci_hi)
+  )
+
+matmort.numeric[<span class="dv">1</span>:<span class="dv">5</span>, ]</code></pre></div>
+<pre><code>## # A tibble: 5 x 5
+##       Country  Year  rate ci_low ci_hi
+##         &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 Afghanistan  1990  1340    878  1950
+## 2     Albania  1990    71     58    88
+## 3     Algeria  1990   216    141   327
+## 4      Angola  1990  1160    627  2020
+## 5   Argentina  1990    72     64    80</code></pre>
+</div>
+<div id="all-in-one-step" class="section level3">
+<h3>All in one step</h3>
+<p>We can chain all the steps above together, since we don’t need those intermediate dataframes.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/infmort.csv&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(<span class="dv">3</span>, <span class="kw">c</span>(<span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>)), <span class="dt">sep =</span> <span class="st">&quot;(</span><span class="ch">\\</span><span class="st">[|-)|]&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">rate =</span> <span class="kw">as.numeric</span>(rate),
+    <span class="dt">ci_low =</span> <span class="kw">as.numeric</span>(ci_low),
+    <span class="dt">ci_hi =</span> <span class="kw">as.numeric</span>(ci_hi)
+  )
+
+matmort &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span class="st">&quot;data/matmort.xls&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;Year&quot;</span>, <span class="st">&quot;stats&quot;</span>, <span class="st">`</span><span class="dt">1990</span><span class="st">`</span>:<span class="st">`</span><span class="dt">2015</span><span class="st">`</span>) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stats =</span> <span class="kw">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;&quot;</span>, stats)) %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(stats, <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>)) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">Year =</span> <span class="kw">as.integer</span>(Year),
+    <span class="dt">rate =</span> <span class="kw">as.numeric</span>(rate),
+    <span class="dt">ci_low =</span> <span class="kw">as.numeric</span>(ci_low),
+    <span class="dt">ci_hi =</span> <span class="kw">as.numeric</span>(ci_hi)
+  )</code></pre></div>
+</div>
+</div>
+
+<!--
+<p class="footer">
+  This course free to use in any way under the
+  <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 License</a>
+</p>
+-->
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

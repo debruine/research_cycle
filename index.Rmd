@@ -3,18 +3,23 @@ title: "The Research Cycle"
 authors: "Dale Barr & Lisa DeBruine"
 ---
 
-## Lessons
+The Research Cycle will run from 2017-09-22 to 2017-11-24 on Fridays from 10-12 in 
+[Boyd Orr 520](https://www.google.com/maps/d/viewer?mid=1Zdd1zxeex09Awbz3t1Mm4KEvxKI&hl=en&ll=55.87327%2C-4.292779&z=17).
 
-1. [Introduction to R](01_intro.html)
-2. [Data I/O and Tidy Data](02_tidy.html)
-3. [Data visualisation with ggplot](03_ggplot.html)
-4. [Data manipulation](04_dplyr.html) (`dplyr` verbs)
-5. [Data joining](05_joins.html)
-6. [Iteration and functions](06_functions.html)
-7. [Probability and simulating data](07_simulation.html)
-8. [Introduction to GLM](08_glm.html)
-9. Review
-10. Test and meta-issues
+It is taught by [Dale Barr](http://talklab.psy.gla.ac.uk/) and [Lisa DeBruine](http://facelab.org/debruine).
+
+## Syllabus
+
+1. [Introduction to R](01_intro.html) 2017-09-22
+2. [Data cleaning](02_tidy.html) (`tidyr`) 2017-09-29
+3. [Data visualisation](03_ggplot.html) (`ggplot`) 2017-10-06
+4. [Data manipulation](04_dplyr.html) (`dplyr` 1-table verbs) 2017-10-13
+5. [Data relations](05_joins.html) (`dplyr` 2-table verbs) 2017-10-20
+6. [Iteration and functions](06_functions.html) 2017-10-27
+7. [Probability and simulating data](07_simulation.html) 2017-11-03
+8. [Introduction to GLM](08_glm.html) 2017-11-10
+9. Review 2017-11-17
+10. Exam and meta-issues 2017-11-24
 
 ## Resources
 

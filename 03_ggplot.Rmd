@@ -1,6 +1,11 @@
 ---
-title: "Data visualisation with ggplot"
+title: "Data visualisation"
 ---
+<div style="width: 25%; position: absolute; top: 0; right: 0; padding-top: 1em;">
+  <img src="images/x-all-the-things.png" alt="Visualise all the things" style="width:100%;" />
+  Visualise all the things
+</div>
+
 
 ```{r opts, echo = FALSE}
 #suppress the warnings and other messages from showing in the knitted file.
@@ -10,7 +15,8 @@ knitr::opts_chunk$set(
   fig.path   = 'images/03/',
   echo       = TRUE, 
   warning    = FALSE, 
-  message    = FALSE
+  message    = FALSE,
+  cache=TRUE
 )
 ```
 
@@ -268,5 +274,64 @@ ggplot(heatmap, aes(V1, V2, fill=r)) +
   geom_tile() +
   scale_fill_viridis()
   
+```
+
+## Exercises{.tabset .tabset-pills}
+
+### 1 continuous variable
+
+Generate a vioin plot, boxplot, histogram, density plot, and bar plot for the following data.
+
+```{r}
+
+# dog weights estimated from http://petobesityprevention.org/ideal-weight-ranges/
+
+dogs <- data.frame(
+  breed = rep(c("beagle", "boxer", "bulldog"), each = 100),
+  weight = c(
+    rnorm(100, 24, 6),
+    rnorm(100, 62.5, 12.5),
+    rnorm(100, 45, 5)
+  )
+)
+
+```
+
+### 2 continuous variables
+
+Generate a combined scatter and line graph representing the relationship between...
+
+```{r, echo = FALSE}
+
+disgust <- read_csv("data/disgust.csv") %>%
+  gather("question", "rating", moral1:pathogen7) %>%
+  mutate(domain = substr(question, 1, nchar(question) - 1)) %>%
+  group_by(id, date, user_id, domain) %>%
+  summarise(score = mean(rating)) %>%
+  spread(domain, score) %>%
+  ggplot(aes(moral, sexual)) +
+  geom_point()
+  
+```
+
+### Many correlated variables
+
+Creat a heatmap of the relationships among all the questions in the [Disgust Dataset](data/disgust.csv). 
+
+```{r, echo = FALSE}
+disgust <- read_csv("data/disgust.csv")
+
+heatmap <- disgust %>%
+  select(moral1:pathogen7) %>%
+  filter(!is.na(rowSums(.))) %>%
+  cor() %>% # create the correlation matrix
+  as.data.frame() %>% # make it a data frame
+  rownames_to_column(var = "V1") %>% # set rownames as V1
+  gather("V2", "r", moral1:pathogen7) # wide to long (V2)
+
+  
+ggplot(heatmap, aes(V1, V2, fill=r)) +
+  geom_tile() +
+  scale_fill_viridis()
 ```
 

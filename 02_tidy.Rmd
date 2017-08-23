@@ -1,5 +1,5 @@
 ---
-title: "Data I/O and Tidy Data"
+title: "Data cleaning"
 ---
 
 ```{r opts, echo = FALSE}
@@ -18,26 +18,183 @@ knitr::opts_chunk$set(
 
 ### Basic
 
+1. Understand the concept of "tidy data"
+2. Be able to use the 4 basic `tidyr` verbs
+    + `gather()`
+    + `spread()`
+    + `separate()`
+    + `unite()`
+
 ### Intermediate
 
+3. Be able to chain functions to load and tidy a dataset without creating several intermediate datasets
+
 ### Advanced
+
+4. Be able to use [regular expressions](https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html) to separate complex columns
 
 
 ## Prep
 
-* Read 
+* Read [Tidy Data](http://vita.had.co.nz/papers/tidy-data.html)
 
 
 ## Resources
 
-* [Text](url)
+* [Data wrangling cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+* [Chapter 12: Tidy Data](http://r4ds.had.co.nz/tidy-data.html) in *R for Data Science*
 
-
-## Examples {.tabset .tabset-pills}
+## Examples
 
 ```{r}
 
-# libraries needed for these examples
+# libraries needed for these graphs
 library(tidyverse)
+library(readxl)
 
 ```
+
+### Load Data
+
+Get data on infant mortality rates from the CSV file "infmort.csv" in the directory "data"
+
+```{r}
+infmort <- read_csv("data/infmort.csv")
+```
+
+Get data on maternal mortality from from the excel file "matmort.xls" in the directory "data"
+
+```{r}
+matmort <- read_xls("data/matmort.xls")
+```
+
+Get data on country codes from https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv
+
+```{r}
+ccodes <- read_csv("https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv")
+```
+
+
+### gather()
+
+`gather(data, key, value, start.column:end.column)`
+
+`matmort` is in wide format, with a separate column for each year; 
+change it to long format, with a row for each County/Year observation.
+
+* `key` is what you want to call the row headers; it's "year" in this example. 
+* `value` is what you want to call the values in the gathered columns; they're "stats" in this example.
+* You can refer to the start.column and end.column by their numbers of their names. This example is complicated because the names _are_ numbers. If the column names are weird (e.g., have spaces, start with numbers, or have special characters), you can enclose them in backticks "`"
+
+```{r}
+
+matmort.long <- matmort %>%
+  gather("Year", "stats", `1990`:`2015`)
+
+matmort.long[1:5, ]
+
+```
+
+### separate()
+
+`separate(data, col, into, sep)`
+
+The data in the `stats` column is in a crazy format with some sort of 
+confidence interval in brackets and lots of extra spaces. We don't need 
+any of the spaces, so first we'll remove them with `mutate`. The `separate` 
+function will usually separate your data on sensible charatcers like 
+spaces, underscores, dashes, and brackets, so try it first without specifying 
+the `sep` argument. The `into` argument is a list of new column names.
+
+```{r}
+
+matmort.split <- matmort.long %>%
+  mutate(stats = gsub(" ", "", stats)) %>%
+  separate(stats, c("rate", "ci_low", "ci_hi"))
+
+matmort.split[1:5, ]
+
+```
+
+Now do the same with `infmort`. It's already in long format, so you don't need to use `gather`, but the third column has a crazy long name. 
+
+```{r}
+
+infmort.split <- infmort %>%
+  separate(3, c(c("rate", "ci_low", "ci_hi")))
+
+infmort.split[1:5, ]
+
+```
+
+Wait, that didn't work at all! It split the column on spaces, brackets and full stops. We just want to split on the spaces, brackets and dashes. So we need to manually set `sep` to what the delimiters are.
+
+```{r}
+
+infmort.split <- infmort %>%
+  separate(3, c(c("rate", "ci_low", "ci_hi")), sep = "(\\[|-)|]")
+
+infmort.split[1:5, ]
+
+```
+
+### Data types
+
+That's better. Notice the _<chr>_ under `Year`, `rate`, `ci_low` and `ci_hi`. That means these columns hold characters (like words), not numbers or integers. This can cause problems when you try to do thigs like average the numbers (you can't average words), so we can fix it like this:
+
+```{r}
+
+infmort.numeric <- infmort.split %>%
+  mutate(
+    Year = as.integer(Year),
+    rate = as.numeric(rate),
+    ci_low = as.numeric(ci_low),
+    ci_hi = as.numeric(ci_hi)
+  )
+
+infmort.numeric[1:5, ]
+  
+```
+
+Do the same for `matmort` (`year` is already an integer).
+
+```{r}
+
+matmort.numeric <- matmort.split %>%
+  mutate(
+    rate = as.numeric(rate),
+    ci_low = as.numeric(ci_low),
+    ci_hi = as.numeric(ci_hi)
+  )
+
+matmort.numeric[1:5, ]
+
+```
+
+### All in one step
+
+We can chain all the steps above together, since we don't need those intermediate dataframes.
+
+```{r}
+
+infmort <- read_csv("data/infmort.csv") %>%
+  separate(3, c(c("rate", "ci_low", "ci_hi")), sep = "(\\[|-)|]") %>%
+  mutate(
+    rate = as.numeric(rate),
+    ci_low = as.numeric(ci_low),
+    ci_hi = as.numeric(ci_hi)
+  )
+
+matmort <- read_xls("data/matmort.xls") %>%
+  gather("Year", "stats", `1990`:`2015`) %>%
+  mutate(stats = gsub(" ", "", stats)) %>%
+  separate(stats, c("rate", "ci_low", "ci_hi")) %>%
+  mutate(
+    Year = as.integer(Year),
+    rate = as.numeric(rate),
+    ci_low = as.numeric(ci_low),
+    ci_hi = as.numeric(ci_hi)
+  )
+
+```
+

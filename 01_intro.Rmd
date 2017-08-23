@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 ## Prep
 
-* Read 
+* Read [Chapter 11: Data Import](http://r4ds.had.co.nz/data-import.html) in *R for Data Science*
 
 
 ## Resources
