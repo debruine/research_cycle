@@ -26,6 +26,7 @@ It is taught by [Dale Barr](http://talklab.psy.gla.ac.uk/) and [Lisa DeBruine](h
 ### Online tutorials
 
 - [swirl](http://swirlstats.com)
+- [R for Reproducible Scientific Analysis](http://swcarpentry.github.io/r-novice-gapminder/)
 - [codeschool.com](http://tryr.codeschool.com)
 - [datacamp](https://www.datacamp.com/courses/free-introduction-to-r)
 

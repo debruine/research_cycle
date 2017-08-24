@@ -6,7 +6,8 @@ output:
   html_document:
     toc: yes
     toc_float: yes
-    toc_depth: 4
+    toc_depth: 3
+    df_print: paged
     theme: flatly
     highlight: tango
     css: style.css

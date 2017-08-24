@@ -105,9 +105,7 @@ glimpse(matmort_long)
 
 ```
 
-### separate() {.tabset}
-
-#### separate()
+### separate()
 
 `separate(data, col, into, sep = "[^[:alnum:]]+", remove = TRUE, convert = FALSE, extra = "warn", fill = "warn")`
 
@@ -340,76 +338,53 @@ glimpse(infmort_wide)
 ```
 
 
-## Exercises{.tabset .tabset-pills}
+## Exercises
 
-### gather()
-
-Tidy the data from [personality.csv](data/personality.csv).
+ Tidy the data from [personality.csv](data/personality.csv).
 
 These data are from a 5-factor (OCEAN) personality questionnaire. Each question 
 is labelled with the domain (Op = openness, Co = concientiousness, Ex = extraversion, 
 Ag = agreeableness, and Ne = neuroticism) and the question number.
 
-Load the data and convert from wide to long format. 
-The resulting dataframe should have the columns: 
-`user_id`, `date`, `question`, and `score`.
+1. Load the data and convert from wide to long format. 
 
-```{r, echo = FALSE}
+    The resulting dataframe should have the columns: `user_id`, `date`, `question`, and `score`.
 
-ocean <- read_csv("data/personality.csv") %>%
-  gather("question", "score", Op1:Ex9)
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    ocean <- read_csv("data/personality.csv") %>%
+    gather("question", "score", Op1:Ex9)
+    ```
+    </div>
 
-glimpse(ocean)
+2. Split the `question` column into two columns: `domain` and `qnumber`.
 
-```
+    There is no character to split on, here, but you can separate a column after a 
+    specific number of characters by setting `sep` to  an integer. For example, to 
+    split "abcde" after the third characters, use `sep = 3`, which results in 
+    c("abc", "de").
 
-### separate()
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    ocean_sep <- ocean %>%
+      separate(question, c("domain", "qnumber"), sep = 2)
+    ```
+    </div>
 
-Split the `question` column into two columns: `domain` and `qnumber`.
+3. Put the domain and qnumber columns back together into a new column named `domain_n`. Make it in a format like "Op_Q1".
 
-There is no character to split on, here, but you can separate a column after a 
-specific number of characters by setting `sep` to  an integer. For example, to 
-split "abcde" after the third characters, use `sep = 3`, which results in 
-c("abc", "de").
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    ocean_unite <- ocean_sep %>%
+      unite("domain_n", domain, qnumber, sep = "_Q")
+    ```
+    </div>
 
-```{r, echo = FALSE}
+4. Convert back to wide format.
 
-ocean_sep <- ocean %>%
-  separate(question, c("domain", "qnumber"), sep = 2)
-
-glimpse(ocean_sep)
-
-```
-
-### unite()
-
-Put the domain and qnumber columns back together into a new column named `domain_n`. 
-Make it in a format like "Op_Q1".
-
-```{r, echo = FALSE}
-
-ocean_unite <- ocean_sep %>%
-  unite("domain_n", domain, qnumber, sep = "_Q")
-
-glimpse(ocean_unite)
-
-```
-
-### spread()
-
-Convert back to wide format.
-
-```{r, echo = FALSE}
-
-ocean_spread <- ocean_unite %>%
-  spread(domain_n, score)
-
-glimpse(ocean_spread)
-
-```
-
-
-
-
-
-
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    ocean_spread <- ocean_unite %>%
+      spread(domain_n, score)
+    ```
+    </div>

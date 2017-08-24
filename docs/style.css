@@ -1,5 +1,5 @@
-code {
-  color: red !important;
+code:not(.r) {
+  color: #cc0000 !important;
 }
 
 a {
@@ -33,3 +33,10 @@ pre:not(.sourceCode) code {
   color: grey !important;
 }
 
+.solution {
+  height: 1.55em;
+  overflow-y: hidden;
+}
+.solution.open {
+  height: auto;
+}

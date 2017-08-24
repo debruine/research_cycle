@@ -23,6 +23,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -203,7 +205,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3,h4",
+      selectors: "h1,h2,h3",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
@@ -421,18 +423,18 @@ div.tocify {
 <li><code>overlap</code> has two correlated ordinal variables and 1000 observations so there is a lot of overlap</li>
 </ul>
 <p>First, think about what kinds of graphs are best for representing these different types of data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demog &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demog &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">sex =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;male&quot;</span>, <span class="st">&quot;female&quot;</span>), <span class="dt">each =</span> <span class="dv">500</span>),
   <span class="dt">height =</span> <span class="kw">c</span>(<span class="kw">rnorm</span>(<span class="dv">500</span>, <span class="dv">70</span>, <span class="dv">4</span>), <span class="kw">rnorm</span>(<span class="dv">500</span>, <span class="dv">65</span>, <span class="fl">3.5</span>)),
   <span class="dt">age =</span> <span class="kw">rpois</span>(<span class="dv">1000</span>, <span class="dv">3</span>) +<span class="st"> </span><span class="dv">20</span>
 )
 
-x_vs_y &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+x_vs_y &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>)
 ) %&gt;%
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">y =</span> x +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="fl">0.5</span>))
 
-overlap &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+overlap &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">x =</span> <span class="kw">rbinom</span>(<span class="dv">1000</span>, <span class="dv">10</span>, <span class="fl">0.5</span>)
 ) %&gt;%
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">y =</span> x +<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1000</span>, <span class="dv">20</span>, <span class="fl">0.5</span>))</code></pre></div>
@@ -540,7 +542,7 @@ demog %&gt;%
 <div id="heat-map" class="section level3">
 <h3>Heat map</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># generate two sets of correlated variables (a and b)</span>
-heatmap &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+heatmap &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">a1 =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>),
   <span class="dt">b1 =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>)
 ) %&gt;%<span class="st"> </span>
@@ -553,7 +555,7 @@ heatmap &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
   <span class="dt">b4 =</span> b1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>)
 ) %&gt;%
 <span class="kw">cor</span>() %&gt;%<span class="st"> </span><span class="co"># create the correlation matrix</span>
-<span class="kw">as.data.frame</span>() %&gt;%<span class="st"> </span><span class="co"># make it a data frame</span>
+<span class="kw">as.tibble</span>() %&gt;%<span class="st"> </span><span class="co"># make it a data frame</span>
 <span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;V1&quot;</span>) %&gt;%<span class="st"> </span><span class="co"># set rownames as V1</span>
 <span class="kw">gather</span>(<span class="st">&quot;V2&quot;</span>, <span class="st">&quot;r&quot;</span>, a1:b4) <span class="co"># wide to long (V2)</span>
 
@@ -570,7 +572,7 @@ heatmap &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
 <p>Generate a vioin plot, boxplot, histogram, density plot, and bar plot for the following data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># dog weights estimated from http://petobesityprevention.org/ideal-weight-ranges/</span>
 
-dogs &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+dogs &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">breed =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;beagle&quot;</span>, <span class="st">&quot;boxer&quot;</span>, <span class="st">&quot;bulldog&quot;</span>), <span class="dt">each =</span> <span class="dv">100</span>),
   <span class="dt">weight =</span> <span class="kw">c</span>(
     <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">24</span>, <span class="dv">6</span>),
@@ -596,6 +598,12 @@ dogs &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
   <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 License</a>
 </p>
 -->
+
+<script>
+  $(".solution").click(function() {
+    $(this).toggleClass("open");
+  });
+</script>
 
 
 </div>

@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
   echo       = TRUE, 
   warning    = FALSE, 
   message    = FALSE,
-  cache=TRUE
+  cache      = TRUE
 )
 ```
 
@@ -89,18 +89,18 @@ First, think about what kinds of graphs are best for representing these differen
 
 ```{r}
 
-demog <- data.frame(
+demog <- tibble(
   sex = rep(c("male", "female"), each = 500),
   height = c(rnorm(500, 70, 4), rnorm(500, 65, 3.5)),
   age = rpois(1000, 3) + 20
 )
 
-x_vs_y <- data.frame(
+x_vs_y <- tibble(
   x = rnorm(100)
 ) %>%
   mutate(y = x + rnorm(100, 0, 0.5))
 
-overlap <- data.frame(
+overlap <- tibble(
   x = rbinom(1000, 10, 0.5)
 ) %>%
   mutate(y = x + rbinom(1000, 20, 0.5))
@@ -253,7 +253,7 @@ overlap %>%
 ```{r heatmap}
 
 # generate two sets of correlated variables (a and b)
-heatmap <- data.frame(
+heatmap <- tibble(
   a1 = rnorm(100),
   b1 = rnorm(100)
 ) %>% 
@@ -266,7 +266,7 @@ mutate(
   b4 = b1 + rnorm(100)
 ) %>%
 cor() %>% # create the correlation matrix
-as.data.frame() %>% # make it a data frame
+as.tibble() %>% # make it a data frame
 rownames_to_column(var = "V1") %>% # set rownames as V1
 gather("V2", "r", a1:b4) # wide to long (V2)
 
@@ -286,7 +286,7 @@ Generate a vioin plot, boxplot, histogram, density plot, and bar plot for the fo
 
 # dog weights estimated from http://petobesityprevention.org/ideal-weight-ranges/
 
-dogs <- data.frame(
+dogs <- tibble(
   breed = rep(c("beagle", "boxer", "bulldog"), each = 100),
   weight = c(
     rnorm(100, 24, 6),
@@ -325,7 +325,7 @@ heatmap <- disgust %>%
   select(moral1:pathogen7) %>%
   filter(!is.na(rowSums(.))) %>%
   cor() %>% # create the correlation matrix
-  as.data.frame() %>% # make it a data frame
+  as.tibble() %>% # make it a data frame
   rownames_to_column(var = "V1") %>% # set rownames as V1
   gather("V2", "r", moral1:pathogen7) # wide to long (V2)
 
