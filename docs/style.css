@@ -23,3 +23,13 @@ a {
   border-radius: 10px;
   padding: 1em;
 }
+
+/* set styles for code output messages */
+
+pre:not(.sourceCode) {
+  background-color: #eeeeee;
+}
+pre:not(.sourceCode) code {
+  color: grey !important;
+}
+

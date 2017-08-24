@@ -68,91 +68,109 @@ These data and cleaning code are from [Data cleaning](02_tidyr.html)
 
 ```{r}
 
+# load country data from a CSV file on the web
 ccodes <- read_csv("https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv")
 
-infmort <- read_csv("data/infmort.csv") %>%
-  separate(3, c(c("rate", "ci_low", "ci_hi")), sep = "(\\[|-)|]") %>%
-  mutate(
-    rate = as.numeric(rate),
-    ci_low = as.numeric(ci_low),
-    ci_hi = as.numeric(ci_hi)
+infmort <- read_csv("data/infmort.csv") %>%  # load infant mortality data from a CSV file
+  separate(                                  # separate the stats column into its 3 parts
+    3, 
+    c("rate", "ci_low", "ci_hi"), 
+    extra = "drop", 
+    sep = "(\\[|-|])", 
+    convert = TRUE
   )
 
-matmort <- read_xls("data/matmort.xls") %>%
-  gather("Year", "stats", `1990`:`2015`) %>%
+matmort <- read_xls("data/matmort.xls") %>%   # load maternal mortality data from an excel file
+  gather("Year", "stats", `1990`:`2015`) %>%  # convert to long format
+  mutate(stats = gsub(" ", "", stats)) %>%    # get rid of spaces in stats column
+  separate(                                   # separate the stats column into its 3 parts
+    stats, 
+    c("rate", "ci_low", "ci_hi"), 
+    extra = "drop", 
+    convert = TRUE
+  )
+
+```
+
+### inner_join()
+
+`inner_join(x, y, by = NULL, suffix = c(".x", ".y")`
+
+Use an `inner_join()` if you only want matching data between two tables and want 
+to exclude any data from either table that doesn't have a match in the other table.
+
+* x = the first table (order doesn't matter here)
+* y = the second table (order doesn't matter here)
+* by = what columns to match on. If you leave this blank, it will match on any columns with the same names in the two tables.
+* suffix = if columns have the same name in the two tables, but you aren't joining by them, they get a suffix to make them unambiguous. This defaults to ".x" and ".y", but you can change it to something more meaningful.
+
+```{r}
+
+#infmatmort <- inner_join(matmort, infmort, by = c("Country", "Year"))
+
+```
+
+<pre><code>Error in inner_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, check_na_matches(na_matches)) : 
+  Can't join on 'Year' x 'Year' because of incompatible types (character / integer)</code></pre>
+
+#### Incompatible tpyes
+
+Oops. `Year` is an integer type in `nfmort` and a character type in `matmort`. 
+We can fix that by adding `convert = TRUE` to the `gather` function.
+
+```{r}
+
+matmort <- read_xls("data/matmort.xls") %>%   
+  gather("Year", "stats", `1990`:`2015`, convert = TRUE) %>%
   mutate(stats = gsub(" ", "", stats)) %>%
-  separate(stats, c("rate", "ci_low", "ci_hi")) %>%
-  mutate(
-    Year = as.integer(Year),
-    rate = as.numeric(rate),
-    ci_low = as.numeric(ci_low),
-    ci_hi = as.numeric(ci_hi)
+  separate(
+    stats, 
+    c("rate", "ci_low", "ci_hi"), 
+    extra = "drop", 
+    convert = TRUE
   )
+
+infmatmort <- inner_join(matmort, infmort, by = c("Country", "Year"))
+
+glimpse(infmatmort)
 
 ```
 
-### Join the data by Country and Year
+#### Disambiguate duplicate column names with `suffix`
 
-inner_join(data1, data2, by = c("col1", "col2"))
-
-Use an `inner_join()` if you only want matching data between 
-two tables and want to exclude any data from either table 
-that doesn't have a match in the other table.
+Maybe we shouldn't have given the rates and CIs the same names in the infant and 
+maternal mortality tables if we were going to join them. We could fix that by 
+changing the names in the `separate` functions to be unique. Here, we'll add the 
+suffixes "_mat" and "_inf" to distinguish them.
 
 ```{r}
 
-inf.mat.mort <- inner_join(matmort, infmort, by = c("Country", "Year"))
+infmatmort <- inner_join(
+  matmort, 
+  infmort, 
+  by = c("Country", "Year"),
+  suffix = c("_mat", "_inf")
+)
 
-inf.mat.mort[1:5, ]
+glimpse(infmatmort)
 
 ```
 
-### Duplicate column names
+### left_join()
 
-Maybe we shouldn't have given the rates and CIs the same 
-names in the infant and maternal mortality tables if we 
-were going to join them. That's easily fixed.
+`left_join(x, y, by = NULL, suffix = c(".x", ".y")`
 
-```{r}
+Use a `left_join()` if you want to keep all the data in the main (x, left) table 
+and join data from another (y, right) table if it exists.
 
-infmort <- read_csv("data/infmort.csv") %>%
-  separate(3, c(c("infmort_rate", "infmort_ci_low", "infmort_ci_hi")), sep = "(\\[|-)|]") %>%
-  mutate(
-    infmort_rate = as.numeric(infmort_rate),
-    infmort_ci_low = as.numeric(infmort_ci_low),
-    infmort_ci_hi = as.numeric(infmort_ci_hi)
-  )
-
-matmort <- read_xls("data/matmort.xls") %>%
-  gather("Year", "stats", `1990`:`2015`) %>%
-  mutate(stats = gsub(" ", "", stats)) %>%
-  separate(stats, c("matmort_rate", "matmort_ci_low", "matmort_ci_hi")) %>%
-  mutate(
-    Year = as.integer(Year),
-    matmort_rate = as.numeric(matmort_rate),
-    matmort_ci_low = as.numeric(matmort_ci_low),
-    matmort_ci_hi = as.numeric(matmort_ci_hi)
-  )
-
-inf.mat.mort <- inner_join(matmort, infmort, by = c("Country", "Year"))
-
-inf.mat.mort[1:5, ]
-
-```
-
-### Join the region from the country codes
-
-`left_join(main.data, optional.data, by = c("main.col" = "opt.col")`
-
-Use a `left_join()` if you want to keep all the data in the main 
-(left) table and join data from another (right) table if it exists.
+<p class="fyi">Notice by = c("Country" = "name")</p>
 
 
 ```{r}
-inf.mat.mort.region <- inf.mat.mort %>%
+infmatmort_region <- infmatmort %>%
   left_join(ccodes, by = c("Country" = "name"))
 
-inf.mat.mort.region[1:5, ]
+glimpse(infmatmort_region)
 ```
 
 ### Unwanted columns
@@ -161,18 +179,18 @@ inf.mat.mort.region[1:5, ]
 
 We really just wanted the region, not all the extra data from the country codes. 
 We can just select the columns we want when we load the country codes data. 
-If we start with the `ccodes` table, we can `right_join()` the `inf.mat.mort` table, 
+If we start with the `ccodes` table, we can `right_join()` the `infmatmort` table, 
 which is just the opposite of a left join (keeps all the data from the "right" joined 
 table and any data from the "left" table that matches). Remember to switch the 
 order of the `by` columns if they have different names in the main and optional data tables.
 
 ```{r}
 
-inf.mat.mort.region <- read_csv("https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv") %>%
+infmatmort_region <- read_csv("https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv") %>%
   select(name, region) %>%
-  right_join(inf.mat.mort, by = c("name" = "Country"))
+  right_join(infmatmort, by = c("name" = "Country"))
 
-inf.mat.mort.region[1:5, ]
+infmatmort_region[1:5, ]
 
 ```
 
@@ -182,11 +200,11 @@ inf.mat.mort.region[1:5, ]
 So let's make a graph that we couldn't have easily made with 3 separate data tables
 
 ```{r}
-inf.mat.mort.region %>%
+infmatmort_region %>%
   group_by(name, region) %>%
   summarise(
-    matmort = mean(matmort_rate),
-    infmort = mean(infmort_rate)
+    matmort = mean(rate_mat),
+    infmort = mean(rate_inf)
   ) %>%
   ggplot(aes(infmort, matmort, colour = region)) +
   geom_smooth(method = "lm") +

@@ -352,8 +352,8 @@ div.tocify {
 <li>Be able to use the 4 basic <code>tidyr</code> verbs
 <ul>
 <li><code>gather()</code></li>
-<li><code>spread()</code></li>
 <li><code>separate()</code></li>
+<li><code>spread()</code></li>
 <li><code>unite()</code></li>
 </ul></li>
 </ol>
@@ -362,11 +362,12 @@ div.tocify {
 <h3>Intermediate</h3>
 <ol start="3" style="list-style-type: decimal">
 <li>Be able to chain functions to load and tidy a dataset without creating several intermediate datasets</li>
+<li>Be able to use arguments like <code>sep</code>, <code>extra</code>, and <code>convert</code> to handle less straighforward data cleaning</li>
 </ol>
 </div>
 <div id="advanced" class="section level3">
 <h3>Advanced</h3>
-<ol start="4" style="list-style-type: decimal">
+<ol start="5" style="list-style-type: decimal">
 <li>Be able to use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html">regular expressions</a> to separate complex columns</li>
 </ol>
 </div>
@@ -391,7 +392,7 @@ div.tocify {
 <span class="kw">library</span>(readxl)</code></pre></div>
 <div id="load-data" class="section level3">
 <h3>Load Data</h3>
-<p>Get data on infant mortality rates from the CSV file “infmort.csv” in the directory “data”</p>
+<p>Get data on infant mortality rates from the CSV file <a href="data/infmort.csv"><code>infmort.csv</code></a> in the directory <code>data</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/infmort.csv&quot;</span>)
 <span class="kw">glimpse</span>(infmort)</code></pre></div>
 <pre><code>## Observations: 5,044
@@ -399,7 +400,7 @@ div.tocify {
 ## $ Country                                                                                     &lt;chr&gt; ...
 ## $ Year                                                                                        &lt;int&gt; ...
 ## $ `Infant mortality rate (probability of dying between birth and age 1 per 1000 live births)` &lt;chr&gt; ...</code></pre>
-<p>Get data on maternal mortality from from the excel file “matmort.xls” in the directory “data”</p>
+<p>Get data on maternal mortality from from the excel file <a href="data/matmort.xls"><code>matmort.xls</code></a> in the directory <code>data</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span class="st">&quot;data/matmort.xls&quot;</span>)
 <span class="kw">glimpse</span>(matmort)</code></pre></div>
 <pre><code>## Observations: 181
@@ -425,34 +426,36 @@ div.tocify {
 </div>
 <div id="gather" class="section level3">
 <h3>gather()</h3>
-<p><code>gather(data, key, value, start.column:end.column)</code></p>
-<p><code>matmort</code> is in wide format, with a separate column for each year; change it to long format, with a row for each County/Year observation.</p>
+<p><code>gather(data, key = &quot;key&quot;, value = &quot;value&quot;, ..., na.rm = FALSE, convert = FALSE, factor_key = FALSE)</code></p>
+<p><code>matmort</code> is in wide format, with a separate column for each year. Change it to long format, with a row for each County/Year observation.</p>
 <ul>
 <li><code>key</code> is what you want to call the row headers; it’s “year” in this example.</li>
 <li><code>value</code> is what you want to call the values in the gathered columns; they’re “stats” in this example.</li>
-<li>You can refer to the <code>start.column</code> and <code>end.column</code> by their numbers of their names.</li>
+<li>The <code>...</code> refers to the columns you want to gather. You can refer to them by their names, like <code>col1, col2, col3, col4</code> or <code>col1:col4</code> or by their numbers, like <code>8, 9, 10</code> or <code>8:10</code>.</li>
 </ul>
-<p>This example is complicated because the column names <em>are</em> numbers. If the column names are weird (e.g., have spaces, start with numbers, or have special characters), you can enclose them in backticks (`)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort.long &lt;-<span class="st"> </span>matmort %&gt;%
+<p>This example is complicated because the column names to gether <em>are</em> numbers. If the column names are non-standard (e.g., have spaces, start with numbers, or have special characters), you can enclose them in backticks (`) like the example below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort_long &lt;-<span class="st"> </span>matmort %&gt;%
 <span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;Year&quot;</span>, <span class="st">&quot;stats&quot;</span>, <span class="st">`</span><span class="dt">1990</span><span class="st">`</span>:<span class="st">`</span><span class="dt">2015</span><span class="st">`</span>)
 
-<span class="kw">glimpse</span>(matmort.long)</code></pre></div>
+<span class="kw">glimpse</span>(matmort_long)</code></pre></div>
 <pre><code>## Observations: 543
 ## Variables: 3
 ## $ Country &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Albania&quot;, &quot;Algeria&quot;, &quot;Angola&quot;, &quot;Argent...
 ## $ Year    &lt;chr&gt; &quot;1990&quot;, &quot;1990&quot;, &quot;1990&quot;, &quot;1990&quot;, &quot;1990&quot;, &quot;1990&quot;, &quot;1990&quot;...
 ## $ stats   &lt;chr&gt; &quot;1 340 [ 878 - 1 950]&quot;, &quot;71 [ 58 -  88]&quot;, &quot;216 [ 141 -...</code></pre>
 </div>
-<div id="separate" class="section level3">
+<div id="separate" class="section level3 tabset">
 <h3>separate()</h3>
-<p><code>separate(data, col, into, sep)</code></p>
+<div id="separate-1" class="section level4">
+<h4>separate()</h4>
+<p><code>separate(data, col, into, sep = &quot;[^[:alnum:]]+&quot;, remove = TRUE, convert = FALSE, extra = &quot;warn&quot;, fill = &quot;warn&quot;)</code></p>
 <p>The data in the <code>stats</code> column is in a crazy format with some sort of confidence interval in brackets and lots of extra spaces. We don’t need any of the spaces, so first we’ll remove them with <code>mutate</code>.</p>
-<p>The <code>separate</code> function will usually separate your data on sensible charatcers like spaces, underscores, dashes, and brackets, so try it first without specifying the <code>sep</code> argument. The <code>into</code> argument is a list of the new column names.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort.split &lt;-<span class="st"> </span>matmort.long %&gt;%
+<p>The <code>separate</code> function will separate your data on anything that is not a number or letter, so try it first without specifying the <code>sep</code> argument. The <code>into</code> argument is a list of the new column names.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort_split &lt;-<span class="st"> </span>matmort_long %&gt;%
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stats =</span> <span class="kw">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;&quot;</span>, stats)) %&gt;%
 <span class="st">  </span><span class="kw">separate</span>(stats, <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>))
 
-<span class="kw">glimpse</span>(matmort.split)</code></pre></div>
+<span class="kw">glimpse</span>(matmort_split)</code></pre></div>
 <pre><code>## Observations: 543
 ## Variables: 5
 ## $ Country &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Albania&quot;, &quot;Algeria&quot;, &quot;Angola&quot;, &quot;Argent...
@@ -460,16 +463,17 @@ div.tocify {
 ## $ rate    &lt;chr&gt; &quot;1340&quot;, &quot;71&quot;, &quot;216&quot;, &quot;1160&quot;, &quot;72&quot;, &quot;58&quot;, &quot;8&quot;, &quot;8&quot;, &quot;64...
 ## $ ci_low  &lt;chr&gt; &quot;878&quot;, &quot;58&quot;, &quot;141&quot;, &quot;627&quot;, &quot;64&quot;, &quot;51&quot;, &quot;7&quot;, &quot;7&quot;, &quot;56&quot;,...
 ## $ ci_hi   &lt;chr&gt; &quot;1950&quot;, &quot;88&quot;, &quot;327&quot;, &quot;2020&quot;, &quot;80&quot;, &quot;65&quot;, &quot;9&quot;, &quot;10&quot;, &quot;7...</code></pre>
+</div>
 <div id="handle-spare-columns-with-extra" class="section level4">
 <h4>Handle spare columns with <code>extra</code></h4>
 <p class="fyi">
-The previous example should have given you an error warning about “Too many values at 543 locations”. This is because <code>separate</code> split the column at the brackets and dashes, so the text “100[90-110]” would split into four values c(“100”, “90”, “110”, “”), but we only specified 3 new columns. The fourth value is always empty (just the part after the last bracket), so we are happy to drop it, but <code>separate</code> generates a warning so you don’t do that accidentally. You can turn off the warning by adding the <code>extra</code> argument and setting it to “drop”. Look at the help for <code>??tidyr::separate</code> to see what the other options do.
+The previous example should have given you an error warning about “Too many values at 543 locations”. This is because <code>separate</code> splits the column at the brackets and dashes, so the text “100[90-110]” would split into four values c(“100”, “90”, “110”, “”), but we only specified 3 new columns. The fourth value is always empty (just the part after the last bracket), so we are happy to drop it, but <code>separate</code> generates a warning so you don’t do that accidentally. You can turn off the warning by adding the <code>extra</code> argument and setting it to “drop”. Look at the help for <code>??tidyr::separate</code> to see what the other options do.
 </p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort.split &lt;-<span class="st"> </span>matmort.long %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort_split &lt;-<span class="st"> </span>matmort_long %&gt;%
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stats =</span> <span class="kw">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;&quot;</span>, stats)) %&gt;%
 <span class="st">  </span><span class="kw">separate</span>(stats, <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>), <span class="dt">extra =</span> <span class="st">&quot;drop&quot;</span>)
 
-<span class="kw">glimpse</span>(matmort.split)</code></pre></div>
+<span class="kw">glimpse</span>(matmort_split)</code></pre></div>
 <pre><code>## Observations: 543
 ## Variables: 5
 ## $ Country &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Albania&quot;, &quot;Algeria&quot;, &quot;Angola&quot;, &quot;Argent...
@@ -481,10 +485,10 @@ The previous example should have given you an error warning about “Too many va
 <div id="set-delimiters-with-sep" class="section level4">
 <h4>Set delimiters with <code>sep</code></h4>
 <p>Now do the same with <code>infmort</code>. It’s already in long format, so you don’t need to use <code>gather</code>, but the third column has a crazy long name, so we can just refer to it by its column number (3).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort.split &lt;-<span class="st"> </span>infmort %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort_split &lt;-<span class="st"> </span>infmort %&gt;%
 <span class="st">  </span><span class="kw">separate</span>(<span class="dv">3</span>, <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>), <span class="dt">extra =</span> <span class="st">&quot;drop&quot;</span>)
 
-<span class="kw">glimpse</span>(infmort.split)</code></pre></div>
+<span class="kw">glimpse</span>(infmort_split)</code></pre></div>
 <pre><code>## Observations: 5,044
 ## Variables: 5
 ## $ Country &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanis...
@@ -492,14 +496,19 @@ The previous example should have given you an error warning about “Too many va
 ## $ rate    &lt;chr&gt; &quot;66&quot;, &quot;68&quot;, &quot;69&quot;, &quot;71&quot;, &quot;73&quot;, &quot;75&quot;, &quot;76&quot;, &quot;78&quot;, &quot;80&quot;, ...
 ## $ ci_low  &lt;chr&gt; &quot;3&quot;, &quot;1&quot;, &quot;9&quot;, &quot;7&quot;, &quot;4&quot;, &quot;1&quot;, &quot;8&quot;, &quot;6&quot;, &quot;4&quot;, &quot;3&quot;, &quot;4&quot;,...
 ## $ ci_hi   &lt;chr&gt; &quot;52&quot;, &quot;55&quot;, &quot;58&quot;, &quot;61&quot;, &quot;64&quot;, &quot;66&quot;, &quot;69&quot;, &quot;71&quot;, &quot;73&quot;, ...</code></pre>
-<p><em>Wait, that didn’t work at all!</em> It split the column on spaces, brackets, <em>and</em> full stops. We just want to split on the spaces, brackets and dashes. So we need to manually set <code>sep</code> to what the delimiters are.</p>
+<p><em>Wait, that didn’t work at all!</em> It split the column on spaces, brackets, <em>and</em> full stops. We just want to split on the spaces, brackets and dashes. So we need to manually set <code>sep</code> to what the delimiters are. Also, once there are more than a few arguments specified for a function, it’s easier to read them if you put one argument on each line.</p>
 <p class="fyi">
 You can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html">regular expressions</a> to separate complex columns. Here, we want to separate on dashes and brackets. You can separate on a list of delimiters by putting them in parentheses, separated by “|”. It’s a little more complicated because brackets have a special meaning in regex, so you need to “escape” the left one with two backslashes “\\”.
 </p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort.split &lt;-<span class="st"> </span>infmort %&gt;%
-<span class="st">  </span><span class="kw">separate</span>(<span class="dv">3</span>, <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>), <span class="dt">extra =</span> <span class="st">&quot;drop&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;(</span><span class="ch">\\</span><span class="st">[|-)|]&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort_split &lt;-<span class="st"> </span>infmort %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(
+    <span class="dt">col =</span> <span class="dv">3</span>, 
+    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>), 
+    <span class="dt">extra =</span> <span class="st">&quot;drop&quot;</span>, 
+    <span class="dt">sep =</span> <span class="st">&quot;(</span><span class="ch">\\</span><span class="st">[|-|])&quot;</span>
+  )
 
-<span class="kw">glimpse</span>(infmort.split)</code></pre></div>
+<span class="kw">glimpse</span>(infmort_split)</code></pre></div>
 <pre><code>## Observations: 5,044
 ## Variables: 5
 ## $ Country &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanis...
@@ -511,10 +520,10 @@ You can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/reg
 <div id="fix-data-types-with-convert" class="section level4">
 <h4>Fix data types with <code>convert</code></h4>
 <p>That’s better. Notice the <em><chr></em> next to <code>Year</code>, <code>rate</code>, <code>ci_low</code> and <code>ci_hi</code>. That means these columns hold characters (like words), not numbers or integers. This can cause problems when you try to do thigs like average the numbers (you can’t average words), so we can fix it by adding the argument <code>convert</code> and setting it to <code>TRUE</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort.split &lt;-<span class="st"> </span>infmort %&gt;%
-<span class="st">  </span><span class="kw">separate</span>(<span class="dv">3</span>, <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>), <span class="dt">extra =</span> <span class="st">&quot;drop&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;(</span><span class="ch">\\</span><span class="st">[|-)|]&quot;</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort_split &lt;-<span class="st"> </span>infmort %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(<span class="dv">3</span>, <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>), <span class="dt">extra =</span> <span class="st">&quot;drop&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;(</span><span class="ch">\\</span><span class="st">[|-|])&quot;</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>)
 
-<span class="kw">glimpse</span>(infmort.split)</code></pre></div>
+<span class="kw">glimpse</span>(infmort_split)</code></pre></div>
 <pre><code>## Observations: 5,044
 ## Variables: 5
 ## $ Country &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanis...
@@ -523,11 +532,11 @@ You can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/reg
 ## $ ci_low  &lt;dbl&gt; 52.7, 55.7, 58.7, 61.6, 64.4, 66.9, 69.0, 71.2, 73.4, ...
 ## $ ci_hi   &lt;dbl&gt; 83.9, 83.6, 83.5, 83.7, 84.2, 85.1, 86.1, 87.3, 88.9, ...</code></pre>
 <p>Do the same for <code>matmort</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort.split &lt;-<span class="st"> </span>matmort.long %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort_split &lt;-<span class="st"> </span>matmort_long %&gt;%
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stats =</span> <span class="kw">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;&quot;</span>, stats)) %&gt;%
 <span class="st">  </span><span class="kw">separate</span>(stats, <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>), <span class="dt">extra =</span> <span class="st">&quot;drop&quot;</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>)
 
-<span class="kw">glimpse</span>(matmort.split)</code></pre></div>
+<span class="kw">glimpse</span>(matmort_split)</code></pre></div>
 <pre><code>## Observations: 543
 ## Variables: 5
 ## $ Country &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Albania&quot;, &quot;Algeria&quot;, &quot;Angola&quot;, &quot;Argent...
@@ -540,12 +549,23 @@ You can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/reg
 <h4>All in one step</h4>
 <p>We can chain all the steps above together, since we don’t need those intermediate dataframes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/infmort.csv&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">separate</span>(<span class="dv">3</span>, <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>), <span class="dt">extra =</span> <span class="st">&quot;drop&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;(</span><span class="ch">\\</span><span class="st">[|-)|]&quot;</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>)
+<span class="st">  </span><span class="kw">separate</span>(
+    <span class="dv">3</span>, 
+    <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>), 
+    <span class="dt">extra =</span> <span class="st">&quot;drop&quot;</span>, 
+    <span class="dt">sep =</span> <span class="st">&quot;(</span><span class="ch">\\</span><span class="st">[|-|])&quot;</span>, 
+    <span class="dt">convert =</span> <span class="ot">TRUE</span>
+  )
 
 matmort &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span class="st">&quot;data/matmort.xls&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;Year&quot;</span>, <span class="st">&quot;stats&quot;</span>, <span class="st">`</span><span class="dt">1990</span><span class="st">`</span>:<span class="st">`</span><span class="dt">2015</span><span class="st">`</span>) %&gt;%
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stats =</span> <span class="kw">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;&quot;</span>, stats)) %&gt;%
-<span class="st">  </span><span class="kw">separate</span>(stats, <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>), <span class="dt">extra =</span> <span class="st">&quot;drop&quot;</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>)
+<span class="st">  </span><span class="kw">separate</span>(
+    stats, 
+    <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>), 
+    <span class="dt">extra =</span> <span class="st">&quot;drop&quot;</span>, 
+    <span class="dt">convert =</span> <span class="ot">TRUE</span>
+  )
 
 <span class="kw">glimpse</span>(matmort)</code></pre></div>
 <pre><code>## Observations: 543
@@ -555,12 +575,19 @@ matmort &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span cla
 ## $ rate    &lt;int&gt; 1340, 71, 216, 1160, 72, 58, 8, 8, 64, 46, 26, 569, 58...
 ## $ ci_low  &lt;int&gt; 878, 58, 141, 627, 64, 51, 7, 7, 56, 34, 20, 446, 47, ...
 ## $ ci_hi   &lt;int&gt; 1950, 88, 327, 2020, 80, 65, 9, 10, 74, 61, 33, 715, 7...</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">View</span>(infmort)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glimpse</span>(infmort)</code></pre></div>
+<pre><code>## Observations: 5,044
+## Variables: 5
+## $ Country &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanis...
+## $ Year    &lt;int&gt; 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, ...
+## $ rate    &lt;dbl&gt; 66.3, 68.1, 69.9, 71.7, 73.4, 75.1, 76.8, 78.6, 80.4, ...
+## $ ci_low  &lt;dbl&gt; 52.7, 55.7, 58.7, 61.6, 64.4, 66.9, 69.0, 71.2, 73.4, ...
+## $ ci_hi   &lt;dbl&gt; 83.9, 83.6, 83.5, 83.7, 84.2, 85.1, 86.1, 87.3, 88.9, ...</code></pre>
 </div>
 </div>
 <div id="spread" class="section level3">
 <h3>spread()</h3>
-<p><code>spread(data, key, value)</code></p>
+<p><code>spread(data, key, value, fill = NA, convert = FALSE, drop = TRUE, sep = NULL)</code></p>
 <p>You can reverse the processes above, as well. For example, you can convert data from long format into wide format.</p>
 <ul>
 <li><code>key</code> is the column that contains your new column headers</li>
@@ -606,7 +633,7 @@ matmort &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span cla
 </div>
 <div id="unite" class="section level3">
 <h3>unite()</h3>
-<p><code>unite(data, new.col, old.cols...)</code></p>
+<p><code>unite(data, col, ..., sep = &quot;_&quot;, remove = TRUE)</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort_united &lt;-<span class="st"> </span>infmort %&gt;%
 <span class="st">  </span><span class="kw">unite</span>(rate_ci, rate, ci_low, ci_hi)
 
@@ -641,9 +668,9 @@ What if you want to put it back into the format “rate [ci_low - ci_hi]”? The
 ## $ Country &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanis...
 ## $ Year    &lt;int&gt; 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, ...
 ## $ rate_ci &lt;chr&gt; &quot;66.3 [52.7 - 83.9]&quot;, &quot;68.1 [55.7 - 83.6]&quot;, &quot;69.9 [58....</code></pre>
-<p>Now let’s try spreading on year again.</p>
+<p>Now let’s try spreading on year again. Notice here we’re uniting columns <code>rate:ci_hi</code>, instead of <code>rate, ci_low, ci_hi</code>. The colon just says to select all the columns between the first and last named ones. Check the help documentation for <code>??tidyr::unite</code> and <code>??tidyr::select</code> to see other ways to select columns.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort_wide &lt;-<span class="st"> </span>infmort %&gt;%
-<span class="st">  </span><span class="kw">unite</span>(rate_ci, rate, ci_low, ci_hi, <span class="dt">sep =</span> <span class="st">&quot;, &quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">unite</span>(rate_ci, rate:ci_hi, <span class="dt">sep =</span> <span class="st">&quot;, &quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">spread</span>(Year, rate_ci)
 
 <span class="kw">glimpse</span>(infmort_wide)</code></pre></div>
@@ -677,6 +704,92 @@ What if you want to put it back into the format “rate [ci_low - ci_hi]”? The
 ## $ `2014`  &lt;chr&gt; &quot;68.1, 55.7, 83.6&quot;, &quot;12.9, 7.5, 22.1&quot;, &quot;22, 21.3, 22.7...
 ## $ `2015`  &lt;chr&gt; &quot;66.3, 52.7, 83.9&quot;, &quot;12.5, 7, 22.2&quot;, &quot;21.9, 20.8, 23&quot;,...</code></pre>
 </div>
+</div>
+</div>
+<div id="exercises" class="section level2 tabset tabset-pills">
+<h2>Exercises</h2>
+<div id="gather-1" class="section level3">
+<h3>gather()</h3>
+<p>Tidy the data from <a href="data/personality.csv">personality.csv</a>.</p>
+<p>These data are from a 5-factor (OCEAN) personality questionnaire. Each question is labelled with the domain (Op = openness, Co = concientiousness, Ex = extraversion, Ag = agreeableness, and Ne = neuroticism) and the question number.</p>
+<p>Load the data and convert from wide to long format. The resulting dataframe should have the columns: <code>user_id</code>, <code>date</code>, <code>question</code>, and <code>score</code>.</p>
+<pre><code>## Observations: 615,000
+## Variables: 4
+## $ user_id  &lt;int&gt; 0, 1, 2, 5, 8, 108, 233, 298, 426, 436, 685, 807, 871...
+## $ date     &lt;date&gt; 2006-03-23, 2006-02-08, 2005-10-24, 2005-12-07, 2006...
+## $ question &lt;chr&gt; &quot;Op1&quot;, &quot;Op1&quot;, &quot;Op1&quot;, &quot;Op1&quot;, &quot;Op1&quot;, &quot;Op1&quot;, &quot;Op1&quot;, &quot;Op1...
+## $ score    &lt;int&gt; 3, 6, 6, 6, 6, 3, 3, 6, 6, 3, 4, 5, 5, 5, 6, 4, 1, 2,...</code></pre>
+</div>
+<div id="separate-2" class="section level3">
+<h3>separate()</h3>
+<p>Split the <code>question</code> column into two columns: <code>domain</code> and <code>qnumber</code>.</p>
+<p>There is no character to split on, here, but you can separate a column after a specific number of characters by setting <code>sep</code> to an integer. For example, to split “abcde” after the third characters, use <code>sep = 3</code>, which results in c(“abc”, “de”).</p>
+<pre><code>## Observations: 615,000
+## Variables: 5
+## $ user_id &lt;int&gt; 0, 1, 2, 5, 8, 108, 233, 298, 426, 436, 685, 807, 871,...
+## $ date    &lt;date&gt; 2006-03-23, 2006-02-08, 2005-10-24, 2005-12-07, 2006-...
+## $ domain  &lt;chr&gt; &quot;Op&quot;, &quot;Op&quot;, &quot;Op&quot;, &quot;Op&quot;, &quot;Op&quot;, &quot;Op&quot;, &quot;Op&quot;, &quot;Op&quot;, &quot;Op&quot;, ...
+## $ qnumber &lt;chr&gt; &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;,...
+## $ score   &lt;int&gt; 3, 6, 6, 6, 6, 3, 3, 6, 6, 3, 4, 5, 5, 5, 6, 4, 1, 2, ...</code></pre>
+</div>
+<div id="unite-1" class="section level3">
+<h3>unite()</h3>
+<p>Put the domain and qnumber columns back together into a new column named <code>domain_n</code>. Make it in a format like “Op_Q1”.</p>
+<pre><code>## Observations: 615,000
+## Variables: 4
+## $ user_id  &lt;int&gt; 0, 1, 2, 5, 8, 108, 233, 298, 426, 436, 685, 807, 871...
+## $ date     &lt;date&gt; 2006-03-23, 2006-02-08, 2005-10-24, 2005-12-07, 2006...
+## $ domain_n &lt;chr&gt; &quot;Op_Q1&quot;, &quot;Op_Q1&quot;, &quot;Op_Q1&quot;, &quot;Op_Q1&quot;, &quot;Op_Q1&quot;, &quot;Op_Q1&quot;,...
+## $ score    &lt;int&gt; 3, 6, 6, 6, 6, 3, 3, 6, 6, 3, 4, 5, 5, 5, 6, 4, 1, 2,...</code></pre>
+</div>
+<div id="spread-1" class="section level3">
+<h3>spread()</h3>
+<p>Convert back to wide format.</p>
+<pre><code>## Observations: 15,000
+## Variables: 43
+## $ user_id &lt;int&gt; 0, 1, 2, 5, 8, 108, 233, 298, 426, 436, 685, 807, 871,...
+## $ date    &lt;date&gt; 2006-03-23, 2006-02-08, 2005-10-24, 2005-12-07, 2006-...
+## $ Ag_Q1   &lt;int&gt; 2, 0, 0, 4, 6, 5, 5, 4, 2, 5, 4, 3, 2, 4, 5, 3, 5, 5, ...
+## $ Ag_Q2   &lt;int&gt; 1, 6, 6, 0, 5, 4, 5, 3, 4, 3, 5, 1, 5, 4, 2, 6, 5, 5, ...
+## $ Ag_Q3   &lt;int&gt; 1, 0, 1, 1, 0, 4, 4, 4, 3, 3, 4, 4, 3, 4, 4, 5, 5, 4, ...
+## $ Ag_Q4   &lt;int&gt; 1, 0, 1, 4, 6, 5, 5, 6, 6, 6, 4, 2, 4, 5, 4, 5, 6, 4, ...
+## $ Ag_Q5   &lt;int&gt; 3, 6, 5, 0, 2, 5, 6, 2, 2, 3, 4, 1, 3, 5, 2, 6, 5, 6, ...
+## $ Ag_Q6   &lt;int&gt; NA, 6, 5, 2, 3, 4, 5, 6, 1, 3, 4, 2, 3, 5, 1, 6, 2, 6,...
+## $ Ag_Q7   &lt;int&gt; 3, 0, 1, 1, 1, 3, 3, 5, 0, 3, 2, 1, 2, 3, 5, 6, 4, 4, ...
+## $ Co_Q1   &lt;int&gt; 3, 0, 0, 3, 5, 4, 3, 4, 5, 3, 3, 3, 1, 5, 5, 4, 4, 5, ...
+## $ Co_Q10  &lt;int&gt; 1, 6, 5, 5, 3, 5, 1, 2, 5, 2, 4, 3, 4, 4, 3, 2, 5, 5, ...
+## $ Co_Q2   &lt;int&gt; 3, 0, 0, 3, 4, 3, 3, 4, 5, 3, 5, 3, 3, 4, 5, 1, 5, 4, ...
+## $ Co_Q3   &lt;int&gt; 2, 0, 1, 3, 4, 4, 5, 4, 5, 3, 4, 3, 4, 4, 5, 4, 2, 4, ...
+## $ Co_Q4   &lt;int&gt; 3, 6, 5, 5, 5, 3, 2, 4, 3, 1, 4, 3, 1, 2, 4, 2, NA, 5,...
+## $ Co_Q5   &lt;int&gt; 0, 6, 5, 5, 5, 3, 3, 1, 5, 1, 2, 4, 4, 4, 2, 1, 6, 4, ...
+## $ Co_Q6   &lt;int&gt; 6, 0, 1, 4, 6, 5, 6, 5, 4, 3, 5, 5, 4, 6, 6, 1, 3, 4, ...
+## $ Co_Q7   &lt;int&gt; 3, 6, 5, 1, 3, 4, NA, 2, 3, 3, 2, 2, 4, 2, 5, 2, 5, 5,...
+## $ Co_Q8   &lt;int&gt; 3, 0, 1, 1, 3, 4, 3, 0, 1, 3, 2, 2, 1, 2, 4, 3, 2, 4, ...
+## $ Co_Q9   &lt;int&gt; 3, 6, 5, 4, 3, 4, 5, 3, 5, 3, 4, 3, 4, 4, 2, 4, 6, 5, ...
+## $ Ex_Q1   &lt;int&gt; 3, 0, 0, 2, 2, 4, 4, 3, 5, 4, 1, 1, 3, 3, 1, 3, 5, 1, ...
+## $ Ex_Q2   &lt;int&gt; 3, 0, 0, 3, 3, 4, 5, 2, 5, 3, 4, 1, 3, 2, 1, 6, 5, 3, ...
+## $ Ex_Q3   &lt;int&gt; 3, 6, 5, 5, 3, 3, 3, 0, 6, 1, 4, 2, 3, 2, 1, 2, 5, 1, ...
+## $ Ex_Q4   &lt;int&gt; 1, 0, 1, 3, 3, 3, 4, 3, 5, 3, 2, 0, 3, 3, 1, 2, NA, 4,...
+## $ Ex_Q5   &lt;int&gt; 3, 0, 1, 6, 3, 3, 4, 2, 5, 2, 2, 4, 2, 3, 0, 4, 5, 2, ...
+## $ Ex_Q6   &lt;int&gt; 3, 6, 5, 3, 0, 4, 3, 1, 6, 3, 2, 1, 4, 2, 1, 5, 6, 2, ...
+## $ Ex_Q7   &lt;int&gt; 3, 6, 5, 4, 1, 2, 5, 3, 6, 3, 4, 3, 5, 1, 1, 6, 6, 3, ...
+## $ Ex_Q8   &lt;int&gt; 2, 0, 1, 4, 3, 4, 2, 4, 6, 2, 4, 0, 4, 4, 1, 3, 5, 4, ...
+## $ Ex_Q9   &lt;int&gt; 4, 6, 5, 5, 5, 2, 3, 3, 6, 3, 3, 4, 4, 3, 2, 5, 5, 4, ...
+## $ Ne_Q1   &lt;int&gt; 4, 0, 0, 4, 1, 2, 3, 4, 0, 3, 3, 3, 2, 1, 1, 3, 4, 5, ...
+## $ Ne_Q2   &lt;int&gt; 0, 6, 6, 4, 2, 1, 2, 3, 1, 2, 5, 5, 3, 1, 1, 1, 1, 6, ...
+## $ Ne_Q3   &lt;int&gt; 0, 0, 0, 1, 0, 1, 4, 4, 0, 4, 2, 5, 1, 2, 5, 5, 2, 2, ...
+## $ Ne_Q4   &lt;int&gt; 3, 6, 6, 2, 3, 2, 3, 3, 0, 4, 4, 5, 5, 4, 5, 3, 2, 5, ...
+## $ Ne_Q5   &lt;int&gt; 3, 0, 1, 4, 1, 1, 4, 5, 0, 3, 4, 6, 2, 0, 1, 1, 0, 4, ...
+## $ Ne_Q6   &lt;int&gt; 1, 6, 5, 1, 0, 1, 3, 4, 0, 4, 4, 5, 2, 1, 5, 6, 1, 2, ...
+## $ Ne_Q7   &lt;int&gt; NA, 0, 1, 2, 0, 2, 4, 4, 0, 3, 2, 5, 1, 2, 5, 2, 2, 4,...
+## $ Ne_Q8   &lt;int&gt; 2, 0, 1, 1, 1, 1, 5, 4, 0, 4, 4, 5, 1, 2, 5, 2, 1, 5, ...
+## $ Op_Q1   &lt;int&gt; 3, 6, 6, 6, 6, 3, 3, 6, 6, 3, 4, 5, 5, 5, 6, 4, 1, 2, ...
+## $ Op_Q2   &lt;int&gt; 6, 0, 0, 4, 6, 4, 4, 0, 0, 3, 4, 3, 3, 4, 5, 3, 3, 4, ...
+## $ Op_Q3   &lt;int&gt; 2, 6, 5, 5, 5, 4, 3, 2, 4, 3, 3, 6, 5, 5, 6, 5, 4, 4, ...
+## $ Op_Q4   &lt;int&gt; 3, 0, 1, 6, 6, 3, 3, 0, 6, 3, 4, 5, 4, 5, 6, 6, 2, 2, ...
+## $ Op_Q5   &lt;int&gt; 6, 6, 5, 2, 5, 4, 3, 2, 6, 6, 2, 4, 3, 4, 6, 6, 6, 5, ...
+## $ Op_Q6   &lt;int&gt; 0, 6, 5, 1, 6, 4, 6, 0, 0, 3, 5, 3, 5, 5, 5, 2, 5, 1, ...
+## $ Op_Q7   &lt;int&gt; 0, 6, 5, 5, 5, 4, 6, 2, 1, 3, 2, 4, 5, 5, 6, 3, 6, 5, ...</code></pre>
 </div>
 </div>
 

@@ -6,7 +6,7 @@ tidyr
 readr
 purrr
 dplyr
+readxl
+bindrcpp
 viridisLite
 viridis
-bindrcpp
-readxl
