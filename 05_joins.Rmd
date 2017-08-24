@@ -183,7 +183,7 @@ So let's make a graph that we couldn't have easily made with 3 separate data tab
 
 ```{r}
 inf.mat.mort.region %>%
-  group_by(Country, region) %>%
+  group_by(name, region) %>%
   summarise(
     matmort = mean(matmort_rate),
     infmort = mean(infmort_rate)

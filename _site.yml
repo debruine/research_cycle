@@ -6,6 +6,7 @@ output:
   html_document:
     toc: yes
     toc_float: yes
+    toc_depth: 4
     theme: flatly
     highlight: tango
     css: style.css

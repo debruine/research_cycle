@@ -16,3 +16,10 @@ a {
   right: 0;
   padding: 1em;
 }
+
+.fyi {
+  background-color: #fffbb8;
+  border: 1px solid #aaaaaa;
+  border-radius: 10px;
+  padding: 1em;
+}

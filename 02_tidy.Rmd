@@ -60,18 +60,21 @@ Get data on infant mortality rates from the CSV file "infmort.csv" in the direct
 
 ```{r}
 infmort <- read_csv("data/infmort.csv")
+glimpse(infmort)
 ```
 
 Get data on maternal mortality from from the excel file "matmort.xls" in the directory "data"
 
 ```{r}
 matmort <- read_xls("data/matmort.xls")
+glimpse(matmort)
 ```
 
 Get data on country codes from https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv
 
 ```{r}
 ccodes <- read_csv("https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv")
+glimpse(ccodes)
 ```
 
 
@@ -84,14 +87,16 @@ change it to long format, with a row for each County/Year observation.
 
 * `key` is what you want to call the row headers; it's "year" in this example. 
 * `value` is what you want to call the values in the gathered columns; they're "stats" in this example.
-* You can refer to the start.column and end.column by their numbers of their names. This example is complicated because the names _are_ numbers. If the column names are weird (e.g., have spaces, start with numbers, or have special characters), you can enclose them in backticks "`"
+* You can refer to the `start.column` and `end.column` by their numbers of their names. 
+  
+This example is complicated because the column names _are_ numbers. If the column names are weird (e.g., have spaces, start with numbers, or have special characters), you can enclose them in backticks (\`)
 
 ```{r}
 
 matmort.long <- matmort %>%
   gather("Year", "stats", `1990`:`2015`)
 
-matmort.long[1:5, ]
+glimpse(matmort.long)
 
 ```
 
@@ -101,10 +106,11 @@ matmort.long[1:5, ]
 
 The data in the `stats` column is in a crazy format with some sort of 
 confidence interval in brackets and lots of extra spaces. We don't need 
-any of the spaces, so first we'll remove them with `mutate`. The `separate` 
-function will usually separate your data on sensible charatcers like 
+any of the spaces, so first we'll remove them with `mutate`. 
+
+The `separate` function will usually separate your data on sensible charatcers like 
 spaces, underscores, dashes, and brackets, so try it first without specifying 
-the `sep` argument. The `into` argument is a list of new column names.
+the `sep` argument. The `into` argument is a list of the new column names.
 
 ```{r}
 
@@ -112,89 +118,171 @@ matmort.split <- matmort.long %>%
   mutate(stats = gsub(" ", "", stats)) %>%
   separate(stats, c("rate", "ci_low", "ci_hi"))
 
-matmort.split[1:5, ]
+glimpse(matmort.split)
 
 ```
 
-Now do the same with `infmort`. It's already in long format, so you don't need to use `gather`, but the third column has a crazy long name. 
+#### Handle spare columns with `extra`
+
+<p class="fyi">The previous example should have given you an error warning about "Too many values at 543 locations". This is because `separate` split the column at the brackets and dashes, so the text "100[90-110]" would split into four values c("100", "90", "110", ""), but we only specified 3 new columns. The fourth value is always empty (just the part after the last bracket), so we are happy to drop it, but `separate` generates a warning so you don't do that accidentally. You can turn off the warning by adding the `extra` argument and setting it to "drop". Look at the help for `??tidyr::separate` to see what the other options do.</p>
+
+
+```{r}
+
+matmort.split <- matmort.long %>%
+  mutate(stats = gsub(" ", "", stats)) %>%
+  separate(stats, c("rate", "ci_low", "ci_hi"), extra = "drop")
+
+glimpse(matmort.split)
+
+```
+
+#### Set delimiters with `sep`
+
+Now do the same with `infmort`. It's already in long format, so you don't need to use `gather`, but the third column has a crazy long name, so we can just refer to it by its column number (3).
 
 ```{r}
 
 infmort.split <- infmort %>%
-  separate(3, c(c("rate", "ci_low", "ci_hi")))
+  separate(3, c("rate", "ci_low", "ci_hi"), extra = "drop")
 
-infmort.split[1:5, ]
+glimpse(infmort.split)
 
 ```
 
-Wait, that didn't work at all! It split the column on spaces, brackets and full stops. We just want to split on the spaces, brackets and dashes. So we need to manually set `sep` to what the delimiters are.
+*Wait, that didn't work at all!* It split the column on spaces, brackets, _and_ full stops. We just want to split on the spaces, brackets and dashes. So we need to manually set `sep` to what the delimiters are.
+
+<p class="fyi">You can use [regular expressions](https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html) to separate complex columns. Here, we want to separate on dashes and brackets. You can separate on a list of delimiters by putting them in parentheses, separated by "|". It's a little more complicated because brackets have a special meaning in regex, so you need to "escape" the left one with two backslashes "\\\\".</p>
 
 ```{r}
 
 infmort.split <- infmort %>%
-  separate(3, c(c("rate", "ci_low", "ci_hi")), sep = "(\\[|-)|]")
+  separate(3, c("rate", "ci_low", "ci_hi"), extra = "drop", sep = "(\\[|-)|]")
 
-infmort.split[1:5, ]
+glimpse(infmort.split)
 
 ```
 
-### Data types
+#### Fix data types with `convert`
 
-That's better. Notice the _<chr>_ under `Year`, `rate`, `ci_low` and `ci_hi`. That means these columns hold characters (like words), not numbers or integers. This can cause problems when you try to do thigs like average the numbers (you can't average words), so we can fix it like this:
+That's better. Notice the _<chr>_ next to `Year`, `rate`, `ci_low` and `ci_hi`. That means these columns hold characters (like words), not numbers or integers. This can cause problems when you try to do thigs like average the numbers (you can't average words), so we can fix it by adding the argument `convert` and setting it to `TRUE`.
 
 ```{r}
 
-infmort.numeric <- infmort.split %>%
-  mutate(
-    Year = as.integer(Year),
-    rate = as.numeric(rate),
-    ci_low = as.numeric(ci_low),
-    ci_hi = as.numeric(ci_hi)
-  )
+infmort.split <- infmort %>%
+  separate(3, c("rate", "ci_low", "ci_hi"), extra = "drop", sep = "(\\[|-)|]", convert = TRUE)
 
-infmort.numeric[1:5, ]
+glimpse(infmort.split)
   
 ```
 
-Do the same for `matmort` (`year` is already an integer).
+Do the same for `matmort`.
 
 ```{r}
 
-matmort.numeric <- matmort.split %>%
-  mutate(
-    rate = as.numeric(rate),
-    ci_low = as.numeric(ci_low),
-    ci_hi = as.numeric(ci_hi)
-  )
+matmort.split <- matmort.long %>%
+  mutate(stats = gsub(" ", "", stats)) %>%
+  separate(stats, c("rate", "ci_low", "ci_hi"), extra = "drop", convert = TRUE)
 
-matmort.numeric[1:5, ]
+glimpse(matmort.split)
 
 ```
 
-### All in one step
+#### All in one step
 
 We can chain all the steps above together, since we don't need those intermediate dataframes.
 
 ```{r}
 
 infmort <- read_csv("data/infmort.csv") %>%
-  separate(3, c(c("rate", "ci_low", "ci_hi")), sep = "(\\[|-)|]") %>%
-  mutate(
-    rate = as.numeric(rate),
-    ci_low = as.numeric(ci_low),
-    ci_hi = as.numeric(ci_hi)
-  )
+  separate(3, c("rate", "ci_low", "ci_hi"), extra = "drop", sep = "(\\[|-)|]", convert = TRUE)
 
 matmort <- read_xls("data/matmort.xls") %>%
   gather("Year", "stats", `1990`:`2015`) %>%
   mutate(stats = gsub(" ", "", stats)) %>%
-  separate(stats, c("rate", "ci_low", "ci_hi")) %>%
-  mutate(
-    Year = as.integer(Year),
-    rate = as.numeric(rate),
-    ci_low = as.numeric(ci_low),
-    ci_hi = as.numeric(ci_hi)
-  )
+  separate(stats, c("rate", "ci_low", "ci_hi"), extra = "drop", convert = TRUE)
+
+glimpse(matmort)
+View(infmort)
 
 ```
+
+
+### spread()
+
+`spread(data, key, value)`
+
+You can reverse the processes above, as well. For example, you can convert data from long format into wide format.
+
+* `key` is the column that contains your new column headers
+* `value` is the column that contains the values in the new spread columns
+
+Let's spread out the infant mortality rate by year.
+
+```{r}
+
+infmort_wide <- infmort %>%
+  spread(Year, rate)
+
+glimpse(infmort_wide)
+
+```
+
+Nope, that didn't work at all, but it's a really common mistake when spreading data. This is because `spread` matches on all the remaining columns, so Afghanistan with `ci_low` of 52.7 is treated as a different observation than Afghanistan with `ci_low` of 55.7. We can fix this by merging the `rate`, `ci_low` and `ci_hi` columns back together.
+
+### unite()
+
+`unite(data, new.col, old.cols...)`
+
+```{r}
+
+infmort_united <- infmort %>%
+  unite(rate_ci, rate, ci_low, ci_hi)
+
+glimpse(infmort_united)
+
+```
+
+
+#### Control separation with `sep`
+`unite()` separates merged names with an underscore by default. Set the `sep` argument if you want to change that.
+
+```{r}
+
+infmort_united <- infmort %>%
+  unite(rate_ci, rate, ci_low, ci_hi, sep = ", ")
+
+glimpse(infmort_united)
+
+```
+
+<p class="fyi">What if you want to put it back into the format "rate [ci_low - ci_hi]"? Then, `mutate` and `paste` are a better choice than `unite`, but you have to get rid of the `rate`, `ci_low` and `ci_hi` columns with `select`. You'll learn more about these function in the [Data Manipulation](04_dplyr.html) lesson.</p>
+
+```{r}
+
+infmort_united <- infmort %>%
+  mutate(rate_ci = paste0(rate, " [", ci_low, " - ", ci_hi, "]")) %>%
+  select(-rate, -ci_low, -ci_hi)
+
+glimpse(infmort_united)
+
+```
+
+
+Now let's try spreading on year again.
+
+```{r}
+
+infmort_wide <- infmort %>%
+  unite(rate_ci, rate, ci_low, ci_hi, sep = ", ") %>%
+  spread(Year, rate_ci)
+
+glimpse(infmort_wide)
+
+```
+
+
+
+
+
 
