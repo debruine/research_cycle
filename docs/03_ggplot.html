@@ -353,7 +353,11 @@ div.tocify {
 <div id="basic" class="section level3">
 <h3>Basic</h3>
 <ol style="list-style-type: decimal">
-<li>Understand what types of graphs are best for different types of data</li>
+<li>Understand what types of graphs are best for different types of data
+<ul>
+<li>Correlation</li>
+<li>Distribution</li>
+</ul></li>
 <li>Create common types of graphs with ggplot2
 <ul>
 <li>bar plot (<code>geom_bar()</code>)</li>
@@ -364,15 +368,17 @@ div.tocify {
 <li>scatter plot (<code>geom_point()</code>)</li>
 <li>line graph (<code>geom_smooth()</code>)</li>
 </ul></li>
+<li>Save plots as an image file</li>
 </ol>
 </div>
 <div id="intermediate" class="section level3">
 <h3>Intermediate</h3>
-<ol start="3" style="list-style-type: decimal">
+<ol start="4" style="list-style-type: decimal">
 <li>Represent factorial designs with different colours or facets</li>
-<li>Superimpose different types of graphs
+<li>Superimpose different types of graphs, e.g.:
 <ul>
 <li>boxplot on violin plot</li>
+<li>jitter plot on violin plot</li>
 <li>line graph on scatter plot</li>
 </ul></li>
 <li>Add lines to graphs</li>
@@ -383,7 +389,8 @@ div.tocify {
 </div>
 <div id="advanced" class="section level3">
 <h3>Advanced</h3>
-<ol start="9" style="list-style-type: decimal">
+<ol start="10" style="list-style-type: decimal">
+<li>Arrange plots in a grid using <code>cowplot</code></li>
 <li>Create less common types of graphs (e.g., heat map)</li>
 <li>Adjust axes (e.g., flip coordinates, set axis limits)</li>
 <li>Change the theme</li>
@@ -403,7 +410,8 @@ div.tocify {
 <li><a href="https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf">ggplot2 cheat sheet</a></li>
 <li><a href="http://ggplot2.tidyverse.org/reference/">ggplot2 documentation</a></li>
 <li><a href="http://www.r-graph-gallery.com/">The R Graph Gallery</a> (this is really useful)</li>
-<li><a href="http://amzn.com/1449316956?tag=ggplot2-20">R Graphics Cookbook</a> by Winston Chang</li>
+<li><a href="http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html">Top 50 ggplot2 Visulaizations</a></li>
+<li><a href="http://www.cookbook-r.com/Graphs/">R Graphics Cookbook</a> by Winston Chang</li>
 <li><a href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html">The viridis color palettes</a></li>
 <li><a href="https://www.ggplot2-exts.org/">ggplot extensions</a></li>
 <li><a href="https://plot.ly/ggplot2/">plotly</a> for creating interactive graphs</li>
@@ -413,7 +421,10 @@ div.tocify {
 <h2>Examples</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># libraries needed for these graphs</span>
 <span class="kw">library</span>(tidyverse)
-<span class="kw">library</span>(viridis)</code></pre></div>
+<span class="kw">library</span>(viridis)
+
+<span class="co"># cowplot will change the default theme of graphs, so we&#39;re loading it later</span>
+<span class="co"># library(cowplot) </span></code></pre></div>
 <div id="data" class="section level3">
 <h3>Data</h3>
 <p>Here we’ve created some data frames with different types of data.</p>
@@ -445,31 +456,52 @@ overlap &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 <span class="st">  </span><span class="kw">geom_violin</span>(
     <span class="dt">trim =</span> <span class="ot">FALSE</span>,
     <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>), 
-    <span class="dt">alpha=</span><span class="fl">0.5</span>
+    <span class="dt">alpha =</span> <span class="fl">0.5</span>
   )</code></pre></div>
 <p><img src="images/03/violin-1.png" width="768" /></p>
+<p class="alert alert-info">
+Try changing the numbers in the <code>draw_quantiles</code> argument.
+</p>
 </div>
 <div id="boxplot" class="section level3">
 <h3>Boxplot</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
-<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>)</code></pre></div>
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre></div>
 <p><img src="images/03/boxplot-1.png" width="768" /></p>
 </div>
 <div id="violinbox-plot" class="section level3">
 <h3>Violinbox plot</h3>
-<p>To demonstrate the use of <code>facet_grid()</code> for factorial designs, I created a new column called <code>agegroup</code> to split the data into participnats older than the meadian age or younger than the median age. I also got rid of the legend because it was redundant with the x-axis labels and changed the default colours.</p>
+<p>To demonstrate the use of <code>facet_grid()</code> for factorial designs, I created a new column called <code>agegroup</code> to split the data into participants older than the meadian age or younger than the median age. I also got rid of the legend because it was redundant with the x-axis labels and changed the default colours.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demog %&gt;%
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">agegroup =</span> <span class="kw">ifelse</span>(age&lt;<span class="kw">median</span>(age), <span class="st">&quot;Younger&quot;</span>, <span class="st">&quot;Older&quot;</span>)) %&gt;%
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
-<span class="st">    </span><span class="kw">geom_violin</span>(<span class="dt">trim =</span> <span class="ot">FALSE</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>) +
+<span class="st">    </span><span class="kw">geom_violin</span>(<span class="dt">trim =</span> <span class="ot">FALSE</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) +
 <span class="st">    </span><span class="kw">geom_boxplot</span>(<span class="dt">width =</span> <span class="fl">0.25</span>, <span class="dt">fill=</span><span class="st">&quot;white&quot;</span>) +
 <span class="st">    </span><span class="kw">facet_grid</span>(.~agegroup) +
-<span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;orange&quot;</span>, <span class="st">&quot;green&quot;</span>), <span class="dt">guide=</span><span class="ot">FALSE</span>)</code></pre></div>
+<span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;orange&quot;</span>, <span class="st">&quot;green&quot;</span>))</code></pre></div>
 <p><img src="images/03/violinbox-1.png" width="768" /></p>
+<p class="alert alert-info">
+We set the <code>show.legend</code> argument to <code>FALSE</code> because the x-axis already labels the sexes.
+</p>
+</div>
+<div id="violin-jitter-plot" class="section level3">
+<h3>Violin-jitter plot</h3>
+<p>If you don’t have a lot of data points, it’s good to represent them individually. You can use <code>geom_point</code> to do this, setting <code>position</code> to “jitter”.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demog %&gt;%
+<span class="st">  </span><span class="kw">sample_n</span>(<span class="dv">50</span>) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_violin</span>(
+    <span class="dt">trim =</span> <span class="ot">FALSE</span>,
+    <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>), 
+    <span class="dt">alpha=</span><span class="fl">0.5</span>
+  ) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>, <span class="dt">size =</span> <span class="dv">3</span>)</code></pre></div>
+<p><img src="images/03/violin-jitter-1.png" width="768" /></p>
 </div>
 <div id="bar-plot" class="section level3">
 <h3>Bar plot</h3>
-<p>I’ll show you how to make these so you can recreate others’ graphs, but we really should <a href="https://barbarplots.github.io/">#barbarplots</a>.</p>
+<p>Bar plots are useful for count data, but but we really should <a href="https://barbarplots.github.io/">#barbarplots</a> for other types of data because they hide the distribution.</p>
+<p>I’ll show you how to make these with error bars so you can recreate others’ graphs.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate mean and SD for each sex</span>
 demog %&gt;%
 <span class="st">  </span><span class="kw">group_by</span>(sex) %&gt;%
@@ -485,8 +517,11 @@ demog %&gt;%
 <div id="histogram" class="section level3">
 <h3>Histogram</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(height, <span class="dt">fill=</span>sex)) +
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)</code></pre></div>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</code></pre></div>
 <p><img src="images/03/histogram-1.png" width="768" /></p>
+<p class="alert alert-info">
+Try changing the <code>position</code> argument to “identity”, “fill”, “dodge”, and “stack”.
+</p>
 </div>
 <div id="density-plot" class="section level3">
 <h3>Density plot</h3>
@@ -496,6 +531,55 @@ demog %&gt;%
 <span class="st">  </span><span class="kw">xlim</span>(<span class="dv">45</span>, <span class="dv">90</span>) +
 <span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Height (in inches)&quot;</span>)</code></pre></div>
 <p><img src="images/03/density-1.png" width="768" /></p>
+</div>
+<div id="grid-of-plots" class="section level3">
+<h3>Grid of plots</h3>
+<p>You can use the <a href="https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html"><code>cowplot</code></a> package to easily make grids of different graphs. First, you have to assign each plot a name. Then you list all the plots as the first arguments of <code>plot_grid()</code> and provide a list of labels.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cowplot)
+
+my_hist &lt;-<span class="st"> </span><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_histogram</span>(
+    <span class="dt">binwidth =</span> <span class="dv">1</span>, 
+    <span class="dt">alpha =</span> <span class="fl">0.5</span>, 
+    <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>, 
+    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>
+  )
+
+my_violin &lt;-<span class="st"> </span><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_violin</span>(
+    <span class="dt">trim =</span> <span class="ot">FALSE</span>,
+    <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.5</span>), 
+    <span class="dt">alpha =</span> <span class="fl">0.5</span>, 
+    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>
+  )
+
+my_box &lt;-<span class="st"> </span><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)
+
+my_density &lt;-<span class="st"> </span><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)
+
+my_bar &lt;-<span class="st"> </span>demog %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(sex) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">mean =</span> <span class="kw">mean</span>(height),
+    <span class="dt">sd =</span> <span class="kw">sd</span>(height)
+  ) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(sex, mean, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) +
+<span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean -<span class="st"> </span>sd, <span class="dt">ymax =</span> mean +<span class="st"> </span>sd), <span class="dt">width =</span> <span class="fl">0.25</span>)
+
+<span class="kw">plot_grid</span>(
+  my_violin, 
+  my_box, 
+  my_density, 
+  my_bar, 
+  <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)
+)</code></pre></div>
+<p><img src="images/03/unnamed-chunk-3-1.png" width="768" /></p>
+<p class="alert alert-info">
+Once you load the cowplot package, your ggplot default theme will change.
+</p>
 </div>
 <div id="scatter-plot" class="section level3">
 <h3>Scatter plot</h3>
@@ -541,6 +625,7 @@ demog %&gt;%
 </div>
 <div id="heat-map" class="section level3">
 <h3>Heat map</h3>
+<p>I’ve included the code for creating a correlation matrix from a table of variables, but you don’t need to understand how this is done yet. We’ll cover <code>mutate</code> and <code>gather</code> functions in the <code>dplyr</code> and <code>tidyr</code> lessons.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># generate two sets of correlated variables (a and b)</span>
 heatmap &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">a1 =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>),
@@ -555,11 +640,11 @@ heatmap &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">b4 =</span> b1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>)
 ) %&gt;%
 <span class="kw">cor</span>() %&gt;%<span class="st"> </span><span class="co"># create the correlation matrix</span>
-<span class="kw">as.tibble</span>() %&gt;%<span class="st"> </span><span class="co"># make it a data frame</span>
+<span class="kw">as.data.frame</span>() %&gt;%<span class="st"> </span><span class="co"># make it a data frame</span>
 <span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;V1&quot;</span>) %&gt;%<span class="st"> </span><span class="co"># set rownames as V1</span>
-<span class="kw">gather</span>(<span class="st">&quot;V2&quot;</span>, <span class="st">&quot;r&quot;</span>, a1:b4) <span class="co"># wide to long (V2)</span>
-
-<span class="kw">ggplot</span>(heatmap, <span class="kw">aes</span>(V1, V2, <span class="dt">fill=</span>r)) +
+<span class="kw">gather</span>(<span class="st">&quot;V2&quot;</span>, <span class="st">&quot;r&quot;</span>, a1:b4) <span class="co"># wide to long (V2)</span></code></pre></div>
+<p>Once you have a correlation matrix in the correct (long) format, it’s easy to make a heatmap using <code>geom_tile()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(heatmap, <span class="kw">aes</span>(V1, V2, <span class="dt">fill=</span>r)) +
 <span class="st">  </span><span class="kw">geom_tile</span>() +
 <span class="st">  </span><span class="kw">scale_fill_viridis</span>()</code></pre></div>
 <p><img src="images/03/heatmap-1.png" width="768" /></p>
@@ -567,9 +652,9 @@ heatmap &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 </div>
 <div id="exercises" class="section level2 tabset tabset-pills">
 <h2>Exercises</h2>
-<div id="continuous-variable" class="section level3">
-<h3>1 continuous variable</h3>
-<p>Generate a vioin plot, boxplot, histogram, density plot, and bar plot for the following data.</p>
+<div id="distribution" class="section level3">
+<h3>Distribution</h3>
+<p>Generate a violin plot, boxplot, histogram, density plot, and barplot for the following data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># dog weights estimated from http://petobesityprevention.org/ideal-weight-ranges/</span>
 
 dogs &lt;-<span class="st"> </span><span class="kw">tibble</span>(
@@ -580,15 +665,96 @@ dogs &lt;-<span class="st"> </span><span class="kw">tibble</span>(
     <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">45</span>, <span class="dv">5</span>)
   )
 )</code></pre></div>
+<div class="solution">
+<button>
+Violin Plot Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dogs, <span class="kw">aes</span>(breed, weight)) +
+<span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.5</span>))</code></pre></div>
+<p><img src="images/03/exercise-violin-1.png" width="768" /></p>
 </div>
-<div id="continuous-variables" class="section level3">
-<h3>2 continuous variables</h3>
-<p>Generate a combined scatter and line graph representing the relationship between…</p>
+<div class="solution">
+<button>
+Boxplot Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dogs, <span class="kw">aes</span>(breed, weight)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
+<p><img src="images/03/exercise-boxplot-1.png" width="768" /></p>
+</div>
+<div class="solution">
+<button>
+Histogram Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dogs, <span class="kw">aes</span>(weight, <span class="dt">fill=</span>breed)) +
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">3</span>, <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</code></pre></div>
+<p><img src="images/03/exercise-histogram-1.png" width="768" /></p>
+</div>
+<div class="solution">
+<button>
+Density plot Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dogs, <span class="kw">aes</span>(weight, <span class="dt">fill=</span>breed)) +
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) +
+<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">110</span>)</code></pre></div>
+<p><img src="images/03/exercise-density-1.png" width="768" /></p>
+</div>
+<div class="solution">
+<button>
+Barplot Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dogs %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(breed) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">mean =</span> <span class="kw">mean</span>(weight),
+    <span class="dt">sd =</span> <span class="kw">sd</span>(weight)
+  ) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(breed, mean, <span class="dt">fill=</span>breed)) +
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) +
+<span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean -<span class="st"> </span>sd, <span class="dt">ymax =</span> mean +<span class="st"> </span>sd), <span class="dt">width =</span> <span class="fl">0.25</span>)</code></pre></div>
+<p><img src="images/03/exercise-barplot-1.png" width="768" /></p>
+</div>
+</div>
+<div id="correlation" class="section level3">
+<h3>Correlation</h3>
+<p>Represent the relationships among moral, sexual and pathogen disgust scores from the dataset <a href="data/disgust_scores.csv">disgust_scores.csv</a>.</p>
+<p>Make sure the graphs have appropriate titles and axis labels and that the range of the axes are the same in all graphs.</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/disgust_scores.csv&quot;</span>)
+
+<span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(moral, sexual)) +
+<span class="st">  </span><span class="kw">geom_smooth</span>() +
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Moral vs Sexual Disgust&quot;</span>) +
+<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>) +<span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</code></pre></div>
+<p><img src="images/03/exercise-cor-1.png" width="768" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(moral, pathogen)) +
+<span class="st">  </span><span class="kw">geom_smooth</span>() +
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Moral vs Pathogen Disgust&quot;</span>) +
+<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>) +<span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</code></pre></div>
+<p><img src="images/03/exercise-cor-2.png" width="768" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(pathogen, sexual)) +
+<span class="st">  </span><span class="kw">geom_smooth</span>() +
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Pathogen vs Sexual Disgust&quot;</span>) +
+<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>) +<span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</code></pre></div>
+<p><img src="images/03/exercise-cor-3.png" width="768" /></p>
+</div>
 </div>
 <div id="many-correlated-variables" class="section level3">
 <h3>Many correlated variables</h3>
-<p>Creat a heatmap of the relationships among all the questions in the <a href="data/disgust.csv">Disgust Dataset</a>.</p>
-<p><img src="images/03/unnamed-chunk-5-1.png" width="768" /></p>
+<p>Create a heatmap of the relationships among all the questions in <a href="data/disgust_cors.csv">disgust_cors.csv</a> (the correlations have already been calculated for you).</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;data/disgust_cors.csv&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(V1, V2, <span class="dt">fill=</span>r)) +
+<span class="st">  </span><span class="kw">geom_tile</span>() +
+<span class="st">  </span><span class="kw">scale_fill_viridis</span>() +
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">1</span>))</code></pre></div>
+<p><img src="images/03/exercise-heatmap-1.png" width="768" /></p>
+</div>
 </div>
 </div>
 

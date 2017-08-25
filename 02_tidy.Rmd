@@ -129,7 +129,7 @@ glimpse(matmort_split)
 
 #### Handle spare columns with `extra`
 
-<p class="fyi">The previous example should have given you an error warning about 
+<p class="alert alert-warning">The previous example should have given you an error warning about 
 "Too many values at 543 locations". This is because `separate` splits the column 
 at the brackets and dashes, so the text "100[90-110]" would split into four values 
 c("100", "90", "110", ""), but we only specified 3 new columns. The fourth value 
@@ -170,7 +170,7 @@ to manually set `sep` to what the delimiters are. Also, once there are more than
 a few arguments specified for a function, it's easier to read them if you put 
 one argument on each line.
 
-<p class="fyi">You can use [regular expressions](https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html) 
+<p class="alert alert-warning">You can use [regular expressions](https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html) 
 to separate complex columns. Here, we want to separate on dashes and brackets. 
 You can separate on a list of delimiters by putting them in parentheses, separated 
 by "|". It's a little more complicated because brackets have a special meaning 
@@ -271,11 +271,11 @@ glimpse(infmort_wide)
 
 ```
 
-Nope, that didn't work at all, but it's a really common mistake when spreading 
+<p class="alert alert-warning">Nope, that didn't work at all, but it's a really common mistake when spreading 
 data. This is because `spread` matches on all the remaining columns, so 
 Afghanistan with `ci_low` of 52.7 is treated as a different observation than 
 Afghanistan with `ci_low` of 55.7. We can fix this by merging the 
-`rate`, `ci_low` and `ci_hi` columns back together.
+`rate`, `ci_low` and `ci_hi` columns back together.</p>
 
 ### unite()
 
@@ -305,7 +305,7 @@ glimpse(infmort_united)
 
 ```
 
-<p class="fyi">What if you want to put it back into the format "rate [ci_low - ci_hi]"? 
+<p class="alert alert-info">What if you want to put it back into the format "rate [ci_low - ci_hi]"? 
 Then, `mutate` and `paste` are a better choice than `unite`, but you have to get 
 rid of the `rate`, `ci_low` and `ci_hi` columns with `select`. You'll learn more 
 about these function in the [Data Manipulation](04_dplyr.html) lesson.</p>

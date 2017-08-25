@@ -387,7 +387,7 @@ infmatmort %>% filter(Country == "Djibouti", Year < 1993)
 Use a `left_join()` if you want to keep all the data in the main (x, left) table 
 and join data from another (y, right) table if it exists.
 
-<p class="fyi">Notice that the `by` argument now needs to specify both the left 
+<p class="alert alert-warning">Notice that the `by` argument now needs to specify both the left 
 and right tables' columns (`by = c("Country" = "name")`) because we're joining 
 on columns that have different names.</p>
 
@@ -408,9 +408,11 @@ We can just select the columns we want when we load the country codes data.
 
 If we start with the `ccodes` table, we can `right_join()` the `infmatmort` table, 
 which is just the opposite of a left join (keeps all the data from the "right" 
-joined table and any data from the "left" table that matches). Remember to switch 
+joined table and any data from the "left" table that matches). 
+
+<p class="alert alert-warning">Remember to switch 
 the order of the `by` columns if they have different names in the main and 
-optional data tables.
+optional data tables.</p>
 
 ```{r}
 

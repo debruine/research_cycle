@@ -18,6 +18,10 @@ knitr::opts_chunk$set(
 
 ### Basic
 
+1. Access [Glasgow Psychology RStudio](http://rstudio1.psy.gla.ac.uk) online
+2. Create a simple data table
+3. Load data from a CSV and Excel files
+
 ### Intermediate
 
 ### Advanced
@@ -25,12 +29,12 @@ knitr::opts_chunk$set(
 
 ## Prep
 
-* Read [Chapter 11: Data Import](http://r4ds.had.co.nz/data-import.html) in *R for Data Science*
+* Read [Chapter 1: Introduction](http://r4ds.had.co.nz/introduction.html) in *R for Data Science*
 
 
 ## Resources
 
-* [Text](url)
+* [Chapter 11: Data Import](http://r4ds.had.co.nz/data-import.html) in *R for Data Science*
 
 
 ## Examples {.tabset .tabset-pills}

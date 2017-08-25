@@ -465,7 +465,7 @@ div.tocify {
 ## $ ci_hi   &lt;chr&gt; &quot;1950&quot;, &quot;88&quot;, &quot;327&quot;, &quot;2020&quot;, &quot;80&quot;, &quot;65&quot;, &quot;9&quot;, &quot;10&quot;, &quot;7...</code></pre>
 <div id="handle-spare-columns-with-extra" class="section level4">
 <h4>Handle spare columns with <code>extra</code></h4>
-<p class="fyi">
+<p class="alert alert-warning">
 The previous example should have given you an error warning about “Too many values at 543 locations”. This is because <code>separate</code> splits the column at the brackets and dashes, so the text “100[90-110]” would split into four values c(“100”, “90”, “110”, “”), but we only specified 3 new columns. The fourth value is always empty (just the part after the last bracket), so we are happy to drop it, but <code>separate</code> generates a warning so you don’t do that accidentally. You can turn off the warning by adding the <code>extra</code> argument and setting it to “drop”. Look at the help for <code>??tidyr::separate</code> to see what the other options do.
 </p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort_split &lt;-<span class="st"> </span>matmort_long %&gt;%
@@ -496,7 +496,7 @@ The previous example should have given you an error warning about “Too many va
 ## $ ci_low  &lt;chr&gt; &quot;3&quot;, &quot;1&quot;, &quot;9&quot;, &quot;7&quot;, &quot;4&quot;, &quot;1&quot;, &quot;8&quot;, &quot;6&quot;, &quot;4&quot;, &quot;3&quot;, &quot;4&quot;,...
 ## $ ci_hi   &lt;chr&gt; &quot;52&quot;, &quot;55&quot;, &quot;58&quot;, &quot;61&quot;, &quot;64&quot;, &quot;66&quot;, &quot;69&quot;, &quot;71&quot;, &quot;73&quot;, ...</code></pre>
 <p><em>Wait, that didn’t work at all!</em> It split the column on spaces, brackets, <em>and</em> full stops. We just want to split on the spaces, brackets and dashes. So we need to manually set <code>sep</code> to what the delimiters are. Also, once there are more than a few arguments specified for a function, it’s easier to read them if you put one argument on each line.</p>
-<p class="fyi">
+<p class="alert alert-warning">
 You can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html">regular expressions</a> to separate complex columns. Here, we want to separate on dashes and brackets. You can separate on a list of delimiters by putting them in parentheses, separated by “|”. It’s a little more complicated because brackets have a special meaning in regex, so you need to “escape” the left one with two backslashes “\\”.
 </p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort_split &lt;-<span class="st"> </span>infmort %&gt;%
@@ -628,7 +628,9 @@ matmort &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span cla
 ## $ `2013`  &lt;dbl&gt; NA, NA, 69.9, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, ...
 ## $ `2014`  &lt;dbl&gt; NA, 68.1, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, ...
 ## $ `2015`  &lt;dbl&gt; 66.3, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, ...</code></pre>
-<p>Nope, that didn’t work at all, but it’s a really common mistake when spreading data. This is because <code>spread</code> matches on all the remaining columns, so Afghanistan with <code>ci_low</code> of 52.7 is treated as a different observation than Afghanistan with <code>ci_low</code> of 55.7. We can fix this by merging the <code>rate</code>, <code>ci_low</code> and <code>ci_hi</code> columns back together.</p>
+<p class="alert alert-warning">
+Nope, that didn’t work at all, but it’s a really common mistake when spreading data. This is because <code>spread</code> matches on all the remaining columns, so Afghanistan with <code>ci_low</code> of 52.7 is treated as a different observation than Afghanistan with <code>ci_low</code> of 55.7. We can fix this by merging the <code>rate</code>, <code>ci_low</code> and <code>ci_hi</code> columns back together.
+</p>
 </div>
 <div id="unite" class="section level3">
 <h3>unite()</h3>
@@ -654,7 +656,7 @@ matmort &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span cla
 ## $ Country &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanis...
 ## $ Year    &lt;int&gt; 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, ...
 ## $ rate_ci &lt;chr&gt; &quot;66.3, 52.7, 83.9&quot;, &quot;68.1, 55.7, 83.6&quot;, &quot;69.9, 58.7, 8...</code></pre>
-<p class="fyi">
+<p class="alert alert-info">
 What if you want to put it back into the format “rate [ci_low - ci_hi]”? Then, <code>mutate</code> and <code>paste</code> are a better choice than <code>unite</code>, but you have to get rid of the <code>rate</code>, <code>ci_low</code> and <code>ci_hi</code> columns with <code>select</code>. You’ll learn more about these function in the <a href="04_dplyr.html">Data Manipulation</a> lesson.
 </p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort_united &lt;-<span class="st"> </span>infmort %&gt;%

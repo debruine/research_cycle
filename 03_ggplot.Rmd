@@ -15,8 +15,7 @@ knitr::opts_chunk$set(
   fig.path   = 'images/03/',
   echo       = TRUE, 
   warning    = FALSE, 
-  message    = FALSE,
-  cache      = TRUE
+  message    = FALSE
 )
 ```
 
@@ -25,6 +24,8 @@ knitr::opts_chunk$set(
 ### Basic
 
 1. Understand what types of graphs are best for different types of data
+    + Correlation
+    + Distribution
 2. Create common types of graphs with ggplot2
     + bar plot (`geom_bar()`)
     + violin plot (`geom_violin()`)
@@ -33,24 +34,27 @@ knitr::opts_chunk$set(
     + density plot (`geom_density()`)
     + scatter plot (`geom_point()`)
     + line graph (`geom_smooth()`)
+3. Save plots as an image file
     
 ### Intermediate
 
-3. Represent factorial designs with different colours or facets
-4. Superimpose different types of graphs
+4. Represent factorial designs with different colours or facets
+5. Superimpose different types of graphs, e.g.:
     + boxplot on violin plot
+    + jitter plot on violin plot
     + line graph on scatter plot
-5. Add lines to graphs
-6. Deal with overlapping data
-7. Use the `viridis` package to set colours
-8. Set custom labels
+6. Add lines to graphs
+7. Deal with overlapping data
+8. Use the `viridis` package to set colours
+9. Set custom labels
 
 ### Advanced
 
-9. Create less common types of graphs (e.g., heat map)
-10. Adjust axes (e.g., flip coordinates, set axis limits)
-11. Change the theme
-12. Create animated plots with [`gganimate`](https://github.com/dgrtwo/gganimate)
+10. Arrange plots in a grid using `cowplot`
+11. Create less common types of graphs (e.g., heat map)
+12. Adjust axes (e.g., flip coordinates, set axis limits)
+13. Change the theme
+14. Create animated plots with [`gganimate`](https://github.com/dgrtwo/gganimate)
 
 
 ## Prep
@@ -62,7 +66,8 @@ knitr::opts_chunk$set(
 * [ggplot2 cheat sheet](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf)
 * [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/)
 * [The R Graph Gallery](http://www.r-graph-gallery.com/) (this is really useful)
-* [R Graphics Cookbook](http://amzn.com/1449316956?tag=ggplot2-20) by Winston Chang
+* [Top 50 ggplot2 Visulaizations](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
+* [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/) by Winston Chang
 * [The viridis color palettes](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
 * [ggplot extensions](https://www.ggplot2-exts.org/)
 * [plotly](https://plot.ly/ggplot2/) for creating interactive graphs
@@ -74,6 +79,9 @@ knitr::opts_chunk$set(
 # libraries needed for these graphs
 library(tidyverse)
 library(viridis)
+
+# cowplot will change the default theme of graphs, so we're loading it later
+# library(cowplot) 
 
 ```
 
@@ -115,39 +123,69 @@ ggplot(demog, aes(sex, height, fill=sex)) +
   geom_violin(
     trim = FALSE,
     draw_quantiles = c(0.25, 0.5, 0.75), 
-    alpha=0.5
+    alpha = 0.5
   )
 
 ```
+
+<p class="alert alert-info">Try changing the numbers in the `draw_quantiles` 
+argument.</p>
 
 ### Boxplot
 
 ```{r boxplot}
 
 ggplot(demog, aes(sex, height, fill=sex)) +
-  geom_boxplot(alpha=0.5)
+  geom_boxplot(alpha = 0.5)
 
 ```
 
+
 ### Violinbox plot
 
-To demonstrate the use of `facet_grid()` for factorial designs, I created a new column called `agegroup` to split the data into participnats older than the meadian age or younger than the median age. I also got rid of the legend because it was redundant with the x-axis labels and changed the default colours.
+To demonstrate the use of `facet_grid()` for factorial designs, I created a new column called `agegroup` to split the data into participants older than the meadian age or younger than the median age. I also got rid of the legend because it was redundant with the x-axis labels and changed the default colours.
 
 ```{r violinbox}
 
 demog %>%
   mutate(agegroup = ifelse(age<median(age), "Younger", "Older")) %>%
   ggplot(aes(sex, height, fill=sex)) +
-    geom_violin(trim = FALSE, alpha=0.5) +
+    geom_violin(trim = FALSE, alpha=0.5, show.legend = FALSE) +
     geom_boxplot(width = 0.25, fill="white") +
     facet_grid(.~agegroup) +
-    scale_fill_manual(values = c("orange", "green"), guide=FALSE)
+    scale_fill_manual(values = c("orange", "green"))
+
+```
+
+<p class="alert alert-info">We set the `show.legend` argument to `FALSE` because 
+the x-axis already labels the sexes.</p>
+
+### Violin-jitter plot
+
+If you don't have a lot of data points, it's good to represent them individually. 
+You can use `geom_point` to do this, setting `position` to "jitter".
+
+```{r violin-jitter}
+
+demog %>%
+  sample_n(50) %>%
+  ggplot(aes(sex, height, fill=sex)) +
+  geom_violin(
+    trim = FALSE,
+    draw_quantiles = c(0.25, 0.5, 0.75), 
+    alpha=0.5
+  ) + 
+  geom_point(position = "jitter", alpha = 0.7, size = 3)
 
 ```
 
 ### Bar plot
 
-I'll show you how to make these so you can recreate others' graphs, but we really should [#barbarplots](https://barbarplots.github.io/).
+Bar plots are useful for count data, but but we really should 
+[#barbarplots](https://barbarplots.github.io/) for other types of data because 
+they hide the distribution.
+
+I'll show you how to make these with error bars so you can recreate others' graphs. 
 
 ```{r barplot}
 
@@ -169,9 +207,12 @@ ggplot(aes(sex, mean, fill=sex)) +
 ```{r histogram}
 
 ggplot(demog, aes(height, fill=sex)) +
-  geom_histogram(binwidth = 1, alpha=0.5)
+  geom_histogram(binwidth = 1, alpha = 0.5, position = "dodge")
   
 ```
+
+<p class="alert alert-info">Try changing the `position` argument to "identity", 
+"fill", "dodge", and "stack".</p>
 
 ### Density plot
 
@@ -184,6 +225,62 @@ ggplot(demog, aes(height, fill=sex)) +
   xlab("Height (in inches)")
 
 ```
+
+### Grid of plots
+
+You can use the [ `cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) 
+package to easily make grids of different graphs. First, you have to assign each 
+plot a name. Then you list all the plots as the first arguments of `plot_grid()` 
+and provide a list of labels.
+
+```{r}
+
+library(cowplot)
+
+my_hist <- ggplot(demog, aes(height, fill=sex)) +
+  geom_histogram(
+    binwidth = 1, 
+    alpha = 0.5, 
+    position = "dodge", 
+    show.legend = FALSE
+  )
+
+my_violin <- ggplot(demog, aes(sex, height, fill=sex)) +
+  geom_violin(
+    trim = FALSE,
+    draw_quantiles = c(0.5), 
+    alpha = 0.5, 
+    show.legend = FALSE
+  )
+
+my_box <- ggplot(demog, aes(sex, height, fill=sex)) +
+  geom_boxplot(alpha=0.5, show.legend = FALSE)
+
+my_density <- ggplot(demog, aes(height, fill=sex)) +
+  geom_density(alpha=0.5, show.legend = FALSE)
+
+my_bar <- demog %>%
+  group_by(sex) %>%
+  summarise(
+    mean = mean(height),
+    sd = sd(height)
+  ) %>%
+ggplot(aes(sex, mean, fill=sex)) +
+  geom_bar(stat="identity", alpha = 0.5, show.legend = FALSE) +
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25)
+
+plot_grid(
+  my_violin, 
+  my_box, 
+  my_density, 
+  my_bar, 
+  labels = c("A", "B", "C", "D")
+)
+
+```
+
+<p class="alert alert-info">Once you load the cowplot package, your ggplot 
+default theme will change.</p>
 
 ### Scatter plot
 
@@ -250,8 +347,11 @@ overlap %>%
 
 ### Heat map
 
-```{r heatmap}
+I've included the code for creating a correlation matrix from a table of variables, 
+but you don't need to understand how this is done yet. We'll cover `mutate` and 
+`gather` functions in the `dplyr` and `tidyr` lessons.
 
+```{r}
 # generate two sets of correlated variables (a and b)
 heatmap <- tibble(
   a1 = rnorm(100),
@@ -266,21 +366,25 @@ mutate(
   b4 = b1 + rnorm(100)
 ) %>%
 cor() %>% # create the correlation matrix
-as.tibble() %>% # make it a data frame
+as.data.frame() %>% # make it a data frame
 rownames_to_column(var = "V1") %>% # set rownames as V1
 gather("V2", "r", a1:b4) # wide to long (V2)
+```
 
+Once you have a correlation matrix in the correct (long) format, it's easy to 
+make a heatmap using `geom_tile()`.
+
+```{r heatmap}
 ggplot(heatmap, aes(V1, V2, fill=r)) +
   geom_tile() +
   scale_fill_viridis()
-  
 ```
 
 ## Exercises{.tabset .tabset-pills}
 
-### 1 continuous variable
+### Distribution
 
-Generate a vioin plot, boxplot, histogram, density plot, and bar plot for the following data.
+Generate a violin plot, boxplot, histogram, density plot, and barplot for the following data.
 
 ```{r}
 
@@ -297,41 +401,92 @@ dogs <- tibble(
 
 ```
 
-### 2 continuous variables
+<div class="solution"><button>Violin Plot Solution</button>
+```{r exercise-violin}
+ggplot(dogs, aes(breed, weight)) +
+  geom_violin(draw_quantiles = c(0.5))
+```
+</div>
 
-Generate a combined scatter and line graph representing the relationship between...
+<div class="solution"><button>Boxplot Solution</button>
+```{r exercise-boxplot}
+ggplot(dogs, aes(breed, weight)) +
+  geom_boxplot()
+```
+</div>
 
-```{r, echo = FALSE}
+<div class="solution"><button>Histogram Solution</button>
+```{r exercise-histogram}
+ggplot(dogs, aes(weight, fill=breed)) +
+  geom_histogram(binwidth = 3, position = "dodge")
+```
+</div>
 
-disgust <- read_csv("data/disgust.csv") %>%
-  gather("question", "rating", moral1:pathogen7) %>%
-  mutate(domain = substr(question, 1, nchar(question) - 1)) %>%
-  group_by(id, date, user_id, domain) %>%
-  summarise(score = mean(rating)) %>%
-  spread(domain, score) %>%
-  ggplot(aes(moral, sexual)) +
-  geom_point()
+<div class="solution"><button>Density plot Solution</button>
+```{r exercise-density}
+ggplot(dogs, aes(weight, fill=breed)) +
+  geom_density(alpha = 0.5) +
+  xlim(0, 110)
+```
+</div>
+
+<div class="solution"><button>Barplot Solution</button>
+```{r exercise-barplot}
+dogs %>%
+  group_by(breed) %>%
+  summarise(
+    mean = mean(weight),
+    sd = sd(weight)
+  ) %>%
+ggplot(aes(breed, mean, fill=breed)) +
+  geom_bar(stat="identity", alpha = 0.5) +
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25)
+```
+</div>
+
+### Correlation
+
+Represent the relationships among moral, sexual and pathogen disgust scores from 
+the dataset [disgust_scores.csv](data/disgust_scores.csv). 
+
+Make sure the graphs have appropriate titles and axis labels and that the range 
+of the axes are the same in all graphs.
+
+<div class="solution"><button>Solution</button>
+```{r exercise-cor}
+
+disgust <- read_csv("data/disgust_scores.csv")
+
+ggplot(disgust, aes(moral, sexual)) +
+  geom_smooth() +
+  labs(title = "Moral vs Sexual Disgust") +
+  xlim(0, 6) + ylim(0, 6)
+
+ggplot(disgust, aes(moral, pathogen)) +
+  geom_smooth() +
+  labs(title = "Moral vs Pathogen Disgust") +
+  xlim(0, 6) + ylim(0, 6)
+
+ggplot(disgust, aes(pathogen, sexual)) +
+  geom_smooth() +
+  labs(title = "Pathogen vs Sexual Disgust") +
+  xlim(0, 6) + ylim(0, 6)
   
 ```
+</div>
 
 ### Many correlated variables
 
-Creat a heatmap of the relationships among all the questions in the [Disgust Dataset](data/disgust.csv). 
+Create a heatmap of the relationships among all the questions in 
+[disgust_cors.csv](data/disgust_cors.csv) 
+(the correlations have already been calculated for you). 
 
-```{r, echo = FALSE}
-disgust <- read_csv("data/disgust.csv")
-
-heatmap <- disgust %>%
-  select(moral1:pathogen7) %>%
-  filter(!is.na(rowSums(.))) %>%
-  cor() %>% # create the correlation matrix
-  as.tibble() %>% # make it a data frame
-  rownames_to_column(var = "V1") %>% # set rownames as V1
-  gather("V2", "r", moral1:pathogen7) # wide to long (V2)
-
-  
-ggplot(heatmap, aes(V1, V2, fill=r)) +
+<div class="solution"><button>Solution</button>
+```{r exercise-heatmap}
+read_csv("data/disgust_cors.csv") %>%
+  ggplot(aes(V1, V2, fill=r)) +
   geom_tile() +
-  scale_fill_viridis()
+  scale_fill_viridis() +
+  theme(axis.text.x = element_text(angle=90, hjust=1))
 ```
-
+</div>
