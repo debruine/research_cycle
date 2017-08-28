@@ -435,7 +435,7 @@ subject</code></pre></div>
 exp</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"-0.8296151"},{"1":"3","2":"-0.2810592"},{"1":"4","2":"-0.7225216"},{"1":"5","2":"2.3487175"},{"1":"6","2":"-0.3126867"},{"1":"4","2":"-0.3225802"},{"1":"5","2":"-0.4384191"},{"1":"6","2":"1.8030902"},{"1":"7","2":"-2.3932368"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"1.34049730"},{"1":"3","2":"-2.63493349"},{"1":"4","2":"0.10690486"},{"1":"5","2":"0.15267764"},{"1":"6","2":"-0.06201168"},{"1":"4","2":"0.03789582"},{"1":"5","2":"-0.18235291"},{"1":"6","2":"-1.10019924"},{"1":"7","2":"-0.17452767"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -445,7 +445,7 @@ exp</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(subject, exp, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["score"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19","4":"NA"},{"1":"2","2":"m","3":"22","4":"-0.8296151"},{"1":"3","2":"NA","3":"NA","4":"-0.2810592"},{"1":"4","2":"f","3":"19","4":"-0.7225216"},{"1":"4","2":"f","3":"19","4":"-0.3225802"},{"1":"5","2":"f","3":"18","4":"2.3487175"},{"1":"5","2":"f","3":"18","4":"-0.4384191"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["score"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19","4":"NA"},{"1":"2","2":"m","3":"22","4":"1.34049730"},{"1":"3","2":"NA","3":"NA","4":"-2.63493349"},{"1":"4","2":"f","3":"19","4":"0.10690486"},{"1":"4","2":"f","3":"19","4":"0.03789582"},{"1":"5","2":"f","3":"18","4":"0.15267764"},{"1":"5","2":"f","3":"18","4":"-0.18235291"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p>You can leave out the <code>by</code> argument if you’re matching on all of the columns with the same name, but it’s good parctice to always specify it so your code is robust to changes in the loaded data.</p>
@@ -453,7 +453,7 @@ exp</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(exp, subject)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sex"],"name":[3],"type":["chr"],"align":["left"]},{"label":["age"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"-0.8296151","3":"m","4":"22"},{"1":"3","2":"-0.2810592","3":"NA","4":"NA"},{"1":"4","2":"-0.7225216","3":"f","4":"19"},{"1":"5","2":"2.3487175","3":"f","4":"18"},{"1":"6","2":"-0.3126867","3":"NA","4":"NA"},{"1":"4","2":"-0.3225802","3":"f","4":"19"},{"1":"5","2":"-0.4384191","3":"f","4":"18"},{"1":"6","2":"1.8030902","3":"NA","4":"NA"},{"1":"7","2":"-2.3932368","3":"NA","4":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sex"],"name":[3],"type":["chr"],"align":["left"]},{"label":["age"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"1.34049730","3":"m","4":"22"},{"1":"3","2":"-2.63493349","3":"NA","4":"NA"},{"1":"4","2":"0.10690486","3":"f","4":"19"},{"1":"5","2":"0.15267764","3":"f","4":"18"},{"1":"6","2":"-0.06201168","3":"NA","4":"NA"},{"1":"4","2":"0.03789582","3":"f","4":"19"},{"1":"5","2":"-0.18235291","3":"f","4":"18"},{"1":"6","2":"-1.10019924","3":"NA","4":"NA"},{"1":"7","2":"-0.17452767","3":"NA","4":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -463,7 +463,7 @@ exp</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">inner_join</span>(subject, exp, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["score"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"m","3":"22","4":"-0.8296151"},{"1":"3","2":"NA","3":"NA","4":"-0.2810592"},{"1":"4","2":"f","3":"19","4":"-0.7225216"},{"1":"4","2":"f","3":"19","4":"-0.3225802"},{"1":"5","2":"f","3":"18","4":"2.3487175"},{"1":"5","2":"f","3":"18","4":"-0.4384191"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["score"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"m","3":"22","4":"1.34049730"},{"1":"3","2":"NA","3":"NA","4":"-2.63493349"},{"1":"4","2":"f","3":"19","4":"0.10690486"},{"1":"4","2":"f","3":"19","4":"0.03789582"},{"1":"5","2":"f","3":"18","4":"0.15267764"},{"1":"5","2":"f","3":"18","4":"-0.18235291"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -473,7 +473,7 @@ exp</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">full_join</span>(subject, exp, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["score"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19","4":"NA"},{"1":"2","2":"m","3":"22","4":"-0.8296151"},{"1":"3","2":"NA","3":"NA","4":"-0.2810592"},{"1":"4","2":"f","3":"19","4":"-0.7225216"},{"1":"4","2":"f","3":"19","4":"-0.3225802"},{"1":"5","2":"f","3":"18","4":"2.3487175"},{"1":"5","2":"f","3":"18","4":"-0.4384191"},{"1":"6","2":"NA","3":"NA","4":"-0.3126867"},{"1":"6","2":"NA","3":"NA","4":"1.8030902"},{"1":"7","2":"NA","3":"NA","4":"-2.3932368"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["score"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19","4":"NA"},{"1":"2","2":"m","3":"22","4":"1.34049730"},{"1":"3","2":"NA","3":"NA","4":"-2.63493349"},{"1":"4","2":"f","3":"19","4":"0.10690486"},{"1":"4","2":"f","3":"19","4":"0.03789582"},{"1":"5","2":"f","3":"18","4":"0.15267764"},{"1":"5","2":"f","3":"18","4":"-0.18235291"},{"1":"6","2":"NA","3":"NA","4":"-0.06201168"},{"1":"6","2":"NA","3":"NA","4":"-1.10019924"},{"1":"7","2":"NA","3":"NA","4":"-0.17452767"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -491,7 +491,7 @@ exp</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">semi_join</span>(exp, subject, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"-0.8296151"},{"1":"3","2":"-0.2810592"},{"1":"4","2":"-0.7225216"},{"1":"4","2":"-0.3225802"},{"1":"5","2":"2.3487175"},{"1":"5","2":"-0.4384191"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"1.34049730"},{"1":"3","2":"-2.63493349"},{"1":"4","2":"0.10690486"},{"1":"4","2":"0.03789582"},{"1":"5","2":"0.15267764"},{"1":"5","2":"-0.18235291"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -508,7 +508,7 @@ exp</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anti_join</span>(exp, subject, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"7","2":"-2.3932368"},{"1":"6","2":"-0.3126867"},{"1":"6","2":"1.8030902"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"7","2":"-0.17452767"},{"1":"6","2":"-0.06201168"},{"1":"6","2":"-1.10019924"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -554,7 +554,7 @@ exp</code></pre></div>
 <span class="kw">bind_cols</span>(subject, new_info)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["new"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19","4":"-0.6723076"},{"1":"2","2":"m","3":"22","4":"2.0295367"},{"1":"3","2":"NA","3":"NA","4":"0.3357952"},{"1":"4","2":"f","3":"19","4":"0.1656425"},{"1":"5","2":"f","3":"18","4":"-0.2333541"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["new"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19","4":"0.1778598"},{"1":"2","2":"m","3":"22","4":"0.7983370"},{"1":"3","2":"NA","3":"NA","4":"1.4833740"},{"1":"4","2":"f","3":"19","4":"0.5579365"},{"1":"5","2":"f","3":"18","4":"-1.4614924"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -606,7 +606,7 @@ exp</code></pre></div>
 <h2>Realistic Example</h2>
 <div id="load-and-process-data" class="section level3">
 <h3>Load and process data</h3>
-<p>These data and cleaning code are from <a href="02_tidyr.html">Data cleaning</a></p>
+<p>These data and cleaning code are from <a href="03_tidyr.html">Data cleaning</a></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load country data from a CSV file on the web</span>
 <span class="kw">library</span>(readxl)
 ccodes &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv&quot;</span>)
@@ -780,7 +780,7 @@ Remember to switch the order of the <code>by</code> columns if they have differe
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) +
 <span class="st">  </span><span class="kw">geom_point</span>() +
 <span class="st">  </span><span class="kw">facet_grid</span>(.~region)</code></pre></div>
-<p><img src="images/05/unnamed-chunk-26-1.png" width="768" /></p>
+<p><img src="images/05/unnamed-chunk-67-1.png" width="768" /></p>
 </div>
 </div>
 <div id="exercises" class="section level2">
@@ -788,6 +788,9 @@ Remember to switch the order of the <code>by</code> columns if they have differe
 <div id="mutating-joins" class="section level3">
 <h3>Mutating joins</h3>
 <p>Load data from <a href="data/disgust.csv">disgust.csv</a>, <a href="data/personality.csv">personality.csv</a> and <a href="data/users.csv">users.csv</a>. Each participant is identified by a unique <code>user_id</code>.</p>
+<p class="alert alert-warning">
+Remember to check the <code>col_types</code> if you get warnings when loading datasets.
+</p>
 <ol style="list-style-type: decimal">
 <li><p>Add participant data to the disgust table.</p>
 <div class="solution">
@@ -796,7 +799,13 @@ Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/disgust.csv&quot;</span>)
 ocean &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/personality.csv&quot;</span>)
-user &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/users.csv&quot;</span>)
+user &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/users.csv&quot;</span>,
+                 <span class="dt">col_types =</span> <span class="kw">list</span>(
+                   <span class="kw">col_integer</span>(), 
+                   <span class="kw">col_character</span>(),
+                   <span class="kw">col_character</span>()
+                  )
+                 )
 
 study &lt;-<span class="st"> </span><span class="kw">left_join</span>(disgust, user, <span class="dt">by =</span> <span class="st">&quot;user_id&quot;</span>)</code></pre></div>
 </div></li>
@@ -833,7 +842,7 @@ Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">study &lt;-<span class="st"> </span><span class="kw">semi_join</span>(disgust, ocean, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;user_id&quot;</span>, <span class="st">&quot;date&quot;</span>))</code></pre></div>
 </div></li>
-<li><p>Create a table of data from users who did not complete either thepersonality questionnair or the disgust questionnaire. (<em>Hint: this will require two steps; use pipes.</em>)</p>
+<li><p>Create a table of data from users who did not complete either the personality questionnaire or the disgust questionnaire. (<em>Hint: this will require two steps; use pipes.</em>)</p>
 <div class="solution">
 <button>
 Solution
@@ -852,7 +861,13 @@ Solution
 <button>
 Solution
 </button>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">user2 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/users2.csv&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">user2 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/users2.csv&quot;</span>,
+                 <span class="dt">col_types =</span> <span class="kw">list</span>(
+                   <span class="kw">col_integer</span>(), 
+                   <span class="kw">col_character</span>(),
+                   <span class="kw">col_character</span>()
+                  )
+                 )
 users_all &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(user, user2)</code></pre></div>
 </div></li>
 <li><p>How many users are in both the first and second user table?</p>

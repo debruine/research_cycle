@@ -266,7 +266,7 @@ setdiff(new_subjects, subject)
 
 ### Load and process data
 
-These data and cleaning code are from [Data cleaning](02_tidyr.html)
+These data and cleaning code are from [Data cleaning](03_tidyr.html)
 
 ```{r}
 
@@ -452,13 +452,22 @@ Load data from [disgust.csv](data/disgust.csv),
 [personality.csv](data/personality.csv) and [users.csv](data/users.csv). 
 Each participant is identified by a unique `user_id`.
 
+<p class="alert alert-warning">Remember to check the `col_types` if you get 
+warnings when loading datasets.</p>
+
 1. Add participant data to the disgust table.
 
     <div class="solution"><button>Solution</button>
     ```{r}
     disgust <- read_csv("data/disgust.csv")
     ocean <- read_csv("data/personality.csv")
-    user <- read_csv("data/users.csv")
+    user <- read_csv("data/users.csv",
+                     col_types = list(
+                       col_integer(), 
+                       col_character(),
+                       col_character()
+                      )
+                     )
 
     study <- left_join(disgust, user, by = "user_id")
     ```
@@ -498,7 +507,7 @@ Each participant is identified by a unique `user_id`.
     ```
     </div>
     
-6. Create a table of data from users who did not complete either thepersonality questionnair or the disgust questionnaire. (_Hint: this will require two steps; use pipes._)
+6. Create a table of data from users who did not complete either the personality questionnaire or the disgust questionnaire. (_Hint: this will require two steps; use pipes._)
 
     <div class="solution"><button>Solution</button>
     ```{r}
@@ -514,7 +523,13 @@ Each participant is identified by a unique `user_id`.
 
     <div class="solution"><button>Solution</button>
     ```{r}
-    user2 <- read_csv("data/users2.csv")
+    user2 <- read_csv("data/users2.csv",
+                     col_types = list(
+                       col_integer(), 
+                       col_character(),
+                       col_character()
+                      )
+                     )
     users_all <- bind_rows(user, user2)
     ```
     </div>

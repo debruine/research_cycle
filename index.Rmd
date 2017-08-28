@@ -11,15 +11,16 @@ It is taught by [Dale Barr](http://talklab.psy.gla.ac.uk/) and [Lisa DeBruine](h
 ## Syllabus
 
 1. [Introduction to R](01_intro.html) 2017-09-22
-2. [Data cleaning](02_tidy.html) (`tidyr`) 2017-09-29
-3. [Data visualisation](03_ggplot.html) (`ggplot`) 2017-10-06
+2. [Data visualisation](02_ggplot.html) (`ggplot`) 2017-09-29
+3. [Data cleaning](03_tidyr.html) (`tidyr`) 2017-10-06
 4. [Data manipulation](04_dplyr.html) (`dplyr` 1-table verbs) 2017-10-13
 5. [Data relations](05_joins.html) (`dplyr` 2-table verbs) 2017-10-20
-6. [Iteration and functions](06_functions.html) 2017-10-27
-7. [Probability and simulating data](07_simulation.html) 2017-11-03
-8. [Introduction to GLM](08_glm.html) 2017-11-10
-9. Review 2017-11-17
-10. Exam and meta-issues 2017-11-24
+    (note: no class on 2017-10-27 for the [cSCAN Debate](http://tinyurl.com/cSCAN2017))
+6. [Iteration and functions](06_functions.html) 2017-11-03
+7. [Probability and simulating data](07_simulation.html) 2017-11-10
+8. [Introduction to GLM](08_glm.html) 2017-11-17
+9. Review 2017-11-24
+10. Exam and meta-issues 2017-12-01
 
 ## Resources
 
@@ -38,7 +39,7 @@ It is taught by [Dale Barr](http://talklab.psy.gla.ac.uk/) and [Lisa DeBruine](h
 
 ### Other
 
-- [Grolemund and Wickham, R for Data Science](http://r4ds.had.co.nz)
+- [R for Data Science](http://r4ds.had.co.nz) by Grolemund and Wickham
 - [Style guide for R programming](http://style.tidyverse.org)
 - to learn about add-on packages, type `browseVignettes("name_of_add_on_package")`
 - [#rstats on twitter](https://twitter.com/search?q=%2523rstats) highly recommended!

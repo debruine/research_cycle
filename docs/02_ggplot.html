@@ -458,7 +458,7 @@ overlap &lt;-<span class="st"> </span><span class="kw">tibble</span>(
     <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>), 
     <span class="dt">alpha =</span> <span class="fl">0.5</span>
   )</code></pre></div>
-<p><img src="images/03/violin-1.png" width="768" /></p>
+<p><img src="images/02/violin-1.png" width="768" /></p>
 <p class="alert alert-info">
 Try changing the numbers in the <code>draw_quantiles</code> argument.
 </p>
@@ -467,7 +467,7 @@ Try changing the numbers in the <code>draw_quantiles</code> argument.
 <h3>Boxplot</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
 <span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre></div>
-<p><img src="images/03/boxplot-1.png" width="768" /></p>
+<p><img src="images/02/boxplot-1.png" width="768" /></p>
 </div>
 <div id="violinbox-plot" class="section level3">
 <h3>Violinbox plot</h3>
@@ -479,7 +479,7 @@ Try changing the numbers in the <code>draw_quantiles</code> argument.
 <span class="st">    </span><span class="kw">geom_boxplot</span>(<span class="dt">width =</span> <span class="fl">0.25</span>, <span class="dt">fill=</span><span class="st">&quot;white&quot;</span>) +
 <span class="st">    </span><span class="kw">facet_grid</span>(.~agegroup) +
 <span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;orange&quot;</span>, <span class="st">&quot;green&quot;</span>))</code></pre></div>
-<p><img src="images/03/violinbox-1.png" width="768" /></p>
+<p><img src="images/02/violinbox-1.png" width="768" /></p>
 <p class="alert alert-info">
 We set the <code>show.legend</code> argument to <code>FALSE</code> because the x-axis already labels the sexes.
 </p>
@@ -496,7 +496,7 @@ We set the <code>show.legend</code> argument to <code>FALSE</code> because the x
     <span class="dt">alpha=</span><span class="fl">0.5</span>
   ) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>, <span class="dt">size =</span> <span class="dv">3</span>)</code></pre></div>
-<p><img src="images/03/violin-jitter-1.png" width="768" /></p>
+<p><img src="images/02/violin-jitter-1.png" width="768" /></p>
 </div>
 <div id="bar-plot" class="section level3">
 <h3>Bar plot</h3>
@@ -512,13 +512,13 @@ demog %&gt;%
 <span class="kw">ggplot</span>(<span class="kw">aes</span>(sex, mean, <span class="dt">fill=</span>sex)) +
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) +
 <span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean -<span class="st"> </span>sd, <span class="dt">ymax =</span> mean +<span class="st"> </span>sd), <span class="dt">width =</span> <span class="fl">0.25</span>)</code></pre></div>
-<p><img src="images/03/barplot-1.png" width="768" /></p>
+<p><img src="images/02/barplot-1.png" width="768" /></p>
 </div>
 <div id="histogram" class="section level3">
 <h3>Histogram</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(height, <span class="dt">fill=</span>sex)) +
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</code></pre></div>
-<p><img src="images/03/histogram-1.png" width="768" /></p>
+<p><img src="images/02/histogram-1.png" width="768" /></p>
 <p class="alert alert-info">
 Try changing the <code>position</code> argument to “identity”, “fill”, “dodge”, and “stack”.
 </p>
@@ -530,7 +530,7 @@ Try changing the <code>position</code> argument to “identity”, “fill”, �
 <span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(demog$height)) +
 <span class="st">  </span><span class="kw">xlim</span>(<span class="dv">45</span>, <span class="dv">90</span>) +
 <span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Height (in inches)&quot;</span>)</code></pre></div>
-<p><img src="images/03/density-1.png" width="768" /></p>
+<p><img src="images/02/density-1.png" width="768" /></p>
 </div>
 <div id="grid-of-plots" class="section level3">
 <h3>Grid of plots</h3>
@@ -576,7 +576,7 @@ my_bar &lt;-<span class="st"> </span>demog %&gt;%
   my_bar, 
   <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)
 )</code></pre></div>
-<p><img src="images/03/unnamed-chunk-3-1.png" width="768" /></p>
+<p><img src="images/02/unnamed-chunk-3-1.png" width="768" /></p>
 <p class="alert alert-info">
 Once you load the cowplot package, your ggplot default theme will change.
 </p>
@@ -585,20 +585,20 @@ Once you load the cowplot package, your ggplot default theme will change.
 <h3>Scatter plot</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(x_vs_y, <span class="kw">aes</span>(x, y)) +
 <span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
-<p><img src="images/03/scatter-1.png" width="768" /></p>
+<p><img src="images/02/scatter-1.png" width="768" /></p>
 </div>
 <div id="line-graph" class="section level3">
 <h3>Line graph</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(x_vs_y, <span class="kw">aes</span>(x, y)) +
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)</code></pre></div>
-<p><img src="images/03/line-1.png" width="768" /></p>
+<p><img src="images/02/line-1.png" width="768" /></p>
 </div>
 <div id="combined-scatter-and-line-graph" class="section level3">
 <h3>Combined scatter and line graph</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(x_vs_y, <span class="kw">aes</span>(x, y)) +
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>) +
 <span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
-<p><img src="images/03/scatter_line-1.png" width="768" /></p>
+<p><img src="images/02/scatter_line-1.png" width="768" /></p>
 </div>
 <div id="overlapping-data" class="section level3">
 <h3>Overlapping Data</h3>
@@ -606,7 +606,7 @@ Once you load the cowplot package, your ggplot default theme will change.
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(overlap, <span class="kw">aes</span>(x, y)) +
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">5</span>, <span class="dt">alpha =</span> .<span class="dv">05</span>) +
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)</code></pre></div>
-<p><img src="images/03/overlap_alpha-1.png" width="768" /></p>
+<p><img src="images/02/overlap_alpha-1.png" width="768" /></p>
 <p>Alternatively, you can transform your data to create a count column and use the count to set the dot colour.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">overlap %&gt;%
 <span class="st">  </span><span class="kw">group_by</span>(x, y) %&gt;%
@@ -614,14 +614,14 @@ Once you load the cowplot package, your ggplot default theme will change.
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x, y, <span class="dt">color=</span>count)) +
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">5</span>) +
 <span class="st">  </span><span class="kw">scale_color_viridis</span>()</code></pre></div>
-<p><img src="images/03/overlap_colour-1.png" width="768" /></p>
+<p><img src="images/02/overlap_colour-1.png" width="768" /></p>
 <p>Or you can set the size of the dot proportional to the number of overlapping observations.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">overlap %&gt;%
 <span class="st">  </span><span class="kw">group_by</span>(x, y) %&gt;%
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">count =</span> <span class="kw">n</span>()) %&gt;%
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x, y, <span class="dt">size=</span>count)) +
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">colour =</span> <span class="st">&quot;#663399&quot;</span>)</code></pre></div>
-<p><img src="images/03/overlap_size-1.png" width="768" /></p>
+<p><img src="images/02/overlap_size-1.png" width="768" /></p>
 </div>
 <div id="heat-map" class="section level3">
 <h3>Heat map</h3>
@@ -647,7 +647,7 @@ heatmap &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(heatmap, <span class="kw">aes</span>(V1, V2, <span class="dt">fill=</span>r)) +
 <span class="st">  </span><span class="kw">geom_tile</span>() +
 <span class="st">  </span><span class="kw">scale_fill_viridis</span>()</code></pre></div>
-<p><img src="images/03/heatmap-1.png" width="768" /></p>
+<p><img src="images/02/heatmap-1.png" width="768" /></p>
 </div>
 </div>
 <div id="exercises" class="section level2 tabset tabset-pills">
@@ -671,7 +671,7 @@ Violin Plot Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dogs, <span class="kw">aes</span>(breed, weight)) +
 <span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.5</span>))</code></pre></div>
-<p><img src="images/03/exercise-violin-1.png" width="768" /></p>
+<p><img src="images/02/exercise-violin-1.png" width="768" /></p>
 </div>
 <div class="solution">
 <button>
@@ -679,7 +679,7 @@ Boxplot Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dogs, <span class="kw">aes</span>(breed, weight)) +
 <span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
-<p><img src="images/03/exercise-boxplot-1.png" width="768" /></p>
+<p><img src="images/02/exercise-boxplot-1.png" width="768" /></p>
 </div>
 <div class="solution">
 <button>
@@ -687,7 +687,7 @@ Histogram Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dogs, <span class="kw">aes</span>(weight, <span class="dt">fill=</span>breed)) +
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">3</span>, <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</code></pre></div>
-<p><img src="images/03/exercise-histogram-1.png" width="768" /></p>
+<p><img src="images/02/exercise-histogram-1.png" width="768" /></p>
 </div>
 <div class="solution">
 <button>
@@ -696,7 +696,7 @@ Density plot Solution
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dogs, <span class="kw">aes</span>(weight, <span class="dt">fill=</span>breed)) +
 <span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) +
 <span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">110</span>)</code></pre></div>
-<p><img src="images/03/exercise-density-1.png" width="768" /></p>
+<p><img src="images/02/exercise-density-1.png" width="768" /></p>
 </div>
 <div class="solution">
 <button>
@@ -711,7 +711,7 @@ Barplot Solution
 <span class="kw">ggplot</span>(<span class="kw">aes</span>(breed, mean, <span class="dt">fill=</span>breed)) +
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) +
 <span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean -<span class="st"> </span>sd, <span class="dt">ymax =</span> mean +<span class="st"> </span>sd), <span class="dt">width =</span> <span class="fl">0.25</span>)</code></pre></div>
-<p><img src="images/03/exercise-barplot-1.png" width="768" /></p>
+<p><img src="images/02/exercise-barplot-1.png" width="768" /></p>
 </div>
 </div>
 <div id="correlation" class="section level3">
@@ -728,17 +728,17 @@ Solution
 <span class="st">  </span><span class="kw">geom_smooth</span>() +
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Moral vs Sexual Disgust&quot;</span>) +
 <span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>) +<span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</code></pre></div>
-<p><img src="images/03/exercise-cor-1.png" width="768" /></p>
+<p><img src="images/02/exercise-cor-1.png" width="768" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(moral, pathogen)) +
 <span class="st">  </span><span class="kw">geom_smooth</span>() +
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Moral vs Pathogen Disgust&quot;</span>) +
 <span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>) +<span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</code></pre></div>
-<p><img src="images/03/exercise-cor-2.png" width="768" /></p>
+<p><img src="images/02/exercise-cor-2.png" width="768" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(pathogen, sexual)) +
 <span class="st">  </span><span class="kw">geom_smooth</span>() +
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Pathogen vs Sexual Disgust&quot;</span>) +
 <span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>) +<span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</code></pre></div>
-<p><img src="images/03/exercise-cor-3.png" width="768" /></p>
+<p><img src="images/02/exercise-cor-3.png" width="768" /></p>
 </div>
 </div>
 <div id="many-correlated-variables" class="section level3">
@@ -753,7 +753,7 @@ Solution
 <span class="st">  </span><span class="kw">geom_tile</span>() +
 <span class="st">  </span><span class="kw">scale_fill_viridis</span>() +
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">1</span>))</code></pre></div>
-<p><img src="images/03/exercise-heatmap-1.png" width="768" /></p>
+<p><img src="images/02/exercise-heatmap-1.png" width="768" /></p>
 </div>
 </div>
 </div>
