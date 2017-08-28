@@ -340,7 +340,7 @@ glimpse(infmort_wide)
 
 ## Exercises
 
- Tidy the data from [personality.csv](data/personality.csv).
+Tidy the data from [personality.csv](data/personality.csv).
 
 These data are from a 5-factor (OCEAN) personality questionnaire. Each question 
 is labelled with the domain (Op = openness, Co = concientiousness, Ex = extraversion, 
@@ -353,7 +353,7 @@ Ag = agreeableness, and Ne = neuroticism) and the question number.
     <div class="solution"><button>Solution</button>
     ```{r}
     ocean <- read_csv("data/personality.csv") %>%
-    gather("question", "score", Op1:Ex9)
+      gather("question", "score", Op1:Ex9)
     ```
     </div>
 

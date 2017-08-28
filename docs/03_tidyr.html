@@ -719,7 +719,7 @@ What if you want to put it back into the format “rate [ci_low - ci_hi]”? The
 Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ocean &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/personality.csv&quot;</span>) %&gt;%
-<span class="kw">gather</span>(<span class="st">&quot;question&quot;</span>, <span class="st">&quot;score&quot;</span>, Op1:Ex9)</code></pre></div>
+<span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;question&quot;</span>, <span class="st">&quot;score&quot;</span>, Op1:Ex9)</code></pre></div>
 </div></li>
 <li><p>Split the <code>question</code> column into two columns: <code>domain</code> and <code>qnumber</code>.</p>
 <p>There is no character to split on, here, but you can separate a column after a specific number of characters by setting <code>sep</code> to an integer. For example, to split “abcde” after the third characters, use <code>sep = 3</code>, which results in c(“abc”, “de”).</p>
