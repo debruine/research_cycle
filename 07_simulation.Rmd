@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 ## Prep
 
-* Read 
+* [Chapter 21: Iteration](http://r4ds.had.co.nz/iteration.html)  of *R for Data Science* 
 
 
 ## Resources
@@ -33,11 +33,318 @@ knitr::opts_chunk$set(
 * [Text](url)
 
 
-## Examples {.tabset .tabset-pills}
+## Examples
+
+Simulating data is a very powerful way to test your understanding of statistical 
+concepts. We are going to use simulations to learn the basics of  probability theory.
+
+```{r}
+# libraries needed for these examples
+library(tidyverse)
+```
+
+### Distributions
+
+#### Binomial
+
+`rbinom(n, size, prob)`
+
+The `rbinom` function will generate a random binomial distribution.
+
+* `n` = number of observations
+* `size` = number of trials
+* `prob` = probability of success on each trial
+
+20 individual coin flips of a fair coin
+```{r}
+rbinom(20, 1, 0.5)
+```
+
+20 individual coin flips of a baised (0.75) coin
+```{r}
+rbinom(20, 1, 0.75)
+```
+
+The total number of heads in a series of 10 sets of 20 coin flips
+```{r}
+rbinom(10, 20, 0.5)
+```
+
+You should always plot your randomly generated data to check that it makes sense. 
+It's easiest to do that if you put your simulated data in a tibble first. 
+A histogram is usually the best choice for plotting binomial data.
+```{r}
+sim_flips <- tibble(
+  flips = rbinom(1000, 20, 0.5)
+)
+
+ggplot(sim_flips) +
+  geom_histogram(aes(flips), binwidth = 1)
+```
+
+<p class="alert alert-info">Run the simulation above several times, noting how 
+the histogram changes. Try changing the values of `n`, `size`, and `prob`.</p>
+
+#### Normal
+
+`rnorm(n, mean, sd)`
+
+We can simulate a normal distribution of size `n` if we know the `mean` and 
+standard deviation (`sd`). A density plot is usually the best way to visualise 
+this type of data if your `n` is large.
+
+```{r}
+data <- tibble(
+  var = rnorm(1000, 10, 2)
+)
+
+ggplot(data, aes(var)) +
+  geom_density() +
+  geom_vline(xintercept = mean(data$var))
+
+```
+
+<p class="alert alert-info">Run the simulation above several times, noting how 
+the densisty plot changes. Try changing the values of `n`, `mean`, and `sd`.</p>
+
+### T-Test
+
+You can run a one-sample t-test comparing the mean of your data to `mu`. Here is 
+a simulated distribution with a mean of 0.5 and an SD of 1, creating an effect 
+size of 0.5 SD when tested against a `mu` of 0. Run the simulation a few time to 
+see how often the t-test returns a significant p-value.
+
+```{r}
+sim_norm <- rnorm(100, 0.5, 1)
+t.test(sim_norm, mu = 0)
+```
+
+2-sample t-test.
+
+```{r}
+a <- rnorm(100, 0.5, 1)
+b <- rnorm(100, 0.7, 1)
+t_ind <- t.test(a, b, paired = FALSE)
+t_ind
+```
+
+<p class="alert alert-warning">The `paired` argument defaults to `FALSE`, but 
+it's good practice to always explicitly set it so you are never confused about 
+what type of test you are performing.</p>
+
+
+We can use the `names()` function to find out the names of all the t.test parameters 
+and use this to just get one type of data, like the estimates being compared.
+```{r}
+names(t_ind)
+t_ind$estimate
+```
+
+If you want to run the simulation many times and record information each time, 
+first you need to turn your simulation into a function.
+```{r}
+
+sim_t_test <- function(n, m1, sd1, m2, sd2) {
+  v1 <- rnorm(n, m1, sd1)
+  v2 <- rnorm(n, m2, sd2)
+  t_ind <- t.test(v1, v2, paired = FALSE)
+  
+  return(t_ind$p.value)
+}
+
+sim_t_test(100, 0.5, 1, 0.7, 1)
+
+```
+
+Then you can use the `replicate()` function to run it many times and save all 
+the output values. You can calculate the power of your analysis by checking the 
+proportion of your simulated analyses that have a p-value less than your _alpha_ 
+(the probability of rejecting the null hypothesis when the null hypothesis is true).
+
+```{r}
+my_reps <- replicate(1000, sim_t_test(100, 0.7, 1, 0.5, 1))
+
+alpha <- 0.05
+power <- mean(my_reps < alpha)
+power
+```
+
+<p class="alert alert-info">Run the code above several times. How much does the 
+power value fluctuate? How many replications do you need to run to get a reliable 
+estimate of power? How does this number compare to an [online power calculator](https://www.stat.ubc.ca/~rollin/stats/ssize/n2.html)?</p>
+
+You can plot the distribution of p-values.
+
+```{r}
+ggplot() + geom_histogram(aes(sim1000), binwidth = 0.05, boundary = 0)
+```
+
+<p class="alert alert-info">What do you think the distribution of p-values is 
+when there is no effect (i.e., the means are identical)? Check this yourself.</p>
+
+<p class="alert alert-warning">Make sure the `boundary` argument is set to `0` 
+for p-value histograms. See what happens with a null effect if `boundary` is not set.</p>
+
+## Complex Example
+
+This example uses the [Growth Chart Data Tables](https://www.cdc.gov/growthcharts/data/zscore/zstatage.csv) 
+from the [US CDC](https://www.cdc.gov/growthcharts/zscore.htm). 
+
+We have to do a little data wrangling first. Have a look at the data after you import it and relabel `Sex` to `male` and `female` instead of `1` and `2`. Also convert `Agemos` (age in months) to years. Relabel the column `0` as `mean` and calculate a new column named `sd` as the difference between columns `1` and `0`. 
+
+```{r}
+height_age <- read_csv("https://www.cdc.gov/growthcharts/data/zscore/zstatage.csv") %>%
+  filter(Sex %in% c(1,2)) %>%
+  mutate(
+    sex = recode(Sex, "1" = "male", "2" = "female"),
+    age = as.numeric(Agemos)/12,
+    sd = `1` - `0`
+  ) %>%
+  select(sex, age, mean = `0`, sd)
+```
+
+Plot you new data frame to see how mean height changes with age for boys and girls.
+
+```{r}
+ggplot(height_age, aes(age, mean, color = sex)) +
+  geom_smooth(aes(ymin = mean - sd, ymax = mean + sd), stat="identity")
+```
+
 
 ```{r}
 
-# libraries needed for these examples
-library(tidyverse)
+height_sub <- height_age %>% filter(age == 20)
+height_sub
+
+m_mean <- (height_sub %>% filter(sex == "male") %>% select(mean))[[1]]
+m_sd   <- (height_sub %>% filter(sex == "male") %>% select(sd))[[1]]
+f_mean <- (height_sub %>% filter(sex == "female") %>% select(mean))[[1]]
+f_sd   <- (height_sub %>% filter(sex == "female") %>% select(sd))[[1]]
+
+sim_height <- tibble(
+  male = rnorm(100, m_mean, m_sd),
+  female = rnorm(100, f_mean, f_sd)
+) %>%
+  gather("sex", "height", male:female)
+
+ggplot(sim_height) +
+  geom_density(aes(height, fill = sex), alpha = 0.5)
 
 ```
+
+<p class="alert alert-info">Run the simulation above several times, noting how 
+the density plot changes. Try changing the age you're simulating.</p>
+
+Use the `sim_t_test(n, m1, sd1, m2, sd2)` function we created above to generate 
+one simulation with a sample size of 50 in each group using the means and SDs 
+of male and female 14-year-olds.
+
+```{r}
+height_sub <- height_age %>% filter(age == 14)
+m_mean <- (height_sub %>% filter(sex == "male") %>% select(mean))[[1]]
+m_sd   <- (height_sub %>% filter(sex == "male") %>% select(sd))[[1]]
+f_mean <- (height_sub %>% filter(sex == "female") %>% select(mean))[[1]]
+f_sd   <- (height_sub %>% filter(sex == "female") %>% select(sd))[[1]]
+
+sim_t_test(50, m_mean, m_sd, f_mean, f_sd)
+```
+
+Now replicate this 10000 times.
+```{r}
+my_reps <- replicate(10000, sim_t_test(50, m_mean, m_sd, f_mean, f_sd))
+
+alpha <- 0.05
+power <- mean(my_reps < alpha)
+power
+
+```
+
+This design has about 60% power to detect the sex difference in height (with a 2-tailed test). Modify the `sim_t_test` function for a 1-tailed prediction.
+
+You could just set `alternative` equal to "greater" in the function, but it might be 
+better to add the `alternative` argument to your function (giving it the same default 
+value as `t.test`) and change the value of `alternative` in the function to `alternative`.
+
+```{r}
+sim_t_test <- function(n, m1, sd1, m2, sd2, alternative = "two.sided") {
+  v1 <- rnorm(n, m1, sd1)
+  v2 <- rnorm(n, m2, sd2)
+  t_ind <- t.test(v1, v2, paired = FALSE, alternative = alternative)
+  
+  return(t_ind$p.value)
+}
+
+my_reps <- replicate(10000, sim_t_test(50, m_mean, m_sd, f_mean, f_sd, "greater"))
+mean(my_reps < alpha)
+
+```
+
+What if we want to find out what sample size will give us 80% power? We can try 
+trial and error. We know the number should be slightly larger than 50. But you 
+can search more systematically by repeating your power calculation for a range 
+of sample sizes. 
+
+<p class="alert alert-info">This might seem like overkill for a t-test, where 
+you can easily look up sample size calculators online, but it is a valuable 
+skill to learn for when your analyses become more complicated.</p>
+
+```{r}
+
+sample_size <- seq(20, 100, by = 5)
+
+power_list  <- sapply(sample_size, 
+                      function(n) { 
+                        my_reps <- replicate(100, sim_t_test(n, m_mean, m_sd, f_mean, f_sd, "greater"))
+                        mean(my_reps < 0.05)
+                      }
+                     )
+
+power_table <- tibble(
+  n = sample_size,
+  power = power_list
+)
+
+ggplot(power_table, aes(n, power)) +
+  geom_smooth() +
+  geom_hline(yintercept = 0.8)
+
+```
+
+Start with a relatively low number of replications and/or more spread-out samples 
+to estimate where you should be looking more specifically. Then you can repeat 
+with a narrower/denser range of sample sizes and more iterations.
+
+```{r}
+
+sample_size <- seq(52, 62)
+
+power_list  <- sapply(sample_size, 
+                      function(n) { 
+                        my_reps <- replicate(10000, sim_t_test(n, m_mean, m_sd, f_mean, f_sd, "greater"))
+                        mean(my_reps < 0.05)
+                      }
+                     )
+
+power_table <- tibble(
+  n = sample_size,
+  power = power_list
+)
+
+ggplot(power_table, aes(n, power)) +
+  geom_smooth() +
+  geom_point() +
+  geom_hline(yintercept = 0.8) +
+  scale_x_continuous(breaks=seq(52,62))
+
+```
+
+
+
+
+
+
+
+
+
+
+

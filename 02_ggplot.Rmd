@@ -54,12 +54,13 @@ knitr::opts_chunk$set(
 11. Create less common types of graphs (e.g., heat map)
 12. Adjust axes (e.g., flip coordinates, set axis limits)
 13. Change the theme
-14. Create interactive plots with `plotly`
+14. Create interactive graphs with `plotly`
 
 
 ## Prep
 
-* Read [Chapter 3](http://r4ds.had.co.nz/data-visualisation.html) of *R for Data Science*
+* [Chapter 3: Data Visualisation](http://r4ds.had.co.nz/data-visualisation.html) of *R for Data Science*
+* [Chapter 28: Graphics for communication](http://r4ds.had.co.nz/graphics-for-communication.html) of *R for Data Science*
 
 ## Resources
 
@@ -71,7 +72,6 @@ knitr::opts_chunk$set(
 * [The viridis color palettes](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
 * [ggplot extensions](https://www.ggplot2-exts.org/)
 * [plotly](https://plot.ly/ggplot2/) for creating interactive graphs
-* [gganimate](https://github.com/dgrtwo/gganimate) for creating animated graphs
 
 ## Examples
 
