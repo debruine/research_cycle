@@ -41,11 +41,11 @@ It is taught by [Dale Barr](http://talklab.psy.gla.ac.uk/) and [Lisa DeBruine](h
 - Or get the most recent [RStudio Cheat Sheets](https://www.rstudio.com/resources/cheatsheets/) 
     <div style="width: 500px; height: 375px; text-align: right;">
       <img src="images/lisa-desktop.jpg" alt="Lisa's Desktop" style="width:100%;" />
-      <i>All coders use cheat sheets and online resources constantly.</i>
+      <i>All coders use cheat sheets and online resources constantly</i>
     </div>
 
 ### Other
 
 - [Style guide for R programming](http://style.tidyverse.org)
-- to learn about add-on packages, type `browseVignettes("name_of_add_on_package")`
+- type `browseVignettes("name_of_package")` to learn about add-on packages 
 - [#rstats on twitter](https://twitter.com/search?q=%2523rstats) highly recommended!

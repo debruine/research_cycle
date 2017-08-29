@@ -311,10 +311,10 @@ div.tocify {
   <a href="01_intro.html">1: intro</a>
 </li>
 <li>
-  <a href="02_tidy.html">2: tidy</a>
+  <a href="02_ggplot.html">2: ggplot</a>
 </li>
 <li>
-  <a href="03_ggplot.html">3: ggplot</a>
+  <a href="03_tidyr.html">3: tidyr</a>
 </li>
 <li>
   <a href="04_dplyr.html">4: dplyr</a>
@@ -394,15 +394,13 @@ div.tocify {
 <li><a href="http://r4ds.had.co.nz/dates-and-times.html">Chapter 16: Date and times</a> in <em>R for Data Science</em></li>
 </ul>
 </div>
-<div id="examples" class="section level2 tabset tabset-pills">
+<div id="examples" class="section level2">
 <h2>Examples</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># libraries needed for these examples</span>
 <span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(lubridate)</code></pre></div>
 <p>These examples will use data from <a href="data/disgust.csv">disgust.csv</a>, which contains data from the <a href="https://www.google.co.uk/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=6&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwi2zou5_PnVAhVsJsAKHY6-BwkQFghOMAU&amp;url=http%3A%2F%2Fdigitalrepository.unm.edu%2Fcgi%2Fviewcontent.cgi%3Farticle%3D1139%26context%3Dpsy_etds&amp;usg=AFQjCNGEPdEJ6CLLVJjiF3P2JE10h35xmg">Three Domain Disgust Scale</a>. Each participant is identified by a unique <code>user_id</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/disgust.csv&quot;</span>)</code></pre></div>
-<div id="scale-description" class="section level3">
-<h3>Scale description</h3>
 <p>Instructions: The following items describe a variety of concepts. Please rate how disgusting you find the concepts described in the items, where 0 means that you do not find the concept disgusting at all, and 6 means that you find the concept extremely disgusting.</p>
 <table>
 <colgroup>
@@ -502,7 +500,6 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-</div>
 <div id="select" class="section level3">
 <h3>select()</h3>
 <p>Select columns by name or number.</p>
@@ -652,16 +649,30 @@ moral_no_ceiling &lt;-<span class="st"> </span>disgust %&gt;%
 <span class="st">  </span><span class="kw">filter</span>(date &lt;<span class="st"> </span><span class="kw">today</span>() -<span class="st"> </span><span class="kw">dyears</span>(<span class="dv">5</span>))
 
 <span class="kw">range</span>(disgust_5ago$date)</code></pre></div>
-<pre><code>## [1] &quot;2008-07-10&quot; &quot;2012-08-28&quot;</code></pre>
+<pre><code>## [1] &quot;2008-07-10&quot; &quot;2012-08-29&quot;</code></pre>
 </div>
 <div id="arrange" class="section level3">
 <h3>arrange()</h3>
 <p>Sort your dataset using <code>arrange()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust_order &lt;-<span class="st"> </span>disgust %&gt;%
-<span class="st">  </span><span class="kw">arrange</span>(id)</code></pre></div>
+<span class="st">  </span><span class="kw">arrange</span>(id)
+
+<span class="kw">head</span>(disgust_order)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["user_id"],"name":[2],"type":["int"],"align":["right"]},{"label":["date"],"name":[3],"type":["date"],"align":["right"]},{"label":["moral1"],"name":[4],"type":["int"],"align":["right"]},{"label":["moral2"],"name":[5],"type":["int"],"align":["right"]},{"label":["moral3"],"name":[6],"type":["int"],"align":["right"]},{"label":["moral4"],"name":[7],"type":["int"],"align":["right"]},{"label":["moral5"],"name":[8],"type":["int"],"align":["right"]},{"label":["moral6"],"name":[9],"type":["int"],"align":["right"]},{"label":["moral7"],"name":[10],"type":["int"],"align":["right"]},{"label":["sexual1"],"name":[11],"type":["int"],"align":["right"]},{"label":["sexual2"],"name":[12],"type":["int"],"align":["right"]},{"label":["sexual3"],"name":[13],"type":["int"],"align":["right"]},{"label":["sexual4"],"name":[14],"type":["int"],"align":["right"]},{"label":["sexual5"],"name":[15],"type":["int"],"align":["right"]},{"label":["sexual6"],"name":[16],"type":["int"],"align":["right"]},{"label":["sexual7"],"name":[17],"type":["int"],"align":["right"]},{"label":["pathogen1"],"name":[18],"type":["int"],"align":["right"]},{"label":["pathogen2"],"name":[19],"type":["int"],"align":["right"]},{"label":["pathogen3"],"name":[20],"type":["int"],"align":["right"]},{"label":["pathogen4"],"name":[21],"type":["int"],"align":["right"]},{"label":["pathogen5"],"name":[22],"type":["int"],"align":["right"]},{"label":["pathogen6"],"name":[23],"type":["int"],"align":["right"]},{"label":["pathogen7"],"name":[24],"type":["int"],"align":["right"]}],"data":[{"1":"1","2":"1","3":"2008-07-10","4":"2","5":"2","6":"1","7":"2","8":"1","9":"1","10":"1","11":"3","12":"1","13":"1","14":"2","15":"1","16":"2","17":"2","18":"3","19":"2","20":"3","21":"3","22":"2","23":"3","24":"3"},{"1":"3","2":"155324","3":"2008-07-11","4":"2","5":"4","6":"3","7":"5","8":"2","9":"1","10":"4","11":"1","12":"0","13":"1","14":"2","15":"2","16":"6","17":"1","18":"4","19":"3","20":"1","21":"0","22":"4","23":"4","24":"2"},{"1":"4","2":"155366","3":"2008-07-12","4":"6","5":"6","6":"6","7":"3","8":"6","9":"6","10":"6","11":"0","12":"0","13":"0","14":"0","15":"0","16":"0","17":"3","18":"4","19":"4","20":"5","21":"5","22":"4","23":"6","24":"0"},{"1":"5","2":"155370","3":"2008-07-12","4":"6","5":"6","6":"4","7":"6","8":"6","9":"6","10":"6","11":"2","12":"6","13":"4","14":"3","15":"6","16":"6","17":"6","18":"6","19":"6","20":"6","21":"2","22":"4","23":"4","24":"6"},{"1":"6","2":"155386","3":"2008-07-12","4":"2","5":"4","6":"0","7":"4","8":"0","9":"0","10":"0","11":"6","12":"0","13":"0","14":"6","15":"4","16":"4","17":"6","18":"4","19":"5","20":"5","21":"1","22":"6","23":"4","24":"2"},{"1":"7","2":"155409","3":"2008-07-12","4":"4","5":"5","6":"5","7":"4","8":"5","9":"1","10":"5","11":"3","12":"0","13":"1","14":"5","15":"2","16":"0","17":"0","18":"5","19":"5","20":"3","21":"4","22":"4","23":"2","24":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <p>Reverse the order using <code>desc()</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust_order &lt;-<span class="st"> </span>disgust %&gt;%
-<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(id))</code></pre></div>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(id))
+
+<span class="kw">head</span>(disgust_order)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["user_id"],"name":[2],"type":["int"],"align":["right"]},{"label":["date"],"name":[3],"type":["date"],"align":["right"]},{"label":["moral1"],"name":[4],"type":["int"],"align":["right"]},{"label":["moral2"],"name":[5],"type":["int"],"align":["right"]},{"label":["moral3"],"name":[6],"type":["int"],"align":["right"]},{"label":["moral4"],"name":[7],"type":["int"],"align":["right"]},{"label":["moral5"],"name":[8],"type":["int"],"align":["right"]},{"label":["moral6"],"name":[9],"type":["int"],"align":["right"]},{"label":["moral7"],"name":[10],"type":["int"],"align":["right"]},{"label":["sexual1"],"name":[11],"type":["int"],"align":["right"]},{"label":["sexual2"],"name":[12],"type":["int"],"align":["right"]},{"label":["sexual3"],"name":[13],"type":["int"],"align":["right"]},{"label":["sexual4"],"name":[14],"type":["int"],"align":["right"]},{"label":["sexual5"],"name":[15],"type":["int"],"align":["right"]},{"label":["sexual6"],"name":[16],"type":["int"],"align":["right"]},{"label":["sexual7"],"name":[17],"type":["int"],"align":["right"]},{"label":["pathogen1"],"name":[18],"type":["int"],"align":["right"]},{"label":["pathogen2"],"name":[19],"type":["int"],"align":["right"]},{"label":["pathogen3"],"name":[20],"type":["int"],"align":["right"]},{"label":["pathogen4"],"name":[21],"type":["int"],"align":["right"]},{"label":["pathogen5"],"name":[22],"type":["int"],"align":["right"]},{"label":["pathogen6"],"name":[23],"type":["int"],"align":["right"]},{"label":["pathogen7"],"name":[24],"type":["int"],"align":["right"]}],"data":[{"1":"38222","2":"51771","3":"2016-08-04","4":"2","5":"6","6":"4","7":"6","8":"6","9":"5","10":"4","11":"0","12":"0","13":"0","14":"6","15":"0","16":"6","17":"0","18":"5","19":"2","20":"5","21":"5","22":"5","23":"2","24":"3"},{"1":"38020","2":"452964","3":"2016-05-22","4":"2","5":"6","6":"4","7":"6","8":"6","9":"3","10":"6","11":"4","12":"1","13":"2","14":"3","15":"4","16":"5","17":"4","18":"5","19":"4","20":"3","21":"4","22":"4","23":"5","24":"6"},{"1":"37829","2":"4976","3":"2016-03-22","4":"6","5":"6","6":"6","7":"0","8":"6","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"0","17":"0","18":"6","19":"6","20":"6","21":"6","22":"0","23":"0","24":"6"},{"1":"37268","2":"72289","3":"2016-01-30","4":"3","5":"5","6":"4","7":"5","8":"6","9":"5","10":"3","11":"3","12":"1","13":"1","14":"6","15":"5","16":"6","17":"5","18":"4","19":"3","20":"3","21":"6","22":"4","23":"2","24":"3"},{"1":"37157","2":"141209","3":"2016-01-23","4":"2","5":"3","6":"5","7":"4","8":"2","9":"5","10":"2","11":"2","12":"0","13":"4","14":"6","15":"4","16":"5","17":"4","18":"4","19":"5","20":"3","21":"4","22":"5","23":"6","24":"5"},{"1":"37094","2":"138445","3":"2016-01-18","4":"1","5":"5","6":"1","7":"4","8":"0","9":"5","10":"5","11":"3","12":"0","13":"0","14":"4","15":"0","16":"4","17":"0","18":"6","19":"4","20":"1","21":"2","22":"3","23":"6","24":"3"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <div id="mutate" class="section level3">
 <h3>mutate()</h3>
@@ -701,7 +712,7 @@ You can overwrite a column by giving a new column the same name as the old colum
 </div>
 <div id="group_by" class="section level3">
 <h3>group_by()</h3>
-<p>Create subsets of the data. At first, you’ll just use this to create summaries, like the mean value for al of your experimental groups.</p>
+<p>Create subsets of the data. You can use this to create summaries, like the mean value for all of your experimental groups.</p>
 <p>Here, we’ll use <code>mutate</code> to create a new column called <code>year</code>, group by <code>year</code>, and calculate the average scores.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust_total %&gt;%
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">year</span>(date)) %&gt;%
@@ -718,6 +729,23 @@ You can overwrite a column by giving a new column the same name as the old colum
 {"columns":[{"label":["year"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]},{"label":["avg_total"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["sd_total"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["min_total"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["max_total"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"2008","2":"2578","3":"70.29975","4":"18.46251","5":"0","6":"126"},{"1":"2009","2":"2580","3":"69.74481","4":"18.61959","5":"3","6":"126"},{"1":"2010","2":"1514","3":"70.59238","4":"18.86846","5":"6","6":"126"},{"1":"2011","2":"6046","3":"71.34425","4":"17.79446","5":"0","6":"126"},{"1":"2012","2":"5938","3":"70.42530","4":"18.35782","5":"0","6":"126"},{"1":"2013","2":"1259","3":"71.61025","4":"17.58410","5":"0","6":"126"},{"1":"2014","2":"58","3":"70.46296","4":"17.23502","5":"19","6":"113"},{"1":"2015","2":"21","3":"74.26316","4":"16.89787","5":"43","6":"107"},{"1":"2016","2":"6","3":"72.16667","4":"13.84798","5":"54","6":"87"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
+<p>You can use <code>filter</code> after <code>group_by</code>. The following example returns the lowest total score from each year.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust_total %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">year</span>(date)) %&gt;%
+<span class="st">  </span><span class="kw">select</span>(user_id, year, total) %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(year) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">rank</span>(total) ==<span class="st"> </span><span class="dv">1</span>) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(year)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["user_id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["total"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"U236585","2":"2009","3":"3"},{"1":"U292359","2":"2010","3":"6"},{"1":"U245384","2":"2013","3":"0"},{"1":"U206293","2":"2014","3":"19"},{"1":"U407089","2":"2015","3":"43"},{"1":"U4976","2":"2016","3":"54"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>You can also use <code>mutate</code> after <code>group_by</code>. The following example calculates subject-mean-centered scores by grouping the scores by <code>user_id</code> and then subtracting the group-specific mean from each score. <span class="text-warning"> Note the use of <code>gather</code> to tidy the data into a long format first.</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust_smc &lt;-<span class="st"> </span>disgust %&gt;%
+<span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;question&quot;</span>, <span class="st">&quot;score&quot;</span>, moral1:pathogen7) %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(user_id) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">score_smc =</span> score -<span class="st"> </span><span class="kw">mean</span>(score, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</code></pre></div>
 </div>
 <div id="all-together" class="section level3">
 <h3>All Together</h3>
@@ -783,11 +811,11 @@ Solution
 <button>
 Solution
 </button>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># this is the slowest way</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># this is the least efficient way</span>
 extraversion1 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/personality.csv&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">select</span>(Ex1, Ex2, Ex3, Ex4, Ex5, Ex6, Ex7, Ex8, Ex9)
 
-<span class="co"># this is the quickest way in this dataset</span>
+<span class="co"># this is the most efficient way for this dataset</span>
 extraversion2 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/personality.csv&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">select</span>(<span class="kw">starts_with</span>(<span class="st">&quot;Ex&quot;</span>))
 
@@ -795,7 +823,7 @@ extraversion2 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<sp
 extraversion3 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/personality.csv&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">select</span>(<span class="kw">num_range</span>(<span class="st">&quot;Ex&quot;</span>, <span class="dv">1</span>:<span class="dv">9</span>))</code></pre></div>
 </div></li>
-<li><p>Tidy the dataset and calculate the mean score for each of the 5 personality factors. Count how many of the questions in each domain were not answered and filter to only people who answered at least 5 questions in each domain.</p>
+<li><p>Tidy the dataset and calculate the mean score for each of the 5 personality factors. Count how many of the questions in each domain were answered and filter to only people who answered at least 5 questions in each domain.</p>
 <div class="solution">
 <button>
 Solution
@@ -811,7 +839,23 @@ Solution
 <span class="st">  </span><span class="kw">ungroup</span>() %&gt;%
 <span class="st">  </span><span class="kw">group_by</span>(date, user_id) %&gt;%
 <span class="st">  </span><span class="kw">filter</span>(<span class="kw">min</span>(valid) &gt;=<span class="st"> </span><span class="dv">5</span>) %&gt;%
-<span class="st">  </span><span class="kw">ungroup</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">ungroup</span>()</code></pre></div></li>
+<li><p>Create a violin plot of score distribution for each the 5 personality factors from the full dataset.</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;data/personality.csv&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;question&quot;</span>, <span class="st">&quot;score&quot;</span>, Op1:Ex9) %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(question, <span class="kw">c</span>(<span class="st">&quot;domain&quot;</span>, <span class="st">&quot;q_num&quot;</span>), <span class="dt">sep=</span><span class="dv">2</span>) %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(user_id, date, domain) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">mean_score =</span> <span class="kw">mean</span>(score, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
+  ) %&gt;%
+<span class="st">  </span><span class="kw">ungroup</span>() %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(domain, mean_score, <span class="dt">fill =</span> domain)) +
+<span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>, <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.5</span>))</code></pre></div>
+<p><img src="images/04/exercise-5-1.png" width="768" /></p>
 </div></li>
 </ol>
 </div>

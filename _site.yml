@@ -18,10 +18,10 @@ navbar:
   right:
     - text: "1: intro"
       href: 01_intro.html
-    - text: "2: tidy"
-      href: 02_tidy.html
-    - text: "3: ggplot"
-      href: 03_ggplot.html
+    - text: "2: ggplot"
+      href: 02_ggplot.html
+    - text: "3: tidyr"
+      href: 03_tidyr.html
     - text: "4: dplyr"
       href: 04_dplyr.html
     - text: "5: joins"

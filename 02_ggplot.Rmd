@@ -54,7 +54,7 @@ knitr::opts_chunk$set(
 11. Create less common types of graphs (e.g., heat map)
 12. Adjust axes (e.g., flip coordinates, set axis limits)
 13. Change the theme
-14. Create animated plots with [`gganimate`](https://github.com/dgrtwo/gganimate)
+14. Create interactive plots with `plotly`
 
 
 ## Prep
@@ -71,14 +71,16 @@ knitr::opts_chunk$set(
 * [The viridis color palettes](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
 * [ggplot extensions](https://www.ggplot2-exts.org/)
 * [plotly](https://plot.ly/ggplot2/) for creating interactive graphs
+* [gganimate](https://github.com/dgrtwo/gganimate) for creating animated graphs
 
-## Examples {.tabset .tabset-pills}
+## Examples
 
 ```{r}
 
 # libraries needed for these graphs
 library(tidyverse)
 library(viridis)
+library(plotly)
 
 # cowplot will change the default theme of graphs, so we're loading it later
 # library(cowplot) 
@@ -226,6 +228,29 @@ ggplot(demog, aes(height, fill=sex)) +
 
 ```
 
+### Save as File
+
+You can save a ggplot using `ggsave()`. It saves the last ggplot you made, 
+by default, but you can specify which plot you want to save if you assigned that 
+plot to a variable.
+
+You can set the `width` and `height` of your plot. The default units are inches, 
+but you can change the `units` argument to "in", "cm", or "mm".
+
+```{r, eval = FALSE}
+
+demog_box <- ggplot(demog, aes(sex, height, fill=sex)) +
+  geom_boxplot(alpha = 0.5)
+
+demog_violin <- ggplot(demog, aes(sex, height, fill=sex)) +
+  geom_violin(alpha = 0.5)
+
+ggsave("demog_violin_plot.png", width = 5, height = 7)
+
+ggsave("demog_box_plot.jpg", plot = demog_box, width = 5, height = 7)
+
+```
+
 ### Grid of plots
 
 You can use the [ `cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) 
@@ -298,7 +323,7 @@ ggplot(x_vs_y, aes(x, y)) +
   geom_smooth(method="lm")
 ```
 
-### Combined scatter and line graph
+### Scatter-line graph
 
 ```{r scatter_line}
 
@@ -380,11 +405,33 @@ ggplot(heatmap, aes(V1, V2, fill=r)) +
   scale_fill_viridis()
 ```
 
+<p class="alert alert-info">The file type is set from the filename suffix, or by 
+specifying the argument `device`, which can take the following values: 
+"eps", "ps", "tex", "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf".</p>
+
+### Interactive Plots
+
+You can use the `plotly` package to make interactive graphs. Just assign your 
+ggplot to a variable and use the function `ggplotly()`.
+
+```{r}
+
+demog_plot <- ggplot(demog, aes(age, height, fill=sex)) +
+  geom_point(position = position_jitter(width= 0.2, height = 0), size = 2)
+
+ggplotly(demog_plot)
+
+```
+
+<p class="alert alert-info">Hover over the data points above and click on the 
+legend items.</p>
+
 ## Exercises{.tabset .tabset-pills}
 
 ### Distribution
 
-Generate a violin plot, boxplot, histogram, density plot, and barplot for the following data.
+Generate a violin plot, boxplot, histogram, density plot, and barplot for the 
+following data. Save each plot as a PNG file.
 
 ```{r}
 
@@ -403,28 +450,28 @@ dogs <- tibble(
 
 <div class="solution"><button>Violin Plot Solution</button>
 ```{r exercise-violin}
-ggplot(dogs, aes(breed, weight)) +
-  geom_violin(draw_quantiles = c(0.5))
+ggplot(dogs, aes(breed, weight, fill = breed)) +
+  geom_violin(draw_quantiles = c(0.5), show.legend = FALSE)
 ```
 </div>
 
 <div class="solution"><button>Boxplot Solution</button>
 ```{r exercise-boxplot}
-ggplot(dogs, aes(breed, weight)) +
-  geom_boxplot()
+ggplot(dogs, aes(breed, weight, fill = breed)) +
+  geom_boxplot(show.legend = FALSE)
 ```
 </div>
 
 <div class="solution"><button>Histogram Solution</button>
 ```{r exercise-histogram}
-ggplot(dogs, aes(weight, fill=breed)) +
+ggplot(dogs, aes(weight, fill = breed)) +
   geom_histogram(binwidth = 3, position = "dodge")
 ```
 </div>
 
 <div class="solution"><button>Density plot Solution</button>
 ```{r exercise-density}
-ggplot(dogs, aes(weight, fill=breed)) +
+ggplot(dogs, aes(weight, fill = breed)) +
   geom_density(alpha = 0.5) +
   xlim(0, 110)
 ```
@@ -438,7 +485,7 @@ dogs %>%
     mean = mean(weight),
     sd = sd(weight)
   ) %>%
-ggplot(aes(breed, mean, fill=breed)) +
+ggplot(aes(breed, mean, fill = breed)) +
   geom_bar(stat="identity", alpha = 0.5) +
   geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25)
 ```

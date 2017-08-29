@@ -51,7 +51,7 @@ knitr::opts_chunk$set(
 * [Chapter 16: Date and times](http://r4ds.had.co.nz/dates-and-times.html) in *R for Data Science*
 
 
-## Examples {.tabset .tabset-pills}
+## Examples
 
 ```{r}
 # libraries needed for these examples
@@ -68,8 +68,6 @@ Each participant is identified by a unique `user_id`.
 disgust <- read_csv("data/disgust.csv")
 
 ```
-
-### Scale description
 
 Instructions: The following items describe a variety of concepts. Please rate how disgusting you find the concepts described in the items, where 0 means that you do not find the concept disgusting at all, and 6 means that you find the concept extremely disgusting.
 
@@ -257,6 +255,8 @@ Sort your dataset using `arrange()`.
 ```{r}
 disgust_order <- disgust %>%
   arrange(id)
+
+head(disgust_order)
 ```
 
 Reverse the order using `desc()`
@@ -264,6 +264,8 @@ Reverse the order using `desc()`
 ```{r}
 disgust_order <- disgust %>%
   arrange(desc(id))
+
+head(disgust_order)
 ```
 
 
@@ -313,8 +315,8 @@ disgust_total %>%
 
 ### group_by()
 
-Create subsets of the data. At first, you'll just use this to create summaries, 
-like the mean value for al of your experimental groups.
+Create subsets of the data. You can use this to create summaries, 
+like the mean value for all of your experimental groups.
 
 Here, we'll use `mutate` to create a new column called `year`, group by `year`,
 and calculate the average scores.
@@ -331,6 +333,35 @@ disgust_total %>%
     max_total = max(total, na.rm = TRUE)
   )
 ```
+
+You can use `filter` after `group_by`. The following example returns the lowest 
+total score from each year.
+
+```{r}
+
+disgust_total %>%
+  mutate(year = year(date)) %>%
+  select(user_id, year, total) %>%
+  group_by(year) %>%
+  filter(rank(total) == 1) %>%
+  arrange(year)
+
+```
+
+You can also use `mutate` after `group_by`. The following example calculates 
+subject-mean-centered scores by grouping the scores by `user_id` and then 
+subtracting the group-specific mean from each score. <span class="text-warning">
+Note the use of `gather` to tidy the data into a long format first.</span>
+
+```{r}
+
+disgust_smc <- disgust %>%
+  gather("question", "score", moral1:pathogen7) %>%
+  group_by(user_id) %>%
+  mutate(score_smc = score - mean(score, na.rm = TRUE))
+
+```
+
 
 ### All Together
 
@@ -406,11 +437,11 @@ Ag = agreeableness, and Ne = neuroticism) and the question number.
 
     <div class="solution"><button>Solution</button>
     ```{r}
-    # this is the slowest way
+    # this is the least efficient way
     extraversion1 <- read_csv("data/personality.csv") %>%
       select(Ex1, Ex2, Ex3, Ex4, Ex5, Ex6, Ex7, Ex8, Ex9)
     
-    # this is the quickest way in this dataset
+    # this is the most efficient way for this dataset
     extraversion2 <- read_csv("data/personality.csv") %>%
       select(starts_with("Ex"))
     
@@ -421,7 +452,7 @@ Ag = agreeableness, and Ne = neuroticism) and the question number.
     </div>
 
 4. Tidy the dataset and calculate the mean score for each of the 5 personality 
-factors. Count how many of the questions in each domain were not answered and 
+factors. Count how many of the questions in each domain were answered and 
 filter to only people who answered at least 5 questions in each domain.
 
     <div class="solution"><button>Solution</button>
@@ -439,4 +470,22 @@ filter to only people who answered at least 5 questions in each domain.
       filter(min(valid) >= 5) %>%
       ungroup()
     ```
+
+5. Create a violin plot of score distribution for each the 5 personality factors from 
+the full dataset.
+
+    <div class="solution"><button>Solution</button>
+    ```{r exercise-5}
+    read_csv("data/personality.csv") %>%
+      gather("question", "score", Op1:Ex9) %>%
+      separate(question, c("domain", "q_num"), sep=2) %>%
+      group_by(user_id, date, domain) %>%
+      summarise(
+        mean_score = mean(score, na.rm = TRUE)
+      ) %>%
+      ungroup() %>%
+      ggplot(aes(domain, mean_score, fill = domain)) +
+      geom_violin(alpha = 0.5, show.legend = FALSE, draw_quantiles = c(0.5))
+    ```
     </div>
+    
