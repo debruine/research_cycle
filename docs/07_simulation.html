@@ -387,13 +387,13 @@ div.tocify {
 </ul>
 <p>20 individual coin flips of a fair coin</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rbinom</span>(<span class="dv">20</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</code></pre></div>
-<pre><code>##  [1] 0 0 1 1 0 1 1 1 1 1 1 0 1 0 0 1 1 0 1 1</code></pre>
+<pre><code>##  [1] 1 1 1 1 1 1 1 0 1 0 1 1 0 1 1 1 1 0 1 0</code></pre>
 <p>20 individual coin flips of a baised (0.75) coin</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rbinom</span>(<span class="dv">20</span>, <span class="dv">1</span>, <span class="fl">0.75</span>)</code></pre></div>
-<pre><code>##  [1] 1 0 1 0 0 1 1 1 1 1 0 0 1 0 0 1 1 1 1 1</code></pre>
+<pre><code>##  [1] 1 0 1 1 1 1 1 1 1 1 0 1 0 1 1 0 1 1 1 0</code></pre>
 <p>The total number of heads in a series of 10 sets of 20 coin flips</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rbinom</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="fl">0.5</span>)</code></pre></div>
-<pre><code>##  [1] 12 10 11 10  9  8  9 10 13 10</code></pre>
+<pre><code>##  [1]  9 11 10 13 10 11 10 10 12 12</code></pre>
 <p>You should always plot your randomly generated data to check that it makes sense. It’s easiest to do that if you put your simulated data in a tibble first. A histogram is usually the best choice for plotting binomial data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim_flips &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">flips =</span> <span class="kw">rbinom</span>(<span class="dv">1000</span>, <span class="dv">20</span>, <span class="fl">0.5</span>)
@@ -401,7 +401,7 @@ div.tocify {
 
 <span class="kw">ggplot</span>(sim_flips) +
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(flips), <span class="dt">binwidth =</span> <span class="dv">1</span>)</code></pre></div>
-<p><img src="images/07/unnamed-chunk-9-1.png" width="768" /></p>
+<p><img src="images/07/unnamed-chunk-5-1.png" width="768" /></p>
 <p class="alert alert-info">
 Run the simulation above several times, noting how the histogram changes. Try changing the values of <code>n</code>, <code>size</code>, and <code>prob</code>.
 </p>
@@ -417,7 +417,7 @@ Run the simulation above several times, noting how the histogram changes. Try ch
 <span class="kw">ggplot</span>(data, <span class="kw">aes</span>(var)) +
 <span class="st">  </span><span class="kw">geom_density</span>() +
 <span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(data$var))</code></pre></div>
-<p><img src="images/07/unnamed-chunk-10-1.png" width="768" /></p>
+<p><img src="images/07/unnamed-chunk-6-1.png" width="768" /></p>
 <p class="alert alert-info">
 Run the simulation above several times, noting how the densisty plot changes. Try changing the values of <code>n</code>, <code>mean</code>, and <code>sd</code>.
 </p>
@@ -432,13 +432,13 @@ Run the simulation above several times, noting how the densisty plot changes. Tr
 ##  One Sample t-test
 ## 
 ## data:  sim_norm
-## t = 5.1765, df = 99, p-value = 1.187e-06
+## t = 5.9193, df = 99, p-value = 4.669e-08
 ## alternative hypothesis: true mean is not equal to 0
 ## 95 percent confidence interval:
-##  0.2814377 0.6313012
+##  0.3963935 0.7961515
 ## sample estimates:
 ## mean of x 
-## 0.4563695</code></pre>
+## 0.5962725</code></pre>
 <p>2-sample t-test.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="fl">0.5</span>, <span class="dv">1</span>)
 b &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="fl">0.7</span>, <span class="dv">1</span>)
@@ -448,13 +448,13 @@ t_ind</code></pre></div>
 ##  Welch Two Sample t-test
 ## 
 ## data:  a and b
-## t = -0.31095, df = 195.59, p-value = 0.7562
+## t = -2.2677, df = 185.99, p-value = 0.0245
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.3384237  0.2462401
+##  -0.61707873 -0.04291524
 ## sample estimates:
 ## mean of x mean of y 
-## 0.5582432 0.6043350</code></pre>
+## 0.4139104 0.7439073</code></pre>
 <p class="alert alert-warning">
 The <code>paired</code> argument defaults to <code>FALSE</code>, but it’s good practice to always explicitly set it so you are never confused about what type of test you are performing.
 </p>
@@ -464,7 +464,7 @@ The <code>paired</code> argument defaults to <code>FALSE</code>, but it’s good
 ## [6] &quot;null.value&quot;  &quot;alternative&quot; &quot;method&quot;      &quot;data.name&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t_ind$estimate</code></pre></div>
 <pre><code>## mean of x mean of y 
-## 0.5582432 0.6043350</code></pre>
+## 0.4139104 0.7439073</code></pre>
 <p>If you want to run the simulation many times and record information each time, first you need to turn your simulation into a function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim_t_test &lt;-<span class="st"> </span>function(n, m1, sd1, m2, sd2) {
   v1 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, m1, sd1)
@@ -475,7 +475,7 @@ The <code>paired</code> argument defaults to <code>FALSE</code>, but it’s good
 }
 
 <span class="kw">sim_t_test</span>(<span class="dv">100</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">0.7</span>, <span class="dv">1</span>)</code></pre></div>
-<pre><code>## [1] 0.1000969</code></pre>
+<pre><code>## [1] 0.2031349</code></pre>
 <p>Then you can use the <code>replicate()</code> function to run it many times and save all the output values. You can calculate the power of your analysis by checking the proportion of your simulated analyses that have a p-value less than your <em>alpha</em> (the probability of rejecting the null hypothesis when the null hypothesis is true).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_reps &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">sim_t_test</span>(<span class="dv">100</span>, <span class="fl">0.7</span>, <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">1</span>))
 
@@ -487,8 +487,8 @@ power</code></pre></div>
 Run the code above several times. How much does the power value fluctuate? How many replications do you need to run to get a reliable estimate of power? How does this number compare to an <a href="https://www.stat.ubc.ca/~rollin/stats/ssize/n2.html">online power calculator</a>?
 </p>
 <p>You can plot the distribution of p-values.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() +<span class="st"> </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(sim1000), <span class="dt">binwidth =</span> <span class="fl">0.05</span>, <span class="dt">boundary =</span> <span class="dv">0</span>)</code></pre></div>
-<p><img src="images/07/unnamed-chunk-16-1.png" width="768" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() +<span class="st"> </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(my_reps), <span class="dt">binwidth =</span> <span class="fl">0.05</span>, <span class="dt">boundary =</span> <span class="dv">0</span>)</code></pre></div>
+<p><img src="images/07/unnamed-chunk-12-1.png" width="768" /></p>
 <p class="alert alert-info">
 What do you think the distribution of p-values is when there is no effect (i.e., the means are identical)? Check this yourself.
 </p>
@@ -512,7 +512,7 @@ Make sure the <code>boundary</code> argument is set to <code>0</code> for p-valu
 <p>Plot you new data frame to see how mean height changes with age for boys and girls.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(height_age, <span class="kw">aes</span>(age, mean, <span class="dt">color =</span> sex)) +
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean -<span class="st"> </span>sd, <span class="dt">ymax =</span> mean +<span class="st"> </span>sd), <span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)</code></pre></div>
-<p><img src="images/07/unnamed-chunk-18-1.png" width="768" /></p>
+<p><img src="images/07/unnamed-chunk-14-1.png" width="768" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">height_sub &lt;-<span class="st"> </span>height_age %&gt;%<span class="st"> </span><span class="kw">filter</span>(age ==<span class="st"> </span><span class="dv">20</span>)
 height_sub</code></pre></div>
 <div data-pagedtable="false">
@@ -533,7 +533,7 @@ sim_height &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 
 <span class="kw">ggplot</span>(sim_height) +
 <span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(height, <span class="dt">fill =</span> sex), <span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre></div>
-<p><img src="images/07/unnamed-chunk-19-1.png" width="768" /></p>
+<p><img src="images/07/unnamed-chunk-15-1.png" width="768" /></p>
 <p class="alert alert-info">
 Run the simulation above several times, noting how the density plot changes. Try changing the age you’re simulating.
 </p>
@@ -545,14 +545,14 @@ f_mean &lt;-<span class="st"> </span>(height_sub %&gt;%<span class="st"> </span>
 f_sd   &lt;-<span class="st"> </span>(height_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(sex ==<span class="st"> &quot;female&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">select</span>(sd))[[<span class="dv">1</span>]]
 
 <span class="kw">sim_t_test</span>(<span class="dv">50</span>, m_mean, m_sd, f_mean, f_sd)</code></pre></div>
-<pre><code>## [1] 0.0005765718</code></pre>
+<pre><code>## [1] 0.0121487</code></pre>
 <p>Now replicate this 10000 times.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_reps &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">10000</span>, <span class="kw">sim_t_test</span>(<span class="dv">50</span>, m_mean, m_sd, f_mean, f_sd))
 
 alpha &lt;-<span class="st"> </span><span class="fl">0.05</span>
 power &lt;-<span class="st"> </span><span class="kw">mean</span>(my_reps &lt;<span class="st"> </span>alpha)
 power</code></pre></div>
-<pre><code>## [1] 0.6472</code></pre>
+<pre><code>## [1] 0.6462</code></pre>
 <p>This design has about 60% power to detect the sex difference in height (with a 2-tailed test). Modify the <code>sim_t_test</code> function for a 1-tailed prediction.</p>
 <p>You could just set <code>alternative</code> equal to “greater” in the function, but it might be better to add the <code>alternative</code> argument to your function (giving it the same default value as <code>t.test</code>) and change the value of <code>alternative</code> in the function to <code>alternative</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim_t_test &lt;-<span class="st"> </span>function(n, m1, sd1, m2, sd2, <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>) {
@@ -565,7 +565,7 @@ power</code></pre></div>
 
 my_reps &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">10000</span>, <span class="kw">sim_t_test</span>(<span class="dv">50</span>, m_mean, m_sd, f_mean, f_sd, <span class="st">&quot;greater&quot;</span>))
 <span class="kw">mean</span>(my_reps &lt;<span class="st"> </span>alpha)</code></pre></div>
-<pre><code>## [1] 0.7642</code></pre>
+<pre><code>## [1] 0.7686</code></pre>
 <p>What if we want to find out what sample size will give us 80% power? We can try trial and error. We know the number should be slightly larger than 50. But you can search more systematically by repeating your power calculation for a range of sample sizes.</p>
 <p class="alert alert-info">
 This might seem like overkill for a t-test, where you can easily look up sample size calculators online, but it is a valuable skill to learn for when your analyses become more complicated.
@@ -587,7 +587,7 @@ power_table &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 <span class="kw">ggplot</span>(power_table, <span class="kw">aes</span>(n, power)) +
 <span class="st">  </span><span class="kw">geom_smooth</span>() +
 <span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.8</span>)</code></pre></div>
-<p><img src="images/07/unnamed-chunk-23-1.png" width="768" /></p>
+<p><img src="images/07/unnamed-chunk-19-1.png" width="768" /></p>
 <p>Start with a relatively low number of replications and/or more spread-out samples to estimate where you should be looking more specifically. Then you can repeat with a narrower/denser range of sample sizes and more iterations.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sample_size &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">52</span>, <span class="dv">62</span>)
 
@@ -608,7 +608,7 @@ power_table &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 <span class="st">  </span><span class="kw">geom_point</span>() +
 <span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.8</span>) +
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dv">52</span>,<span class="dv">62</span>))</code></pre></div>
-<p><img src="images/07/unnamed-chunk-24-1.png" width="768" /></p>
+<p><img src="images/07/unnamed-chunk-20-1.png" width="768" /></p>
 </div>
 
 <!--

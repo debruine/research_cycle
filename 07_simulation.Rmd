@@ -176,7 +176,7 @@ estimate of power? How does this number compare to an [online power calculator](
 You can plot the distribution of p-values.
 
 ```{r}
-ggplot() + geom_histogram(aes(sim1000), binwidth = 0.05, boundary = 0)
+ggplot() + geom_histogram(aes(my_reps), binwidth = 0.05, boundary = 0)
 ```
 
 <p class="alert alert-info">What do you think the distribution of p-values is 
