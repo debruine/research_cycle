@@ -156,7 +156,11 @@ best display these data.</p>
 
 Bar plots are good for categorical data where you want to represent the count.
 
+<<<<<<< HEAD
 ```{r barplot}
+=======
+```{r}
+>>>>>>> de69f03c732a14b807f094521df682a208a2fb88
 ggplot(pets, aes(pet)) +
   geom_bar()
 ```
