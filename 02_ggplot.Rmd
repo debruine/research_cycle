@@ -24,34 +24,40 @@ knitr::opts_chunk$set(
 ### Basic
 
 1. Understand what types of graphs are best for different types of data
-    + Correlation
-    + Distribution
+    + 1 continuous
+    + 1 categorical
+    + 2 continuous
+    + 1 categorical, 1 continuous
+    + continuous bivariate
+    + 3 continuous
 2. Create common types of graphs with ggplot2
-    + bar plot (`geom_bar()`)
-    + violin plot (`geom_violin()`)
-    + boxplot (`geom_boxplot()`)
-    + histogram (`geom_histogram()`)
-    + density plot (`geom_density()`)
-    + scatter plot (`geom_point()`)
-    + line graph (`geom_smooth()`)
+    + `geom_bar()`
+    + `geom_density()`
+    + `geom_histogram()`
+    + `geom_violin()`
+    + `geom_boxplot()`
+    + `geom_col()`
+    + `geom_point()`
+    + `geom_smooth()`
 3. Save plots as an image file
     
 ### Intermediate
 
 4. Represent factorial designs with different colours or facets
-5. Superimpose different types of graphs, e.g.:
-    + boxplot on violin plot
-    + jitter plot on violin plot
-    + line graph on scatter plot
+5. Superimpose different types of graphs
 6. Add lines to graphs
-7. Deal with overlapping data
-8. Use the `viridis` package to set colours
-9. Set custom labels
+7. Create less common types of graphs
+    + `geom_tile()`
+    + `geom_density2d()`
+    + `geom_bin2d()`
+    + `geom_hex()`
+8. Deal with overlapping data
+9. Use the `viridis` package to set colours
+10. Set custom labels
 
 ### Advanced
 
-10. Arrange plots in a grid using `cowplot`
-11. Create less common types of graphs (e.g., heat map)
+11. Arrange plots in a grid using `cowplot`
 12. Adjust axes (e.g., flip coordinates, set axis limits)
 13. Change the theme
 14. Create interactive graphs with `plotly`
@@ -91,13 +97,24 @@ library(plotly)
 
 Here we've created some data frames with different types of data. 
 
+* `pets` has a single column with 100 pet types
 * `demog` has `height` and `age` for 500 men and 500 women.
 * `x_vs_y` has two correlated continuous variables (`x` and `y`)
 * `overlap` has two correlated ordinal variables and 1000 observations so there is a lot of overlap
+* `overplot` has two correlated continuous variables and 10000 observations
 
 First, think about what kinds of graphs are best for representing these different types of data.
 
 ```{r}
+
+pets <- tibble(
+  pet = sample(
+    c("dog", "cat", "ferret", "bird", "fish"), 
+    100, 
+    TRUE, 
+    c(0.45, 0.40, 0.05, 0.05, 0.05)
+  )
+)
 
 demog <- tibble(
   sex = rep(c("male", "female"), each = 500),
@@ -106,18 +123,126 @@ demog <- tibble(
 )
 
 x_vs_y <- tibble(
-  x = rnorm(100)
-) %>%
-  mutate(y = x + rnorm(100, 0, 0.5))
+  x = rnorm(100),
+  y = x + rnorm(100, 0, 0.5)
+)
 
 overlap <- tibble(
-  x = rbinom(1000, 10, 0.5)
-) %>%
-  mutate(y = x + rbinom(1000, 20, 0.5))
+  x = rbinom(1000, 10, 0.5),
+  y = x + rbinom(1000, 20, 0.5)
+)
+
+overplot <- tibble(
+  x = rnorm(10000),
+  y = x + rnorm(10000, 0, 0.5)
+)
+
+```
+
+Common Variable Combinations:
+
+* 1 continuous
+* 1 categorical
+* 2 continuous
+* 1 categorical, 1 continuous
+* continuous bivariate
+* 3 continuous
+
+<p class="alert alert-info">Before you read ahead, come up with an example of 
+each type of variable combination and sketch the types of graphs that would 
+best display these data.</p> 
+
+### Bar plot
+
+Bar plots are good for categorical data where you want to represent the count.
+
+```{r barplot}
+ggplot(pets, aes(pet)) +
+  geom_bar()
+```
+
+### Density plot
+
+Density plots are good for one continuous variable, but only if you have a fairly 
+large number of observations.
+
+```{r density}
+
+ggplot(demog, aes(height)) +
+  geom_density()
+
+```
+
+You can represent subsets of a variable by assigning the category variable to 
+the argument `group`, `fill`, or `color`. 
+
+```{r density-sex}
+
+ggplot(demog, aes(height, fill = sex)) +
+  geom_density(alpha = 0.5)
+
+```
+
+<p class="alert alert-info">Try changing the `alpha` argument to figure out what 
+it does.</p>
+
+
+### Frequency Polygons
+
+If you don't want smoothed distributions, try `geom_freqpoly()`.
+
+```{r freqpoly}
+
+ggplot(demog, aes(height, color = sex)) +
+  geom_freqpoly(binwidth = 1)
+  
+```
+
+<p class="alert alert-info">Try changing the `binwidth` argument to 5 and 0.1. 
+How do you figure out the right value? </p>
+
+### Histogram
+
+Histograms are also good for one continuous variable, and work well if you don't 
+have many observations. Set the `binwidth` to control how wide each bar is.
+
+```{r histogram}
+
+ggplot(demog, aes(height)) +
+  geom_histogram(binwidth = 1)
+  
+```
+
+If you show grouped histograms, you also probably want to change the default 
+`position` argument.
+
+```{r histogram-sex}
+
+ggplot(demog, aes(height, fill=sex)) +
+  geom_histogram(binwidth = 1, alpha = 0.5, position = "dodge")
+  
+```
+
+<p class="alert alert-info">Try changing the `position` argument to "identity", 
+"fill", "dodge", and "stack".</p>
+
+### Boxplot
+
+Boxplots are great for representing the distribution of grouped continuous 
+variables. They fix most of the problems with using barplots for continuous data.
+
+```{r boxplot}
+
+ggplot(demog, aes(sex, height, fill=sex)) +
+  geom_boxplot(alpha = 0.5)
 
 ```
 
 ### Violin plot
+
+Violin pots are like sideways, mirrored density plots. They give even more information 
+than a boxplot about distribution and are especially useful when you have non-normal 
+distributions.
 
 ```{r violin}
 
@@ -133,19 +258,11 @@ ggplot(demog, aes(sex, height, fill=sex)) +
 <p class="alert alert-info">Try changing the numbers in the `draw_quantiles` 
 argument.</p>
 
-### Boxplot
-
-```{r boxplot}
-
-ggplot(demog, aes(sex, height, fill=sex)) +
-  geom_boxplot(alpha = 0.5)
-
-```
-
-
 ### Violinbox plot
 
-To demonstrate the use of `facet_grid()` for factorial designs, I created a new column called `agegroup` to split the data into participants older than the meadian age or younger than the median age. I also got rid of the legend because it was redundant with the x-axis labels and changed the default colours.
+To demonstrate the use of `facet_grid()` for factorial designs, I created a new 
+column called `agegroup` to split the data into participants older than the 
+meadian age or younger than the median age.
 
 ```{r violinbox}
 
@@ -159,8 +276,8 @@ demog %>%
 
 ```
 
-<p class="alert alert-info">We set the `show.legend` argument to `FALSE` because 
-the x-axis already labels the sexes.</p>
+<p class="alert alert-info">Set the `show.legend` argument to `FALSE` to hide the 
+legend. We do this here because the x-axis already labels the sexes.</p>
 
 ### Violin-jitter plot
 
@@ -170,7 +287,7 @@ You can use `geom_point` to do this, setting `position` to "jitter".
 ```{r violin-jitter}
 
 demog %>%
-  sample_n(50) %>%
+  sample_n(50) %>%  # choose 50 random observations from the dataset
   ggplot(aes(sex, height, fill=sex)) +
   geom_violin(
     trim = FALSE,
@@ -181,15 +298,16 @@ demog %>%
 
 ```
 
-### Bar plot
+### Column plot
 
-Bar plots are useful for count data, but but we really should 
-[#barbarplots](https://barbarplots.github.io/) for other types of data because 
-they hide the distribution.
+Column plots are the worst way to represent grouped continuous data, but also 
+one of the most common.
 
-I'll show you how to make these with error bars so you can recreate others' graphs. 
+To make column plots with error bars, you first need to calculate the means, 
+error bar uper limits (`ymax`) and error bar lower limits (`ymin`) for each 
+category. You'll learn more about how to use the code below in the next two lessons.
 
-```{r barplot}
+```{r colplot}
 
 # calculate mean and SD for each sex
 demog %>%
@@ -199,34 +317,13 @@ demog %>%
     sd = sd(height)
   ) %>%
 ggplot(aes(sex, mean, fill=sex)) +
-  geom_bar(stat="identity", alpha = 0.5) +
-  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25)
+  geom_col(alpha = 0.5) +
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25) +
+  geom_hline(yintercept = 40)
 
 ```
 
-### Histogram
-
-```{r histogram}
-
-ggplot(demog, aes(height, fill=sex)) +
-  geom_histogram(binwidth = 1, alpha = 0.5, position = "dodge")
-  
-```
-
-<p class="alert alert-info">Try changing the `position` argument to "identity", 
-"fill", "dodge", and "stack".</p>
-
-### Density plot
-
-```{r density}
-
-ggplot(demog, aes(height, fill=sex)) +
-  geom_density(alpha=0.5) +
-  geom_vline(xintercept = mean(demog$height)) +
-  xlim(45, 90) +
-  xlab("Height (in inches)")
-
-```
+<p class="alert alert-info">What do you think `geom_vline()` does?</p>
 
 ### Save as File
 
@@ -236,6 +333,7 @@ plot to a variable.
 
 You can set the `width` and `height` of your plot. The default units are inches, 
 but you can change the `units` argument to "in", "cm", or "mm".
+
 
 ```{r, eval = FALSE}
 
@@ -309,6 +407,8 @@ default theme will change.</p>
 
 ### Scatter plot
 
+Scatter plots are a good way to represent the relationship between two continuous variables.
+
 ```{r scatter}
 
 ggplot(x_vs_y, aes(x, y)) +
@@ -318,6 +418,8 @@ ggplot(x_vs_y, aes(x, y)) +
 
 ### Line graph
 
+You often want to represent the relationship as a single line.
+
 ```{r line}
 ggplot(x_vs_y, aes(x, y)) +
   geom_smooth(method="lm")
@@ -325,15 +427,19 @@ ggplot(x_vs_y, aes(x, y)) +
 
 ### Scatter-line graph
 
+If your graph isn't too complicated, it's good to also show the individual data 
+points behind the line.
+
 ```{r scatter_line}
 
 ggplot(x_vs_y, aes(x, y)) +
-  geom_smooth(method="lm") +
-  geom_point()
+  geom_point(alpha = 0.25) +
+  geom_smooth(method="lm")
+  
 
 ```
 
-### Overlapping Data
+### Overlapping Discrete Data
 
 You can deal with overlapping data points (very common if you're using Likert scales) by reducing the opacity of the points. You need to use trial and error to adjust these so they look right.
 
@@ -368,6 +474,44 @@ overlap %>%
   ggplot(aes(x, y, size=count)) +
   geom_point(colour = "#663399")
 
+```
+
+### Overlapping Continuous Data
+
+Even if the variables are continuous, overplotting might obscure any relationships 
+if you have lots of data.
+
+```{r overplot-point}
+overplot %>%
+  ggplot(aes(x, y)) + 
+  geom_point()
+```
+
+Use `geom_density2d()` to create a contour map.
+
+```{r}
+overplot %>%
+  ggplot(aes(x, y)) + 
+  geom_density2d()
+```
+
+Use `geom_bin2d()` to create a rectangular heatmap of bin counts. Set the 
+`binwidth` to the x and y dimensions to capture in each box.
+
+```{r}
+overplot %>%
+  ggplot(aes(x, y)) + 
+  geom_bin2d(binwidth = c(1,1))
+```
+
+Use `geomhex()` to create a hexagonal heatmap of bin counts.
+<span class="text-info">Adjust the `binwidth`, `xlim()`, `ylim()` and/or the
+figure dimensions to make the hexagons more or less stretched.</span>
+
+```{r overplot-hex, fig.width=6, fig.height=5}
+overplot %>%
+  ggplot(aes(x, y)) + 
+  geom_hex(binwidth = c(0.25, 0.25))
 ```
 
 ### Heat map
