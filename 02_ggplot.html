@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Data visualisation</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.7.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotlyjs-1.29.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotlyjs-1.29.2/plotly-latest.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">The Research Cycle</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="01_intro.html">1: intro</a>
+</li>
+<li>
+  <a href="02_ggplot.html">2: ggplot</a>
+</li>
+<li>
+  <a href="03_tidyr.html">3: tidyr</a>
+</li>
+<li>
+  <a href="04_dplyr.html">4: dplyr</a>
+</li>
+<li>
+  <a href="05_joins.html">5: joins</a>
+</li>
+<li>
+  <a href="06_functions.html">6: functions</a>
+</li>
+<li>
+  <a href="07_simulation.html">7: simulation</a>
+</li>
+<li>
+  <a href="08_glm.html">8: glm</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Data visualisation</h1>
+
+</div>
+
+
+<div style="width: 25%; position: absolute; top: 0; right: 0; padding-top: 1em;">
+<p><img src="images/x-all-the-things.png" alt="Visualise all the things" style="width:100%;" /> Visualise all the things</p>
+</div>
+<div id="learning-objectives" class="section level2 tabset">
+<h2>Learning Objectives</h2>
+<div id="basic" class="section level3">
+<h3>Basic</h3>
+<ol style="list-style-type: decimal">
+<li>Understand what types of graphs are best for different types of data
+<ul>
+<li>1 continuous</li>
+<li>1 categorical</li>
+<li>2 continuous</li>
+<li>1 categorical, 1 continuous</li>
+<li>continuous bivariate</li>
+<li>3 continuous</li>
+</ul></li>
+<li>Create common types of graphs with ggplot2
+<ul>
+<li><code>geom_bar()</code></li>
+<li><code>geom_density()</code></li>
+<li><code>geom_histogram()</code></li>
+<li><code>geom_violin()</code></li>
+<li><code>geom_boxplot()</code></li>
+<li><code>geom_col()</code></li>
+<li><code>geom_point()</code></li>
+<li><code>geom_smooth()</code></li>
+</ul></li>
+<li>Save plots as an image file</li>
+</ol>
+</div>
+<div id="intermediate" class="section level3">
+<h3>Intermediate</h3>
+<ol start="4" style="list-style-type: decimal">
+<li>Represent factorial designs with different colours or facets</li>
+<li>Superimpose different types of graphs</li>
+<li>Add lines to graphs</li>
+<li>Create less common types of graphs
+<ul>
+<li><code>geom_tile()</code></li>
+<li><code>geom_density2d()</code></li>
+<li><code>geom_bin2d()</code></li>
+<li><code>geom_hex()</code></li>
+</ul></li>
+<li>Deal with overlapping data</li>
+<li>Use the <code>viridis</code> package to set colours</li>
+<li>Set custom labels</li>
+</ol>
+</div>
+<div id="advanced" class="section level3">
+<h3>Advanced</h3>
+<ol start="11" style="list-style-type: decimal">
+<li>Arrange plots in a grid using <code>cowplot</code></li>
+<li>Adjust axes (e.g., flip coordinates, set axis limits)</li>
+<li>Change the theme</li>
+<li>Create interactive graphs with <code>plotly</code></li>
+</ol>
+</div>
+</div>
+<div id="prep" class="section level2">
+<h2>Prep</h2>
+<ul>
+<li><a href="http://r4ds.had.co.nz/data-visualisation.html">Chapter 3: Data Visualisation</a> of <em>R for Data Science</em></li>
+<li><a href="http://r4ds.had.co.nz/graphics-for-communication.html">Chapter 28: Graphics for communication</a> of <em>R for Data Science</em></li>
+</ul>
+</div>
+<div id="resources" class="section level2">
+<h2>Resources</h2>
+<ul>
+<li><a href="https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf">ggplot2 cheat sheet</a></li>
+<li><a href="http://ggplot2.tidyverse.org/reference/">ggplot2 documentation</a></li>
+<li><a href="http://www.r-graph-gallery.com/">The R Graph Gallery</a> (this is really useful)</li>
+<li><a href="http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html">Top 50 ggplot2 Visulaizations</a></li>
+<li><a href="http://www.cookbook-r.com/Graphs/">R Graphics Cookbook</a> by Winston Chang</li>
+<li><a href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html">The viridis color palettes</a></li>
+<li><a href="https://www.ggplot2-exts.org/">ggplot extensions</a></li>
+<li><a href="https://plot.ly/ggplot2/">plotly</a> for creating interactive graphs</li>
+</ul>
+</div>
+<div id="examples" class="section level2">
+<h2>Examples</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># libraries needed for these graphs</span>
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(viridis)
+<span class="kw">library</span>(plotly)
+
+<span class="co"># cowplot will change the default theme of graphs, so we&#39;re loading it later</span>
+<span class="co"># library(cowplot) </span></code></pre></div>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>Here we’ve created some data frames with different types of data.</p>
+<ul>
+<li><code>pets</code> has a single column with 100 pet types</li>
+<li><code>demog</code> has <code>height</code> and <code>age</code> for 500 men and 500 women.</li>
+<li><code>x_vs_y</code> has two correlated continuous variables (<code>x</code> and <code>y</code>)</li>
+<li><code>overlap</code> has two correlated ordinal variables and 1000 observations so there is a lot of overlap</li>
+<li><code>overplot</code> has two correlated continuous variables and 10000 observations</li>
+</ul>
+<p>First, think about what kinds of graphs are best for representing these different types of data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pets &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">pet =</span> <span class="kw">sample</span>(
+    <span class="kw">c</span>(<span class="st">&quot;dog&quot;</span>, <span class="st">&quot;cat&quot;</span>, <span class="st">&quot;ferret&quot;</span>, <span class="st">&quot;bird&quot;</span>, <span class="st">&quot;fish&quot;</span>), 
+    <span class="dv">100</span>, 
+    <span class="ot">TRUE</span>, 
+    <span class="kw">c</span>(<span class="fl">0.45</span>, <span class="fl">0.40</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>)
+  )
+)
+
+demog &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">sex =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;male&quot;</span>, <span class="st">&quot;female&quot;</span>), <span class="dt">each =</span> <span class="dv">500</span>),
+  <span class="dt">height =</span> <span class="kw">c</span>(<span class="kw">rnorm</span>(<span class="dv">500</span>, <span class="dv">70</span>, <span class="dv">4</span>), <span class="kw">rnorm</span>(<span class="dv">500</span>, <span class="dv">65</span>, <span class="fl">3.5</span>)),
+  <span class="dt">age =</span> <span class="kw">rpois</span>(<span class="dv">1000</span>, <span class="dv">3</span>) +<span class="st"> </span><span class="dv">20</span>
+)
+
+x_vs_y &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>),
+  <span class="dt">y =</span> x +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)
+)
+
+overlap &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">x =</span> <span class="kw">rbinom</span>(<span class="dv">1000</span>, <span class="dv">10</span>, <span class="fl">0.5</span>),
+  <span class="dt">y =</span> x +<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1000</span>, <span class="dv">20</span>, <span class="fl">0.5</span>)
+)
+
+overplot &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">10000</span>),
+  <span class="dt">y =</span> x +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10000</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)
+)</code></pre></div>
+<p>Common Variable Combinations:</p>
+<ul>
+<li>1 continuous</li>
+<li>1 categorical</li>
+<li>2 continuous</li>
+<li>1 categorical, 1 continuous</li>
+<li>continuous bivariate</li>
+<li>3 continuous</li>
+</ul>
+<p class="alert alert-info">
+Before you read ahead, come up with an example of each type of variable combination and sketch the types of graphs that would best display these data.
+</p>
+</div>
+<div id="bar-plot" class="section level3">
+<h3>Bar plot</h3>
+<p>Bar plots are good for categorical data where you want to represent the count.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(pets, <span class="kw">aes</span>(pet)) +
+<span class="st">  </span><span class="kw">geom_bar</span>()</code></pre></div>
+<p><img src="images/02/unnamed-chunk-3-1.png" width="768" /></p>
+</div>
+<div id="density-plot" class="section level3">
+<h3>Density plot</h3>
+<p>Density plots are good for one continuous variable, but only if you have a fairly large number of observations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(height)) +
+<span class="st">  </span><span class="kw">geom_density</span>()</code></pre></div>
+<p><img src="images/02/density-1.png" width="768" /></p>
+<p>You can represent subsets of a variable by assigning the category variable to the argument <code>group</code>, <code>fill</code>, or <code>color</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(height, <span class="dt">fill =</span> sex)) +
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre></div>
+<p><img src="images/02/density-sex-1.png" width="768" /></p>
+<p class="alert alert-info">
+Try changing the <code>alpha</code> argument to figure out what it does.
+</p>
+</div>
+<div id="frequency-polygons" class="section level3">
+<h3>Frequency Polygons</h3>
+<p>If you don’t want smoothed distributions, try <code>geom_freqpoly()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(height, <span class="dt">color =</span> sex)) +
+<span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>)</code></pre></div>
+<p><img src="images/02/freqpoly-1.png" width="768" /></p>
+<p class="alert alert-info">
+Try changing the <code>binwidth</code> argument to 5 and 0.1. How do you figure out the right value?
+</p>
+</div>
+<div id="histogram" class="section level3">
+<h3>Histogram</h3>
+<p>Histograms are also good for one continuous variable, and work well if you don’t have many observations. Set the <code>binwidth</code> to control how wide each bar is.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(height)) +
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>)</code></pre></div>
+<p><img src="images/02/histogram-1.png" width="768" /></p>
+<p>If you show grouped histograms, you also probably want to change the default <code>position</code> argument.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</code></pre></div>
+<p><img src="images/02/histogram-sex-1.png" width="768" /></p>
+<p class="alert alert-info">
+Try changing the <code>position</code> argument to “identity”, “fill”, “dodge”, and “stack”.
+</p>
+</div>
+<div id="boxplot" class="section level3">
+<h3>Boxplot</h3>
+<p>Boxplots are great for representing the distribution of grouped continuous variables. They fix most of the problems with using barplots for continuous data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre></div>
+<p><img src="images/02/boxplot-1.png" width="768" /></p>
+</div>
+<div id="violin-plot" class="section level3">
+<h3>Violin plot</h3>
+<p>Violin pots are like sideways, mirrored density plots. They give even more information than a boxplot about distribution and are especially useful when you have non-normal distributions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_violin</span>(
+    <span class="dt">trim =</span> <span class="ot">FALSE</span>,
+    <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>), 
+    <span class="dt">alpha =</span> <span class="fl">0.5</span>
+  )</code></pre></div>
+<p><img src="images/02/violin-1.png" width="768" /></p>
+<p class="alert alert-info">
+Try changing the numbers in the <code>draw_quantiles</code> argument.
+</p>
+</div>
+<div id="violinbox-plot" class="section level3">
+<h3>Violinbox plot</h3>
+<p>To demonstrate the use of <code>facet_grid()</code> for factorial designs, I created a new column called <code>agegroup</code> to split the data into participants older than the meadian age or younger than the median age.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demog %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">agegroup =</span> <span class="kw">ifelse</span>(age&lt;<span class="kw">median</span>(age), <span class="st">&quot;Younger&quot;</span>, <span class="st">&quot;Older&quot;</span>)) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">    </span><span class="kw">geom_violin</span>(<span class="dt">trim =</span> <span class="ot">FALSE</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) +
+<span class="st">    </span><span class="kw">geom_boxplot</span>(<span class="dt">width =</span> <span class="fl">0.25</span>, <span class="dt">fill=</span><span class="st">&quot;white&quot;</span>) +
+<span class="st">    </span><span class="kw">facet_grid</span>(.~agegroup) +
+<span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;orange&quot;</span>, <span class="st">&quot;green&quot;</span>))</code></pre></div>
+<p><img src="images/02/violinbox-1.png" width="768" /></p>
+<p class="alert alert-info">
+Set the <code>show.legend</code> argument to <code>FALSE</code> to hide the legend. We do this here because the x-axis already labels the sexes.
+</p>
+</div>
+<div id="violin-jitter-plot" class="section level3">
+<h3>Violin-jitter plot</h3>
+<p>If you don’t have a lot of data points, it’s good to represent them individually. You can use <code>geom_point</code> to do this, setting <code>position</code> to “jitter”.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demog %&gt;%
+<span class="st">  </span><span class="kw">sample_n</span>(<span class="dv">50</span>) %&gt;%<span class="st">  </span><span class="co"># choose 50 random observations from the dataset</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_violin</span>(
+    <span class="dt">trim =</span> <span class="ot">FALSE</span>,
+    <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>), 
+    <span class="dt">alpha=</span><span class="fl">0.5</span>
+  ) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="st">&quot;jitter&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>, <span class="dt">size =</span> <span class="dv">3</span>)</code></pre></div>
+<p><img src="images/02/violin-jitter-1.png" width="768" /></p>
+</div>
+<div id="column-plot" class="section level3">
+<h3>Column plot</h3>
+<p>Column plots are the worst way to represent grouped continuous data, but also one of the most common.</p>
+<p>To make column plots with error bars, you first need to calculate the means, error bar uper limits (<code>ymax</code>) and error bar lower limits (<code>ymin</code>) for each category. You’ll learn more about how to use the code below in the next two lessons.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate mean and SD for each sex</span>
+demog %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(sex) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">mean =</span> <span class="kw">mean</span>(height),
+    <span class="dt">sd =</span> <span class="kw">sd</span>(height)
+  ) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(sex, mean, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) +
+<span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean -<span class="st"> </span>sd, <span class="dt">ymax =</span> mean +<span class="st"> </span>sd), <span class="dt">width =</span> <span class="fl">0.25</span>) +
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">40</span>)</code></pre></div>
+<p><img src="images/02/barplot-1.png" width="768" /></p>
+<p class="alert alert-info">
+What do you think <code>geom_vline()</code> does?
+</p>
+</div>
+<div id="save-as-file" class="section level3">
+<h3>Save as File</h3>
+<p>You can save a ggplot using <code>ggsave()</code>. It saves the last ggplot you made, by default, but you can specify which plot you want to save if you assigned that plot to a variable.</p>
+<p>You can set the <code>width</code> and <code>height</code> of your plot. The default units are inches, but you can change the <code>units</code> argument to “in”, “cm”, or “mm”.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demog_box &lt;-<span class="st"> </span><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)
+
+demog_violin &lt;-<span class="st"> </span><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)
+
+<span class="kw">ggsave</span>(<span class="st">&quot;demog_violin_plot.png&quot;</span>, <span class="dt">width =</span> <span class="dv">5</span>, <span class="dt">height =</span> <span class="dv">7</span>)
+
+<span class="kw">ggsave</span>(<span class="st">&quot;demog_box_plot.jpg&quot;</span>, <span class="dt">plot =</span> demog_box, <span class="dt">width =</span> <span class="dv">5</span>, <span class="dt">height =</span> <span class="dv">7</span>)</code></pre></div>
+</div>
+<div id="grid-of-plots" class="section level3">
+<h3>Grid of plots</h3>
+<p>You can use the <a href="https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html"><code>cowplot</code></a> package to easily make grids of different graphs. First, you have to assign each plot a name. Then you list all the plots as the first arguments of <code>plot_grid()</code> and provide a list of labels.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cowplot)
+
+my_hist &lt;-<span class="st"> </span><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_histogram</span>(
+    <span class="dt">binwidth =</span> <span class="dv">1</span>, 
+    <span class="dt">alpha =</span> <span class="fl">0.5</span>, 
+    <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>, 
+    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>
+  )
+
+my_violin &lt;-<span class="st"> </span><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_violin</span>(
+    <span class="dt">trim =</span> <span class="ot">FALSE</span>,
+    <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.5</span>), 
+    <span class="dt">alpha =</span> <span class="fl">0.5</span>, 
+    <span class="dt">show.legend =</span> <span class="ot">FALSE</span>
+  )
+
+my_box &lt;-<span class="st"> </span><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)
+
+my_density &lt;-<span class="st"> </span><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)
+
+my_bar &lt;-<span class="st"> </span>demog %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(sex) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">mean =</span> <span class="kw">mean</span>(height),
+    <span class="dt">sd =</span> <span class="kw">sd</span>(height)
+  ) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(sex, mean, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) +
+<span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean -<span class="st"> </span>sd, <span class="dt">ymax =</span> mean +<span class="st"> </span>sd), <span class="dt">width =</span> <span class="fl">0.25</span>)
+
+<span class="kw">plot_grid</span>(
+  my_violin, 
+  my_box, 
+  my_density, 
+  my_bar, 
+  <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>)
+)</code></pre></div>
+<p><img src="images/02/unnamed-chunk-5-1.png" width="768" /></p>
+<p class="alert alert-info">
+Once you load the cowplot package, your ggplot default theme will change.
+</p>
+</div>
+<div id="scatter-plot" class="section level3">
+<h3>Scatter plot</h3>
+<p>Scatter plots are a good way to represent the relationship between two continuous variables.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(x_vs_y, <span class="kw">aes</span>(x, y)) +
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="images/02/scatter-1.png" width="768" /></p>
+</div>
+<div id="line-graph" class="section level3">
+<h3>Line graph</h3>
+<p>You often want to represent the relationship as a single line.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(x_vs_y, <span class="kw">aes</span>(x, y)) +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)</code></pre></div>
+<p><img src="images/02/line-1.png" width="768" /></p>
+</div>
+<div id="scatter-line-graph" class="section level3">
+<h3>Scatter-line graph</h3>
+<p>If your graph isn’t too complicated, it’s good to also show the individual data points behind the line.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(x_vs_y, <span class="kw">aes</span>(x, y)) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.25</span>) +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)</code></pre></div>
+<p><img src="images/02/scatter_line-1.png" width="768" /></p>
+</div>
+<div id="overlapping-discrete-data" class="section level3">
+<h3>Overlapping Discrete Data</h3>
+<p>You can deal with overlapping data points (very common if you’re using Likert scales) by reducing the opacity of the points. You need to use trial and error to adjust these so they look right.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(overlap, <span class="kw">aes</span>(x, y)) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">5</span>, <span class="dt">alpha =</span> .<span class="dv">05</span>) +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)</code></pre></div>
+<p><img src="images/02/overlap_alpha-1.png" width="768" /></p>
+<p>Alternatively, you can transform your data to create a count column and use the count to set the dot colour.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">overlap %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(x, y) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">count =</span> <span class="kw">n</span>()) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x, y, <span class="dt">color=</span>count)) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">5</span>) +
+<span class="st">  </span><span class="kw">scale_color_viridis</span>()</code></pre></div>
+<p><img src="images/02/overlap_colour-1.png" width="768" /></p>
+<p>Or you can set the size of the dot proportional to the number of overlapping observations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">overlap %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(x, y) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">count =</span> <span class="kw">n</span>()) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x, y, <span class="dt">size=</span>count)) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">colour =</span> <span class="st">&quot;#663399&quot;</span>)</code></pre></div>
+<p><img src="images/02/overlap_size-1.png" width="768" /></p>
+</div>
+<div id="overlapping-continuous-data" class="section level3">
+<h3>Overlapping Continuous Data</h3>
+<p>Even if the variables are continuous, overplotting might obscure any relationships if you have lots of data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">overplot %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x, y)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="images/02/overplot-point-1.png" width="768" /></p>
+<p>Use <code>geom_density2d()</code> to create a contour map.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">overplot %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x, y)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_density2d</span>()</code></pre></div>
+<p><img src="images/02/unnamed-chunk-6-1.png" width="768" /></p>
+<p>Use <code>geom_bin2d()</code> to create a rectangular heatmap of bin counts. Set the <code>binwidth</code> to the x and y dimensions to capture in each box.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">overplot %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x, y)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bin2d</span>(<span class="dt">binwidth =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</code></pre></div>
+<p><img src="images/02/unnamed-chunk-7-1.png" width="768" /></p>
+<p>Use <code>geomhex()</code> to create a hexagonal heatmap of bin counts. <span class="text-info">Adjust the <code>binwidth</code>, <code>xlim()</code>, <code>ylim()</code> and/or the figure dimensions to make the hexagons more or less stretched.</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">overplot %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(x, y)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_hex</span>(<span class="dt">binwidth =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>))</code></pre></div>
+<p><img src="images/02/overplot-hex-1.png" width="576" /></p>
+</div>
+<div id="heat-map" class="section level3">
+<h3>Heat map</h3>
+<p>I’ve included the code for creating a correlation matrix from a table of variables, but you don’t need to understand how this is done yet. We’ll cover <code>mutate</code> and <code>gather</code> functions in the <code>dplyr</code> and <code>tidyr</code> lessons.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># generate two sets of correlated variables (a and b)</span>
+heatmap &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">a1 =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>),
+  <span class="dt">b1 =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>)
+) %&gt;%<span class="st"> </span>
+<span class="kw">mutate</span>(
+  <span class="dt">a2 =</span> a1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>),
+  <span class="dt">a3 =</span> a1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>),
+  <span class="dt">a4 =</span> a1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>),
+  <span class="dt">b2 =</span> b1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>),
+  <span class="dt">b3 =</span> b1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>),
+  <span class="dt">b4 =</span> b1 +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>)
+) %&gt;%
+<span class="kw">cor</span>() %&gt;%<span class="st"> </span><span class="co"># create the correlation matrix</span>
+<span class="kw">as.data.frame</span>() %&gt;%<span class="st"> </span><span class="co"># make it a data frame</span>
+<span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;V1&quot;</span>) %&gt;%<span class="st"> </span><span class="co"># set rownames as V1</span>
+<span class="kw">gather</span>(<span class="st">&quot;V2&quot;</span>, <span class="st">&quot;r&quot;</span>, a1:b4) <span class="co"># wide to long (V2)</span></code></pre></div>
+<p>Once you have a correlation matrix in the correct (long) format, it’s easy to make a heatmap using <code>geom_tile()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(heatmap, <span class="kw">aes</span>(V1, V2, <span class="dt">fill=</span>r)) +
+<span class="st">  </span><span class="kw">geom_tile</span>() +
+<span class="st">  </span><span class="kw">scale_fill_viridis</span>()</code></pre></div>
+<p><img src="images/02/heatmap-1.png" width="768" /></p>
+<p class="alert alert-info">
+The file type is set from the filename suffix, or by specifying the argument <code>device</code>, which can take the following values: “eps”, “ps”, “tex”, “pdf”, “jpeg”, “tiff”, “png”, “bmp”, “svg” or “wmf”.
+</p>
+</div>
+<div id="interactive-plots" class="section level3">
+<h3>Interactive Plots</h3>
+<p>You can use the <code>plotly</code> package to make interactive graphs. Just assign your ggplot to a variable and use the function <code>ggplotly()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demog_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(age, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="dt">width=</span> <span class="fl">0.2</span>, <span class="dt">height =</span> <span class="dv">0</span>), <span class="dt">size =</span> <span class="dv">2</span>)
+
+<span class="kw">ggplotly</span>(demog_plot)</code></pre></div>
+<div id="7c8c66cf176a" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="7c8c66cf176a">{"x":{"data":[{"x":[23.8292008145712,21.8947476345114,24.9533516987227,21.1308710956946,26.1483384409919,22.9143368689343,24.0326614809223,20.0225701440126,23.1330999879166,24.0366849055514,22.8219311012886,22.1329902689904,22.9240335856564,21.0937017821707,22.1222830657847,22.0296302130446,24.8476246025413,24.9268810276873,22.0744821545668,25.0037374319509,22.8758444271982,22.9235613470897,22.8127663689665,20.9733410281129,26.9016679522581,24.1319480723701,21.1637683014385,21.8126889278181,23.9219389826059,21.93646509666,21.1340305625461,23.9841074854136,21.8609297437593,22.9588806047104,26.00795036247,23.1583888794295,20.8959345595911,21.0870052823797,24.1592985394411,24.8257448350079,23.8041469504125,21.9837181261741,23.1340592715889,23.1241376612335,20.8252850106917,21.9479806114919,22.908047311008,24.1986332863569,21.0132092793472,22.8746969846077,21.0822469900362,24.1758767442778,21.0798774234951,23.9556165065616,23.1386080862023,24.1121774416417,23.0745472829789,22.9990309844725,22.9739293280058,21.8626104354858,26.1775090282783,22.0595795172267,24.8326237135567,25.1136273912154,23.1225012862124,24.9602633460425,21.8981377287768,20.9282013700344,25.0769479771145,23.1703524395823,23.8250158818439,20.9811676900834,25.1791817687452,20.0257258136757,24.9673001265153,23.9960497026332,21.0900651160628,19.9316236348823,20.8345041559078,23.1807361920364,23.1791460410692,22.0357321764342,23.9562965580262,23.8229660577141,22.9288461662829,19.8913571313955,24.1707288786769,23.8878706514835,24.1164848420769,25.9340381007642,20.8417752662674,24.9052466743626,22.1872582198121,23.0899099129252,23.0427367025986,23.0151524862275,21.1063533182256,23.9600560237654,21.0363552059047,21.0016489276662,21.8029549953528,19.9432836870663,23.0015291579068,20.8068007260561,23.0758934128098,22.9016689469107,21.0116620897315,21.8579811392352,20.9023773448542,21.9293414881453,21.8229091690853,20.0775693465956,25.1456870838068,23.1752764286473,25.0398342797533,20.0967838162556,22.0401860076934,24.9590808582492,23.1838393121026,26.0364894074388,23.9308574770577,22.1426851611584,23.1493191055953,21.862168129161,21.1131793579087,20.8441467458382,20.8297108037397,22.8583629012108,23.0543297107331,21.923451739084,23.0622358572669,20.8028183367103,22.9906430940144,23.9632362947799,24.0849911325611,21.9228240107186,23.0388717257418,25.0910113163292,23.9433606234379,24.116744023189,21.917637683358,24.8983609098941,24.0591360460036,23.0936234668829,23.8744200746529,20.822819542978,23.1776024864987,24.9612203090452,23.8169363701716,20.8429555449635,25.1407740297727,22.0569750455208,24.9951926510781,21.0440028363839,24.8742574905045,26.0744189472869,24.0807456636801,21.1768907314166,22.8614500095136,22.988224196434,23.1075309371576,22.0758219264448,21.8558330857195,22.895580955781,28.8875920061022,20.803810909763,23.9502127195708,23.1975716359913,20.0974892727099,24.030087622162,21.9205058312044,21.8334362593479,27.1689113911241,23.8304388480261,23.0932434754446,24.9290009204298,21.1204681460746,22.9367218985222,23.9100604418665,21.9070994325913,22.890604446549,25.8926174092107,24.9516680584289,22.9053026131354,21.9794324924238,22.8502080371603,24.0011429396458,25.1346323412843,24.1003693876788,23.0907996094786,22.0705052149482,22.1030718944967,23.0361096940003,22.9640082811005,22.0950015495531,21.8908914943226,23.0629649028182,20.930306820292,23.950019773189,26.8490824997425,23.1558649835177,23.1160012553446,25.9052289758809,23.9032333318144,22.9635321778245,21.1121956058778,22.9844853079878,22.8261882072315,22.8079824374057,24.9652436020784,20.0295831851661,23.9685300776735,23.8941171179526,23.8614836669527,22.0071802132763,22.8959520755336,25.1644821416587,23.8381684086286,22.1779798545875,23.0312334476039,23.048138385918,19.9558555094525,21.8072743802331,24.0167161948048,24.1307897339575,25.8477913404815,22.8934231884778,25.1899655323476,26.1725132852793,23.1213205289096,23.8015523098409,22.9677731364034,27.0299463366158,26.0483982740901,21.9268980007619,22.8876816876233,22.8946261952631,23.9979349322617,24.1218168064021,25.1164991325699,23.0656596644782,29.9085187508725,23.9422122471966,20.1984694703482,21.1307057612576,21.9443920969032,25.0112842326984,21.9933239217848,23.8430137744173,23.0749669810757,23.8620635967702,20.1849277888425,21.8598907572217,25.1452952086926,23.0953168710694,22.8667557479814,20.1518461767584,21.0387316788547,20.8027199390344,23.0250032679178,26.0562761843204,24.1748751656152,24.0440822603181,23.060404447373,27.0468271060847,22.9891448867507,22.9868569231592,20.9626092446968,22.0396593273617,23.0074878164567,24.0013006052934,25.0526271914132,22.1957585660741,24.8518166683614,21.0413169836625,25.1277587117627,22.9278700174764,25.8486218913458,26.9823354176246,20.1584120696411,22.1943499421701,21.8150441657752,20.9104704469442,27.8034816857427,21.9545828776434,24.0006165863015,22.9378387366422,22.9452600187622,22.8347027636133,22.9140030632727,19.8579211826436,24.151481245365,24.8271930049174,23.1915890965611,26.846163115371,24.8006130701862,25.0375450850464,23.8583166116849,26.1089998466894,24.1275486527942,22.8142622809857,21.9921916396357,22.9172656158917,25.1281188473105,22.8885902299546,21.1676943471655,22.964179024566,23.1546899572015,19.8799622798339,23.1763640326448,21.0440324725583,22.1348848646507,21.1492859159596,22.9399989939295,22.8089550421573,21.1233807716519,21.1431813216768,21.9394416042604,24.9936591824517,24.0429491827264,23.0804849803448,19.8717150564305,22.1009858042002,24.1177989747375,23.1706324935891,21.1959131318145,23.0948251691647,23.1339260908775,22.0891048528254,21.9146237145178,20.890120817814,19.903266210109,21.9330469039269,23.9422798405401,21.0650303733535,21.8443202525377,23.8156154015102,20.9084339576773,22.8930215662345,25.1456524627283,23.1197499392554,20.8752713943832,20.8884613288566,23.9885867144912,23.1563204690814,22.8708320085891,25.1983079999685,23.8563511465676,22.0994095757604,28.9780191723257,26.0137289636768,21.9801703553647,24.0764797128737,22.9738357244059,23.1782721432857,23.0480273359455,22.1030093125999,23.8787038149312,21.8507160361856,22.0280893496238,25.8513384362683,26.1789808319882,25.9589799542911,22.8764539930038,27.1750718860887,22.973086763639,20.8462043404579,21.834367085807,22.1896217261441,20.8224013927393,22.162815431878,23.8639884268865,24.8366390644573,22.0520066335797,26.88810627684,21.8149260130711,19.8783838577569,21.8648553070612,21.0227308820002,22.920692504663,25.8645824221894,21.96490001278,20.8835935016163,27.0554492459632,22.0988762211986,22.9053853672929,23.1992270166986,20.8877511815168,23.0891266916879,23.1284807778895,20.935361182224,22.9809880436398,25.1403964860365,25.8297667439096,21.0938997565769,22.009105730243,25.1263301076368,21.1817629727535,21.001629593689,24.0076105118729,21.9064817411825,26.0601275064051,26.1791708131321,23.9626697820611,22.1105840090662,22.1400269550271,19.8686834667809,21.0024622840807,24.1160559364595,24.8760803048499,21.9792945405468,24.9486867801286,24.9552663720213,22.0276561033912,23.1019010649063,22.1848552547395,22.9019408765249,23.8669471974485,21.8636935264803,26.8606563117355,22.9076348328032,22.1741219177842,20.9601629050449,22.9680342907086,25.8356718521565,25.9995418674313,24.1602921226993,21.0360739279538,22.086528680753,24.1989842085168,22.064117817767,22.1200139952824,22.9020758681931,24.0075232720003,21.8654423444532,20.9901376355439,23.1509418180212,24.0858115076087,23.967691851221,21.189377398137,21.8123517485335,22.8944246250205,21.0105637555011,22.1405080624856,22.9290542377159,23.1443718928844,21.950011916738,24.0560242210515,22.1721361255273,22.8268659231253,20.9400604169816,21.1584550011903,25.0807714787312,21.989655129984,23.9478969201446,22.1519715733826,22.0275386791676,22.919196264632,21.9478593519889,23.0299898708239,22.1483621866442,23.8725835082121,20.868842026405,21.9108902272768,24.9082800985314,23.8378614904359,21.8373447666876,24.1695291699842,20.1864314260893,21.0346674486063,24.900927153416,22.0609606861137,23.0718189754523,22.0444080291316,24.0526938381605,23.1799965152517,24.8250017122366,22.044937269669,23.8582249231637,23.0651965205558,20.9987759581767,28.0524776301347,24.8523016013205,21.8779681150801,20.9746019548737,24.0832889868878,24.8193640806712,25.9007349419408,24.067816967424,22.0357445826754,22.9607939309441,22.8268398925662,23.8740994045511,22.9337162912823,22.0194857913069,22.178775525745,25.1796032426879,20.0799854527228,20.914759757556,23.9121410390362],"y":[57.8101343281661,67.637543567365,63.1985746839886,64.8065439378663,57.5109434225425,71.1941671681732,63.0103613041534,67.019223399696,64.3287268616831,59.8986665079706,66.8765248785906,61.38568085823,56.9678698961169,58.6194512340128,64.842332045999,63.710246839945,63.5256913090281,60.5761578013854,61.9109774845584,61.2458504960701,68.705883744143,69.1631513978004,60.3892741534023,67.5631713723106,64.2816512109554,63.4463963036806,64.7274411410557,57.8749113854886,64.3583221531698,57.7931475868378,63.9794187301861,63.0763538125941,65.8929436399927,60.968624151563,67.8498054984807,62.9844947831718,59.1432896670422,65.7218836958099,66.3586493392077,62.0079905725549,60.9129573469035,71.6125744303224,61.5881211997138,60.7703313496533,66.2761027467973,62.8776644158101,70.0393864869658,62.7334679162831,63.0387613280549,63.3493677682678,66.094999204219,66.9189258640523,70.0270287746695,66.7027342401371,61.7979749400084,65.7996951398683,64.9600376856579,63.3246609692503,58.8464658323812,70.5089313582345,64.2770747697086,64.769515398401,66.7242378865417,70.4091615233605,64.5892690200894,66.6136368501559,67.1995785522534,64.9848914443919,63.3125587584126,64.6657275793499,60.4580049433495,64.8687425473408,69.256795854837,59.4457308842295,65.4550787102376,66.5642957768181,66.4722978629989,68.1291672741174,60.1297828924418,64.4641503856334,64.6490814620078,59.4058476701824,70.6537176579558,64.2644298042868,64.5935431874441,67.6252975592389,62.4459246690748,64.7861911496904,71.1781491721045,59.4867107943573,69.9576062779046,67.1404110728371,63.7258987938406,62.9513136341456,61.3198211442131,61.1399228816896,63.1435323403985,65.8649337226798,67.6320889351633,65.6837066018691,66.7367394554956,65.3364185585103,63.7940073896056,68.3108678735513,67.3270125633755,60.4729244082596,62.1475646326632,59.887510437437,66.369436839515,62.1186725246292,67.7728682616245,68.2067667612489,65.4450113905948,65.3862859701715,65.6769077681784,58.1199501485032,61.3724069372885,68.1125994223221,69.6571228197739,62.8392226337666,69.1576531444666,64.7949816777777,64.6833527088409,65.3683013994559,74.4484911785444,58.8195684802534,66.834321822113,67.0461531691711,61.5520752349272,67.7478234863726,64.7763412363975,62.554589801128,66.1586891837433,61.9104119721341,65.2951813473184,55.3903053969709,67.4271586123146,60.2162248710236,61.8451463153871,61.938379862474,66.437325022884,73.5847347232972,60.5368805031532,65.9220573832036,66.253842041436,63.3263172672132,61.7329236185376,65.4125883804007,64.7773189283847,64.1410165795286,63.8256566290648,61.1325148816344,61.6066296842786,61.5668054902443,64.0377426005592,71.1515963597669,67.006654689457,71.0154775047339,57.8621513525863,63.4281442697943,64.8553851331322,71.2173508678017,72.951865406865,62.3143885255028,62.5591470782893,61.8151154433901,65.1519122401571,62.7104348025317,67.3114741761451,63.0466328350728,66.2515602446977,64.5819899546123,72.2071537576377,69.0856230712733,59.9530531101401,64.9563803270625,59.4512615315773,65.4483182742899,64.7372913750127,61.4818981113372,70.6010175407624,63.4337823202521,65.6117186303287,67.3057780854276,62.2696328307111,69.5970965341018,64.0370295164168,59.5242829783504,63.4310520852077,65.3051711707988,72.1027067568155,68.6775633949033,66.3295205194778,66.2721365499067,67.3659127476478,63.446017086598,62.6905819981738,63.3059993614164,65.2005847329408,65.8799444225146,59.5269660331834,70.888950919327,70.1623567486533,68.6984943486858,59.3874271625211,66.3655223163156,71.7912357572482,65.6624321526674,65.7116815305033,63.4409294038994,59.9703289278056,62.789738310014,63.7510352257751,65.8116557106834,63.0458937886257,67.0611680140798,63.4312625708933,63.457114526398,62.5759089930855,64.1520558930645,63.0915508249767,58.4820268854531,64.6692826406548,56.4868825002378,58.2948718497423,66.3391422560783,62.1042517629627,62.6447807513145,68.1790423035201,59.9771120810778,69.4239602173054,64.1841453504098,60.1573731440928,67.3324844595836,73.0859945249933,62.4269873629436,63.8623492546427,68.0071826391846,63.2089513775819,65.1790207660551,62.2710872991629,56.2275837492597,65.430208702496,68.3588847354294,57.7085697593219,73.4742786861025,66.5480211646373,57.3503184394455,65.0044225735897,60.5496066220274,65.5716668876339,66.6343145166587,61.6493058073871,65.7348287418815,64.1152841751418,62.5383830026649,63.0014625975902,68.3577649122158,69.7596704247192,63.2539582240446,67.0232028727909,62.3739674357327,71.3557759052571,65.2284157764811,62.3676712904168,66.6693343840563,60.2185525705819,67.8554008053025,60.849644081581,70.5130968509864,68.5138260972246,61.1170997669768,57.6834840744749,65.3644152354108,66.9462103428029,67.9647405976748,63.6677177475919,63.9114467882317,66.6509377158244,70.68055742073,63.5383542002121,62.0988147906048,61.4306406480637,57.8966573572138,64.4347289334305,58.9644207716283,65.8099775292077,68.151431948844,65.7226737597576,67.132929502653,64.4591847556229,69.6633386297414,63.6291636976528,62.1990828016873,65.6613416364414,66.4273192825114,62.4028721314352,65.5610560769824,68.2913452755947,67.9812661681986,67.9761857655734,62.4471980905152,66.6535609750641,64.9643795815242,66.9758335727324,67.921026178275,68.1217806023169,62.9252411003812,61.8554216836188,61.3948302912217,60.0633440942525,61.0401959870512,60.9290036166622,64.9624878968843,63.6944037130195,63.7916131127675,62.9218258850234,61.2177516790263,70.5187303382123,65.0563773129556,64.6125644590495,62.2371108303937,66.3390041546663,65.1428758849271,68.1913075118983,61.0455289215648,63.0580949237716,67.551741680191,68.4996874193148,66.6467844681851,62.0732985905531,70.8874239152495,69.0900120282856,55.3966343214658,64.8654869398028,58.5411789952847,67.6205265835072,71.14549122911,63.2725999399463,65.6385794835568,61.0913233768104,67.4722455886771,65.4189608054392,63.5057548173927,64.881036635717,70.5700989873329,64.83587721602,62.7533765664817,64.8186821412779,66.0296585588573,62.2576131447153,66.1145941915639,65.6026246806796,53.3299569706443,66.3838973042532,67.3661195294762,59.2960021378704,67.5012014852612,63.2767977599857,65.3765537728531,70.7814024350386,71.1877736477383,68.4059205866606,63.0655135527556,67.1629337146584,64.5364835904149,68.0132398685978,71.6036222068522,63.1576077248056,68.8771902154043,63.6100816993152,62.7213899081258,60.4328019045252,69.4168695326585,65.95759464964,63.3934828563128,66.2120715432165,62.5065918218467,69.201169057004,67.0566574602046,60.4624974304963,64.0739552709979,64.7855302976461,69.3246843168445,66.3107077884781,63.1769823992395,57.7222000183595,57.7751508364733,66.2081916165163,66.7479448886246,66.5139600359785,64.4160492607449,65.0648734416284,62.531755357784,58.319827327424,59.0862230214325,67.5306602638725,67.2986262282081,63.7040896495847,67.5539791099596,64.9903217014394,67.7216362411459,63.5527923273308,67.0715689404649,64.2349190133848,65.8734342687546,68.0838662797708,62.3065711273862,59.690752762256,63.4808455354641,68.0543958143907,66.3349835956699,61.4049449106371,61.3034718976707,69.0160754132611,62.30333782006,62.1355174403265,65.6717694093523,63.9989996980149,68.5077054718615,68.2465349132407,59.1402168936822,68.3598183752404,58.7323233507645,63.0442798878324,68.0972759012713,65.2819166456598,62.7546343493904,62.2104825525165,60.9977418957339,67.1693635960191,67.600679882618,65.2580397491528,70.2523884618776,67.0565895801979,67.7031403717604,63.9084642139642,62.052926054789,62.0291045840759,57.4090092956764,61.0171916513155,65.7920182712732,58.966940902391,68.3323038442105,70.3555116102585,62.1888240687013,59.9734491717228,66.0395605793519,68.8179264215919,65.0535420242701,65.8761928471327,74.6888229052879,69.638045092672,60.7892460296829,66.5939945600179,61.2463011922501,72.6168805253844,64.3854682526568,65.8632419516141,62.5566386923382,67.4730513626374,67.7175664940884,66.6808336232169,66.3141751958777,64.3634157103078,68.2423631773495,65.6456948753774,63.9122753153669,67.4307331464569,61.7586716476438,57.5451650723588,66.145848711093,64.7450252699519,65.3884702137435,70.0665104098271,60.782077919818,61.1717603339962,66.8776115063672,66.2240989735159,66.9577813593423,68.1058209127355,69.9382541415997,60.2310728187023,64.3790739897687,63.6499483173178,62.3727726503126,68.5334876027757,65.9315041534063,60.0361394587931,67.2705385149932,62.6264065713264,68.0366003960932,59.6808987084742,65.2984192523783,67.5083537010329,57.7108821398414,68.4400005866152,63.075510082502,58.4101898303654,68.7088891621458],"text":["age: 23.82920<br />height: 57.81013<br />sex: female","age: 21.89475<br />height: 67.63754<br />sex: female","age: 24.95335<br />height: 63.19857<br />sex: female","age: 21.13087<br />height: 64.80654<br />sex: female","age: 26.14834<br />height: 57.51094<br />sex: female","age: 22.91434<br />height: 71.19417<br />sex: female","age: 24.03266<br />height: 63.01036<br />sex: female","age: 20.02257<br />height: 67.01922<br />sex: female","age: 23.13310<br />height: 64.32873<br />sex: female","age: 24.03668<br />height: 59.89867<br />sex: female","age: 22.82193<br />height: 66.87652<br />sex: female","age: 22.13299<br />height: 61.38568<br />sex: female","age: 22.92403<br />height: 56.96787<br />sex: female","age: 21.09370<br />height: 58.61945<br />sex: female","age: 22.12228<br />height: 64.84233<br />sex: female","age: 22.02963<br />height: 63.71025<br />sex: female","age: 24.84762<br />height: 63.52569<br />sex: female","age: 24.92688<br />height: 60.57616<br />sex: female","age: 22.07448<br />height: 61.91098<br />sex: female","age: 25.00374<br />height: 61.24585<br />sex: female","age: 22.87584<br />height: 68.70588<br />sex: female","age: 22.92356<br />height: 69.16315<br />sex: female","age: 22.81277<br />height: 60.38927<br />sex: female","age: 20.97334<br />height: 67.56317<br />sex: female","age: 26.90167<br />height: 64.28165<br />sex: female","age: 24.13195<br />height: 63.44640<br />sex: female","age: 21.16377<br />height: 64.72744<br />sex: female","age: 21.81269<br />height: 57.87491<br />sex: female","age: 23.92194<br />height: 64.35832<br />sex: female","age: 21.93647<br />height: 57.79315<br />sex: female","age: 21.13403<br />height: 63.97942<br />sex: female","age: 23.98411<br />height: 63.07635<br />sex: female","age: 21.86093<br />height: 65.89294<br />sex: female","age: 22.95888<br />height: 60.96862<br />sex: female","age: 26.00795<br />height: 67.84981<br />sex: female","age: 23.15839<br />height: 62.98449<br />sex: female","age: 20.89593<br />height: 59.14329<br />sex: female","age: 21.08701<br />height: 65.72188<br />sex: female","age: 24.15930<br />height: 66.35865<br />sex: female","age: 24.82574<br />height: 62.00799<br />sex: female","age: 23.80415<br />height: 60.91296<br />sex: female","age: 21.98372<br />height: 71.61257<br />sex: female","age: 23.13406<br />height: 61.58812<br />sex: female","age: 23.12414<br />height: 60.77033<br />sex: female","age: 20.82529<br />height: 66.27610<br />sex: female","age: 21.94798<br />height: 62.87766<br />sex: female","age: 22.90805<br />height: 70.03939<br />sex: female","age: 24.19863<br />height: 62.73347<br />sex: female","age: 21.01321<br />height: 63.03876<br />sex: female","age: 22.87470<br />height: 63.34937<br />sex: female","age: 21.08225<br />height: 66.09500<br />sex: female","age: 24.17588<br />height: 66.91893<br />sex: female","age: 21.07988<br />height: 70.02703<br />sex: female","age: 23.95562<br />height: 66.70273<br />sex: female","age: 23.13861<br />height: 61.79797<br />sex: female","age: 24.11218<br />height: 65.79970<br />sex: female","age: 23.07455<br />height: 64.96004<br />sex: female","age: 22.99903<br />height: 63.32466<br />sex: female","age: 22.97393<br />height: 58.84647<br />sex: female","age: 21.86261<br />height: 70.50893<br />sex: female","age: 26.17751<br />height: 64.27707<br />sex: female","age: 22.05958<br />height: 64.76952<br />sex: female","age: 24.83262<br />height: 66.72424<br />sex: female","age: 25.11363<br />height: 70.40916<br />sex: female","age: 23.12250<br />height: 64.58927<br />sex: female","age: 24.96026<br />height: 66.61364<br />sex: female","age: 21.89814<br />height: 67.19958<br />sex: female","age: 20.92820<br />height: 64.98489<br />sex: female","age: 25.07695<br />height: 63.31256<br />sex: female","age: 23.17035<br />height: 64.66573<br />sex: female","age: 23.82502<br />height: 60.45800<br />sex: female","age: 20.98117<br />height: 64.86874<br />sex: female","age: 25.17918<br />height: 69.25680<br />sex: female","age: 20.02573<br />height: 59.44573<br />sex: female","age: 24.96730<br />height: 65.45508<br />sex: female","age: 23.99605<br />height: 66.56430<br />sex: female","age: 21.09007<br />height: 66.47230<br />sex: female","age: 19.93162<br />height: 68.12917<br />sex: female","age: 20.83450<br />height: 60.12978<br />sex: female","age: 23.18074<br />height: 64.46415<br />sex: female","age: 23.17915<br />height: 64.64908<br />sex: female","age: 22.03573<br />height: 59.40585<br />sex: female","age: 23.95630<br />height: 70.65372<br />sex: female","age: 23.82297<br />height: 64.26443<br />sex: female","age: 22.92885<br />height: 64.59354<br />sex: female","age: 19.89136<br />height: 67.62530<br />sex: female","age: 24.17073<br />height: 62.44592<br />sex: female","age: 23.88787<br />height: 64.78619<br />sex: female","age: 24.11648<br />height: 71.17815<br />sex: female","age: 25.93404<br />height: 59.48671<br />sex: female","age: 20.84178<br />height: 69.95761<br />sex: female","age: 24.90525<br />height: 67.14041<br />sex: female","age: 22.18726<br />height: 63.72590<br />sex: female","age: 23.08991<br />height: 62.95131<br />sex: female","age: 23.04274<br />height: 61.31982<br />sex: female","age: 23.01515<br />height: 61.13992<br />sex: female","age: 21.10635<br />height: 63.14353<br />sex: female","age: 23.96006<br />height: 65.86493<br />sex: female","age: 21.03636<br />height: 67.63209<br />sex: female","age: 21.00165<br />height: 65.68371<br />sex: female","age: 21.80295<br />height: 66.73674<br />sex: female","age: 19.94328<br />height: 65.33642<br />sex: female","age: 23.00153<br />height: 63.79401<br />sex: female","age: 20.80680<br />height: 68.31087<br />sex: female","age: 23.07589<br />height: 67.32701<br />sex: female","age: 22.90167<br />height: 60.47292<br />sex: female","age: 21.01166<br />height: 62.14756<br />sex: female","age: 21.85798<br />height: 59.88751<br />sex: female","age: 20.90238<br />height: 66.36944<br />sex: female","age: 21.92934<br />height: 62.11867<br />sex: female","age: 21.82291<br />height: 67.77287<br />sex: female","age: 20.07757<br />height: 68.20677<br />sex: female","age: 25.14569<br />height: 65.44501<br />sex: female","age: 23.17528<br />height: 65.38629<br />sex: female","age: 25.03983<br />height: 65.67691<br />sex: female","age: 20.09678<br />height: 58.11995<br />sex: female","age: 22.04019<br />height: 61.37241<br />sex: female","age: 24.95908<br />height: 68.11260<br />sex: female","age: 23.18384<br />height: 69.65712<br />sex: female","age: 26.03649<br />height: 62.83922<br />sex: female","age: 23.93086<br />height: 69.15765<br />sex: female","age: 22.14269<br />height: 64.79498<br />sex: female","age: 23.14932<br />height: 64.68335<br />sex: female","age: 21.86217<br />height: 65.36830<br />sex: female","age: 21.11318<br />height: 74.44849<br />sex: female","age: 20.84415<br />height: 58.81957<br />sex: female","age: 20.82971<br />height: 66.83432<br />sex: female","age: 22.85836<br />height: 67.04615<br />sex: female","age: 23.05433<br />height: 61.55208<br />sex: female","age: 21.92345<br />height: 67.74782<br />sex: female","age: 23.06224<br />height: 64.77634<br />sex: female","age: 20.80282<br />height: 62.55459<br />sex: female","age: 22.99064<br />height: 66.15869<br />sex: female","age: 23.96324<br />height: 61.91041<br />sex: female","age: 24.08499<br />height: 65.29518<br />sex: female","age: 21.92282<br />height: 55.39031<br />sex: female","age: 23.03887<br />height: 67.42716<br />sex: female","age: 25.09101<br />height: 60.21622<br />sex: female","age: 23.94336<br />height: 61.84515<br />sex: female","age: 24.11674<br />height: 61.93838<br />sex: female","age: 21.91764<br />height: 66.43733<br />sex: female","age: 24.89836<br />height: 73.58473<br />sex: female","age: 24.05914<br />height: 60.53688<br />sex: female","age: 23.09362<br />height: 65.92206<br />sex: female","age: 23.87442<br />height: 66.25384<br />sex: female","age: 20.82282<br />height: 63.32632<br />sex: female","age: 23.17760<br />height: 61.73292<br />sex: female","age: 24.96122<br />height: 65.41259<br />sex: female","age: 23.81694<br />height: 64.77732<br />sex: female","age: 20.84296<br />height: 64.14102<br />sex: female","age: 25.14077<br />height: 63.82566<br />sex: female","age: 22.05698<br />height: 61.13251<br />sex: female","age: 24.99519<br />height: 61.60663<br />sex: female","age: 21.04400<br />height: 61.56681<br />sex: female","age: 24.87426<br />height: 64.03774<br />sex: female","age: 26.07442<br />height: 71.15160<br />sex: female","age: 24.08075<br />height: 67.00665<br />sex: female","age: 21.17689<br />height: 71.01548<br />sex: female","age: 22.86145<br />height: 57.86215<br />sex: female","age: 22.98822<br />height: 63.42814<br />sex: female","age: 23.10753<br />height: 64.85539<br />sex: female","age: 22.07582<br />height: 71.21735<br />sex: female","age: 21.85583<br />height: 72.95187<br />sex: female","age: 22.89558<br />height: 62.31439<br />sex: female","age: 28.88759<br />height: 62.55915<br />sex: female","age: 20.80381<br />height: 61.81512<br />sex: female","age: 23.95021<br />height: 65.15191<br />sex: female","age: 23.19757<br />height: 62.71043<br />sex: female","age: 20.09749<br />height: 67.31147<br />sex: female","age: 24.03009<br />height: 63.04663<br />sex: female","age: 21.92051<br />height: 66.25156<br />sex: female","age: 21.83344<br />height: 64.58199<br />sex: female","age: 27.16891<br />height: 72.20715<br />sex: female","age: 23.83044<br />height: 69.08562<br />sex: female","age: 23.09324<br />height: 59.95305<br />sex: female","age: 24.92900<br />height: 64.95638<br />sex: female","age: 21.12047<br />height: 59.45126<br />sex: female","age: 22.93672<br />height: 65.44832<br />sex: female","age: 23.91006<br />height: 64.73729<br />sex: female","age: 21.90710<br />height: 61.48190<br />sex: female","age: 22.89060<br />height: 70.60102<br />sex: female","age: 25.89262<br />height: 63.43378<br />sex: female","age: 24.95167<br />height: 65.61172<br />sex: female","age: 22.90530<br />height: 67.30578<br />sex: female","age: 21.97943<br />height: 62.26963<br />sex: female","age: 22.85021<br />height: 69.59710<br />sex: female","age: 24.00114<br />height: 64.03703<br />sex: female","age: 25.13463<br />height: 59.52428<br />sex: female","age: 24.10037<br />height: 63.43105<br />sex: female","age: 23.09080<br />height: 65.30517<br />sex: female","age: 22.07051<br />height: 72.10271<br />sex: female","age: 22.10307<br />height: 68.67756<br />sex: female","age: 23.03611<br />height: 66.32952<br />sex: female","age: 22.96401<br />height: 66.27214<br />sex: female","age: 22.09500<br />height: 67.36591<br />sex: female","age: 21.89089<br />height: 63.44602<br />sex: female","age: 23.06296<br />height: 62.69058<br />sex: female","age: 20.93031<br />height: 63.30600<br />sex: female","age: 23.95002<br />height: 65.20058<br />sex: female","age: 26.84908<br />height: 65.87994<br />sex: female","age: 23.15586<br />height: 59.52697<br />sex: female","age: 23.11600<br />height: 70.88895<br />sex: female","age: 25.90523<br />height: 70.16236<br />sex: female","age: 23.90323<br />height: 68.69849<br />sex: female","age: 22.96353<br />height: 59.38743<br />sex: female","age: 21.11220<br />height: 66.36552<br />sex: female","age: 22.98449<br />height: 71.79124<br />sex: female","age: 22.82619<br />height: 65.66243<br />sex: female","age: 22.80798<br />height: 65.71168<br />sex: female","age: 24.96524<br />height: 63.44093<br />sex: female","age: 20.02958<br />height: 59.97033<br />sex: female","age: 23.96853<br />height: 62.78974<br />sex: female","age: 23.89412<br />height: 63.75104<br />sex: female","age: 23.86148<br />height: 65.81166<br />sex: female","age: 22.00718<br />height: 63.04589<br />sex: female","age: 22.89595<br />height: 67.06117<br />sex: female","age: 25.16448<br />height: 63.43126<br />sex: female","age: 23.83817<br />height: 63.45711<br />sex: female","age: 22.17798<br />height: 62.57591<br />sex: female","age: 23.03123<br />height: 64.15206<br />sex: female","age: 23.04814<br />height: 63.09155<br />sex: female","age: 19.95586<br />height: 58.48203<br />sex: female","age: 21.80727<br />height: 64.66928<br />sex: female","age: 24.01672<br />height: 56.48688<br />sex: female","age: 24.13079<br />height: 58.29487<br />sex: female","age: 25.84779<br />height: 66.33914<br />sex: female","age: 22.89342<br />height: 62.10425<br />sex: female","age: 25.18997<br />height: 62.64478<br />sex: female","age: 26.17251<br />height: 68.17904<br />sex: female","age: 23.12132<br />height: 59.97711<br />sex: female","age: 23.80155<br />height: 69.42396<br />sex: female","age: 22.96777<br />height: 64.18415<br />sex: female","age: 27.02995<br />height: 60.15737<br />sex: female","age: 26.04840<br />height: 67.33248<br />sex: female","age: 21.92690<br />height: 73.08599<br />sex: female","age: 22.88768<br />height: 62.42699<br />sex: female","age: 22.89463<br />height: 63.86235<br />sex: female","age: 23.99793<br />height: 68.00718<br />sex: female","age: 24.12182<br />height: 63.20895<br />sex: female","age: 25.11650<br />height: 65.17902<br />sex: female","age: 23.06566<br />height: 62.27109<br />sex: female","age: 29.90852<br />height: 56.22758<br />sex: female","age: 23.94221<br />height: 65.43021<br />sex: female","age: 20.19847<br />height: 68.35888<br />sex: female","age: 21.13071<br />height: 57.70857<br />sex: female","age: 21.94439<br />height: 73.47428<br />sex: female","age: 25.01128<br />height: 66.54802<br />sex: female","age: 21.99332<br />height: 57.35032<br />sex: female","age: 23.84301<br />height: 65.00442<br />sex: female","age: 23.07497<br />height: 60.54961<br />sex: female","age: 23.86206<br />height: 65.57167<br />sex: female","age: 20.18493<br />height: 66.63431<br />sex: female","age: 21.85989<br />height: 61.64931<br />sex: female","age: 25.14530<br />height: 65.73483<br />sex: female","age: 23.09532<br />height: 64.11528<br />sex: female","age: 22.86676<br />height: 62.53838<br />sex: female","age: 20.15185<br />height: 63.00146<br />sex: female","age: 21.03873<br />height: 68.35776<br />sex: female","age: 20.80272<br />height: 69.75967<br />sex: female","age: 23.02500<br />height: 63.25396<br />sex: female","age: 26.05628<br />height: 67.02320<br />sex: female","age: 24.17488<br />height: 62.37397<br />sex: female","age: 24.04408<br />height: 71.35578<br />sex: female","age: 23.06040<br />height: 65.22842<br />sex: female","age: 27.04683<br />height: 62.36767<br />sex: female","age: 22.98914<br />height: 66.66933<br />sex: female","age: 22.98686<br />height: 60.21855<br />sex: female","age: 20.96261<br />height: 67.85540<br />sex: female","age: 22.03966<br />height: 60.84964<br />sex: female","age: 23.00749<br />height: 70.51310<br />sex: female","age: 24.00130<br />height: 68.51383<br />sex: female","age: 25.05263<br />height: 61.11710<br />sex: female","age: 22.19576<br />height: 57.68348<br />sex: female","age: 24.85182<br />height: 65.36442<br />sex: female","age: 21.04132<br />height: 66.94621<br />sex: female","age: 25.12776<br />height: 67.96474<br />sex: female","age: 22.92787<br />height: 63.66772<br />sex: female","age: 25.84862<br />height: 63.91145<br />sex: female","age: 26.98234<br />height: 66.65094<br />sex: female","age: 20.15841<br />height: 70.68056<br />sex: female","age: 22.19435<br />height: 63.53835<br />sex: female","age: 21.81504<br />height: 62.09881<br />sex: female","age: 20.91047<br />height: 61.43064<br />sex: female","age: 27.80348<br />height: 57.89666<br />sex: female","age: 21.95458<br />height: 64.43473<br />sex: female","age: 24.00062<br />height: 58.96442<br />sex: female","age: 22.93784<br />height: 65.80998<br />sex: female","age: 22.94526<br />height: 68.15143<br />sex: female","age: 22.83470<br />height: 65.72267<br />sex: female","age: 22.91400<br />height: 67.13293<br />sex: female","age: 19.85792<br />height: 64.45918<br />sex: female","age: 24.15148<br />height: 69.66334<br />sex: female","age: 24.82719<br />height: 63.62916<br />sex: female","age: 23.19159<br />height: 62.19908<br />sex: female","age: 26.84616<br />height: 65.66134<br />sex: female","age: 24.80061<br />height: 66.42732<br />sex: female","age: 25.03755<br />height: 62.40287<br />sex: female","age: 23.85832<br />height: 65.56106<br />sex: female","age: 26.10900<br />height: 68.29135<br />sex: female","age: 24.12755<br />height: 67.98127<br />sex: female","age: 22.81426<br />height: 67.97619<br />sex: female","age: 21.99219<br />height: 62.44720<br />sex: female","age: 22.91727<br />height: 66.65356<br />sex: female","age: 25.12812<br />height: 64.96438<br />sex: female","age: 22.88859<br />height: 66.97583<br />sex: female","age: 21.16769<br />height: 67.92103<br />sex: female","age: 22.96418<br />height: 68.12178<br />sex: female","age: 23.15469<br />height: 62.92524<br />sex: female","age: 19.87996<br />height: 61.85542<br />sex: female","age: 23.17636<br />height: 61.39483<br />sex: female","age: 21.04403<br />height: 60.06334<br />sex: female","age: 22.13488<br />height: 61.04020<br />sex: female","age: 21.14929<br />height: 60.92900<br />sex: female","age: 22.94000<br />height: 64.96249<br />sex: female","age: 22.80896<br />height: 63.69440<br />sex: female","age: 21.12338<br />height: 63.79161<br />sex: female","age: 21.14318<br />height: 62.92183<br />sex: female","age: 21.93944<br />height: 61.21775<br />sex: female","age: 24.99366<br />height: 70.51873<br />sex: female","age: 24.04295<br />height: 65.05638<br />sex: female","age: 23.08048<br />height: 64.61256<br />sex: female","age: 19.87172<br />height: 62.23711<br />sex: female","age: 22.10099<br />height: 66.33900<br />sex: female","age: 24.11780<br />height: 65.14288<br />sex: female","age: 23.17063<br />height: 68.19131<br />sex: female","age: 21.19591<br />height: 61.04553<br />sex: female","age: 23.09483<br />height: 63.05809<br />sex: female","age: 23.13393<br />height: 67.55174<br />sex: female","age: 22.08910<br />height: 68.49969<br />sex: female","age: 21.91462<br />height: 66.64678<br />sex: female","age: 20.89012<br />height: 62.07330<br />sex: female","age: 19.90327<br />height: 70.88742<br />sex: female","age: 21.93305<br />height: 69.09001<br />sex: female","age: 23.94228<br />height: 55.39663<br />sex: female","age: 21.06503<br />height: 64.86549<br />sex: female","age: 21.84432<br />height: 58.54118<br />sex: female","age: 23.81562<br />height: 67.62053<br />sex: female","age: 20.90843<br />height: 71.14549<br />sex: female","age: 22.89302<br />height: 63.27260<br />sex: female","age: 25.14565<br />height: 65.63858<br />sex: female","age: 23.11975<br />height: 61.09132<br />sex: female","age: 20.87527<br />height: 67.47225<br />sex: female","age: 20.88846<br />height: 65.41896<br />sex: female","age: 23.98859<br />height: 63.50575<br />sex: female","age: 23.15632<br />height: 64.88104<br />sex: female","age: 22.87083<br />height: 70.57010<br />sex: female","age: 25.19831<br />height: 64.83588<br />sex: female","age: 23.85635<br />height: 62.75338<br />sex: female","age: 22.09941<br />height: 64.81868<br />sex: female","age: 28.97802<br />height: 66.02966<br />sex: female","age: 26.01373<br />height: 62.25761<br />sex: female","age: 21.98017<br />height: 66.11459<br />sex: female","age: 24.07648<br />height: 65.60262<br />sex: female","age: 22.97384<br />height: 53.32996<br />sex: female","age: 23.17827<br />height: 66.38390<br />sex: female","age: 23.04803<br />height: 67.36612<br />sex: female","age: 22.10301<br />height: 59.29600<br />sex: female","age: 23.87870<br />height: 67.50120<br />sex: female","age: 21.85072<br />height: 63.27680<br />sex: female","age: 22.02809<br />height: 65.37655<br />sex: female","age: 25.85134<br />height: 70.78140<br />sex: female","age: 26.17898<br />height: 71.18777<br />sex: female","age: 25.95898<br />height: 68.40592<br />sex: female","age: 22.87645<br />height: 63.06551<br />sex: female","age: 27.17507<br />height: 67.16293<br />sex: female","age: 22.97309<br />height: 64.53648<br />sex: female","age: 20.84620<br />height: 68.01324<br />sex: female","age: 21.83437<br />height: 71.60362<br />sex: female","age: 22.18962<br />height: 63.15761<br />sex: female","age: 20.82240<br />height: 68.87719<br />sex: female","age: 22.16282<br />height: 63.61008<br />sex: female","age: 23.86399<br />height: 62.72139<br />sex: female","age: 24.83664<br />height: 60.43280<br />sex: female","age: 22.05201<br />height: 69.41687<br />sex: female","age: 26.88811<br />height: 65.95759<br />sex: female","age: 21.81493<br />height: 63.39348<br />sex: female","age: 19.87838<br />height: 66.21207<br />sex: female","age: 21.86486<br />height: 62.50659<br />sex: female","age: 21.02273<br />height: 69.20117<br />sex: female","age: 22.92069<br />height: 67.05666<br />sex: female","age: 25.86458<br />height: 60.46250<br />sex: female","age: 21.96490<br />height: 64.07396<br />sex: female","age: 20.88359<br />height: 64.78553<br />sex: female","age: 27.05545<br />height: 69.32468<br />sex: female","age: 22.09888<br />height: 66.31071<br />sex: female","age: 22.90539<br />height: 63.17698<br />sex: female","age: 23.19923<br />height: 57.72220<br />sex: female","age: 20.88775<br />height: 57.77515<br />sex: female","age: 23.08913<br />height: 66.20819<br />sex: female","age: 23.12848<br />height: 66.74794<br />sex: female","age: 20.93536<br />height: 66.51396<br />sex: female","age: 22.98099<br />height: 64.41605<br />sex: female","age: 25.14040<br />height: 65.06487<br />sex: female","age: 25.82977<br />height: 62.53176<br />sex: female","age: 21.09390<br />height: 58.31983<br />sex: female","age: 22.00911<br />height: 59.08622<br />sex: female","age: 25.12633<br />height: 67.53066<br />sex: female","age: 21.18176<br />height: 67.29863<br />sex: female","age: 21.00163<br />height: 63.70409<br />sex: female","age: 24.00761<br />height: 67.55398<br />sex: female","age: 21.90648<br />height: 64.99032<br />sex: female","age: 26.06013<br />height: 67.72164<br />sex: female","age: 26.17917<br />height: 63.55279<br />sex: female","age: 23.96267<br />height: 67.07157<br />sex: female","age: 22.11058<br />height: 64.23492<br />sex: female","age: 22.14003<br />height: 65.87343<br />sex: female","age: 19.86868<br />height: 68.08387<br />sex: female","age: 21.00246<br />height: 62.30657<br />sex: female","age: 24.11606<br />height: 59.69075<br />sex: female","age: 24.87608<br />height: 63.48085<br />sex: female","age: 21.97929<br />height: 68.05440<br />sex: female","age: 24.94869<br />height: 66.33498<br />sex: female","age: 24.95527<br />height: 61.40494<br />sex: female","age: 22.02766<br />height: 61.30347<br />sex: female","age: 23.10190<br />height: 69.01608<br />sex: female","age: 22.18486<br />height: 62.30334<br />sex: female","age: 22.90194<br />height: 62.13552<br />sex: female","age: 23.86695<br />height: 65.67177<br />sex: female","age: 21.86369<br />height: 63.99900<br />sex: female","age: 26.86066<br />height: 68.50771<br />sex: female","age: 22.90763<br />height: 68.24653<br />sex: female","age: 22.17412<br />height: 59.14022<br />sex: female","age: 20.96016<br />height: 68.35982<br />sex: female","age: 22.96803<br />height: 58.73232<br />sex: female","age: 25.83567<br />height: 63.04428<br />sex: female","age: 25.99954<br />height: 68.09728<br />sex: female","age: 24.16029<br />height: 65.28192<br />sex: female","age: 21.03607<br />height: 62.75463<br />sex: female","age: 22.08653<br />height: 62.21048<br />sex: female","age: 24.19898<br />height: 60.99774<br />sex: female","age: 22.06412<br />height: 67.16936<br />sex: female","age: 22.12001<br />height: 67.60068<br />sex: female","age: 22.90208<br />height: 65.25804<br />sex: female","age: 24.00752<br />height: 70.25239<br />sex: female","age: 21.86544<br />height: 67.05659<br />sex: female","age: 20.99014<br />height: 67.70314<br />sex: female","age: 23.15094<br />height: 63.90846<br />sex: female","age: 24.08581<br />height: 62.05293<br />sex: female","age: 23.96769<br />height: 62.02910<br />sex: female","age: 21.18938<br />height: 57.40901<br />sex: female","age: 21.81235<br />height: 61.01719<br />sex: female","age: 22.89442<br />height: 65.79202<br />sex: female","age: 21.01056<br />height: 58.96694<br />sex: female","age: 22.14051<br />height: 68.33230<br />sex: female","age: 22.92905<br />height: 70.35551<br />sex: female","age: 23.14437<br />height: 62.18882<br />sex: female","age: 21.95001<br />height: 59.97345<br />sex: female","age: 24.05602<br />height: 66.03956<br />sex: female","age: 22.17214<br />height: 68.81793<br />sex: female","age: 22.82687<br />height: 65.05354<br />sex: female","age: 20.94006<br />height: 65.87619<br />sex: female","age: 21.15846<br />height: 74.68882<br />sex: female","age: 25.08077<br />height: 69.63805<br />sex: female","age: 21.98966<br />height: 60.78925<br />sex: female","age: 23.94790<br />height: 66.59399<br />sex: female","age: 22.15197<br />height: 61.24630<br />sex: female","age: 22.02754<br />height: 72.61688<br />sex: female","age: 22.91920<br />height: 64.38547<br />sex: female","age: 21.94786<br />height: 65.86324<br />sex: female","age: 23.02999<br />height: 62.55664<br />sex: female","age: 22.14836<br />height: 67.47305<br />sex: female","age: 23.87258<br />height: 67.71757<br />sex: female","age: 20.86884<br />height: 66.68083<br />sex: female","age: 21.91089<br />height: 66.31418<br />sex: female","age: 24.90828<br />height: 64.36342<br />sex: female","age: 23.83786<br />height: 68.24236<br />sex: female","age: 21.83734<br />height: 65.64569<br />sex: female","age: 24.16953<br />height: 63.91228<br />sex: female","age: 20.18643<br />height: 67.43073<br />sex: female","age: 21.03467<br />height: 61.75867<br />sex: female","age: 24.90093<br />height: 57.54517<br />sex: female","age: 22.06096<br />height: 66.14585<br />sex: female","age: 23.07182<br />height: 64.74503<br />sex: female","age: 22.04441<br />height: 65.38847<br />sex: female","age: 24.05269<br />height: 70.06651<br />sex: female","age: 23.18000<br />height: 60.78208<br />sex: female","age: 24.82500<br />height: 61.17176<br />sex: female","age: 22.04494<br />height: 66.87761<br />sex: female","age: 23.85822<br />height: 66.22410<br />sex: female","age: 23.06520<br />height: 66.95778<br />sex: female","age: 20.99878<br />height: 68.10582<br />sex: female","age: 28.05248<br />height: 69.93825<br />sex: female","age: 24.85230<br />height: 60.23107<br />sex: female","age: 21.87797<br />height: 64.37907<br />sex: female","age: 20.97460<br />height: 63.64995<br />sex: female","age: 24.08329<br />height: 62.37277<br />sex: female","age: 24.81936<br />height: 68.53349<br />sex: female","age: 25.90073<br />height: 65.93150<br />sex: female","age: 24.06782<br />height: 60.03614<br />sex: female","age: 22.03574<br />height: 67.27054<br />sex: female","age: 22.96079<br />height: 62.62641<br />sex: female","age: 22.82684<br />height: 68.03660<br />sex: female","age: 23.87410<br />height: 59.68090<br />sex: female","age: 22.93372<br />height: 65.29842<br />sex: female","age: 22.01949<br />height: 67.50835<br />sex: female","age: 22.17878<br />height: 57.71088<br />sex: female","age: 25.17960<br />height: 68.44000<br />sex: female","age: 20.07999<br />height: 63.07551<br />sex: female","age: 20.91476<br />height: 58.41019<br />sex: female","age: 23.91214<br />height: 68.70889<br />sex: female"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":7.55905511811024,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","name":"female","legendgroup":"female","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[25.045247044228,23.8202928200364,20.1172970872372,26.1544507361017,20.1364071105607,21.8679724131711,19.8548072756268,20.1253099755384,22.1056321525946,28.8290489045903,23.1425089327618,21.0971017051488,22.0412708913907,23.0688708208501,22.0013049153611,21.1608130817302,24.9749457980506,24.9746928518638,24.1613429050893,19.9823304944672,19.981553385593,20.8724899474531,22.0290511449799,21.9216317470185,23.9227880775928,23.8391829123721,21.8643482959829,23.1206297262572,22.1261693793349,24.0591450711712,24.1927462732419,22.9338385999203,23.0971678012982,23.1278716788627,26.1074861064553,21.8623731022701,22.1443129755557,25.9301709472202,23.0980805751868,25.9605565951206,24.0247077640146,20.1972135601565,22.9013306481764,24.166888029594,23.1589063228108,22.0390453366563,20.1482781740837,21.0139740864746,21.9904531503096,24.1586145882495,21.9332608253695,24.9436342689209,21.8392718230374,23.1317192481831,22.8267503609881,25.1838866950944,25.919905300159,21.9476332725026,25.876914439816,23.1602075810544,24.8296391200274,20.8050379921682,21.1176540069282,24.1249830129556,22.0083390613087,21.0873630944639,23.1628472008742,23.1900271330029,22.9444712457247,24.1322882808745,25.0140058361925,21.0788454412483,23.95464929929,23.081108860299,23.9988609520718,22.1216863438487,21.0401108088903,21.8408942455426,21.8030864851549,21.0676299826242,25.1503929616883,23.8089366657659,24.1744938660413,28.1555948185734,21.1939555052668,23.1967339282855,24.8090289741755,23.865471346397,22.8605030844919,22.1348051224835,22.9606059852056,21.0201430876739,21.8939156733453,22.8328822178766,24.8414470178075,26.021639101021,24.1427786519751,20.8920055926777,21.827829233557,21.1876416832209,25.9562863844447,22.0083794048987,23.1479734665714,21.9068344698288,23.1410036334768,23.0948525603861,22.0920089184307,19.8620321145281,24.0957756983116,20.0361771997996,22.0140499193221,21.9272862745449,22.8811065401882,23.0005623345263,21.8201447000727,22.1035777062178,21.9767943258397,24.9474120622501,24.841918782331,23.8376430721954,23.1329152598046,25.0241085985675,23.1535246229731,22.9900199132971,21.9531984168105,23.9437666095793,25.9409306271002,23.9092855878174,21.8411016960628,22.9017125862651,23.1237343923189,23.9639619201422,26.0686493028887,25.0699752451852,24.9310190969147,20.8932433256879,23.9333941046149,22.8684639154002,23.1294748253189,22.8280618406832,19.9798550330102,23.8108951180242,23.8860137730837,24.8804065985605,23.9539569642395,22.8617341969162,23.9889811625704,21.0642644163221,24.170023876708,23.1861296770163,23.0102844464593,25.1416308891959,26.9522788323462,21.8638193968683,22.9811575034633,23.9361472155899,25.0766260744073,22.1561785686761,20.9676883522421,22.1868535579182,21.1274236206897,23.087150301598,25.1474733968265,22.8777416284196,22.0055071194656,22.090695344191,24.047363208048,25.1432125499472,23.0071945787407,24.0868538204581,24.0541694051586,23.0857149090618,22.9304853536189,21.8807073483244,23.8139437469654,25.8717647541314,26.8853207466193,22.1568564849906,25.1498489498161,24.0085617236793,20.9805143509991,25.8581155017018,21.0556320974603,22.9848588629626,23.1503083554097,24.0760579766706,22.0320773010142,24.0167732708156,23.8543774840422,24.9011775899678,21.1413925600238,20.0358207590878,24.1280167883262,20.9663143455051,24.0261159101501,21.1464915627614,21.9607207984664,28.1135015735403,24.0349789682776,23.9793442910537,22.9894547513686,19.8160321658477,22.8070303334855,20.0959996384569,22.0523286662996,22.8903527314775,20.8831761369482,22.1103690073825,20.9993628087454,20.9963781864382,24.8383617154323,22.9579630109482,22.0090916034766,22.8622463664971,21.0666709555313,23.9502199166454,22.9713834782131,23.0200415143743,22.1826599271037,22.1642810603604,26.1643462746404,19.8109840462916,19.9076031668112,22.1247402123176,19.9342041296884,21.1982723403722,21.902984420862,25.1221350255422,21.8174196523614,23.1269319104962,22.0630029804073,22.8083402085118,22.9269068692811,23.0687594029121,23.1622559112497,25.1441364186816,20.8355922450311,22.958942578733,23.9498425372876,21.8629131540656,25.1792319505475,23.1747360067442,23.8824095856398,21.1338759542443,23.192121671699,22.8919673442841,20.9349641527981,22.9281945127994,23.024593181815,22.9673085419461,23.838039188087,24.8528211319819,22.1623095460236,24.0244175679982,21.0849598086439,23.9180270838551,20.9428978077136,22.9529654886574,21.031833085604,25.1730149311945,23.1778238861822,23.070325182192,21.0896961681545,22.0954999529757,23.8394104924984,23.0878077551723,19.8040489083156,21.0223718405701,24.9568512080237,20.9057762680575,21.0967208548449,24.8418837064877,21.0480792419985,23.9481567459181,23.832244290784,27.1055685580708,23.1371413089335,23.0369436781853,20.0788511397317,24.1314791016281,21.9481425508857,23.1489312635735,19.8947906746529,24.8332925011404,22.9958064309321,25.9240218075924,22.0040549051948,23.1799851508811,23.9441865361296,27.9422857831232,22.0737483837642,21.9791026977822,27.8746993548237,23.9561150833964,25.1923620529473,23.8505435346626,23.9812785836868,23.9586396592669,21.9313160518184,25.084334737435,20.9506327969953,26.078669926431,22.9463695656508,21.9075714244507,23.1148762249388,25.9358384794556,21.1975308058783,22.9225893374532,23.1703454649076,22.0915353204124,22.9964990735985,21.1626353194006,21.1843600184657,25.8979908101261,23.8888601818122,20.9802268275991,20.8086853356101,26.1096166578121,26.8257509991527,22.8968054025434,23.03534533903,22.9819855634123,23.1208116390742,24.8630429893732,22.0571599030867,21.0100858259946,24.0731133874506,23.9595372985117,22.0451374687254,26.0068781276233,24.1310012051836,21.8290877703577,24.1233816484921,21.8743712582625,22.9652110546827,22.9886237995699,20.1523202597164,24.9232406523079,24.9002054343,24.09282133542,20.9033315866254,23.1633124784566,20.0401644901373,26.1633883245289,23.0841145515442,22.1496442894451,24.1525904357433,22.9612959397957,22.9117199241184,23.0890328851528,25.8333557751961,26.0009559832513,25.06638447484,23.8517414022237,23.1731868778355,21.197711049486,22.8363069988787,19.9865524249151,23.0013297420926,23.9628482855856,22.8545979328454,22.8958907325752,23.8479723644443,23.1569869246334,21.0876194072887,20.039125376381,21.0550309372135,20.8535574886017,25.1736762894318,21.1283012323082,20.97680239724,21.0410171895288,21.9843135928735,21.1201036874205,23.1564181637019,27.9715865467675,23.1446673261002,23.861384732835,23.1463173273951,24.0208240906708,21.1878571441397,21.9767553605139,23.8262933237478,20.8049188198522,21.920869604405,23.9287290271372,22.0225429943763,24.9636064520106,21.8850546494126,23.0846755665727,21.1627518704161,22.0637209025212,24.9505422075279,22.9032442135736,22.9115273926407,23.8911366594955,23.0646281880327,19.8013641867787,23.1067758711055,21.9176335770637,26.9298265994526,23.855686492566,24.0041815246455,19.9990388108417,21.9276730116457,22.1595761678182,22.8587194981985,20.0131413731724,23.9813312671147,22.9999727152288,23.0182147190906,21.8863819271326,22.9939114791341,23.9237655702047,21.9755405762233,21.8477988975123,22.8791064247489,24.1705202382058,23.0055215646513,22.0099568285979,22.0514674502425,21.1861748328432,22.0231327942573,23.9677950691432,21.0664323239587,23.815009468887,22.9183550162241,23.926760377828,21.1867956243455,26.9773116860539,23.9299753628671,22.8564543685876,23.1956534965895,23.9215276201256,20.8256390344352,26.0992104620673,21.8137311941013,23.1544970190153,22.9610286859795,25.9711474908516,23.9721735430881,23.951575875096,22.8569793335162,20.8464719902724,24.1468272807077,22.9450033353642,22.9493394509889,27.1520866364241,24.9222301265225,24.1229993809015,22.9347434268333,24.8477559925057,23.9136718203314,20.1143198249862,21.8768860391341,23.8309501263313,22.1637401502579,22.9516400871798,22.1817497989163,25.012249992881,24.1017650141381,26.9057584349997,23.187135125231,23.0565481997095,23.0801164183766,20.9042692064308,21.8682787849568,22.9094137437642,19.983441365324,22.035013636481,20.8954309640452,22.970925365109,22.1258045232855,21.8543024544604,22.9216332856566,22.1313674359582,22.9803198352456,23.1270463246852,24.9498066458851,20.8268113146536,22.0115033848211,23.9872602521442,23.9337676938623,26.0572434590198,23.1203826670535,19.8867206452414,23.166689179372,22.0998611110263,22.9306286436506,20.9653189138509,25.9220353935845,22.8495445157401,22.8941287511028,22.9079210985452,24.960293942038,25.025931758713,26.0942971226759,22.1189134731889,20.8149054765701,21.0133010178804],"y":[66.4689030022047,66.1551824022899,68.1965285060592,74.6471608612072,73.1751122116532,72.1204774390227,68.2158832586204,64.0099680642591,74.476322152394,68.2899959242171,66.0740480911017,69.1214467502502,67.3361209902549,64.024176026782,72.6640182557712,70.9704734380298,64.7898578327528,70.6759945591468,63.6821430811739,58.8061999926844,74.9831424653568,68.2818274271649,70.5528804348925,72.5316659832294,77.335349663296,69.3853514081537,70.7156687262914,77.0481944979094,64.7779153554713,70.6857461814509,70.0717866967215,68.9554748633784,73.2173652913646,72.2688533813923,70.7340189647148,73.4261139904511,74.6594022726019,78.6627530740707,76.0888395111054,66.1422792632572,70.2145990719379,73.1596499969251,80.5574228565903,66.3324194139653,72.3741516407545,64.6535148140336,73.0687336898496,66.4113363031702,74.5436730923549,70.073680943616,63.7187124066214,62.958416783765,74.3638803261386,63.2131372939842,68.3598879722513,66.6807802103611,65.5336309634006,67.1756440870793,70.8309980656367,68.698849603324,66.9255365895584,64.1798768298232,73.7391698143303,75.640182528646,69.2895364924732,65.2735161931297,70.5650198568322,69.0692708947589,63.4731227427997,63.5611068169156,74.1937840636239,69.729963522098,65.2759841942479,72.5109424676872,67.2140185597508,69.2624784930228,69.4834963743406,71.9585658103923,71.7247173775571,76.2087582649318,66.5446946622882,73.8114342029292,71.0493286787713,73.4329776238169,66.2407408461673,65.7242357112742,67.9936318120512,70.3501919828347,63.9848357150313,63.5684656544323,75.3957927776529,67.6473558266775,68.355045094441,61.9396023324604,68.0655611197791,73.266201563035,70.5424740448334,66.7103563571296,75.4311352719387,71.1314939592811,62.5627006041261,70.1575922832085,71.2688357257795,78.4253089125517,69.4780757747865,66.6772338092123,74.5310468263523,71.6061079951589,69.3107349757859,70.6521788422814,68.8787779339645,70.7786284476162,74.2346993093991,69.0223044211137,64.8671394898025,75.4398371206352,66.3431624229778,68.0160472787017,75.9371017385797,69.8059306869088,62.4872873680577,72.6103458232678,71.2132786491935,71.0489238502128,64.9692124249178,68.0925005432249,74.0655975669771,72.7610241802822,67.962153032698,69.90328203229,69.1098434368883,64.3078137833489,70.3934677116948,74.565990897671,69.3528168894335,70.9837076986649,76.719199314558,65.7982513985576,74.1287458561472,70.1529265556365,63.0607547545706,64.72134526683,66.0644760405655,74.4222019343003,75.6974457741019,67.0997408750969,70.249868298688,75.5463200527636,72.0856142332678,67.3903729185821,67.1705847031234,72.982949458098,65.5609002045727,72.1332655583741,75.9417565526617,70.682449893214,68.6443925330223,80.430596339337,71.7911409163014,74.2482035886943,65.2337059261164,74.3879659700038,70.9054683701435,67.016442608334,72.1450085233429,74.0436699348087,72.1113686273652,75.7134968327049,73.4337619793567,63.2748933202839,72.0615351264606,65.9939735494033,71.2545449978629,69.79100592196,69.4413768031974,73.1990791258364,71.0452463482655,67.8487195863778,65.2348707347666,73.7244984083367,68.3564245088938,72.8601241360834,75.2994052932223,65.9927195387128,69.1519384490471,73.5105434180435,64.2340559407674,73.2752294044586,74.4599268938555,71.4920496095352,72.2742977051402,68.3924462455824,68.2721535906481,72.281980576802,75.5629730229464,76.9172045807876,69.3725486738313,74.1005342209612,72.7410222900168,65.96606598679,72.391737497818,73.9277275399441,69.1211079515687,75.7306164046405,66.9431669946393,66.3144497758864,74.5506359871835,70.3826456230995,71.2061702336679,69.8844434744348,68.0860710917227,67.1049433788618,77.3839801425067,73.5215745393951,77.1514611083155,65.6078510733394,74.3062986863949,70.06229166777,67.152507633147,69.9827073252359,67.5402247002627,69.0887814475819,73.9130174175255,75.5910188458926,70.3978683078475,72.5209906003922,70.7362859846024,71.5249035638459,73.1840651047953,64.9831133865352,71.3605168221317,72.6927762293185,76.8899128481395,65.9906381011892,68.9529899729283,72.7046410014951,71.4265596754217,70.536021907472,65.1770758964191,75.5692309895821,75.6184888413424,74.9870711198864,69.2931182241068,61.6036957222003,74.4241890082798,69.1436398707417,69.9480645949334,70.2602930532968,69.8606738376223,68.7262583006654,76.6499265683147,75.0766864978129,67.8889536939529,73.3750272246126,70.5276938994419,71.9389328460858,72.5576588759263,72.121123982268,73.9093399014916,70.1035104652399,65.713713374088,76.6513419543964,70.1431610898192,70.2644981792526,64.3600554213423,63.0308403068661,73.9944270456139,73.6321417591317,67.8048047655365,73.9654798787028,81.5826673255913,69.2935025087783,76.4897017545489,67.6090308236925,78.8823596287243,73.9002226187155,65.2026508210804,64.6450994201323,77.4461880616981,69.9536586680811,65.045946881856,77.5813758629931,65.081430393366,66.578270471321,63.1264609551541,70.2099402192515,68.4639196336925,73.5700755967254,72.1738502176623,66.1997489945941,65.9446282935899,67.6978881028345,66.4295903508471,76.7070069649862,75.4308087512838,72.8087729339889,74.47461187999,70.0746882386277,61.7618300278953,68.3884914136725,58.369726794247,78.7147483842502,66.629540773644,65.9230696150364,72.5505010738075,66.0273411028512,70.1107083354006,75.5784434145524,70.2357138137568,69.3503187187936,61.9647126498837,66.8139366640355,60.5818962671353,71.7062485408852,70.3597404653963,74.1319296199743,69.0133737017017,75.0400685542065,72.2760129517473,67.8296589412233,68.515227980293,74.1246889316492,67.644560281253,65.3379958515107,69.9095008695177,74.1702896429479,71.3917764883891,65.7865978754261,64.6961747212547,66.6741552473033,68.3501857001911,73.4690946910396,65.7446360017811,72.1631874174694,61.0363278412471,68.0825647916523,67.6889648820259,69.2632651500508,65.5735090631775,66.3074450401831,73.3208905832776,70.1338304163805,74.8326644420883,73.5720387764612,68.2498002469645,72.2010161201028,75.8318141536089,72.9515398185308,72.1728910438167,74.8781343484432,69.5685880866396,68.8007033710969,67.7434646361181,71.0478919176544,66.4342501375477,72.1188824053596,67.6086825936237,59.3987992628248,66.3593372940806,72.2745366330746,61.4772421434686,74.3188355419569,74.5315237465627,71.4369913740933,67.3401207816308,68.7755976792259,61.4001688613957,67.7048401963925,71.3758196211217,71.0723046072655,67.3648263719357,65.7805898042473,69.9337902614853,66.9546878754381,77.4394773535154,76.4125303741345,74.2224976587367,70.0274584347427,63.4545057793585,63.2424524149017,69.9430527601813,66.1404958892521,64.5818948759386,72.5235141651161,77.3159827037886,76.1338995973185,63.9008014918357,64.8298960542057,69.1478778883502,66.2655526687052,73.200426631342,69.7001324869548,69.7632280082382,76.3138418391106,68.7442762017073,72.9906455356614,73.4587165519191,63.2607322618879,67.9247337965864,67.8291583782404,63.5227939910528,69.2293144897666,71.6530206258138,82.7840806387968,68.8561395751212,67.8910209357717,77.4175231915757,69.9825703396138,68.219745038191,67.0750865165806,77.1278504718452,77.4878767669902,70.4473339614871,70.2878565503098,60.4642668031562,66.2514833104406,68.1638513773148,69.5479000944301,65.2155850568161,70.5398441571279,63.3694741154713,71.3939430067154,63.8115607763745,77.9502699005069,77.3045189104165,70.5966903733021,77.7839597698995,65.9232516754621,70.2665363499433,73.4174722513663,68.0455621602181,69.4020789982292,72.7696710268367,64.303288797742,67.926492018185,72.1846628336915,73.1312059917408,67.7363129534284,69.5528676803929,75.2336023347811,65.6431441781951,65.9972633079376,68.9421504452085,65.5284167894575,69.2122612360187,76.5137744055145,70.4248481858245,80.8952492005692,67.9774457342196,73.2866442591977,71.5798877434449,74.8431020929655,68.8194727718169,68.3172048966959,78.8224188297969,79.7356074520171,69.6208618755527,69.7035122674937,73.3080985136721,67.5943756632923,74.7545882454547,73.3993897801545,71.1535402992281,71.341069167242,78.7524356351966,64.9589127738337,75.7961462934545,73.8048841536922,74.192615333041,68.5633011571035,68.3565486907871,70.9629342258874,69.3827011128197,70.8974898506298,67.1407166339898,73.7369671481657,71.2107096932668,72.7270107922108,69.5780111144251,70.6476408895366,71.5469485519097,62.3183565264469,57.5651624408313,79.3810576342302,67.1332855998071,61.9094578346057,74.4762724105524,67.2414780977394,71.2527432187863,64.568691392177,69.1657391340013,69.7513570625297,73.2294772514453,61.9637865090559,65.8698354547144,65.1374087608604,72.010990369392,71.9661289024754,67.0223421536029,67.029752506931],"text":["age: 25.04525<br />height: 66.46890<br />sex: male","age: 23.82029<br />height: 66.15518<br />sex: male","age: 20.11730<br />height: 68.19653<br />sex: male","age: 26.15445<br />height: 74.64716<br />sex: male","age: 20.13641<br />height: 73.17511<br />sex: male","age: 21.86797<br />height: 72.12048<br />sex: male","age: 19.85481<br />height: 68.21588<br />sex: male","age: 20.12531<br />height: 64.00997<br />sex: male","age: 22.10563<br />height: 74.47632<br />sex: male","age: 28.82905<br />height: 68.29000<br />sex: male","age: 23.14251<br />height: 66.07405<br />sex: male","age: 21.09710<br />height: 69.12145<br />sex: male","age: 22.04127<br />height: 67.33612<br />sex: male","age: 23.06887<br />height: 64.02418<br />sex: male","age: 22.00130<br />height: 72.66402<br />sex: male","age: 21.16081<br />height: 70.97047<br />sex: male","age: 24.97495<br />height: 64.78986<br />sex: male","age: 24.97469<br />height: 70.67599<br />sex: male","age: 24.16134<br />height: 63.68214<br />sex: male","age: 19.98233<br />height: 58.80620<br />sex: male","age: 19.98155<br />height: 74.98314<br />sex: male","age: 20.87249<br />height: 68.28183<br />sex: male","age: 22.02905<br />height: 70.55288<br />sex: male","age: 21.92163<br />height: 72.53167<br />sex: male","age: 23.92279<br />height: 77.33535<br />sex: male","age: 23.83918<br />height: 69.38535<br />sex: male","age: 21.86435<br />height: 70.71567<br />sex: male","age: 23.12063<br />height: 77.04819<br />sex: male","age: 22.12617<br />height: 64.77792<br />sex: male","age: 24.05915<br />height: 70.68575<br />sex: male","age: 24.19275<br />height: 70.07179<br />sex: male","age: 22.93384<br />height: 68.95547<br />sex: male","age: 23.09717<br />height: 73.21737<br />sex: male","age: 23.12787<br />height: 72.26885<br />sex: male","age: 26.10749<br />height: 70.73402<br />sex: male","age: 21.86237<br />height: 73.42611<br />sex: male","age: 22.14431<br />height: 74.65940<br />sex: male","age: 25.93017<br />height: 78.66275<br />sex: male","age: 23.09808<br />height: 76.08884<br />sex: male","age: 25.96056<br />height: 66.14228<br />sex: male","age: 24.02471<br />height: 70.21460<br />sex: male","age: 20.19721<br />height: 73.15965<br />sex: male","age: 22.90133<br />height: 80.55742<br />sex: male","age: 24.16689<br />height: 66.33242<br />sex: male","age: 23.15891<br />height: 72.37415<br />sex: male","age: 22.03905<br />height: 64.65351<br />sex: male","age: 20.14828<br />height: 73.06873<br />sex: male","age: 21.01397<br />height: 66.41134<br />sex: male","age: 21.99045<br />height: 74.54367<br />sex: male","age: 24.15861<br />height: 70.07368<br />sex: male","age: 21.93326<br />height: 63.71871<br />sex: male","age: 24.94363<br />height: 62.95842<br />sex: male","age: 21.83927<br />height: 74.36388<br />sex: male","age: 23.13172<br />height: 63.21314<br />sex: male","age: 22.82675<br />height: 68.35989<br />sex: male","age: 25.18389<br />height: 66.68078<br />sex: male","age: 25.91991<br />height: 65.53363<br />sex: male","age: 21.94763<br />height: 67.17564<br />sex: male","age: 25.87691<br />height: 70.83100<br />sex: male","age: 23.16021<br />height: 68.69885<br />sex: male","age: 24.82964<br />height: 66.92554<br />sex: male","age: 20.80504<br />height: 64.17988<br />sex: male","age: 21.11765<br />height: 73.73917<br />sex: male","age: 24.12498<br />height: 75.64018<br />sex: male","age: 22.00834<br />height: 69.28954<br />sex: male","age: 21.08736<br />height: 65.27352<br />sex: male","age: 23.16285<br />height: 70.56502<br />sex: male","age: 23.19003<br />height: 69.06927<br />sex: male","age: 22.94447<br />height: 63.47312<br />sex: male","age: 24.13229<br />height: 63.56111<br />sex: male","age: 25.01401<br />height: 74.19378<br />sex: male","age: 21.07885<br />height: 69.72996<br />sex: male","age: 23.95465<br />height: 65.27598<br />sex: male","age: 23.08111<br />height: 72.51094<br />sex: male","age: 23.99886<br />height: 67.21402<br />sex: male","age: 22.12169<br />height: 69.26248<br />sex: male","age: 21.04011<br />height: 69.48350<br />sex: male","age: 21.84089<br />height: 71.95857<br />sex: male","age: 21.80309<br />height: 71.72472<br />sex: male","age: 21.06763<br />height: 76.20876<br />sex: male","age: 25.15039<br />height: 66.54469<br />sex: male","age: 23.80894<br />height: 73.81143<br />sex: male","age: 24.17449<br />height: 71.04933<br />sex: male","age: 28.15559<br />height: 73.43298<br />sex: male","age: 21.19396<br />height: 66.24074<br />sex: male","age: 23.19673<br />height: 65.72424<br />sex: male","age: 24.80903<br />height: 67.99363<br />sex: male","age: 23.86547<br />height: 70.35019<br />sex: male","age: 22.86050<br />height: 63.98484<br />sex: male","age: 22.13481<br />height: 63.56847<br />sex: male","age: 22.96061<br />height: 75.39579<br />sex: male","age: 21.02014<br />height: 67.64736<br />sex: male","age: 21.89392<br />height: 68.35505<br />sex: male","age: 22.83288<br />height: 61.93960<br />sex: male","age: 24.84145<br />height: 68.06556<br />sex: male","age: 26.02164<br />height: 73.26620<br />sex: male","age: 24.14278<br />height: 70.54247<br />sex: male","age: 20.89201<br />height: 66.71036<br />sex: male","age: 21.82783<br />height: 75.43114<br />sex: male","age: 21.18764<br />height: 71.13149<br />sex: male","age: 25.95629<br />height: 62.56270<br />sex: male","age: 22.00838<br />height: 70.15759<br />sex: male","age: 23.14797<br />height: 71.26884<br />sex: male","age: 21.90683<br />height: 78.42531<br />sex: male","age: 23.14100<br />height: 69.47808<br />sex: male","age: 23.09485<br />height: 66.67723<br />sex: male","age: 22.09201<br />height: 74.53105<br />sex: male","age: 19.86203<br />height: 71.60611<br />sex: male","age: 24.09578<br />height: 69.31073<br />sex: male","age: 20.03618<br />height: 70.65218<br />sex: male","age: 22.01405<br />height: 68.87878<br />sex: male","age: 21.92729<br />height: 70.77863<br />sex: male","age: 22.88111<br />height: 74.23470<br />sex: male","age: 23.00056<br />height: 69.02230<br />sex: male","age: 21.82014<br />height: 64.86714<br />sex: male","age: 22.10358<br />height: 75.43984<br />sex: male","age: 21.97679<br />height: 66.34316<br />sex: male","age: 24.94741<br />height: 68.01605<br />sex: male","age: 24.84192<br />height: 75.93710<br />sex: male","age: 23.83764<br />height: 69.80593<br />sex: male","age: 23.13292<br />height: 62.48729<br />sex: male","age: 25.02411<br />height: 72.61035<br />sex: male","age: 23.15352<br />height: 71.21328<br />sex: male","age: 22.99002<br />height: 71.04892<br />sex: male","age: 21.95320<br />height: 64.96921<br />sex: male","age: 23.94377<br />height: 68.09250<br />sex: male","age: 25.94093<br />height: 74.06560<br />sex: male","age: 23.90929<br />height: 72.76102<br />sex: male","age: 21.84110<br />height: 67.96215<br />sex: male","age: 22.90171<br />height: 69.90328<br />sex: male","age: 23.12373<br />height: 69.10984<br />sex: male","age: 23.96396<br />height: 64.30781<br />sex: male","age: 26.06865<br />height: 70.39347<br />sex: male","age: 25.06998<br />height: 74.56599<br />sex: male","age: 24.93102<br />height: 69.35282<br />sex: male","age: 20.89324<br />height: 70.98371<br />sex: male","age: 23.93339<br />height: 76.71920<br />sex: male","age: 22.86846<br />height: 65.79825<br />sex: male","age: 23.12947<br />height: 74.12875<br />sex: male","age: 22.82806<br />height: 70.15293<br />sex: male","age: 19.97986<br />height: 63.06075<br />sex: male","age: 23.81090<br />height: 64.72135<br />sex: male","age: 23.88601<br />height: 66.06448<br />sex: male","age: 24.88041<br />height: 74.42220<br />sex: male","age: 23.95396<br />height: 75.69745<br />sex: male","age: 22.86173<br />height: 67.09974<br />sex: male","age: 23.98898<br />height: 70.24987<br />sex: male","age: 21.06426<br />height: 75.54632<br />sex: male","age: 24.17002<br />height: 72.08561<br />sex: male","age: 23.18613<br />height: 67.39037<br />sex: male","age: 23.01028<br />height: 67.17058<br />sex: male","age: 25.14163<br />height: 72.98295<br />sex: male","age: 26.95228<br />height: 65.56090<br />sex: male","age: 21.86382<br />height: 72.13327<br />sex: male","age: 22.98116<br />height: 75.94176<br />sex: male","age: 23.93615<br />height: 70.68245<br />sex: male","age: 25.07663<br />height: 68.64439<br />sex: male","age: 22.15618<br />height: 80.43060<br />sex: male","age: 20.96769<br />height: 71.79114<br />sex: male","age: 22.18685<br />height: 74.24820<br />sex: male","age: 21.12742<br />height: 65.23371<br />sex: male","age: 23.08715<br />height: 74.38797<br />sex: male","age: 25.14747<br />height: 70.90547<br />sex: male","age: 22.87774<br />height: 67.01644<br />sex: male","age: 22.00551<br />height: 72.14501<br />sex: male","age: 22.09070<br />height: 74.04367<br />sex: male","age: 24.04736<br />height: 72.11137<br />sex: male","age: 25.14321<br />height: 75.71350<br />sex: male","age: 23.00719<br />height: 73.43376<br />sex: male","age: 24.08685<br />height: 63.27489<br />sex: male","age: 24.05417<br />height: 72.06154<br />sex: male","age: 23.08571<br />height: 65.99397<br />sex: male","age: 22.93049<br />height: 71.25454<br />sex: male","age: 21.88071<br />height: 69.79101<br />sex: male","age: 23.81394<br />height: 69.44138<br />sex: male","age: 25.87176<br />height: 73.19908<br />sex: male","age: 26.88532<br />height: 71.04525<br />sex: male","age: 22.15686<br />height: 67.84872<br />sex: male","age: 25.14985<br />height: 65.23487<br />sex: male","age: 24.00856<br />height: 73.72450<br />sex: male","age: 20.98051<br />height: 68.35642<br />sex: male","age: 25.85812<br />height: 72.86012<br />sex: male","age: 21.05563<br />height: 75.29941<br />sex: male","age: 22.98486<br />height: 65.99272<br />sex: male","age: 23.15031<br />height: 69.15194<br />sex: male","age: 24.07606<br />height: 73.51054<br />sex: male","age: 22.03208<br />height: 64.23406<br />sex: male","age: 24.01677<br />height: 73.27523<br />sex: male","age: 23.85438<br />height: 74.45993<br />sex: male","age: 24.90118<br />height: 71.49205<br />sex: male","age: 21.14139<br />height: 72.27430<br />sex: male","age: 20.03582<br />height: 68.39245<br />sex: male","age: 24.12802<br />height: 68.27215<br />sex: male","age: 20.96631<br />height: 72.28198<br />sex: male","age: 24.02612<br />height: 75.56297<br />sex: male","age: 21.14649<br />height: 76.91720<br />sex: male","age: 21.96072<br />height: 69.37255<br />sex: male","age: 28.11350<br />height: 74.10053<br />sex: male","age: 24.03498<br />height: 72.74102<br />sex: male","age: 23.97934<br />height: 65.96607<br />sex: male","age: 22.98945<br />height: 72.39174<br />sex: male","age: 19.81603<br />height: 73.92773<br />sex: male","age: 22.80703<br />height: 69.12111<br />sex: male","age: 20.09600<br />height: 75.73062<br />sex: male","age: 22.05233<br />height: 66.94317<br />sex: male","age: 22.89035<br />height: 66.31445<br />sex: male","age: 20.88318<br />height: 74.55064<br />sex: male","age: 22.11037<br />height: 70.38265<br />sex: male","age: 20.99936<br />height: 71.20617<br />sex: male","age: 20.99638<br />height: 69.88444<br />sex: male","age: 24.83836<br />height: 68.08607<br />sex: male","age: 22.95796<br />height: 67.10494<br />sex: male","age: 22.00909<br />height: 77.38398<br />sex: male","age: 22.86225<br />height: 73.52157<br />sex: male","age: 21.06667<br />height: 77.15146<br />sex: male","age: 23.95022<br />height: 65.60785<br />sex: male","age: 22.97138<br />height: 74.30630<br />sex: male","age: 23.02004<br />height: 70.06229<br />sex: male","age: 22.18266<br />height: 67.15251<br />sex: male","age: 22.16428<br />height: 69.98271<br />sex: male","age: 26.16435<br />height: 67.54022<br />sex: male","age: 19.81098<br />height: 69.08878<br />sex: male","age: 19.90760<br />height: 73.91302<br />sex: male","age: 22.12474<br />height: 75.59102<br />sex: male","age: 19.93420<br />height: 70.39787<br />sex: male","age: 21.19827<br />height: 72.52099<br />sex: male","age: 21.90298<br />height: 70.73629<br />sex: male","age: 25.12214<br />height: 71.52490<br />sex: male","age: 21.81742<br />height: 73.18407<br />sex: male","age: 23.12693<br />height: 64.98311<br />sex: male","age: 22.06300<br />height: 71.36052<br />sex: male","age: 22.80834<br />height: 72.69278<br />sex: male","age: 22.92691<br />height: 76.88991<br />sex: male","age: 23.06876<br />height: 65.99064<br />sex: male","age: 23.16226<br />height: 68.95299<br />sex: male","age: 25.14414<br />height: 72.70464<br />sex: male","age: 20.83559<br />height: 71.42656<br />sex: male","age: 22.95894<br />height: 70.53602<br />sex: male","age: 23.94984<br />height: 65.17708<br />sex: male","age: 21.86291<br />height: 75.56923<br />sex: male","age: 25.17923<br />height: 75.61849<br />sex: male","age: 23.17474<br />height: 74.98707<br />sex: male","age: 23.88241<br />height: 69.29312<br />sex: male","age: 21.13388<br />height: 61.60370<br />sex: male","age: 23.19212<br />height: 74.42419<br />sex: male","age: 22.89197<br />height: 69.14364<br />sex: male","age: 20.93496<br />height: 69.94806<br />sex: male","age: 22.92819<br />height: 70.26029<br />sex: male","age: 23.02459<br />height: 69.86067<br />sex: male","age: 22.96731<br />height: 68.72626<br />sex: male","age: 23.83804<br />height: 76.64993<br />sex: male","age: 24.85282<br />height: 75.07669<br />sex: male","age: 22.16231<br />height: 67.88895<br />sex: male","age: 24.02442<br />height: 73.37503<br />sex: male","age: 21.08496<br />height: 70.52769<br />sex: male","age: 23.91803<br />height: 71.93893<br />sex: male","age: 20.94290<br />height: 72.55766<br />sex: male","age: 22.95297<br />height: 72.12112<br />sex: male","age: 21.03183<br />height: 73.90934<br />sex: male","age: 25.17301<br />height: 70.10351<br />sex: male","age: 23.17782<br />height: 65.71371<br />sex: male","age: 23.07033<br />height: 76.65134<br />sex: male","age: 21.08970<br />height: 70.14316<br />sex: male","age: 22.09550<br />height: 70.26450<br />sex: male","age: 23.83941<br />height: 64.36006<br />sex: male","age: 23.08781<br />height: 63.03084<br />sex: male","age: 19.80405<br />height: 73.99443<br />sex: male","age: 21.02237<br />height: 73.63214<br />sex: male","age: 24.95685<br />height: 67.80480<br />sex: male","age: 20.90578<br />height: 73.96548<br />sex: male","age: 21.09672<br />height: 81.58267<br />sex: male","age: 24.84188<br />height: 69.29350<br />sex: male","age: 21.04808<br />height: 76.48970<br />sex: male","age: 23.94816<br />height: 67.60903<br />sex: male","age: 23.83224<br />height: 78.88236<br />sex: male","age: 27.10557<br />height: 73.90022<br />sex: male","age: 23.13714<br />height: 65.20265<br />sex: male","age: 23.03694<br />height: 64.64510<br />sex: male","age: 20.07885<br />height: 77.44619<br />sex: male","age: 24.13148<br />height: 69.95366<br />sex: male","age: 21.94814<br />height: 65.04595<br />sex: male","age: 23.14893<br />height: 77.58138<br />sex: male","age: 19.89479<br />height: 65.08143<br />sex: male","age: 24.83329<br />height: 66.57827<br />sex: male","age: 22.99581<br />height: 63.12646<br />sex: male","age: 25.92402<br />height: 70.20994<br />sex: male","age: 22.00405<br />height: 68.46392<br />sex: male","age: 23.17999<br />height: 73.57008<br />sex: male","age: 23.94419<br />height: 72.17385<br />sex: male","age: 27.94229<br />height: 66.19975<br />sex: male","age: 22.07375<br />height: 65.94463<br />sex: male","age: 21.97910<br />height: 67.69789<br />sex: male","age: 27.87470<br />height: 66.42959<br />sex: male","age: 23.95612<br />height: 76.70701<br />sex: male","age: 25.19236<br />height: 75.43081<br />sex: male","age: 23.85054<br />height: 72.80877<br />sex: male","age: 23.98128<br />height: 74.47461<br />sex: male","age: 23.95864<br />height: 70.07469<br />sex: male","age: 21.93132<br />height: 61.76183<br />sex: male","age: 25.08433<br />height: 68.38849<br />sex: male","age: 20.95063<br />height: 58.36973<br />sex: male","age: 26.07867<br />height: 78.71475<br />sex: male","age: 22.94637<br />height: 66.62954<br />sex: male","age: 21.90757<br />height: 65.92307<br />sex: male","age: 23.11488<br />height: 72.55050<br />sex: male","age: 25.93584<br />height: 66.02734<br />sex: male","age: 21.19753<br />height: 70.11071<br />sex: male","age: 22.92259<br />height: 75.57844<br />sex: male","age: 23.17035<br />height: 70.23571<br />sex: male","age: 22.09154<br />height: 69.35032<br />sex: male","age: 22.99650<br />height: 61.96471<br />sex: male","age: 21.16264<br />height: 66.81394<br />sex: male","age: 21.18436<br />height: 60.58190<br />sex: male","age: 25.89799<br />height: 71.70625<br />sex: male","age: 23.88886<br />height: 70.35974<br />sex: male","age: 20.98023<br />height: 74.13193<br />sex: male","age: 20.80869<br />height: 69.01337<br />sex: male","age: 26.10962<br />height: 75.04007<br />sex: male","age: 26.82575<br />height: 72.27601<br />sex: male","age: 22.89681<br />height: 67.82966<br />sex: male","age: 23.03535<br />height: 68.51523<br />sex: male","age: 22.98199<br />height: 74.12469<br />sex: male","age: 23.12081<br />height: 67.64456<br />sex: male","age: 24.86304<br />height: 65.33800<br />sex: male","age: 22.05716<br />height: 69.90950<br />sex: male","age: 21.01009<br />height: 74.17029<br />sex: male","age: 24.07311<br />height: 71.39178<br />sex: male","age: 23.95954<br />height: 65.78660<br />sex: male","age: 22.04514<br />height: 64.69617<br />sex: male","age: 26.00688<br />height: 66.67416<br />sex: male","age: 24.13100<br />height: 68.35019<br />sex: male","age: 21.82909<br />height: 73.46909<br />sex: male","age: 24.12338<br />height: 65.74464<br />sex: male","age: 21.87437<br />height: 72.16319<br />sex: male","age: 22.96521<br />height: 61.03633<br />sex: male","age: 22.98862<br />height: 68.08256<br />sex: male","age: 20.15232<br />height: 67.68896<br />sex: male","age: 24.92324<br />height: 69.26327<br />sex: male","age: 24.90021<br />height: 65.57351<br />sex: male","age: 24.09282<br />height: 66.30745<br />sex: male","age: 20.90333<br />height: 73.32089<br />sex: male","age: 23.16331<br />height: 70.13383<br />sex: male","age: 20.04016<br />height: 74.83266<br />sex: male","age: 26.16339<br />height: 73.57204<br />sex: male","age: 23.08411<br />height: 68.24980<br />sex: male","age: 22.14964<br />height: 72.20102<br />sex: male","age: 24.15259<br />height: 75.83181<br />sex: male","age: 22.96130<br />height: 72.95154<br />sex: male","age: 22.91172<br />height: 72.17289<br />sex: male","age: 23.08903<br />height: 74.87813<br />sex: male","age: 25.83336<br />height: 69.56859<br />sex: male","age: 26.00096<br />height: 68.80070<br />sex: male","age: 25.06638<br />height: 67.74346<br />sex: male","age: 23.85174<br />height: 71.04789<br />sex: male","age: 23.17319<br />height: 66.43425<br />sex: male","age: 21.19771<br />height: 72.11888<br />sex: male","age: 22.83631<br />height: 67.60868<br />sex: male","age: 19.98655<br />height: 59.39880<br />sex: male","age: 23.00133<br />height: 66.35934<br />sex: male","age: 23.96285<br />height: 72.27454<br />sex: male","age: 22.85460<br />height: 61.47724<br />sex: male","age: 22.89589<br />height: 74.31884<br />sex: male","age: 23.84797<br />height: 74.53152<br />sex: male","age: 23.15699<br />height: 71.43699<br />sex: male","age: 21.08762<br />height: 67.34012<br />sex: male","age: 20.03913<br />height: 68.77560<br />sex: male","age: 21.05503<br />height: 61.40017<br />sex: male","age: 20.85356<br />height: 67.70484<br />sex: male","age: 25.17368<br />height: 71.37582<br />sex: male","age: 21.12830<br />height: 71.07230<br />sex: male","age: 20.97680<br />height: 67.36483<br />sex: male","age: 21.04102<br />height: 65.78059<br />sex: male","age: 21.98431<br />height: 69.93379<br />sex: male","age: 21.12010<br />height: 66.95469<br />sex: male","age: 23.15642<br />height: 77.43948<br />sex: male","age: 27.97159<br />height: 76.41253<br />sex: male","age: 23.14467<br />height: 74.22250<br />sex: male","age: 23.86138<br />height: 70.02746<br />sex: male","age: 23.14632<br />height: 63.45451<br />sex: male","age: 24.02082<br />height: 63.24245<br />sex: male","age: 21.18786<br />height: 69.94305<br />sex: male","age: 21.97676<br />height: 66.14050<br />sex: male","age: 23.82629<br />height: 64.58189<br />sex: male","age: 20.80492<br />height: 72.52351<br />sex: male","age: 21.92087<br />height: 77.31598<br />sex: male","age: 23.92873<br />height: 76.13390<br />sex: male","age: 22.02254<br />height: 63.90080<br />sex: male","age: 24.96361<br />height: 64.82990<br />sex: male","age: 21.88505<br />height: 69.14788<br />sex: male","age: 23.08468<br />height: 66.26555<br />sex: male","age: 21.16275<br />height: 73.20043<br />sex: male","age: 22.06372<br />height: 69.70013<br />sex: male","age: 24.95054<br />height: 69.76323<br />sex: male","age: 22.90324<br />height: 76.31384<br />sex: male","age: 22.91153<br />height: 68.74428<br />sex: male","age: 23.89114<br />height: 72.99065<br />sex: male","age: 23.06463<br />height: 73.45872<br />sex: male","age: 19.80136<br />height: 63.26073<br />sex: male","age: 23.10678<br />height: 67.92473<br />sex: male","age: 21.91763<br />height: 67.82916<br />sex: male","age: 26.92983<br />height: 63.52279<br />sex: male","age: 23.85569<br />height: 69.22931<br />sex: male","age: 24.00418<br />height: 71.65302<br />sex: male","age: 19.99904<br />height: 82.78408<br />sex: male","age: 21.92767<br />height: 68.85614<br />sex: male","age: 22.15958<br />height: 67.89102<br />sex: male","age: 22.85872<br />height: 77.41752<br />sex: male","age: 20.01314<br />height: 69.98257<br />sex: male","age: 23.98133<br />height: 68.21975<br />sex: male","age: 22.99997<br />height: 67.07509<br />sex: male","age: 23.01821<br />height: 77.12785<br />sex: male","age: 21.88638<br />height: 77.48788<br />sex: male","age: 22.99391<br />height: 70.44733<br />sex: male","age: 23.92377<br />height: 70.28786<br />sex: male","age: 21.97554<br />height: 60.46427<br />sex: male","age: 21.84780<br />height: 66.25148<br />sex: male","age: 22.87911<br />height: 68.16385<br />sex: male","age: 24.17052<br />height: 69.54790<br />sex: male","age: 23.00552<br />height: 65.21559<br />sex: male","age: 22.00996<br />height: 70.53984<br />sex: male","age: 22.05147<br />height: 63.36947<br />sex: male","age: 21.18617<br />height: 71.39394<br />sex: male","age: 22.02313<br />height: 63.81156<br />sex: male","age: 23.96780<br />height: 77.95027<br />sex: male","age: 21.06643<br />height: 77.30452<br />sex: male","age: 23.81501<br />height: 70.59669<br />sex: male","age: 22.91836<br />height: 77.78396<br />sex: male","age: 23.92676<br />height: 65.92325<br />sex: male","age: 21.18680<br />height: 70.26654<br />sex: male","age: 26.97731<br />height: 73.41747<br />sex: male","age: 23.92998<br />height: 68.04556<br />sex: male","age: 22.85645<br />height: 69.40208<br />sex: male","age: 23.19565<br />height: 72.76967<br />sex: male","age: 23.92153<br />height: 64.30329<br />sex: male","age: 20.82564<br />height: 67.92649<br />sex: male","age: 26.09921<br />height: 72.18466<br />sex: male","age: 21.81373<br />height: 73.13121<br />sex: male","age: 23.15450<br />height: 67.73631<br />sex: male","age: 22.96103<br />height: 69.55287<br />sex: male","age: 25.97115<br />height: 75.23360<br />sex: male","age: 23.97217<br />height: 65.64314<br />sex: male","age: 23.95158<br />height: 65.99726<br />sex: male","age: 22.85698<br />height: 68.94215<br />sex: male","age: 20.84647<br />height: 65.52842<br />sex: male","age: 24.14683<br />height: 69.21226<br />sex: male","age: 22.94500<br />height: 76.51377<br />sex: male","age: 22.94934<br />height: 70.42485<br />sex: male","age: 27.15209<br />height: 80.89525<br />sex: male","age: 24.92223<br />height: 67.97745<br />sex: male","age: 24.12300<br />height: 73.28664<br />sex: male","age: 22.93474<br />height: 71.57989<br />sex: male","age: 24.84776<br />height: 74.84310<br />sex: male","age: 23.91367<br />height: 68.81947<br />sex: male","age: 20.11432<br />height: 68.31720<br />sex: male","age: 21.87689<br />height: 78.82242<br />sex: male","age: 23.83095<br />height: 79.73561<br />sex: male","age: 22.16374<br />height: 69.62086<br />sex: male","age: 22.95164<br />height: 69.70351<br />sex: male","age: 22.18175<br />height: 73.30810<br />sex: male","age: 25.01225<br />height: 67.59438<br />sex: male","age: 24.10177<br />height: 74.75459<br />sex: male","age: 26.90576<br />height: 73.39939<br />sex: male","age: 23.18714<br />height: 71.15354<br />sex: male","age: 23.05655<br />height: 71.34107<br />sex: male","age: 23.08012<br />height: 78.75244<br />sex: male","age: 20.90427<br />height: 64.95891<br />sex: male","age: 21.86828<br />height: 75.79615<br />sex: male","age: 22.90941<br />height: 73.80488<br />sex: male","age: 19.98344<br />height: 74.19262<br />sex: male","age: 22.03501<br />height: 68.56330<br />sex: male","age: 20.89543<br />height: 68.35655<br />sex: male","age: 22.97093<br />height: 70.96293<br />sex: male","age: 22.12580<br />height: 69.38270<br />sex: male","age: 21.85430<br />height: 70.89749<br />sex: male","age: 22.92163<br />height: 67.14072<br />sex: male","age: 22.13137<br />height: 73.73697<br />sex: male","age: 22.98032<br />height: 71.21071<br />sex: male","age: 23.12705<br />height: 72.72701<br />sex: male","age: 24.94981<br />height: 69.57801<br />sex: male","age: 20.82681<br />height: 70.64764<br />sex: male","age: 22.01150<br />height: 71.54695<br />sex: male","age: 23.98726<br />height: 62.31836<br />sex: male","age: 23.93377<br />height: 57.56516<br />sex: male","age: 26.05724<br />height: 79.38106<br />sex: male","age: 23.12038<br />height: 67.13329<br />sex: male","age: 19.88672<br />height: 61.90946<br />sex: male","age: 23.16669<br />height: 74.47627<br />sex: male","age: 22.09986<br />height: 67.24148<br />sex: male","age: 22.93063<br />height: 71.25274<br />sex: male","age: 20.96532<br />height: 64.56869<br />sex: male","age: 25.92204<br />height: 69.16574<br />sex: male","age: 22.84954<br />height: 69.75136<br />sex: male","age: 22.89413<br />height: 73.22948<br />sex: male","age: 22.90792<br />height: 61.96379<br />sex: male","age: 24.96029<br />height: 65.86984<br />sex: male","age: 25.02593<br />height: 65.13741<br />sex: male","age: 26.09430<br />height: 72.01099<br />sex: male","age: 22.11891<br />height: 71.96613<br />sex: male","age: 20.81491<br />height: 67.02234<br />sex: male","age: 21.01330<br />height: 67.02975<br />sex: male"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","opacity":1,"size":7.55905511811024,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","name":"male","legendgroup":"male","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":30.8775425487754,"r":9.29846409298464,"b":54.0612702366127,"l":48.4821917808219},"font":{"color":"rgba(0,0,0,1)","family":"","size":18.5969281859693},"xaxis":{"domain":[0,1],"type":"linear","autorange":false,"tickmode":"array","range":[19.296006458574,30.4138764790772],"ticktext":["20.0","22.5","25.0","27.5","30.0"],"tickvals":[20,22.5,25,27.5,30],"ticks":"outside","tickcolor":"rgba(0,0,0,1)","ticklen":4.64923204649232,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":15.9375674553757},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":"age","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":18.5969281859693},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"type":"linear","autorange":false,"tickmode":"array","range":[51.8572507872367,84.2567868222044],"ticktext":["60","70","80"],"tickvals":[60,70,80],"ticks":"outside","tickcolor":"rgba(0,0,0,1)","ticklen":4.64923204649232,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":15.9375674553757},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":"height","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":18.5969281859693},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"transparent","bordercolor":"transparent","borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":15.9375674553757},"y":0.889763779527559},"annotations":[{"text":"sex","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":18.5969281859693},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest"},"source":"A","attrs":{"7c8c64b5f885":{"x":{},"y":{},"fill":{},"type":"ggplotly"}},"cur_data":"7c8c64b5f885","visdat":{"7c8c64b5f885":["function (y) ","x"]},"config":{"modeBarButtonsToAdd":[{"name":"Collaborate","icon":{"width":1000,"ascent":500,"descent":-50,"path":"M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z"},"click":"function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == '?viewer_pane=1') {\n          alert('To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html');\n        } else {\n          window.open('https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html', '_blank');\n        }\n      }"}],"cloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1}},"base_url":"https://plot.ly"},"evals":["config.modeBarButtonsToAdd.0.click"],"jsHooks":{"render":[{"code":"function(el, x) { var ctConfig = crosstalk.var('plotlyCrosstalkOpts').set({\"on\":\"plotly_click\",\"persistent\":false,\"dynamic\":false,\"selectize\":false,\"opacityDim\":0.2,\"selected\":{\"opacity\":1}}); }","data":null}]}}</script>
+<p class="alert alert-info">
+Hover over the data points above and click on the legend items.
+</p>
+</div>
+</div>
+<div id="exercises" class="section level2 tabset tabset-pills">
+<h2>Exercises</h2>
+<div id="distribution" class="section level3">
+<h3>Distribution</h3>
+<p>Generate a violin plot, boxplot, histogram, density plot, and barplot for the following data. Save each plot as a PNG file.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># dog weights estimated from http://petobesityprevention.org/ideal-weight-ranges/</span>
+
+dogs &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">breed =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;beagle&quot;</span>, <span class="st">&quot;boxer&quot;</span>, <span class="st">&quot;bulldog&quot;</span>), <span class="dt">each =</span> <span class="dv">100</span>),
+  <span class="dt">weight =</span> <span class="kw">c</span>(
+    <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">24</span>, <span class="dv">6</span>),
+    <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="fl">62.5</span>, <span class="fl">12.5</span>),
+    <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">45</span>, <span class="dv">5</span>)
+  )
+)</code></pre></div>
+<div class="solution">
+<button>
+Violin Plot Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dogs, <span class="kw">aes</span>(breed, weight, <span class="dt">fill =</span> breed)) +
+<span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.5</span>), <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p><img src="images/02/exercise-violin-1.png" width="768" /></p>
+</div>
+<div class="solution">
+<button>
+Boxplot Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dogs, <span class="kw">aes</span>(breed, weight, <span class="dt">fill =</span> breed)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p><img src="images/02/exercise-boxplot-1.png" width="768" /></p>
+</div>
+<div class="solution">
+<button>
+Histogram Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dogs, <span class="kw">aes</span>(weight, <span class="dt">fill =</span> breed)) +
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">3</span>, <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</code></pre></div>
+<p><img src="images/02/exercise-histogram-1.png" width="768" /></p>
+</div>
+<div class="solution">
+<button>
+Density plot Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dogs, <span class="kw">aes</span>(weight, <span class="dt">fill =</span> breed)) +
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) +
+<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">110</span>)</code></pre></div>
+<p><img src="images/02/exercise-density-1.png" width="768" /></p>
+</div>
+<div class="solution">
+<button>
+Barplot Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dogs %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(breed) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">mean =</span> <span class="kw">mean</span>(weight),
+    <span class="dt">sd =</span> <span class="kw">sd</span>(weight)
+  ) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(breed, mean, <span class="dt">fill =</span> breed)) +
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) +
+<span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean -<span class="st"> </span>sd, <span class="dt">ymax =</span> mean +<span class="st"> </span>sd), <span class="dt">width =</span> <span class="fl">0.25</span>)</code></pre></div>
+<p><img src="images/02/exercise-barplot-1.png" width="768" /></p>
+</div>
+</div>
+<div id="correlation" class="section level3">
+<h3>Correlation</h3>
+<p>Represent the relationships among moral, sexual and pathogen disgust scores from the dataset <a href="data/disgust_scores.csv">disgust_scores.csv</a>.</p>
+<p>Make sure the graphs have appropriate titles and axis labels and that the range of the axes are the same in all graphs.</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/disgust_scores.csv&quot;</span>)
+
+<span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(moral, sexual)) +
+<span class="st">  </span><span class="kw">geom_smooth</span>() +
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Moral vs Sexual Disgust&quot;</span>) +
+<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>) +<span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</code></pre></div>
+<p><img src="images/02/exercise-cor-1.png" width="768" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(moral, pathogen)) +
+<span class="st">  </span><span class="kw">geom_smooth</span>() +
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Moral vs Pathogen Disgust&quot;</span>) +
+<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>) +<span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</code></pre></div>
+<p><img src="images/02/exercise-cor-2.png" width="768" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(pathogen, sexual)) +
+<span class="st">  </span><span class="kw">geom_smooth</span>() +
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Pathogen vs Sexual Disgust&quot;</span>) +
+<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>) +<span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</code></pre></div>
+<p><img src="images/02/exercise-cor-3.png" width="768" /></p>
+</div>
+</div>
+<div id="many-correlated-variables" class="section level3">
+<h3>Many correlated variables</h3>
+<p>Create a heatmap of the relationships among all the questions in <a href="data/disgust_cors.csv">disgust_cors.csv</a> (the correlations have already been calculated for you).</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;data/disgust_cors.csv&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(V1, V2, <span class="dt">fill=</span>r)) +
+<span class="st">  </span><span class="kw">geom_tile</span>() +
+<span class="st">  </span><span class="kw">scale_fill_viridis</span>() +
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">1</span>))</code></pre></div>
+<p><img src="images/02/exercise-heatmap-1.png" width="768" /></p>
+</div>
+</div>
+</div>
+
+<!--
+<p class="footer">
+  This course free to use in any way under the
+  <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 License</a>
+</p>
+-->
+
+<script>
+  $(".solution").click(function() {
+    $(this).toggleClass("open");
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
