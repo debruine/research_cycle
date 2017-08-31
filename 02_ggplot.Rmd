@@ -209,7 +209,7 @@ have many observations. Set the `binwidth` to control how wide each bar is.
 ```{r histogram}
 
 ggplot(demog, aes(height)) +
-  geom_histogram(binwidth = 1)
+  geom_histogram(binwidth = 1, fill = "white", color = "black")
   
 ```
 
@@ -323,7 +323,7 @@ ggplot(aes(sex, mean, fill=sex)) +
 
 ```
 
-<p class="alert alert-info">What do you think `geom_vline()` does?</p>
+<p class="alert alert-info">What do you think `geom_hline()` does?</p>
 
 ### Save as File
 
