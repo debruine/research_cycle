@@ -765,10 +765,17 @@ a sex difference in height in a sample of 10 male and 10 female 20-year-olds?
 6. Prove to yourself that the binomial distribution looks like the normal 
 distribution when the number of trials is greater than 10.
 
+<<<<<<< HEAD
     <p class="alert alert-info">You can calculate the equivalent mean for the normal 
     distribution as the number of trials times the probability of success 
     (`mean <- trials * prob`) and the equivalent SD as the square root of the mean 
     times one minus probability of success (`sd <- sqrt(mean * (1 - prob))`).</p>
+=======
+<p class="alert alert-info">You can calculate the equivalent mean for the normal 
+distribution as the number of trials times the probability of success 
+(`mean <- trials * prob`) and the equivalent SD as the square root of the mean 
+times one minus probability of success (`sd <- sqrt(mean * (1 - prob))`).</p>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
 
     <div class="solution"><button>Solution</button>
     ```{r}
