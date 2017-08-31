@@ -414,8 +414,18 @@ div.tocify {
 <p><code>runif(n, min=0, max=1)</code></p>
 <p>Use <code>runif()</code> to sample from a continuous uniform distribution.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dv">10</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>##  [1] 0.56064138 0.76507669 0.00190842 0.14671248 0.17869559 0.62799784
 ##  [7] 0.37418878 0.65944312 0.24271723 0.35716350</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>##  [1] 0.636795071 0.909557017 0.988769699 0.005642375 0.066600512
+##  [6] 0.492927476 0.881561945 0.859489427 0.396313843 0.771223827</code></pre>
+=======
+<pre><code>##  [1] 0.14641093 0.86230092 0.02633314 0.30293844 0.66624867 0.41409878
+##  [7] 0.39633293 0.92520849 0.17351308 0.83046830</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div>
 <div id="sample-discrete-distribution" class="section level4">
 <h4>Sample discrete distribution</h4>
@@ -423,6 +433,7 @@ div.tocify {
 <p>Use <code>sample()</code> to sample from a discrete distribution.</p>
 <p>Simulate a single roll of a 6-sided die.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sample</span>(<span class="dv">6</span>, <span class="dv">1</span>)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## [1] 1</code></pre>
 <p>Simulate 10 rolls of a 6-sided die. Set <code>replace</code> to <code>TRUE</code> so each roll is independent. See what happens if you set <code>replace</code> to <code>FALSE</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sample</span>(<span class="dv">6</span>, <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</code></pre></div>
@@ -432,11 +443,43 @@ div.tocify {
 <span class="kw">sample</span>(pet_types, <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>##  [1] &quot;fish&quot;   &quot;dog&quot;    &quot;bird&quot;   &quot;bird&quot;   &quot;fish&quot;   &quot;bird&quot;   &quot;cat&quot;   
 ##  [8] &quot;ferret&quot; &quot;ferret&quot; &quot;cat&quot;</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>## [1] 4</code></pre>
+<p>Simulate 10 rolls of a 6-sided die. Set <code>replace</code> to <code>TRUE</code> so each roll is independent. See what happens if you set <code>replace</code> to <code>FALSE</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sample</span>(<span class="dv">6</span>, <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>##  [1] 5 6 4 3 1 6 5 1 5 2</code></pre>
+<p>You can also use sample to sample from a list of named outcomes.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pet_types &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;ferret&quot;</span>, <span class="st">&quot;bird&quot;</span>, <span class="st">&quot;fish&quot;</span>)
+<span class="kw">sample</span>(pet_types, <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>##  [1] &quot;fish&quot;   &quot;bird&quot;   &quot;cat&quot;    &quot;bird&quot;   &quot;ferret&quot; &quot;fish&quot;   &quot;fish&quot;  
+##  [8] &quot;ferret&quot; &quot;dog&quot;    &quot;fish&quot;</code></pre>
+=======
+<pre><code>## [1] 2</code></pre>
+<p>Simulate 10 rolls of a 6-sided die. Set <code>replace</code> to <code>TRUE</code> so each roll is independent. See what happens if you set <code>replace</code> to <code>FALSE</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sample</span>(<span class="dv">6</span>, <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>##  [1] 1 6 4 6 4 3 4 6 1 3</code></pre>
+<p>You can also use sample to sample from a list of named outcomes.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pet_types &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;ferret&quot;</span>, <span class="st">&quot;bird&quot;</span>, <span class="st">&quot;fish&quot;</span>)
+<span class="kw">sample</span>(pet_types, <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>##  [1] &quot;bird&quot;   &quot;ferret&quot; &quot;fish&quot;   &quot;ferret&quot; &quot;dog&quot;    &quot;cat&quot;    &quot;cat&quot;   
+##  [8] &quot;cat&quot;    &quot;fish&quot;   &quot;dog&quot;</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 <p>Ferrets are a much less common pet than cats and dogs, so our sample isn’t very realistic. You can set the probabilities of each item in the list with the <code>prob</code> argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pet_types &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;ferret&quot;</span>, <span class="st">&quot;bird&quot;</span>, <span class="st">&quot;fish&quot;</span>)
 pet_prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>)
 <span class="kw">sample</span>(pet_types, <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">prob =</span> pet_prob)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>##  [1] &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot;</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>##  [1] &quot;bird&quot;   &quot;ferret&quot; &quot;ferret&quot; &quot;cat&quot;    &quot;dog&quot;    &quot;dog&quot;    &quot;cat&quot;   
+##  [8] &quot;cat&quot;    &quot;dog&quot;    &quot;dog&quot;</code></pre>
+=======
+<pre><code>##  [1] &quot;bird&quot; &quot;dog&quot;  &quot;cat&quot;  &quot;dog&quot;  &quot;cat&quot;  &quot;cat&quot;  &quot;dog&quot;  &quot;dog&quot;  &quot;dog&quot;  &quot;cat&quot;</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div>
 </div>
 <div id="binomial" class="section level3">
@@ -454,16 +497,38 @@ pet_prob &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl
 <p>Coin flips are a typical example of a binomial distribution, where we can assign head to 1 and tails to 0.</p>
 <p>20 individual coin flips of a fair coin</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rbinom</span>(<span class="dv">20</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>##  [1] 1 1 1 1 1 0 0 0 0 1 0 0 1 0 0 1 0 1 1 1</code></pre>
 <p>20 individual coin flips of a baised (0.75) coin</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rbinom</span>(<span class="dv">20</span>, <span class="dv">1</span>, <span class="fl">0.75</span>)</code></pre></div>
 <pre><code>##  [1] 1 1 0 1 0 1 1 1 1 1 1 0 0 0 1 1 1 1 0 1</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>##  [1] 0 1 0 1 1 0 0 1 1 1 0 0 0 1 1 0 1 0 0 0</code></pre>
+<p>20 individual coin flips of a baised (0.75) coin</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rbinom</span>(<span class="dv">20</span>, <span class="dv">1</span>, <span class="fl">0.75</span>)</code></pre></div>
+<pre><code>##  [1] 1 1 0 0 0 0 0 0 1 1 0 1 1 1 1 1 1 1 1 1</code></pre>
+=======
+<pre><code>##  [1] 1 0 1 0 0 0 1 1 0 0 0 1 0 1 0 1 0 0 0 0</code></pre>
+<p>20 individual coin flips of a baised (0.75) coin</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rbinom</span>(<span class="dv">20</span>, <span class="dv">1</span>, <span class="fl">0.75</span>)</code></pre></div>
+<pre><code>##  [1] 0 0 1 0 0 0 1 1 1 1 1 0 1 1 1 1 0 1 1 1</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 <p>You can generate the total number of heads in 1 set of 20 coin flips by setting <code>size</code> to 20 and <code>n</code> to 1.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rbinom</span>(<span class="dv">1</span>, <span class="dv">20</span>, <span class="fl">0.75</span>)</code></pre></div>
 <pre><code>## [1] 15</code></pre>
 <p>You can generate more sets of 20 coin flips by increasing the <code>n</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rbinom</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="fl">0.5</span>)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>##  [1] 14  6  8  8 12  6 11  8  8  9</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>##  [1] 10  9  9  7  9 12  9  8 10  7</code></pre>
+=======
+<pre><code>##  [1]  8 10  9 11 11 12 11  9 11  7</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 <p>You should always check your randomly generated data to check that it makes sense. For large samples, it’s easiest to do that graphically. A histogram is usually the best choice for plotting binomial data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim_flips &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">flips =</span> <span class="kw">rbinom</span>(<span class="dv">1000</span>, <span class="dv">20</span>, <span class="fl">0.5</span>)
@@ -500,6 +565,22 @@ biased_coin &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span c
 ##  Exact binomial test
 ## 
 ## data:  fair_coin and n
+<<<<<<< HEAD
+## number of successes = 5, number of trials = 10, p-value = 1
+=======
+<<<<<<< HEAD
+## number of successes = 4, number of trials = 10, p-value = 0.7539
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.1215523 0.7376219
+## sample estimates:
+## probability of success 
+<<<<<<< HEAD
+##                    0.5</code></pre>
+=======
+##                    0.4</code></pre>
+=======
 ## number of successes = 5, number of trials = 10, p-value = 1
 ## alternative hypothesis: true probability of success is not equal to 0.5
 ## 95 percent confidence interval:
@@ -507,11 +588,14 @@ biased_coin &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span c
 ## sample estimates:
 ## probability of success 
 ##                    0.5</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">binom.test</span>(biased_coin, n, <span class="dt">p =</span> <span class="fl">0.5</span>)</code></pre></div>
 <pre><code>## 
 ##  Exact binomial test
 ## 
 ## data:  biased_coin and n
+<<<<<<< HEAD
 ## number of successes = 7, number of trials = 10, p-value = 0.3438
 ## alternative hypothesis: true probability of success is not equal to 0.5
 ## 95 percent confidence interval:
@@ -519,6 +603,25 @@ biased_coin &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span c
 ## sample estimates:
 ## probability of success 
 ##                    0.7</code></pre>
+=======
+<<<<<<< HEAD
+## number of successes = 5, number of trials = 10, p-value = 1
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.187086 0.812914
+## sample estimates:
+## probability of success 
+##                    0.5</code></pre>
+=======
+## number of successes = 4, number of trials = 10, p-value = 0.7539
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.1215523 0.7376219
+## sample estimates:
+## probability of success 
+##                    0.4</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 <p class="alert alert-info">
 Run the code above several times. How often do you conclude the fair coin is biased (false positives)? How often do you conclude the biased coin is fair (false negatives)?
 </p>
@@ -544,7 +647,15 @@ Run the code above several times. How often do you conclude the fair coin is bia
 }</code></pre></div>
 <p>Once you’ve created your function, test it a few times, changing the values.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sim_binom_test</span>(<span class="dv">100</span>, <span class="fl">0.6</span>)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## [1] 0.0008737198</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>## [1] 0.7643534</code></pre>
+=======
+<pre><code>## [1] 0.1933479</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div>
 <div id="calculate-power" class="section level4">
 <h4>Calculate power</h4>
@@ -552,7 +663,15 @@ Run the code above several times. How often do you conclude the fair coin is bia
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_reps &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">10000</span>, <span class="kw">sim_binom_test</span>(<span class="dv">100</span>, <span class="fl">0.6</span>))
 
 <span class="kw">mean</span>(my_reps &lt;<span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## [1] 0.4633</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>## [1] 0.455</code></pre>
+=======
+<pre><code>## [1] 0.4627</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div>
 </div>
 <div id="normal" class="section level3">
@@ -594,6 +713,7 @@ Run the simulation above several times, noting how the density plot changes. Wha
 ##  One Sample t-test
 ## 
 ## data:  sim_norm
+<<<<<<< HEAD
 ## t = 4.3269, df = 99, p-value = 3.617e-05
 ## alternative hypothesis: true mean is not equal to 0
 ## 95 percent confidence interval:
@@ -601,6 +721,25 @@ Run the simulation above several times, noting how the density plot changes. Wha
 ## sample estimates:
 ## mean of x 
 ##  0.471496</code></pre>
+=======
+<<<<<<< HEAD
+## t = 4.5738, df = 99, p-value = 1.389e-05
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  0.2598802 0.6581410
+## sample estimates:
+## mean of x 
+## 0.4590106</code></pre>
+=======
+## t = 3.3987, df = 99, p-value = 0.0009768
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  0.1476299 0.5618162
+## sample estimates:
+## mean of x 
+##  0.354723</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 <p>Run an independent-samples t-test by comparing two lists of values.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="fl">0.5</span>, <span class="dv">1</span>)
 b &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="fl">0.7</span>, <span class="dv">1</span>)
@@ -610,6 +749,7 @@ t_ind</code></pre></div>
 ##  Welch Two Sample t-test
 ## 
 ## data:  a and b
+<<<<<<< HEAD
 ## t = -1.6304, df = 197.94, p-value = 0.1046
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
@@ -617,6 +757,25 @@ t_ind</code></pre></div>
 ## sample estimates:
 ## mean of x mean of y 
 ## 0.4076895 0.6277452</code></pre>
+=======
+<<<<<<< HEAD
+## t = -1.9091, df = 197.81, p-value = 0.0577
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.534954208  0.008676087
+## sample estimates:
+## mean of x mean of y 
+## 0.5772213 0.8403604</code></pre>
+=======
+## t = -2.2998, df = 197.61, p-value = 0.0225
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.59918216 -0.04597643
+## sample estimates:
+## mean of x mean of y 
+## 0.4347466 0.7573259</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 <p class="alert alert-warning">
 The <code>paired</code> argument defaults to <code>FALSE</code>, but it’s good practice to always explicitly set it so you are never confused about what type of test you are performing.
 </p>
@@ -629,7 +788,15 @@ The <code>paired</code> argument defaults to <code>FALSE</code>, but it’s good
 ## [6] &quot;null.value&quot;  &quot;alternative&quot; &quot;method&quot;      &quot;data.name&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t_ind$estimate</code></pre></div>
 <pre><code>## mean of x mean of y 
+<<<<<<< HEAD
 ## 0.4076895 0.6277452</code></pre>
+=======
+<<<<<<< HEAD
+## 0.5772213 0.8403604</code></pre>
+=======
+## 0.4347466 0.7573259</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 <p>If you want to run the simulation many times and record information each time, first you need to turn your simulation into a function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim_t_ind &lt;-<span class="st"> </span>function(n, m1, sd1, m2, sd2) {
   v1 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, m1, sd1)
@@ -640,14 +807,30 @@ The <code>paired</code> argument defaults to <code>FALSE</code>, but it’s good
 }
 
 <span class="kw">sim_t_ind</span>(<span class="dv">100</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">0.7</span>, <span class="dv">1</span>)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## [1] 0.04229123</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>## [1] 0.1975417</code></pre>
+=======
+<pre><code>## [1] 0.003859448</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 <p>Now replicate the simulation 1000 times.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_reps &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">sim_t_ind</span>(<span class="dv">100</span>, <span class="fl">0.7</span>, <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">1</span>))
 
 alpha &lt;-<span class="st"> </span><span class="fl">0.05</span>
 power &lt;-<span class="st"> </span><span class="kw">mean</span>(my_reps &lt;<span class="st"> </span>alpha)
 power</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## [1] 0.306</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>## [1] 0.293</code></pre>
+=======
+<pre><code>## [1] 0.265</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 <p class="alert alert-info">
 Run the code above several times. How much does the power value fluctuate? How many replications do you need to run to get a reliable estimate of power? How does this number compare to an <a href="https://www.stat.ubc.ca/~rollin/stats/ssize/n2.html">online power calculator</a>?
 </p>
@@ -673,10 +856,24 @@ x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dv
 y &lt;-<span class="st"> </span>x +<span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)
 
 <span class="kw">cor</span>(x, y)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## [1] 0.6980062</code></pre>
 <p><code>cor()</code> defaults to Pearson’s correlations. Set the <code>method</code> argument to use Kendall or Spearman correlations.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(x, y, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</code></pre></div>
 <pre><code>## [1] 0.6678428</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>## [1] 0.7360241</code></pre>
+<p><code>cor()</code> defaults to Pearson’s correlations. Set the <code>method</code> argument to use Kendall or Spearman correlations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(x, y, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</code></pre></div>
+<pre><code>## [1] 0.769841</code></pre>
+=======
+<pre><code>## [1] 0.7495845</code></pre>
+<p><code>cor()</code> defaults to Pearson’s correlations. Set the <code>method</code> argument to use Kendall or Spearman correlations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(x, y, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</code></pre></div>
+<pre><code>## [1] 0.7183198</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div>
 <div id="sample-distribution-2" class="section level5">
 <h5>Sample distribution</h5>
@@ -696,8 +893,18 @@ bvn &lt;-<span class="st"> </span><span class="kw">mvrnorm</span>(n, mu, sigma) 
 
 <span class="kw">cor</span>(bvn) <span class="co"># check correlation matrix</span></code></pre></div>
 <pre><code>##           [,1]      [,2]
+<<<<<<< HEAD
 ## [1,] 1.0000000 0.5010444
 ## [2,] 0.5010444 1.0000000</code></pre>
+=======
+<<<<<<< HEAD
+## [1,] 1.0000000 0.4985597
+## [2,] 0.4985597 1.0000000</code></pre>
+=======
+## [1,] 1.0000000 0.4884692
+## [2,] 0.4884692 1.0000000</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 <p>Plot your sampled variables to check everything worked like you expect. You need to convert the output of <code>mvnorm</code> into a tibble in order to use it in ggplot.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bvn %&gt;%
 <span class="st">  </span><span class="kw">as_tibble</span>() %&gt;%
@@ -730,10 +937,23 @@ sigma &lt;-<span class="st"> </span>(stdevs %*%<span class="st"> </span><span cl
 bvn3 &lt;-<span class="st"> </span><span class="kw">mvrnorm</span>(n, mu, sigma)
 
 <span class="kw">cor</span>(bvn3) <span class="co"># check correlation matrix</span></code></pre></div>
+<<<<<<< HEAD
 <pre><code>##           [,1]       [,2]       [,3]
 ## [1,] 1.0000000 0.74216426 0.60435268
 ## [2,] 0.7421643 1.00000000 0.09363844
 ## [3,] 0.6043527 0.09363844 1.00000000</code></pre>
+=======
+<pre><code>##           [,1]      [,2]      [,3]
+<<<<<<< HEAD
+## [1,] 1.0000000 0.7754865 0.7098973
+## [2,] 0.7754865 1.0000000 0.2724342
+## [3,] 0.7098973 0.2724342 1.0000000</code></pre>
+=======
+## [1,] 1.0000000 0.8197551 0.4646534
+## [2,] 0.8197551 1.0000000 0.1182492
+## [3,] 0.4646534 0.1182492 1.0000000</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div>
 <div id="d-plots" class="section level5">
 <h5>3D Plots</h5>
@@ -744,8 +964,18 @@ bvn3 %&gt;%
 <span class="st">  </span><span class="kw">as_tibble</span>() %&gt;%
 <span class="st">  </span><span class="kw">plot_ly</span>(<span class="dt">x =</span> ~V1, <span class="dt">y =</span> ~V2, <span class="dt">z =</span> ~V3) %&gt;%
 <span class="st">  </span><span class="kw">add_markers</span>()</code></pre></div>
+<<<<<<< HEAD
 <div id="9cee15adfee7" style="width:768px;height:480px;" class="plotly html-widget"></div>
 <script type="application/json" data-for="9cee15adfee7">{"x":{"visdat":{"9ceea19959f":["function () ","plotlyVisDat"]},"cur_data":"9ceea19959f","attrs":{"9ceea19959f":{"x":{},"y":{},"z":{},"alpha":1,"sizes":[10,100],"type":"scatter3d","mode":"markers"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"V1"},"yaxis":{"title":"V2"},"zaxis":{"title":"V3"}},"xaxis":{"domain":[0,1]},"yaxis":{"domain":[0,1]},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":[{"name":"Collaborate","icon":{"width":1000,"ascent":500,"descent":-50,"path":"M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z"},"click":"function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == '?viewer_pane=1') {\n          alert('To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html');\n        } else {\n          window.open('https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html', '_blank');\n        }\n      }"}],"cloud":false},"data":[{"x":[8.15212288057959,13.5463557089042,6.21716754363427,8.2293474399403,5.41670745128888,3.76049215176762,7.81354584882601,14.4354857289974,10.3645103263621,9.07102098191145,11.0909115138381,4.70624477320933,5.8717272984015,7.63617384557108,6.28391514979592,6.54315474911476,9.98429755368692,4.6932717182446,6.57920799847913,11.8873027723267,18.0345936467712,8.42830595772101,12.7001445554283,11.9327771124132,18.947235687747,9.81731638198168,2.2975305950979,17.5752156458239,9.04940405411268,16.8656867197554,4.87062242933808,9.55576044717995,4.41843260278514,12.9859676627245,-3.85923800988205,10.2211766462997,5.33364474626168,9.87181636194204,8.60966332868687,11.2884679017707,11.156021366339,5.48332121571318,13.6331766385013,9.81155382213916,15.4462375716537,5.89464658845796,5.84524892846465,15.8105116968894,7.23431296803546,8.36842254048862,5.99589313588038,8.00520927991509,12.9603680132564,7.53680528913636,11.2332535219338,16.068757954171,7.51516515421449,8.63332973858788,20.1551567646078,4.44279591234159,10.3158625472797,9.55590632167666,16.147121747077,17.9647427181977,3.7037075345521,10.4679527362846,15.9164961021544,19.3861708014991,16.0417170639546,4.14398079151062,10.6330732526918,7.37767203155759,5.12508538133761,12.2972881077933,6.37342292903548,19.1462592087989,3.67431763642168,-0.285705269277951,5.11351139086225,13.3952076083574,10.4816926056587,14.8824296970812,9.23600686993161,10.4893725242441,13.5877772860871,9.31315929041177,4.31081152278986,20.6289520733309,11.1529812715846,1.31007649212195,8.960020355512,9.62894286537258,12.6821532147817,13.2393850589916,7.06977686824959,10.9743013903815,9.82777541980012,6.95209390688308,11.7284338763268,3.93810237770905],"y":[19.2201683008286,23.22121008344,11.1279898296764,25.2328534029304,18.4329190257568,19.4919894747916,17.4244953578711,22.592353121062,18.8359613284629,23.0818814231067,19.1277780073202,15.0576466817948,11.9239171843706,19.9760256514869,12.5344567624053,17.7129538292701,12.6071852594997,18.0202082624143,18.1737920684843,18.2295335335255,26.5874971252297,9.75425119245591,26.6485429556075,20.5218198745279,25.5379033175061,14.9073697352205,17.0587083468247,32.798112126222,25.5737396988334,19.0815318812456,10.7287839962017,19.8038176326311,15.054369603217,23.5244016314663,4.29810596299492,26.01103189139,13.4306032145717,18.3519428952995,22.5636794474426,22.7968496831584,27.1603395557694,17.5207676746504,20.5853853949609,26.060089302223,21.4626849269835,11.4482082703277,16.1426094407971,22.9205049877329,19.6782992503215,16.7889385325523,12.5858222812719,18.9066169433701,22.2947052338772,16.315415185233,23.6058193634879,16.9560252607846,14.5534132991219,22.4261639672656,25.442737856455,20.089448869615,23.3179570883901,15.807909704458,26.0250676686864,21.2151495178237,17.9002426641761,17.8533243164805,31.8196587956426,31.4650987776565,23.5781920187611,17.294131831363,25.5157429251035,19.8979918883017,18.3648566958599,26.4103687690801,18.4070216618495,37.5544624550885,16.4375879927325,4.62488562841303,18.9155108218191,25.9800254246234,22.2052171363773,18.2439756911295,17.3986795999639,18.7277345373303,21.3802597132513,20.3303832232983,12.8790147643352,31.9422397835122,21.8942754785796,8.70648083936513,18.1141717482688,15.9346606694155,19.4456698272018,21.3927662784372,15.4718451282331,17.137459027437,26.1668241102371,19.3978772614995,22.4631546130986,13.178673432514],"z":[36.7164197363321,32.2603275625874,31.6388305463567,14.5328189734522,24.6726237049712,9.2612671925432,30.8292291211362,41.8020689108355,35.8971985890623,27.8656269005627,31.6172516031188,27.015090338003,29.9362854130341,28.8576041580947,37.5564502193218,32.8891324087686,33.4998847142218,17.4574351120328,27.7059339408176,32.9171240263079,42.7240343898817,43.8659761167537,28.3215146832934,39.5255173469071,35.115574038451,35.0374950659998,20.8962299657375,31.5781871747438,32.6207542698139,47.8136907898388,33.0536991914887,32.2429716614303,30.280971350833,30.0975632039299,22.1281760141645,23.6820701719592,24.790251103714,21.1257638787201,25.3022090173986,29.0443383682234,22.2434558790226,16.4511043917389,34.9886374362643,21.3184207370431,44.2765818428418,28.6432425296154,30.6141787021897,33.1316297133903,27.8964092214665,31.6616129161086,26.3526449584773,23.7985583769193,32.4728116379921,26.7461128033309,33.9464648015283,44.0394439785964,31.9624556566102,22.0553003760472,37.3240617255707,23.7262252663686,30.6037905592144,39.0508367982871,39.2834658893981,44.6462823308581,23.1858649974147,31.3064079210134,29.9768836747718,43.5421306190779,39.6387186894129,25.3223526253612,23.9242335554259,26.549207635191,15.3964787654875,26.9886898884398,26.2337278364329,31.8350463613033,24.0050257754917,26.0562895267296,13.671054647206,23.4542554906609,33.2508191160433,33.045884404964,35.3139247643982,29.1857194115112,34.9479253709568,22.996507991825,19.2562587402115,37.4964496047869,31.8733550964441,26.9487502186283,24.8986898077859,39.7537169520942,32.2511971911368,28.1850678217498,28.6690575345444,38.7951238512132,21.2479188551818,31.0882920253785,27.8102784639052,26.8498196601834],"type":"scatter3d","mode":"markers","marker":{"fillcolor":"rgba(31,119,180,1)","color":"rgba(31,119,180,1)","line":{"color":"transparent"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1}},"base_url":"https://plot.ly"},"evals":["config.modeBarButtonsToAdd.0.click"],"jsHooks":{"render":[{"code":"function(el, x) { var ctConfig = crosstalk.var('plotlyCrosstalkOpts').set({\"on\":\"plotly_click\",\"persistent\":false,\"dynamic\":false,\"selectize\":false,\"opacityDim\":0.2,\"selected\":{\"opacity\":1}}); }","data":null}]}}</script>
+=======
+<<<<<<< HEAD
+<div id="919a2db69ec" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="919a2db69ec">{"x":{"visdat":{"919a1cb45395":["function () ","plotlyVisDat"]},"cur_data":"919a1cb45395","attrs":{"919a1cb45395":{"x":{},"y":{},"z":{},"alpha":1,"sizes":[10,100],"type":"scatter3d","mode":"markers"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"V1"},"yaxis":{"title":"V2"},"zaxis":{"title":"V3"}},"xaxis":{"domain":[0,1]},"yaxis":{"domain":[0,1]},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":[{"name":"Collaborate","icon":{"width":1000,"ascent":500,"descent":-50,"path":"M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z"},"click":"function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == '?viewer_pane=1') {\n          alert('To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html');\n        } else {\n          window.open('https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html', '_blank');\n        }\n      }"}],"cloud":false},"data":[{"x":[4.47418484409245,12.1163498989888,11.6097295761004,12.7965604641571,6.02134751619904,13.1132897849939,6.48118756907892,3.49907160477251,6.64178637712097,3.01261708155659,6.15006871152406,9.92580673246652,11.1511930460262,12.8717814792016,12.2616982755634,7.29298537165193,2.9104645096764,15.7195664547079,16.2922170444867,11.6289945169838,2.94871874545274,6.7662802095472,4.34544558226047,5.94415342758012,3.57731371931416,17.1612966910182,9.73921185817778,4.14187715458872,6.03130544417264,9.62903670937355,14.1953579666628,7.00317249527299,9.89638209385378,1.83973401413874,13.6616238167048,6.81896267879662,11.6358901930164,4.45994566604227,7.63543719492456,1.05226008454403,9.1416173884958,6.55775882071159,2.40718488599737,6.33478595728892,10.1950209143919,15.671789402361,17.0655773607626,20.2048747417284,6.20285069541867,8.70669223724182,7.14293896478093,5.10663152437612,1.4325877385225,4.71370913393769,4.05058077582954,12.962321028793,20.8798565956964,-1.32882182045945,15.0870177542709,11.0336867974368,1.76477510883855,5.14911165965639,8.49049558094896,15.9620727854284,4.90012787641965,14.6730809076221,10.9855136579955,18.0871865743433,16.3175265333119,7.99800534011734,10.2434829355618,7.07856124555558,8.82462997904061,11.7724845061154,18.9128651451929,15.1616580008275,19.5748142328652,0.809970124590935,14.4642131862881,14.4826502112955,5.43387899979129,6.33343226889859,11.3314206103545,1.92817916735149,11.5434147643624,10.2447790538368,17.9157742187678,20.3152524523433,10.7782826290421,19.2935599874138,14.3238388036838,2.18393593111449,12.8164129743563,12.9084255123726,11.8651350222391,15.8974638469299,10.1908946770632,6.97176654898903,11.8475342816934,7.01953552122997],"y":[15.2100304021005,18.2045710709994,20.465378974945,18.5162922092278,11.0279664276946,31.3704307748597,15.4069968910486,15.9191992430468,17.8155318633918,12.2422609009517,15.5439461582821,15.4335944309956,20.2267374399908,29.1397028693741,21.8719342593714,19.0611398288564,18.107871773016,24.4502293383517,28.3500970264696,18.9093924630074,8.4592989656838,18.3947398041163,17.6682511313646,19.8697707165033,12.9047653604652,32.7402456334605,25.8842106808272,15.5528414081237,10.8678466358682,12.6597374768597,27.9623685769209,10.233340391195,17.3916914444169,19.632569220044,21.8994209905864,16.9390101063708,16.4907349058043,9.61199252470696,24.6023432906907,12.5656282776265,9.80744252131932,17.7088966768334,19.2221799815202,21.7464412815422,23.6588736756859,24.2364811192412,26.6848812594844,27.2812740355029,13.3864416119464,20.5387298577874,16.1868488755066,21.31788182188,12.2785911516093,13.7246343474499,10.1077683920377,27.650441036829,34.5523911993266,9.34111628926765,20.3471520771142,23.9433412274602,16.6551374613586,19.6976779478517,23.0461352465173,25.0662197490274,14.5634149971515,18.1558643341915,25.3153135422163,24.3121777139408,26.4279900016268,14.8928522645791,15.8169300988417,21.3943188576401,16.9745594946236,24.7465825381361,24.5626164870386,28.9575861230988,26.5472938466691,14.1719439083158,26.1271163050287,23.8493751055108,14.5037976957672,15.9024108721263,25.5196934419781,9.47915713909249,24.4793015570407,19.1607379897255,25.2821141168963,27.8065086122348,23.1040035558906,27.5584123954941,22.1516886754619,8.12587361123822,27.4789458884786,29.6237308063863,21.6024052748624,33.8292150240144,17.0841142941762,23.2608607707278,19.3813748591409,19.9804016151583],"z":[26.1256041263065,40.9147025021699,36.1624549805076,34.8521255691207,34.6923910689532,29.3268748986165,27.2093412414421,19.14341667808,23.6061368107862,18.8488921655469,26.3254110296253,31.3079004937781,21.5662095014128,26.0901802627223,20.0064293656779,26.0582348089168,18.7603280504975,32.344309312071,33.6977866318848,39.7173769401185,23.0534977681001,25.6868363261392,22.6621776852722,23.2510650833401,22.9773811732159,33.1749819165538,29.0313812681744,23.5032768393863,25.9228987147112,39.9049412143785,30.9150272639955,31.9466175507714,29.7638295142149,19.6139825393313,38.6533235267821,21.5961680921136,36.3914157676363,31.797715328831,28.7600859400213,11.0856390137079,41.387321724035,23.6443490702379,20.8777389695044,21.4982094650909,26.9295769148854,42.9404965310733,36.4268710845947,45.2545679060616,36.0625330641832,33.1743825009932,21.9016416736439,21.1485106938245,19.6599559586827,25.8393253987838,30.115361574212,30.2983756651877,33.5395903288761,28.6965553503608,41.4020330461715,23.6124825832476,12.9452323549319,12.5168949568396,25.7444055402271,37.7736000680255,25.1834237990702,38.0592977980777,29.3923957460672,38.2612010158709,39.3556435204047,29.4187380589305,38.8184545870982,26.2711811160331,23.4991083343832,40.7138864647007,40.2708845068721,25.6571248834187,40.478146855011,17.641265461434,32.6745987112301,35.3234855407618,28.8801508447824,26.6323751560683,31.3872331963969,25.076415394665,27.1342021517293,31.7428679932224,37.1483555470655,42.738651035819,25.8211677284506,38.6921827211942,42.7453503287061,28.0837391674626,34.8334815583569,32.363978292868,30.2391311731391,21.8460566214196,32.7271538077054,17.7896154985565,34.7428075608619,23.378182190152],"type":"scatter3d","mode":"markers","marker":{"fillcolor":"rgba(31,119,180,1)","color":"rgba(31,119,180,1)","line":{"color":"transparent"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1}},"base_url":"https://plot.ly"},"evals":["config.modeBarButtonsToAdd.0.click"],"jsHooks":{"render":[{"code":"function(el, x) { var ctConfig = crosstalk.var('plotlyCrosstalkOpts').set({\"on\":\"plotly_click\",\"persistent\":false,\"dynamic\":false,\"selectize\":false,\"opacityDim\":0.2,\"selected\":{\"opacity\":1}}); }","data":null}]}}</script>
+=======
+<div id="919a43c3be30" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="919a43c3be30">{"x":{"visdat":{"919a137a5295":["function () ","plotlyVisDat"]},"cur_data":"919a137a5295","attrs":{"919a137a5295":{"x":{},"y":{},"z":{},"alpha":1,"sizes":[10,100],"type":"scatter3d","mode":"markers"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"V1"},"yaxis":{"title":"V2"},"zaxis":{"title":"V3"}},"xaxis":{"domain":[0,1]},"yaxis":{"domain":[0,1]},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":[{"name":"Collaborate","icon":{"width":1000,"ascent":500,"descent":-50,"path":"M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z"},"click":"function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == '?viewer_pane=1') {\n          alert('To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html');\n        } else {\n          window.open('https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html', '_blank');\n        }\n      }"}],"cloud":false},"data":[{"x":[8.06558126224299,9.13637121390909,20.3164811001093,19.1400161650784,11.7040984003622,8.15900695043426,13.4034948732339,6.82238269093028,11.4129370627782,7.23356984388499,10.9318872647029,13.0190587746609,-1.23947880668081,8.89480515012454,12.4270748978857,15.573790958511,17.5411792275603,7.55468958872737,7.45266321328963,10.8595241972741,17.6269156408703,14.2670640231722,8.89156934245072,14.9528811209453,12.9401044027865,7.87182069532728,0.924211614153371,12.2594644190481,9.48949045155303,8.44899328012674,11.7638164588306,11.5873591413158,14.1348643934212,5.70995734789259,-0.366703219103446,6.60046363337559,13.3846479897633,6.75279499049515,8.15344023087658,8.02729893491888,7.68317754504621,8.22449304211088,8.07269869920799,4.08577788874473,10.0897961289487,13.7236064906409,5.35394003213753,13.3555299029501,16.8177492849679,15.8196446202164,9.27016485263693,4.03710157736644,9.60606637551981,13.3482075567175,1.31768509234422,19.221343485117,13.5909174113933,3.72612800918387,12.4782696805715,4.20512351376119,2.49187147471781,12.7452023454402,7.9929798715427,4.97252943159426,7.58725326798082,15.5208834452172,5.2379153122624,15.4564620231997,9.16600837779741,13.124993727919,7.07106334600445,7.22640861470669,13.2975676770395,13.3271376873171,8.07897707808617,4.3577961268889,10.5822131307926,12.9681088463092,9.68192095450476,13.3659753757982,15.0352023844895,6.06936698992286,13.9689589446563,0.523105936520194,15.4252655999092,10.7334176729638,15.3648729374436,11.046217500308,0.155426956942305,14.839361334663,8.48096243056591,4.18883914533303,4.57927865993097,12.5300849082189,8.27519768142579,4.57391690079148,13.1478289361246,1.84652776371951,5.65331590428742,0.320769235792557],"y":[16.3832176708039,21.2116879029124,27.4248634692962,25.8152033838634,25.4809357887688,15.1926234949935,21.289039198639,20.6675905032588,24.8519474900138,13.9057339398584,18.2870965657176,22.1733185830287,6.70300009405259,19.7713264339673,29.7689159049842,26.3315502290033,28.7765138294225,22.9448473620867,16.824418528793,26.4962788955393,33.4327027264137,19.1652008521685,17.6484115228414,27.7126275230691,21.4833598675086,12.9124724885475,9.90987948084275,26.2165197655752,11.9962247441681,24.3066773381254,19.4164954659735,19.9670640143485,24.5060546093408,14.8109095310577,12.0957370863703,18.3008830744951,23.2897395019553,16.1420044186184,21.15429964096,22.6247778392948,18.7553367708952,15.188936671773,16.3479076344188,18.309414884911,21.6923306530335,23.5821516567374,17.8645855937164,22.6051513730621,20.837480103807,32.5214811155527,19.4468371148707,19.902095636797,27.5335973108076,25.0203325435723,8.7009931055464,34.735101883868,22.6186960051394,11.6560551551653,21.0581046320529,9.06277637798611,14.996612798768,21.439659346633,16.5923376948669,14.6202169407144,13.4509587197557,33.8930706896004,17.8410641476758,24.6463545354487,8.78685459926132,17.9930811516725,16.9672956615289,15.2554642883689,22.3648334835042,25.2115290253055,18.9961858709629,21.643321486431,19.652424035692,20.7313745371775,21.2177030852675,25.9019719144386,26.6711165236919,16.4991971229849,26.4113405847925,0.888743506546202,27.748864707353,19.7861886533913,30.3614495130818,23.9684649941708,13.3866731609843,22.7343899607967,18.5155847266734,15.9569407784237,15.6554472272595,23.3582285400324,17.805850030066,16.2345141007681,21.4996833899664,12.3693723856463,14.403194299338,7.22933449556789],"z":[26.2777489077201,20.6928373660354,40.0552549342024,42.0793562047344,25.9001322532088,34.7752713378379,37.6377520900415,16.0721897915115,32.218358667213,38.7759235323382,40.4100575056171,41.9109296067155,15.3201978691254,27.5654869515497,24.1747487259763,32.3667895703949,32.5889442488855,26.4452561328035,25.5602627313726,25.633670830539,34.3622946538056,27.8594146626113,29.5588027957878,32.5938826234064,32.4374112321089,36.3214388176776,21.2931589005419,25.9486110920357,37.1223127812293,32.7961732656203,22.6552584080622,32.8039397026723,33.1539481825813,36.3239979996997,24.5826625799957,16.0113184307121,25.727703745888,13.6365913791953,22.5073971508833,16.8566257967972,30.041484391656,29.2590186398564,24.1736458881379,21.6042073083869,24.4187792769146,31.8486742952803,23.7096351988479,33.8721846256228,31.1975216257619,25.123224363884,35.0220679090249,19.5799285305104,23.3220425379149,24.3395736762094,25.924386572601,26.619243671315,37.7638124913666,19.7490074354731,36.6321110782753,33.2960982756767,21.1289735247727,35.5351331320359,31.1020948645562,30.1047252232089,28.2304778957689,23.2264589140351,26.9755627830609,30.2754064826111,31.2886561521666,35.4983976909008,23.5386080195808,17.236775212472,35.3975939006107,30.3605464075741,23.594814779695,16.4292261904688,31.8496491167375,28.1242912549084,34.4632496999682,30.6274085232142,30.8408190067235,26.7653697854601,33.97386396813,33.9642676283832,24.4694302622259,30.8190583076604,29.3718492477026,30.0337664737299,8.71085101319976,37.7426213820899,33.5314320178776,34.9611071425532,27.3997380306423,34.028443780639,36.5476584540998,20.5339130799707,33.8304061091745,26.2962472243886,28.1642579392733,31.7053795653039],"type":"scatter3d","mode":"markers","marker":{"fillcolor":"rgba(31,119,180,1)","color":"rgba(31,119,180,1)","line":{"color":"transparent"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1}},"base_url":"https://plot.ly"},"evals":["config.modeBarButtonsToAdd.0.click"],"jsHooks":{"render":[{"code":"function(el, x) { var ctConfig = crosstalk.var('plotlyCrosstalkOpts').set({\"on\":\"plotly_click\",\"persistent\":false,\"dynamic\":false,\"selectize\":false,\"opacityDim\":0.2,\"selected\":{\"opacity\":1}}); }","data":null}]}}</script>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div>
 </div>
 </div>
@@ -817,7 +1047,15 @@ f_mean &lt;-<span class="st"> </span>(height_sub %&gt;%<span class="st"> </span>
 f_sd   &lt;-<span class="st"> </span>(height_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(sex ==<span class="st"> &quot;female&quot;</span>) %&gt;%<span class="st"> </span>dplyr::<span class="kw">select</span>(sd))[[<span class="dv">1</span>]]
 
 <span class="kw">sim_t_ind</span>(<span class="dv">50</span>, m_mean, m_sd, f_mean, f_sd)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## [1] 0.01146346</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>## [1] 0.01483162</code></pre>
+=======
+<pre><code>## [1] 0.2214597</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div>
 <div id="replicate-simulation" class="section level3">
 <h3>Replicate simulation</h3>
@@ -827,7 +1065,15 @@ f_sd   &lt;-<span class="st"> </span>(height_sub %&gt;%<span class="st"> </span>
 alpha &lt;-<span class="st"> </span><span class="fl">0.05</span>
 power &lt;-<span class="st"> </span><span class="kw">mean</span>(my_reps &lt;<span class="st"> </span>alpha)
 power</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## [1] 0.6482</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>## [1] 0.6561</code></pre>
+=======
+<pre><code>## [1] 0.6556</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div>
 <div id="one-tailed-prediction" class="section level3">
 <h3>One-tailed prediction</h3>
@@ -843,7 +1089,15 @@ power</code></pre></div>
 
 my_reps &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">10000</span>, <span class="kw">sim_t_ind</span>(<span class="dv">50</span>, m_mean, m_sd, f_mean, f_sd, <span class="st">&quot;greater&quot;</span>))
 <span class="kw">mean</span>(my_reps &lt;<span class="st"> </span>alpha)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## [1] 0.7589</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>## [1] 0.7622</code></pre>
+=======
+<pre><code>## [1] 0.7565</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div>
 <div id="range-of-sample-sizes" class="section level3">
 <h3>Range of sample sizes</h3>
@@ -911,6 +1165,7 @@ b &lt;-<span class="st"> </span>a +<span class="st"> </span><span class="kw">rno
 ##  Paired t-test
 ## 
 ## data:  a and b
+<<<<<<< HEAD
 ## t = -3.8639, df = 49, p-value = 0.000328
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
@@ -918,6 +1173,25 @@ b &lt;-<span class="st"> </span>a +<span class="st"> </span><span class="kw">rno
 ## sample estimates:
 ## mean of the differences 
 ##              -0.5068725</code></pre>
+=======
+<<<<<<< HEAD
+## t = -1.6715, df = 49, p-value = 0.101
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.51895515  0.04766411
+## sample estimates:
+## mean of the differences 
+##              -0.2356455</code></pre>
+=======
+## t = -4.4525, df = 49, p-value = 4.908e-05
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.9441605 -0.3569296
+## sample estimates:
+## mean of the differences 
+##              -0.6505451</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div></li>
 <li><p>Calculate power for a two-tailed t-test with an alpha of .05 for detecting a difference between two independent samples of 100 with an effect size of 0.2?</p>
 <div class="solution">
@@ -926,7 +1200,15 @@ Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_reps &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">10000</span>, <span class="kw">sim_t_ind</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.2</span>, <span class="dv">1</span>))
 <span class="kw">mean</span>(my_reps &lt;<span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## [1] 0.3013</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>## [1] 0.2884</code></pre>
+=======
+<pre><code>## [1] 0.2936</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div></li>
 <li><p>Modify the <code>sim_t_ind</code> function to handle different sample sizes. Use it to calculate the power of the following design:</p></li>
 </ol>
@@ -950,7 +1232,15 @@ Solution
 
 my_reps &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">10000</span>, <span class="kw">sim_t_ind</span>(<span class="dv">20</span>, <span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">30</span>, <span class="dv">13</span>, <span class="fl">4.5</span>))
 <span class="kw">mean</span>(my_reps &lt;<span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## [1] 0.6729</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>## [1] 0.6752</code></pre>
+=======
+<pre><code>## [1] 0.6797</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div></li>
 </ul>
 <ol start="4" style="list-style-type: decimal">
@@ -967,7 +1257,15 @@ f_sd   &lt;-<span class="st"> </span>(height_sub %&gt;%<span class="st"> </span>
 
 my_reps &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">10000</span>, <span class="kw">sim_t_ind</span>(<span class="dv">10</span>, m_mean, m_sd, <span class="dv">10</span>, f_mean, f_sd))
 <span class="kw">mean</span>(my_reps &lt;<span class="st"> </span><span class="fl">0.005</span>)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## [1] 0.8687</code></pre>
+=======
+<<<<<<< HEAD
+<pre><code>## [1] 0.8594</code></pre>
+=======
+<pre><code>## [1] 0.8597</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div></li>
 <li><p>What is the poisson distribution? How do you sample from a poisson distribution?</p>
 <div class="solution">
@@ -983,6 +1281,10 @@ Solution
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">fill=</span><span class="st">&quot;white&quot;</span>, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">binwidth =</span> <span class="dv">1</span>)</code></pre></div>
 <p><img src="images/07/unnamed-chunk-42-1.png" width="768" /></p>
 </div></li>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 <li><p>Prove to yourself that the binomial distribution looks like the normal distribution when the number of trials is greater than 10.</p>
 <p class="alert alert-info">
 You can calculate the equivalent mean for the normal distribution as the number of trials times the probability of success (<code>mean &lt;- trials * prob</code>) and the equivalent SD as the square root of the mean times one minus probability of success (<code>sd &lt;- sqrt(mean * (1 - prob))</code>).
@@ -1007,6 +1309,36 @@ sd &lt;-<span class="st"> </span><span class="kw">sqrt</span>(mean *<span class=
 <p><img src="images/07/unnamed-chunk-43-1.png" width="768" /></p>
 </div></li>
 </ol>
+<<<<<<< HEAD
+=======
+=======
+<li><p>Prove to yourself that the binomial distribution looks like the normal distribution when the number of trials is greater than 10.</p></li>
+</ol>
+<p class="alert alert-info">
+You can calculate the equivalent mean for the normal distribution as the number of trials times the probability of success (<code>mean &lt;- trials * prob</code>) and the equivalent SD as the square root of the mean times one minus probability of success (<code>sd &lt;- sqrt(mean * (1 - prob))</code>).
+</p>
+<pre><code>&lt;div class=&quot;solution&quot;&gt;&lt;button&gt;Solution&lt;/button&gt;
+
+```r
+n &lt;- 100000  # use a large n to get good estimates of the distributions
+trials &lt;- 50
+prob &lt;- 0.8
+mean &lt;- trials * prob
+sd &lt;- sqrt(mean * (1 - prob))
+
+tibble (
+  normal = rnorm(n, mean, sd),
+  binomial = rbinom(n, trials, prob)
+) %&gt;%
+  gather(&quot;distribution&quot;, &quot;value&quot;, normal:binomial) %&gt;%
+  ggplot(aes(value, color=distribution)) +
+  geom_freqpoly(binwidth = 1)
+```
+
+&lt;img src=&quot;images/07/unnamed-chunk-43-1.png&quot; width=&quot;768&quot; /&gt;
+&lt;/div&gt;</code></pre>
+>>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
+>>>>>>> f263a2c0058ee93f683cada986969419867b9833
 </div>
 
 <!--
