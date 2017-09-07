@@ -1,0 +1,281 @@
+---
+title: "Coursework I"
+---
+
+```{r opts, echo = FALSE}
+#suppress the warnings and other messages from showing in the knitted file.
+knitr::opts_chunk$set(
+  fig.width  = 8, 
+  fig.height = 5, 
+  fig.path   = 'images/coursework1/',
+  echo       = TRUE, 
+  warning    = FALSE, 
+  message    = FALSE
+)
+```
+
+# Data
+
+Data in the files [empathizing.csv](data/empathizing.csv) and [systemizing.csv](data/systemizing.csv) are responses to the short forms of the [Empathizing and Systemizing Quotient short forms](https://doi.org/10.1016/j.paid.2006.03.017).
+
+The variable `user_id` is the participant's unique ID, while the variable `id` is a unique ID for that questionnaire completion. Some participants completed both questionnaires on the same day, others only completed one, others completed the questionnaires multiple times. The columns `starttime` and `endtime` contain the timestamps for when each questionnaire was started and completed.
+
+*Scoring*: An individual scores two points if they strongly display a systemizing/empathizing response, and one point if they slightly display a systemizing/empathizing response (i.e., each forward (F) item scored 2, 1, 0, 0; each reversed (R) item scored 0, 0, 1, 2). 
+
+In the data files, responses were coded as follows:
+
+* 1 = Strongly agree
+* 2 = Slightly agree
+* 3 = Slightly disagree
+* 4 = Strongly disagree
+
+## Empathizing (EQ-Short)
+
+q2663,	F,  I can easily tell if someone else wants to enter a conversation.  
+q2664,	F,  I really enjoy caring for other people.  
+q2665,	R,  I find it hard to know what to do in a social situation.  
+q2666,	R,  I often find it difficult to judge if something is rude or polite.  
+q2667,	R,  In a conversation, I tend to focus on my own thoughts rather than on what my listener might be thinking.  
+q2668,  F,	I can pick up quickly if someone says one thing but means another.  
+q2669,	R,  It is hard for me to see why some things upset people so much.  
+q2670,  F,	I find it easy to put myself in somebody else’s shoes.  
+q2671,  F,	I am good at predicting how someone will feel.  
+q2672,  F,	I am quick to spot when someone in a group is feeling awkward or uncomfortable.  
+q2673,	R,  I can’t always see why someone should have felt offended by a remark.  
+q2674,  F,	I don’t tend to find social situations confusing.  
+q2675,  F,	Other people tell me I am good at understanding how they are feeling and what they are thinking.  
+q2676,  F,	I can easily tell if someone else is interested or bored with what I am saying.  
+q2677,  F,	Friends usually talk to me about their problems as they say that I am very understanding.  
+q2678,  F,	I can sense if I am intruding, even if the other person doesn’t tell me.  
+q2679,	R,  Other people often say that I am insensitive, though I don’t always see why.  
+q2680,  F,	I can tune into how someone else feels rapidly and intuitively.  
+q2681,  F,	I can easily work out what another person might want to talk about.  
+q2682,  F,	I can tell if someone is masking their true emotion.  
+q2683,  F,	I am good at predicting what someone will do.  
+q2684,  F,	I tend to get emotionally involved with a friend’s problems.  
+	
+
+## Systemizing (SQ-Short)
+
+q2616,  F,  If I were buying a car, I would want to obtain specific information about its engine.  
+q2617,  F,  If there was a problem with the electrical wiring in my home, I’d be able to fix it myself.  
+q2618,	R,  I rarely read articles or web pages about new technology.  
+q2619,	R,  I do not enjoy games that involve a high degree of strategy.  
+q2620,  F,  I am fascinated by how machines work.  
+q2621,  F,	In math, I am intrigued by the rules and patterns governing numbers.  
+q2622,	R,  I find it difficult to understand instruction manuals for putting appliances together.  
+q2623,  F,	If I were buying a computer, I would want to know exact details about its hard disc drive capacity and processor speed.  
+q2624,	R,  I find it difficult to read and understand maps.  
+q2625,	R,  When I look at a piece of furniture, I do not notice the details of how it was constructed.  
+q2626,	R,  I find it difficult to learn my way around a new city.  
+q2627,	R,  I do not tend to watch science documentaries on television or read articles about science and nature.  
+q2628,  F,	If I were buying a stereo, I would want to know about its precise technical features.  
+q2629,  F,	I find it easy to grasp exactly how odds work in betting.  
+q2630,	R,  I am not very meticulous when I carry out D.I.Y.  
+q2631,  F,	When I look at a building, I am curious about the precise way it was constructed.  
+q2632,	R,  I find it difficult to understand information the bank sends me on different investment and saving systems.  
+q2633,  F,	When travelling by train, I often wonder exactly how the rail networks are coordinated.  
+q2634,	R,  If I were buying a camera, I would not look carefully into the quality of the lens.  
+q2635,	R,  When I hear the weather forecast, I am not very interested in the meteorological patterns.  
+q2636,  F,	When I look a mountain, I think about how precisely it was formed.  
+q2637,  F,	I can easily visualize how the motorways in my region link up.  
+q2638,	R,  When I’m in a plane, I do not think about the aerodynamics.  
+q2639,  F,	I am interested in knowing the path a river takes from its source to the sea.  
+q2640,	R,  I am not interested in understanding how wireless communication works.  
+
+# Assignment
+
+Answer the following questions:
+
+1. How many times were the empathizing and systemizing questionnaires completed?
+
+```{r, echo = FALSE, eval = FALSE}
+
+library(tidyverse)
+
+sys <- read_csv("data/systemizing.csv")
+emp <- read_csv("data/empathizing.csv")
+
+nrow(emp)
+nrow(sys)
+
+```
+
+2. Create a graph showing the distribution of how long it took (most) people to complete each questionnaire.
+
+```{r, echo = FALSE, eval = FALSE}
+
+library(lubridate)
+
+emp2 <- emp %>%
+  select(starttime, endtime) %>%
+  mutate(questionnaire = "empathizing")
+
+sys2 <- sys %>%
+  select(starttime, endtime) %>%
+  mutate(questionnaire = "systemizing")
+
+rbind(emp2, sys2) %>%
+  mutate(duration = as.integer(endtime - starttime)) %>%
+  # remove durations > 3SD above the mean for that Q
+  group_by(questionnaire) %>%
+  filter(duration < mean(duration) + 3*sd(duration)) %>%
+  ggplot(aes(duration, fill = questionnaire)) + 
+  geom_density(alpha = 0.5) +
+  xlab("Duration (in seconds)")
+
+```
+
+3. How many people completed both questionnaires on the same day?
+
+```{r, echo = FALSE, eval = FALSE}
+
+emp_d <- mutate(emp, date = substr(endtime, 1, 10))
+sys_d <- mutate(sys, date = substr(endtime, 1, 10))
+
+emp_sys <- inner_join(emp_d, sys_d, by=c("user_id", "sex", "age", "date"), suffix = c(".emp", ".sys"))
+
+nrow(emp_sys)
+
+```
+
+
+4. Create a table of demographic information 
+
+    Include (N, mean age, sd age, number missing age) by sex, only for people who completed both questionnaires on the same day.
+
+    What is wrong with the SD? How would you address it?
+
+```{r, echo = FALSE, eval = FALSE}
+
+emp_sys %>%
+  group_by(sex) %>%
+  summarise(
+    n = n(),
+    mean_age = mean(age, na.rm = TRUE),
+    sd_age = sd(age, na.rm = TRUE),
+    missing_age = sum(is.na(age))
+  )
+
+# set implausible ages to NA
+emp_sys %>%
+  mutate(age = ifelse(age > 120 | age < 5, NA, age)) %>%
+  group_by(sex) %>%
+  summarise(
+    n = n(),
+    mean_age = mean(age, na.rm = TRUE),
+    sd_age = sd(age, na.rm = TRUE),
+    missing_age = sum(is.na(age))
+  )
+
+```
+
+5. Create EQ and SQ scores
+
+    Create a table of mean EQ and SQ by sex for people who completed both 
+    questionnaires on the same day. Include how many people have a missing score.
+
+```{r, echo = FALSE, eval = FALSE}
+
+emp_score <- frame_data(
+  ~q, ~direction, ~text,
+"q2663",	"F",  "I can easily tell if someone else wants to enter a conversation.",  
+"q2664",	"F",  "I really enjoy caring for other people.",  
+"q2665",	"R",  "I find it hard to know what to do in a social situation.",  
+"q2666",	"R",  "I often find it difficult to judge if something is rude or polite.",  
+"q2667",	"R",  "In a conversation, I tend to focus on my own thoughts rather than on what my listener might be thinking.",  
+"q2668",  "F",	"I can pick up quickly if someone says one thing but means another.",  
+"q2669",	"R",  "It is hard for me to see why some things upset people so much.",  
+"q2670",  "F",	"I find it easy to put myself in somebody else’s shoes.",  
+"q2671",  "F",	"I am good at predicting how someone will feel.",  
+"q2672",  "F",	"I am quick to spot when someone in a group is feeling awkward or uncomfortable.",  
+"q2673",	"R",  "I can’t always see why someone should have felt offended by a remark.",  
+"q2674",  "F",	"I don’t tend to find social situations confusing.",  
+"q2675",  "F",	"Other people tell me I am good at understanding how they are feeling and what they are thinking.",  
+"q2676",  "F",	"I can easily tell if someone else is interested or bored with what I am saying.",  
+"q2677",  "F",	"Friends usually talk to me about their problems as they say that I am very understanding.",  
+"q2678",  "F",	"I can sense if I am intruding, even if the other person doesn’t tell me.",  
+"q2679",	"R",  "Other people often say that I am insensitive, though I don’t always see why.",  
+"q2680",  "F",	"I can tune into how someone else feels rapidly and intuitively.",  
+"q2681",  "F",	"I can easily work out what another person might want to talk about.",  
+"q2682",  "F",	"I can tell if someone is masking their true emotion.",  
+"q2683",  "F",	"I am good at predicting what someone will do.",  
+"q2684",  "F",	"I tend to get emotionally involved with a friend’s problems."
+)
+
+sys_score <- frame_data(
+  ~q, ~direction, ~text,
+"q2616",  "F",  "If I were buying a car, I would want to obtain specific information about its engine.",  
+"q2617",  "F",  "If there was a problem with the electrical wiring in my home, I’d be able to fix it myself.",  
+"q2618",	"R",  "I rarely read articles or web pages about new technology.",  
+"q2619",	"R",  "I do not enjoy games that involve a high degree of strategy.",  
+"q2620",  "F",  "I am fascinated by how machines work.",  
+"q2621",  "F",	"In math, I am intrigued by the rules and patterns governing numbers.",  
+"q2622",	"R",  "I find it difficult to understand instruction manuals for putting appliances together.",  
+"q2623",  "F",	"If I were buying a computer, I would want to know exact details about its hard disc drive capacity and processor speed.",  
+"q2624",	"R",  "I find it difficult to read and understand maps.", 
+"q2625",	"R",  "When I look at a piece of furniture, I do not notice the details of how it was constructed.",  
+"q2626",	"R",  "I find it difficult to learn my way around a new city.",  
+"q2627",	"R",  "I do not tend to watch science documentaries on television or read articles about science and nature.",  
+"q2628",  "F",	"If I were buying a stereo, I would want to know about its precise technical features.",  
+"q2629",  "F",	"I find it easy to grasp exactly how odds work in betting.",  
+"q2630",	"R",  "I am not very meticulous when I carry out D.I.Y.",  
+"q2631",  "F",	"When I look at a building, I am curious about the precise way it was constructed.",  
+"q2632",	"R",  "I find it difficult to understand information the bank sends me on different investment and saving systems." , 
+"q2633",  "F",	"When travelling by train, I often wonder exactly how the rail networks are coordinated.",  
+"q2634",	"R",  "If I were buying a camera, I would not look carefully into the quality of the lens.",  
+"q2635",	"R",  "When I hear the weather forecast, I am not very interested in the meteorological patterns.",  
+"q2636",  "F",	"When I look a mountain, I think about how precisely it was formed.",  
+"q2637",  "F",	"I can easily visualize how the motorways in my region link up.",  
+"q2638",	"R",  "When I’m in a plane, I do not think about the aerodynamics.",  
+"q2639",  "F",	"I am interested in knowing the path a river takes from its source to the sea.",  
+"q2640",	"R",  "I am not interested in understanding how wireless communication works."  
+)
+
+scores <- rbind(
+  mutate(emp_score, questionnaire = "emp"),
+  mutate(sys_score, questionnaire = "sys")
+)
+
+emp_sys_scores <- emp_sys %>%
+  gather("q", "score", q2663:q2684, q2616:q2640) %>%
+  left_join(scores, by="q") %>%
+  mutate(
+    conv_score = 
+      ifelse(direction == "F",
+             recode(score, "1" = 2, "2" = 1, "3" = 0, "4" = 0),
+             recode(score, "1" = 0, "2" = 0, "3" = 1, "4" = 2)
+            )
+  ) %>%
+  select(user_id:endtime.sys, questionnaire, conv_score) %>%
+  group_by(user_id, sex, id.sys, id.emp, questionnaire) %>%
+  summarise(score = sum(conv_score))
+
+
+emp_sys_scores %>%
+  spread(questionnaire, score) %>%
+  group_by(sex) %>%
+  summarise(
+    n = n(),
+    mean_emp = mean(emp, na.rm = TRUE),
+    mean_sys = mean(sys, na.rm = TRUE),
+    missing_emp = sum(is.na(emp)),
+    missing_sys = sum(is.na(sys))
+  )
+  
+```
+
+
+6. Graph the distribution of EQ and SQ for men and women
+
+```{r, echo = FALSE, eval = FALSE}
+emp_sys_scores %>%
+  filter(sex %in% c("male", "female")) %>%
+  ggplot(aes(score, fill = questionnaire)) + 
+  geom_density(alpha = 0.5) +
+  facet_grid(.~sex)
+```
+
+
+
+	

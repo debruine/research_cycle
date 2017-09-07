@@ -11,7 +11,7 @@
 
 
 
-<title>The Research Cycle</title>
+<title>Coursework I</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -297,83 +297,91 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">The Research Cycle</h1>
+<h1 class="title toc-ignore">Coursework I</h1>
 
 </div>
 
 
-<p>This course provides an overview of the various stages in the life cycle of a research project, with an emphasis on reproducible research and open science using the statistical programming language R. Students will learn about data visualisation, data tidying and wrangling, archiving, iteration and functions, probability and data simulations, and general linear models. Learning is reinforced through weekly assignments that involve working with different types of data.</p>
-<p>It will run from 2017-09-22 to 2017-11-24 on Fridays from 10-12 in <a href="https://www.google.com/maps/d/viewer?mid=1Zdd1zxeex09Awbz3t1Mm4KEvxKI&amp;hl=en&amp;ll=55.87327%2C-4.292779&amp;z=17">Boyd Orr 520</a>.</p>
-<p>It is taught by <a href="http://talklab.psy.gla.ac.uk/">Dale Barr</a> and <a href="http://facelab.org/debruine">Lisa DeBruine</a>.</p>
-<div id="course-aims" class="section level2">
-<h2>Course Aims</h2>
-<p>This course aims to teach students the basic principles of reproducible research and to provide practical training in data processing and analysis in the statistical programming language R.</p>
-</div>
-<div id="intended-learning-outcomes" class="section level2">
-<h2>Intended Learning Outcomes</h2>
-<p>By the end of this course students will be able to:</p>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>Data in the files <a href="data/empathizing.csv">empathizing.csv</a> and <a href="data/systemizing.csv">systemizing.csv</a> are responses to the short forms of the <a href="https://doi.org/10.1016/j.paid.2006.03.017">Empathizing and Systemizing Quotient short forms</a>.</p>
+<p>The variable <code>user_id</code> is the participnat’s unique ID, while the variable <code>id</code> is a unique ID for that questionnaire completion. Some participants completed both questionnaires on the same day, others only completed one, others completed the questionnaires multiple times. The columns <code>starttime</code> and <code>endtime</code> contain the timestamps for when each questionnaire was started and completed.</p>
+<p><em>Scoring</em>: An individual scores two points if they strongly display a systemizing/empathizing response, and one point if they slightly display a systemizing/empathizing response (i.e., each forward (F) item scored 2, 1, 0, 0; each reversed (R) item scored 0, 0, 1, 2).</p>
+<p>In the data files, responses were coded as follows:</p>
 <ul>
-<li>formulate a research design appropriate to various kinds of questions in psychology and neuroscience;</li>
-<li>write scripts in R to organise and transform data sets using best accepted practices;</li>
-<li>explain basics of probability and its role in statistical inference;</li>
-<li>analyse data and report descriptive and inferential statistics in a reproducible manner.</li>
+<li>1 = Strongly agree</li>
+<li>2 = Slightly agree</li>
+<li>3 = Slightly disagree</li>
+<li>4 = Strongly disagree</li>
 </ul>
+<div id="empathizing-eq-short" class="section level2">
+<h2>Empathizing (EQ-Short)</h2>
+<p>q2663, F, I can easily tell if someone else wants to enter a conversation.<br />
+q2664, F, I really enjoy caring for other people.<br />
+q2665, R, I find it hard to know what to do in a social situation.<br />
+q2666, R, I often find it difficult to judge if something is rude or polite.<br />
+q2667, R, In a conversation, I tend to focus on my own thoughts rather than on what my listener might be thinking.<br />
+q2668, F, I can pick up quickly if someone says one thing but means another.<br />
+q2669, R, It is hard for me to see why some things upset people so much.<br />
+q2670, F, I find it easy to put myself in somebody else’s shoes.<br />
+q2671, F, I am good at predicting how someone will feel.<br />
+q2672, F, I am quick to spot when someone in a group is feeling awkward or uncomfortable.<br />
+q2673, R, I can’t always see why someone should have felt offended by a remark.<br />
+q2674, F, I don’t tend to find social situations confusing.<br />
+q2675, F, Other people tell me I am good at understanding how they are feeling and what they are thinking.<br />
+q2676, F, I can easily tell if someone else is interested or bored with what I am saying.<br />
+q2677, F, Friends usually talk to me about their problems as they say that I am very understanding.<br />
+q2678, F, I can sense if I am intruding, even if the other person doesn’t tell me.<br />
+q2679, R, Other people often say that I am insensitive, though I don’t always see why.<br />
+q2680, F, I can tune into how someone else feels rapidly and intuitively.<br />
+q2681, F, I can easily work out what another person might want to talk about.<br />
+q2682, F, I can tell if someone is masking their true emotion.<br />
+q2683, F, I am good at predicting what someone will do.<br />
+q2684, F, I tend to get emotionally involved with a friend’s problems.</p>
 </div>
-<div id="syllabus" class="section level2">
-<h2>Syllabus</h2>
+<div id="systemizing-sq-short" class="section level2">
+<h2>Systemizing (SQ-Short)</h2>
+<p>q2616, F, If I were buying a car, I would want to obtain specific information about its engine.<br />
+q2617, F, If there was a problem with the electrical wiring in my home, I’d be able to fix it myself.<br />
+q2618, R, I rarely read articles or web pages about new technology.<br />
+q2619, R, I do not enjoy games that involve a high degree of strategy.<br />
+q2620, F, I am fascinated by how machines work.<br />
+q2621, F, In math, I am intrigued by the rules and patterns governing numbers.<br />
+q2622, R, I find it difficult to understand instruction manuals for putting appliances together.<br />
+q2623, F, If I were buying a computer, I would want to know exact details about its hard disc drive capacity and processor speed.<br />
+q2624, R, I find it difficult to read and understand maps.<br />
+q2625, R, When I look at a piece of furniture, I do not notice the details of how it was constructed.<br />
+q2626, R, I find it difficult to learn my way around a new city.<br />
+q2627, R, I do not tend to watch science documentaries on television or read articles about science and nature.<br />
+q2628, F, If I were buying a stereo, I would want to know about its precise technical features.<br />
+q2629, F, I find it easy to grasp exactly how odds work in betting.<br />
+q2630, R, I am not very meticulous when I carry out D.I.Y.<br />
+q2631, F, When I look at a building, I am curious about the precise way it was constructed.<br />
+q2632, R, I find it difficult to understand information the bank sends me on different investment and saving systems.<br />
+q2633, F, When travelling by train, I often wonder exactly how the rail networks are coordinated.<br />
+q2634, R, If I were buying a camera, I would not look carefully into the quality of the lens.<br />
+q2635, R, When I hear the weather forecast, I am not very interested in the meteorological patterns.<br />
+q2636, F, When I look a mountain, I think about how precisely it was formed.<br />
+q2637, F, I can easily visualize how the motorways in my region link up.<br />
+q2638, R, When I’m in a plane, I do not think about the aerodynamics.<br />
+q2639, F, I am interested in knowing the path a river takes from its source to the sea.<br />
+q2640, R, I am not interested in understanding how wireless communication works.</p>
+</div>
+</div>
+<div id="assignment" class="section level1">
+<h1>Assignment</h1>
+<p>Answer the following questions:</p>
 <ol style="list-style-type: decimal">
-<li><a href="01_intro.html">Introduction to R</a> 2017-09-22</li>
-<li><a href="02_ggplot.html">Data visualisation</a> (<code>ggplot</code>) 2017-09-29</li>
-<li><a href="03_tidyr.html">Data cleaning</a> (<code>tidyr</code>) 2017-10-06</li>
-<li><a href="04_dplyr.html">Data manipulation</a> (<code>dplyr</code> 1-table verbs) 2017-10-13</li>
-<li><a href="05_joins.html">Data relations</a> (<code>dplyr</code> 2-table verbs) 2017-10-20<br />
-(note: no class on 2017-10-27 for the <a href="http://tinyurl.com/cSCAN2017">cSCAN Debate</a>)</li>
-<li><a href="06_functions.html">Iteration and functions</a> 2017-11-03</li>
-<li><a href="07_simulation.html">Probability and simulating data</a> 2017-11-10</li>
-<li><a href="08_glm.html">Introduction to GLM</a> 2017-11-17</li>
-<li>Review 2017-11-24</li>
-<li>Exam and meta-issues 2017-12-01</li>
+<li><p>How many times were the empathizing and systemizing questionnaires completed?</p></li>
+<li><p>Create a graph showing the distribution of how long it took (most) people to complete each questionnaire.</p></li>
+<li><p>How many people completed both questionnaires on the same day?</p></li>
+<li><p>Create a table of demographic information</p>
+<p>Include (N, mean age, sd age, number missing age) by sex, only for people who completed both questionnaires on the same day.</p>
+<p>What is wrong with the SD? How would you address it?</p></li>
+<li><p>Create EQ and SQ scores</p>
+<p>Create a table of mean EQ and SQ by sex for people who completed both questionnaires on the same day. Include how many people have a missing score.</p></li>
+<li><p>Graph the distribution of EQ and SQ for men and women</p></li>
 </ol>
-</div>
-<div id="assessment" class="section level2">
-<h2>Assessment</h2>
-<ul>
-<li>Coursework I assessing classes 1-5 (30%) due 2017-10-27</li>
-<li>Coursework II assessing classes 6-8 (30%) due 2017-11-24</li>
-<li>Practical skills assessment (40%) in class 2017-12-01</li>
-</ul>
-</div>
-<div id="resources" class="section level2">
-<h2>Resources</h2>
-<p><a href="http://rstudio1.psy.gla.ac.uk" target="_blank">Glasgow Psychology RStudio</a><br />
-<a href="http://r4ds.had.co.nz">R for Data Science</a> by Grolemund and Wickham</p>
-<div id="online-tutorials" class="section level3">
-<h3>Online tutorials</h3>
-<ul>
-<li><a href="http://swirlstats.com">swirl</a></li>
-<li><a href="http://swcarpentry.github.io/r-novice-gapminder/">R for Reproducible Scientific Analysis</a></li>
-<li><a href="http://tryr.codeschool.com">codeschool.com</a></li>
-<li><a href="https://www.datacamp.com/courses/free-introduction-to-r">datacamp</a></li>
-</ul>
-</div>
-<div id="cheat-sheets" class="section level3">
-<h3>Cheat sheets</h3>
-<ul>
-<li>You can access several cheatsheets in RStudio under the <code>Help</code> menu</li>
-<li>Or get the most recent <a href="https://www.rstudio.com/resources/cheatsheets/">RStudio Cheat Sheets</a>
-<div style="width: 500px; max-width: 100%; text-align: right;">
-<p><img src="images/lisa-desktop.jpg" alt="Lisa's Desktop" style="width:100%;" /> <i>All coders use cheat sheets and online resources constantly</i></p>
-</div></li>
-</ul>
-</div>
-<div id="other" class="section level3">
-<h3>Other</h3>
-<ul>
-<li><a href="http://style.tidyverse.org">Style guide for R programming</a></li>
-<li>type <code>browseVignettes(&quot;name_of_package&quot;)</code> to learn about add-on packages</li>
-<li><a href="https://twitter.com/search?q=%2523rstats">#rstats on twitter</a> highly recommended!</li>
-</ul>
-</div>
 </div>
 
 <!--

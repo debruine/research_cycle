@@ -3,10 +3,36 @@ title: "The Research Cycle"
 authors: "Dale Barr & Lisa DeBruine"
 ---
 
-The Research Cycle will run from 2017-09-22 to 2017-11-24 on Fridays from 10-12 in 
+This course provides an overview of the various stages in the life cycle of a 
+research project, with an emphasis on reproducible research and open science 
+using the statistical programming language R.  Students will learn about data 
+visualisation, data tidying and wrangling, archiving, iteration and functions, 
+probability and data simulations, and general linear models. Learning is 
+reinforced through weekly assignments that involve working with different types 
+of data.
+
+It will run from 2017-09-22 to 2017-11-24 on Fridays from 10-12 in 
 [Boyd Orr 520](https://www.google.com/maps/d/viewer?mid=1Zdd1zxeex09Awbz3t1Mm4KEvxKI&hl=en&ll=55.87327%2C-4.292779&z=17).
 
 It is taught by [Dale Barr](http://talklab.psy.gla.ac.uk/) and [Lisa DeBruine](http://facelab.org/debruine).
+
+
+## Course Aims
+
+This course aims to teach students the basic principles of reproducible research 
+and to provide practical training in data processing and analysis in the 
+statistical programming language R.
+
+
+## Intended Learning Outcomes
+
+By the end of this course students will be able to:
+
+* formulate a research design appropriate to various kinds of questions in psychology and neuroscience;
+* write scripts in R to organise and transform data sets using best accepted practices;
+* explain basics of probability and its role in statistical inference;
+* analyse data and report descriptive and inferential statistics in a reproducible manner.
+
 
 ## Syllabus
 
@@ -21,6 +47,13 @@ It is taught by [Dale Barr](http://talklab.psy.gla.ac.uk/) and [Lisa DeBruine](h
 8. [Introduction to GLM](08_glm.html) 2017-11-17
 9. Review 2017-11-24
 10. Exam and meta-issues 2017-12-01
+
+
+## Assessment
+
+* Coursework I assessing classes 1-5 (30%) due 2017-10-27
+* Coursework II assessing classes 6-8 (30%) due 2017-11-24
+* Practical skills assessment (40%) in class 2017-12-01
 
 
 ## Resources
@@ -39,7 +72,7 @@ It is taught by [Dale Barr](http://talklab.psy.gla.ac.uk/) and [Lisa DeBruine](h
 
 - You can access several cheatsheets in RStudio under the `Help` menu
 - Or get the most recent [RStudio Cheat Sheets](https://www.rstudio.com/resources/cheatsheets/) 
-    <div style="width: 500px; height: 375px; text-align: right;">
+    <div style="width: 500px; max-width: 100%; text-align: right;">
       <img src="images/lisa-desktop.jpg" alt="Lisa's Desktop" style="width:100%;" />
       <i>All coders use cheat sheets and online resources constantly</i>
     </div>
