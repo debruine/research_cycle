@@ -31,7 +31,7 @@ knitr::opts_chunk$set(
     + continuous bivariate
     + 3 continuous
 2. Create common types of graphs with ggplot2
-    + `geom_bar()`
+    + <a href="#geom_bar">`geom_bar()`</a>
     + `geom_density()`
     + `geom_histogram()`
     + `geom_violin()`
@@ -153,7 +153,7 @@ each type of variable combination and sketch the types of graphs that would
 best display these data.</p> 
 
 ### Bar plot
-
+<a name="#geom_bar"></a>
 Bar plots are good for categorical data where you want to represent the count.
 
 ```{r barplot}
@@ -356,6 +356,8 @@ package to easily make grids of different graphs. First, you have to assign each
 plot a name. Then you list all the plots as the first arguments of `plot_grid()` 
 and provide a list of labels.
 
+You can get back the default ggplot theme with `+ theme_set(theme_grey())`.
+
 ```{r}
 
 library(cowplot)
@@ -504,9 +506,9 @@ overplot %>%
   geom_bin2d(binwidth = c(1,1))
 ```
 
-Use `geomhex()` to create a hexagonal heatmap of bin counts.
-<span class="text-info">Adjust the `binwidth`, `xlim()`, `ylim()` and/or the
-figure dimensions to make the hexagons more or less stretched.</span>
+Use `geomhex()` to create a hexagonal heatmap of bin counts. Adjust the 
+`binwidth`, `xlim()`, `ylim()` and/or the figure dimensions to make the hexagons 
+more or less stretched.
 
 ```{r overplot-hex, fig.width=6, fig.height=5}
 overplot %>%
@@ -630,7 +632,7 @@ dogs %>%
     sd = sd(weight)
   ) %>%
 ggplot(aes(breed, mean, fill = breed)) +
-  geom_bar(stat="identity", alpha = 0.5) +
+  geom_col(alpha = 0.5) +
   geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25)
 ```
 </div>

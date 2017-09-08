@@ -352,25 +352,25 @@ div.tocify {
 <ol style="list-style-type: decimal">
 <li>Be able to use the 6 main dplyr verbs:
 <ul>
-<li><code>select()</code></li>
-<li><code>filter()</code></li>
-<li><code>arrange()</code></li>
-<li><code>mutate()</code></li>
-<li><code>group_by()</code></li>
-<li><code>summarise()</code></li>
+<li><a href="#select"><code>select()</code></a></li>
+<li><a href="#filter"><code>filter()</code></a></li>
+<li><a href="#arrange"><code>arrange()</code></a></li>
+<li><a href="#mutate"><code>mutate()</code></a></li>
+<li><a href="#summarise"><code>summarise()</code></a></li>
+<li><a href="#group_by"><code>group_by()</code></a></li>
 </ul></li>
 </ol>
 </div>
 <div id="intermediate" class="section level3">
 <h3>Intermediate</h3>
 <ol start="2" style="list-style-type: decimal">
-<li>Be able to calculate the difference between two dates</li>
+<li>Be able to use <code>lubridate</code> for simple <a href="#dates">date calculations</a></li>
 <li>Be able to use the <code>select()</code> helpers
 <ul>
-<li><code>starts_with()</code></li>
-<li><code>ends_with()</code></li>
-<li><code>contains()</code></li>
-<li><code>num_range()</code></li>
+<li><a href="#starts_with"><code>starts_with()</code></a></li>
+<li><a href="#ends_with"><code>ends_with()</code></a></li>
+<li><a href="#contains"><code>contains()</code></a></li>
+<li><a href="#num_range"><code>num_range()</code></a></li>
 </ul></li>
 </ol>
 </div>
@@ -384,13 +384,12 @@ div.tocify {
 <div id="prep" class="section level2">
 <h2>Prep</h2>
 <ul>
-<li>Read …</li>
+<li>Read <a href="http://r4ds.had.co.nz/transform.html">Chapter 5: Data Transformation</a> in <em>R for Data Science</em></li>
 </ul>
 </div>
 <div id="resources" class="section level2">
 <h2>Resources</h2>
 <ul>
-<li><a href="http://r4ds.had.co.nz/transform.html">Chapter 5: Data Transformation</a> in <em>R for Data Science</em></li>
 <li><a href="http://r4ds.had.co.nz/dates-and-times.html">Chapter 16: Date and times</a> in <em>R for Data Science</em></li>
 </ul>
 </div>
@@ -399,9 +398,9 @@ div.tocify {
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># libraries needed for these examples</span>
 <span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(lubridate)</code></pre></div>
-<p>These examples will use data from <a href="data/disgust.csv">disgust.csv</a>, which contains data from the <a href="https://www.google.co.uk/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=6&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwi2zou5_PnVAhVsJsAKHY6-BwkQFghOMAU&amp;url=http%3A%2F%2Fdigitalrepository.unm.edu%2Fcgi%2Fviewcontent.cgi%3Farticle%3D1139%26context%3Dpsy_etds&amp;usg=AFQjCNGEPdEJ6CLLVJjiF3P2JE10h35xmg">Three Domain Disgust Scale</a>. Each participant is identified by a unique <code>user_id</code>.</p>
+<p>These examples will use data from <a href="data/disgust.csv">disgust.csv</a>, which contains data from the <a href="http://digitalrepository.unm.edu/cgi/viewcontent.cgi?article=1139&amp;context=psy_etds">Three Domain Disgust Scale</a>. Each participant is identified by a unique <code>user_id</code> and each questionnaire completion has a unique <code>id</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/disgust.csv&quot;</span>)</code></pre></div>
-<p>Instructions: The following items describe a variety of concepts. Please rate how disgusting you find the concepts described in the items, where 0 means that you do not find the concept disgusting at all, and 6 means that you find the concept extremely disgusting.</p>
+<p><em>Questionnaire Instructions</em>: The following items describe a variety of concepts. Please rate how disgusting you find the concepts described in the items, where 0 means that you do not find the concept disgusting at all, and 6 means that you find the concept extremely disgusting.</p>
 <table>
 <colgroup>
 <col width="12%" />
@@ -502,9 +501,9 @@ div.tocify {
 </table>
 <div id="select" class="section level3">
 <h3>select()</h3>
-<p>Select columns by name or number.</p>
-<p>You can select each column individually, separated by commas (e.g., <code>col1, col2</code>). You can also select all collumns between two columns by separating them with a colon (e.g., <code>start_col:end_col</code>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">moral &lt;-<span class="st"> </span>disgust %&gt;%<span class="st">  </span><span class="kw">select</span>(user_id, moral1:moral7)
+<p><a name="#select"></a> Select columns by name or number.</p>
+<p>You can select each column individually, separated by commas (e.g., <code>col1, col2</code>). You can also select all columns between two columns by separating them with a colon (e.g., <code>start_col:end_col</code>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">moral &lt;-<span class="st"> </span>disgust %&gt;%<span class="st"> </span><span class="kw">select</span>(user_id, moral1:moral7)
 <span class="kw">glimpse</span>(moral)</code></pre></div>
 <pre><code>## Observations: 20,000
 ## Variables: 8
@@ -517,7 +516,7 @@ div.tocify {
 ## $ moral6  &lt;int&gt; 5, 1, NA, 2, 4, 5, 3, 5, 0, 0, 4, 2, 4, 3, 4, 4, NA, 4...
 ## $ moral7  &lt;int&gt; 6, 1, 1, 1, 4, 1, 3, 3, 0, 1, 4, 1, 3, 2, 5, 4, NA, 3,...</code></pre>
 <p>You can select colmns by number, which is useful when the column names are long or complicated.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sexual &lt;-<span class="st"> </span>disgust %&gt;%<span class="st">  </span><span class="kw">select</span>(<span class="dv">2</span>, <span class="dv">11</span>:<span class="dv">17</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sexual &lt;-<span class="st"> </span>disgust %&gt;%<span class="st"> </span><span class="kw">select</span>(<span class="dv">2</span>, <span class="dv">11</span>:<span class="dv">17</span>)
 <span class="kw">glimpse</span>(sexual)</code></pre></div>
 <pre><code>## Observations: 20,000
 ## Variables: 8
@@ -545,10 +544,10 @@ div.tocify {
 </div>
 <div id="select-helpers" class="section level3">
 <h3>select() helpers</h3>
-<p>You can select columns based on criteria about the column names.</p>
+<p><a name="#select_helpers"></a> You can select columns based on criteria about the column names.</p>
 <div id="starts_with" class="section level4">
 <h4><code>starts_with()</code></h4>
-<p>Select columns that start with a character string.</p>
+<p><a name="#starts_with"></a> Select columns that start with a character string.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">u &lt;-<span class="st"> </span>disgust %&gt;%<span class="st"> </span><span class="kw">select</span>(<span class="kw">starts_with</span>(<span class="st">&quot;u&quot;</span>))
 <span class="kw">glimpse</span>(u)</code></pre></div>
 <pre><code>## Observations: 20,000
@@ -557,7 +556,7 @@ div.tocify {
 </div>
 <div id="ends_with" class="section level4">
 <h4><code>ends_with()</code></h4>
-<p>Select columns that end with a character string.</p>
+<p><a name="#ends_with"></a> Select columns that end with a character string.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">firstq &lt;-<span class="st"> </span>disgust %&gt;%<span class="st"> </span><span class="kw">select</span>(<span class="kw">ends_with</span>(<span class="st">&quot;1&quot;</span>))
 <span class="kw">glimpse</span>(firstq)</code></pre></div>
 <pre><code>## Observations: 20,000
@@ -568,7 +567,7 @@ div.tocify {
 </div>
 <div id="contains" class="section level4">
 <h4><code>contains()</code></h4>
-<p>Select columns that contain a character string.</p>
+<p><a name="#contains"></a> Select columns that contain a character string.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pathogen &lt;-<span class="st"> </span>disgust %&gt;%<span class="st"> </span><span class="kw">select</span>(<span class="kw">contains</span>(<span class="st">&quot;pathogen&quot;</span>))
 <span class="kw">glimpse</span>(pathogen)</code></pre></div>
 <pre><code>## Observations: 20,000
@@ -583,7 +582,7 @@ div.tocify {
 </div>
 <div id="num_rangeprefix-range-width-null" class="section level4">
 <h4><code>num_range(prefix, range, width = NULL)</code></h4>
-<p>Select columns with a name that matches the pattern <code>prefix#</code>.</p>
+<p><a name="#num_range"></a> Select columns with a name that matches the pattern <code>prefix#</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">moral2_4 &lt;-<span class="st"> </span>disgust %&gt;%<span class="st"> </span><span class="kw">select</span>(<span class="kw">num_range</span>(<span class="st">&quot;moral&quot;</span>, <span class="dv">2</span>:<span class="dv">4</span>))
 <span class="kw">glimpse</span>(moral2_4)</code></pre></div>
 <pre><code>## Observations: 20,000
@@ -592,13 +591,13 @@ div.tocify {
 ## $ moral3 &lt;int&gt; 4, 1, 1, 1, 4, NA, 3, 3, 6, 3, 6, 2, 3, 4, 4, 2, NA, 4,...
 ## $ moral4 &lt;int&gt; 6, 2, 1, 1, 4, 5, 4, 5, 0, 4, 5, 2, 4, 4, 6, 4, NA, 5, ...</code></pre>
 <p class="alert alert-info">
-Use <code>width</code> to set the number of digits with leading zeros. For example, width=2 gives “01”, width=3 gives “001”.
+Use <code>width</code> to set the number of digits with leading zeros. For example, <code>num_range(&quot;var_&quot;, 8:10, width=2)</code> selects columns <code>var_08</code>, <code>var_09</code>, and <code>var_10</code>.
 </p>
 </div>
 </div>
 <div id="filter" class="section level3">
 <h3>filter()</h3>
-<p>Select rows by matching column criteria.</p>
+<p><a name="#filter"></a> Select rows by matching column criteria.</p>
 <p>Select all rows where the user_id is 1 (that’s Lisa).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust %&gt;%<span class="st"> </span><span class="kw">filter</span>(user_id ==<span class="st"> </span><span class="dv">1</span>)</code></pre></div>
 <div data-pagedtable="false">
@@ -641,7 +640,7 @@ moral_no_ceiling &lt;-<span class="st"> </span>disgust %&gt;%
 <p>Sometimes you need to exclude some participant IDs for reasons that can’t be described in code. the <code>%in%</code> operator is useful here for testing if a column value is in a list. Surround the equation with parentheses and put <code>!</code> in front to test that a value is not in the list.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">no_researchers &lt;-<span class="st"> </span>disgust %&gt;%
 <span class="st">  </span><span class="kw">filter</span>(!(user_id %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)))</code></pre></div>
-<p>You can use the <code>lubridate</code> package to work with dates. For example, you can use the <code>year()</code> function to select only data collected in 2010.</p>
+<p><a name="#dates"></a> You can use the <code>lubridate</code> package to work with dates. For example, you can use the <code>year()</code> function to return just the year from the <code>date</code> column and then select only data collected in 2010.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust2010 &lt;-<span class="st"> </span>disgust  %&gt;%
 <span class="st">  </span><span class="kw">filter</span>(<span class="kw">year</span>(date) ==<span class="st"> </span><span class="dv">2010</span>)</code></pre></div>
 <p>Or select data from at least 5 years ago. You can use the <code>range</code> function to check the minimum and maxiumum dates in the resulting dataset.</p>
@@ -649,11 +648,11 @@ moral_no_ceiling &lt;-<span class="st"> </span>disgust %&gt;%
 <span class="st">  </span><span class="kw">filter</span>(date &lt;<span class="st"> </span><span class="kw">today</span>() -<span class="st"> </span><span class="kw">dyears</span>(<span class="dv">5</span>))
 
 <span class="kw">range</span>(disgust_5ago$date)</code></pre></div>
-<pre><code>## [1] &quot;2008-07-10&quot; &quot;2012-08-31&quot;</code></pre>
+<pre><code>## [1] &quot;2008-07-10&quot; &quot;2012-09-08&quot;</code></pre>
 </div>
 <div id="arrange" class="section level3">
 <h3>arrange()</h3>
-<p>Sort your dataset using <code>arrange()</code>.</p>
+<p><a name="#arrange"></a> Sort your dataset using <code>arrange()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust_order &lt;-<span class="st"> </span>disgust %&gt;%
 <span class="st">  </span><span class="kw">arrange</span>(id)
 
@@ -676,7 +675,7 @@ moral_no_ceiling &lt;-<span class="st"> </span>disgust %&gt;%
 </div>
 <div id="mutate" class="section level3">
 <h3>mutate()</h3>
-<p>Add new columns. This is one of the most useful functions in the tidyverse.</p>
+<p><a name="#mutate"></a> Add new columns. This is one of the most useful functions in the tidyverse.</p>
 <p>Refer to other columns by their names (unquoted). You can add more than one column, just separate the columns with a comma. Once you make a new column, you can use it in further column definitions e.g., <code>total</code> below).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust_total &lt;-<span class="st"> </span>disgust %&gt;%
 <span class="st">  </span><span class="kw">mutate</span>(
@@ -692,7 +691,7 @@ You can overwrite a column by giving a new column the same name as the old colum
 </div>
 <div id="summarise" class="section level3">
 <h3>summarise()</h3>
-<p>Create summary statistics for the dataset. Check the <a href="https://www.rstudio.org/links/data_wrangling_cheat_sheet">Data Wrangling Cheat Sheet</a> or the <a href="https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf">Data Transformation Cheat Sheet</a> for various summary functions. Some common ones are: <code>mean()</code>, <code>sd()</code>, <code>n()</code>, <code>sum()</code>, and <code>quantile()</code>.</p>
+<p><a name="#summarise"></a> Create summary statistics for the dataset. Check the <a href="https://www.rstudio.org/links/data_wrangling_cheat_sheet">Data Wrangling Cheat Sheet</a> or the <a href="https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf">Data Transformation Cheat Sheet</a> for various summary functions. Some common ones are: <code>mean()</code>, <code>sd()</code>, <code>n()</code>, <code>sum()</code>, and <code>quantile()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust_total %&gt;%
 <span class="st">  </span><span class="kw">summarise</span>(
     <span class="dt">n =</span> <span class="kw">n</span>(),
@@ -712,7 +711,7 @@ You can overwrite a column by giving a new column the same name as the old colum
 </div>
 <div id="group_by" class="section level3">
 <h3>group_by()</h3>
-<p>Create subsets of the data. You can use this to create summaries, like the mean value for all of your experimental groups.</p>
+<p><a name="#group_by"></a> Create subsets of the data. You can use this to create summaries, like the mean value for all of your experimental groups.</p>
 <p>Here, we’ll use <code>mutate</code> to create a new column called <code>year</code>, group by <code>year</code>, and calculate the average scores.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust_total %&gt;%
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">year</span>(date)) %&gt;%
@@ -823,7 +822,7 @@ extraversion2 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<sp
 extraversion3 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/personality.csv&quot;</span>) %&gt;%
 <span class="st">  </span><span class="kw">select</span>(<span class="kw">num_range</span>(<span class="st">&quot;Ex&quot;</span>, <span class="dv">1</span>:<span class="dv">9</span>))</code></pre></div>
 </div></li>
-<li><p>Tidy the dataset and calculate the mean score for each of the 5 personality factors. Count how many of the questions in each domain were answered and filter to only people who answered at least 5 questions in each domain.</p>
+<li><p>Tidy the dataset and calculate the mean score for each of the 5 personality factors. Count how many of the questions in each domain were answered by each user and filter to only people who answered at least 5 questions in each domain.</p>
 <div class="solution">
 <button>
 Solution
@@ -840,7 +839,7 @@ Solution
 <span class="st">  </span><span class="kw">group_by</span>(date, user_id) %&gt;%
 <span class="st">  </span><span class="kw">filter</span>(<span class="kw">min</span>(valid) &gt;=<span class="st"> </span><span class="dv">5</span>) %&gt;%
 <span class="st">  </span><span class="kw">ungroup</span>()</code></pre></div></li>
-<li><p>Create a violin plot of score distribution for each the 5 personality factors from the full dataset.</p>
+<li><p>Create a violin plot of mean score distribution for each the 5 personality factors from the full dataset.</p>
 <div class="solution">
 <button>
 Solution

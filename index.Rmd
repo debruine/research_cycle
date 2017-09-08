@@ -51,9 +51,9 @@ By the end of this course students will be able to:
 
 ## Assessment
 
-* Coursework I assessing classes 1-5 (30%) due 2017-10-27
-* Coursework II assessing classes 6-8 (30%) due 2017-11-24
-* Practical skills assessment (40%) in class 2017-12-01
+* Coursework I assessing classes 1-5 (25%) due 2017-10-27
+* Coursework II assessing classes 6-8 (25%) due 2017-11-24
+* Practical skills assessment (50%) in class 2017-12-01
 
 
 ## Resources

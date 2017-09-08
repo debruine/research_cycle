@@ -305,7 +305,7 @@ div.tocify {
 <div id="data" class="section level1">
 <h1>Data</h1>
 <p>Data in the files <a href="data/empathizing.csv">empathizing.csv</a> and <a href="data/systemizing.csv">systemizing.csv</a> are responses to the short forms of the <a href="https://doi.org/10.1016/j.paid.2006.03.017">Empathizing and Systemizing Quotient short forms</a>.</p>
-<p>The variable <code>user_id</code> is the participnat’s unique ID, while the variable <code>id</code> is a unique ID for that questionnaire completion. Some participants completed both questionnaires on the same day, others only completed one, others completed the questionnaires multiple times. The columns <code>starttime</code> and <code>endtime</code> contain the timestamps for when each questionnaire was started and completed.</p>
+<p>The variable <code>user_id</code> is the participant’s unique ID, while the variable <code>id</code> is a unique ID for that questionnaire completion. Some participants completed both questionnaires on the same day, others only completed one, others completed the questionnaires multiple times. The columns <code>starttime</code> and <code>endtime</code> contain the timestamps for when each questionnaire was started and completed.</p>
 <p><em>Scoring</em>: An individual scores two points if they strongly display a systemizing/empathizing response, and one point if they slightly display a systemizing/empathizing response (i.e., each forward (F) item scored 2, 1, 0, 0; each reversed (R) item scored 0, 0, 1, 2).</p>
 <p>In the data files, responses were coded as follows:</p>
 <ul>
@@ -374,13 +374,20 @@ q2640, R, I am not interested in understanding how wireless communication works.
 <ol style="list-style-type: decimal">
 <li><p>How many times were the empathizing and systemizing questionnaires completed?</p></li>
 <li><p>Create a graph showing the distribution of how long it took (most) people to complete each questionnaire.</p></li>
-<li><p>How many people completed both questionnaires on the same day?</p></li>
+<li><p>How many people completed both questionnaires <em>for the first time</em> on the same day?</p>
+<p>Remember to check for people who completed a questionnaire more than once.</p></li>
 <li><p>Create a table of demographic information</p>
 <p>Include (N, mean age, sd age, number missing age) by sex, only for people who completed both questionnaires on the same day.</p>
 <p>What is wrong with the SD? How would you address it?</p></li>
+<li><p>Exclusions</p>
+<p>What sort of response patterns suggest that someone was not filling in the questionnaire seriously? Explain your reasoning and filter out non-serious responders.</p>
+<p>Write up your exclusion criteria and numbers of participants excluded as if<br />
+for the methods section of a paper. Save your new data frame and use it for subsequent exercises.</p></li>
 <li><p>Create EQ and SQ scores</p>
-<p>Create a table of mean EQ and SQ by sex for people who completed both questionnaires on the same day. Include how many people have a missing score.</p></li>
-<li><p>Graph the distribution of EQ and SQ for men and women</p></li>
+<p>Create a table of mean EQ and SQ by sex. Include how many people have a missing score.</p></li>
+<li><p>Graph the relationship between EQ and SQ scores.</p></li>
+<li><p>Graph the distribution of EQ and SQ for men and women.</p>
+<p>What direction are the sex differences in median EQ and SQ scores?</p></li>
 </ol>
 </div>
 

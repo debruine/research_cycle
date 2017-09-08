@@ -20,19 +20,19 @@ knitr::opts_chunk$set(
 
 1. Understand the concept of "tidy data"
 2. Be able to use the 4 basic `tidyr` verbs
-    + `gather()`
-    + `separate()`
-    + `spread()`
-    + `unite()`
+    + [`gather()`](#gather)
+    + [`separate()`](#separate)
+    + [`spread()`](#spread)
+    + [`unite()`](#unite)
 
 ### Intermediate
 
 3. Be able to chain functions to load and tidy a dataset without creating several intermediate datasets
-4. Be able to use arguments like `sep`, `extra`, and `convert` to handle less straighforward data cleaning
+4. Be able to use arguments like [`sep`](#sep), [`extra`](#extra), and [`convert`](#convert) to handle less straightforward data cleaning
 
 ### Advanced
 
-5. Be able to use [regular expressions](https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html) to separate complex columns
+5. Be able to use [regular expressions](#regex) to separate complex columns
 
 
 ## Prep
@@ -83,6 +83,7 @@ glimpse(ccodes)
 
 ### gather()
 
+<a name="#gather"></a>
 `gather(data, key = "key", value = "value", ..., na.rm = FALSE, convert = FALSE, factor_key = FALSE)`
 
 `matmort` is in wide format, with a separate column for each year. Change it to 
@@ -92,7 +93,7 @@ long format, with a row for each County/Year observation.
 * `value` is what you want to call the values in the gathered columns; they're "stats" in this example.
 * The `...` refers to the columns you want to gather. You can refer to them by their names, like `col1, col2, col3, col4` or `col1:col4` or by their numbers, like `8, 9, 10` or `8:10`.
   
-This example is complicated because the column names to gether _are_ numbers. 
+This example is complicated because the column names to gather _are_ numbers. 
 If the column names are non-standard (e.g., have spaces, start with numbers, or 
 have special characters), you can enclose them in backticks (\`) like the example below.
 
@@ -107,6 +108,7 @@ glimpse(matmort_long)
 
 ### separate()
 
+<a name="#separate"></a>
 `separate(data, col, into, sep = "[^[:alnum:]]+", remove = TRUE, convert = FALSE, extra = "warn", fill = "warn")`
 
 The data in the `stats` column is in a crazy format with some sort of 
@@ -127,8 +129,20 @@ glimpse(matmort_split)
 
 ```
 
+<p class="alert alert-info">The `gsub(pattern, replacement, x)` function is a 
+flexible way to do search and replace. The example above replaces all occurances 
+of the `pattern` " " (a space), with the `replacement` "" (nothing), in the 
+string `x` (the `stats` column). Use `sub()` instead if you only want to replace 
+the first occurance of a pattern. We only used a simple pattern here, but you 
+can use more complicated [regex](https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html) 
+patterns to replace, for example, all even numbers 
+(e.g., `gsub("[:02468:]", "*", "id = 123456")`) or all occurances of 
+the word colour in US or UK spelling 
+(e.g., `gsub("colo(u)?r", "***", "replace color, colour, or colours, but not collors")`).</p>
+
 #### Handle spare columns with `extra`
 
+<a name="#extra"></a>
 <p class="alert alert-warning">The previous example should have given you an error warning about 
 "Too many values at 543 locations". This is because `separate` splits the column 
 at the brackets and dashes, so the text "100[90-110]" would split into four values 
@@ -151,6 +165,7 @@ glimpse(matmort_split)
 
 #### Set delimiters with `sep`
 
+<a name="#sep"></a>
 Now do the same with `infmort`. It's already in long format, so you don't need 
 to use `gather`, but the third column has a crazy long name, so we can just 
 refer to it by its column number (3).
@@ -170,6 +185,7 @@ to manually set `sep` to what the delimiters are. Also, once there are more than
 a few arguments specified for a function, it's easier to read them if you put 
 one argument on each line.
 
+<a name="#regex"></a>
 <p class="alert alert-warning">You can use [regular expressions](https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html) 
 to separate complex columns. Here, we want to separate on dashes and brackets. 
 You can separate on a list of delimiters by putting them in parentheses, separated 
@@ -192,6 +208,7 @@ glimpse(infmort_split)
 
 #### Fix data types with `convert`
 
+<a name="#convert"></a>
 That's better. Notice the _<chr>_ next to `Year`, `rate`, `ci_low` and `ci_hi`. 
 That means these columns hold characters (like words), not numbers or integers. 
 This can cause problems when you try to do thigs like average the numbers (you 
@@ -252,6 +269,7 @@ glimpse(infmort)
 
 ### spread()
 
+<a name="#spread"></a>
 `spread(data, key, value, fill = NA, convert = FALSE, drop = TRUE, sep = NULL)`
 
 You can reverse the processes above, as well. For example, you can convert data 
@@ -279,6 +297,7 @@ Afghanistan with `ci_low` of 55.7. We can fix this by merging the
 
 ### unite()
 
+<a name="#unite"></a>
 `unite(data, col, ..., sep = "_", remove = TRUE)`
 
 ```{r}
@@ -313,8 +332,7 @@ about these function in the [Data Manipulation](04_dplyr.html) lesson.</p>
 ```{r}
 
 infmort_united <- infmort %>%
-  mutate(rate_ci = paste0(rate, " [", ci_low, " - ", ci_hi, "]")) %>%
-  select(-rate, -ci_low, -ci_hi)
+  mutate(rate_ci = paste0(rate, " [", ci_low, " - ", ci_hi, "]"))
 
 glimpse(infmort_united)
 
@@ -359,10 +377,14 @@ Ag = agreeableness, and Ne = neuroticism) and the question number.
 
 2. Split the `question` column into two columns: `domain` and `qnumber`.
 
+    <p class="alert alert-info'>
     There is no character to split on, here, but you can separate a column after a 
     specific number of characters by setting `sep` to  an integer. For example, to 
-    split "abcde" after the third characters, use `sep = 3`, which results in 
-    c("abc", "de").
+    split "abcde" after the third character, use `sep = 3`, which results in 
+    c("abc", "de"). You can also use negative number to split before the *n*th 
+    character from the right. For example, to split a column that has words of 
+    various lengths and 2-digit suffixes (like "lisa03"", "amanda38"), you can 
+    use `sep = -2`.</p>
 
     <div class="solution"><button>Solution</button>
     ```{r}

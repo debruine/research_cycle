@@ -19,21 +19,21 @@ knitr::opts_chunk$set(
 ### Basic
 
 1. Be able to use the 6 main dplyr verbs:
-    + `select()`
-    + `filter()`
-    + `arrange()`
-    + `mutate()`
-    + `group_by()`
-    + `summarise()`
+    + [`select()`](#select)
+    + [`filter()`](#filter)
+    + [`arrange()`](#arrange)
+    + [`mutate()`](#mutate)
+    + [`summarise()`](#summarise)
+    + [`group_by()`](#group_by)
 
 ### Intermediate
 
-2. Be able to calculate the difference between two dates
+2. Be able to use `lubridate` for simple [date calculations](#dates)
 3. Be able to use the `select()` helpers
-    + `starts_with()`
-    + `ends_with()`
-    + `contains()`
-    + `num_range()`
+    + [`starts_with()`](#starts_with)
+    + [`ends_with()`](#ends_with)
+    + [`contains()`](#contains)
+    + [`num_range()`](#num_range)
 
 ### Advanced
 
@@ -42,12 +42,11 @@ knitr::opts_chunk$set(
 
 ## Prep
 
-* Read ...
+* Read [Chapter 5: Data Transformation](http://r4ds.had.co.nz/transform.html) in *R for Data Science*
 
 
 ## Resources
 
-* [Chapter 5: Data Transformation](http://r4ds.had.co.nz/transform.html) in *R for Data Science*
 * [Chapter 16: Date and times](http://r4ds.had.co.nz/dates-and-times.html) in *R for Data Science*
 
 
@@ -60,8 +59,9 @@ library(lubridate)
 ```
 
 These examples will use data from [disgust.csv](data/disgust.csv), which contains
-data from the [Three Domain Disgust Scale](https://www.google.co.uk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=6&cad=rja&uact=8&ved=0ahUKEwi2zou5_PnVAhVsJsAKHY6-BwkQFghOMAU&url=http%3A%2F%2Fdigitalrepository.unm.edu%2Fcgi%2Fviewcontent.cgi%3Farticle%3D1139%26context%3Dpsy_etds&usg=AFQjCNGEPdEJ6CLLVJjiF3P2JE10h35xmg).
-Each participant is identified by a unique `user_id`.
+data from the [Three Domain Disgust Scale](http://digitalrepository.unm.edu/cgi/viewcontent.cgi?article=1139&context=psy_etds).
+Each participant is identified by a unique `user_id` and each questionnaire 
+completion has a unique `id`.
 
 ```{r}
 
@@ -69,7 +69,10 @@ disgust <- read_csv("data/disgust.csv")
 
 ```
 
-Instructions: The following items describe a variety of concepts. Please rate how disgusting you find the concepts described in the items, where 0 means that you do not find the concept disgusting at all, and 6 means that you find the concept extremely disgusting.
+*Questionnaire Instructions*: The following items describe a variety of concepts. 
+Please rate how disgusting you find the concepts described in the items, where 0 
+means that you do not find the concept disgusting at all, and 6 means that you 
+find the concept extremely disgusting.
 
 | colname   | question                                                                          |
 |----------:|:----------------------------------------------------------------------------------|
@@ -97,21 +100,22 @@ Instructions: The following items describe a variety of concepts. Please rate ho
 
 ### select()
 
+<a name="#select"></a>
 Select columns by name or number.
 
 You can select each column individually, separated by commas (e.g., `col1, col2`). 
-You can also select all collumns between two columns by separating them with a 
+You can also select all columns between two columns by separating them with a 
 colon (e.g., `start_col:end_col`).
 
 ```{r}
-moral <- disgust %>%  select(user_id, moral1:moral7)
+moral <- disgust %>% select(user_id, moral1:moral7)
 glimpse(moral)
 ```
 
 You can select colmns by number, which is useful when the column names are long or complicated.
 
 ```{r}
-sexual <- disgust %>%  select(2, 11:17)
+sexual <- disgust %>% select(2, 11:17)
 glimpse(sexual)
 ```
 
@@ -126,10 +130,12 @@ glimpse(pathogen)
 
 ### select() helpers 
 
+<a name="#select_helpers"></a>
 You can select columns based on criteria about the column names.
 
 #### `starts_with()`
 
+<a name="#starts_with"></a>
 Select columns that start with a character string.
 
 ```{r}
@@ -139,6 +145,7 @@ glimpse(u)
 
 #### `ends_with()`
 
+<a name="#ends_with"></a>
 Select columns that end with a character string.
 
 ```{r}
@@ -148,6 +155,7 @@ glimpse(firstq)
 
 #### `contains()`
 
+<a name="#contains"></a>
 Select columns that contain a character string.
 
 ```{r}
@@ -157,6 +165,7 @@ glimpse(pathogen)
 
 #### `num_range(prefix, range, width = NULL)`
 
+<a name="#num_range"></a>
 Select columns with a name that matches the pattern `prefix#`.
 
 ```{r}
@@ -165,10 +174,12 @@ glimpse(moral2_4)
 ```
 
 <p class="alert alert-info">Use `width` to set the number of digits with leading
-zeros. For example, width=2 gives "01", width=3 gives "001". </p>
+zeros. For example, `num_range("var_", 8:10, width=2)` selects columns `var_08`, 
+`var_09`, and `var_10`.</p>
 
 ### filter()
 
+<a name="#filter"></a>
 Select rows by matching column criteria.
 
 Select all rows where the user_id is 1 (that's Lisa). 
@@ -177,7 +188,9 @@ Select all rows where the user_id is 1 (that's Lisa).
 disgust %>% filter(user_id == 1)
 ```
 
-<p class="alert alert-warning">Remember to use `==` and not `=` to check if two things are equivalent. A single `=` assigns the righthand value to the lefthand variable and (usually) evaluates to `TRUE`.</p>
+<p class="alert alert-warning">Remember to use `==` and not `=` to check if two 
+things are equivalent. A single `=` assigns the righthand value to the lefthand 
+variable and (usually) evaluates to `TRUE`.</p>
 
 You can select on multiple criteria by separating them with commas.
 
@@ -229,8 +242,10 @@ no_researchers <- disgust %>%
   filter(!(user_id %in% c(1,2)))
 ```
 
+<a name="#dates"></a>
 You can use the `lubridate` package to work with dates. For example, you can use 
-the `year()` function to select only data collected in 2010.
+the `year()` function to return just the year from the `date` column and then 
+select only data collected in 2010.
 
 ```{r}
 disgust2010 <- disgust  %>%
@@ -250,6 +265,7 @@ range(disgust_5ago$date)
 
 ### arrange()
 
+<a name="#arrange"></a>
 Sort your dataset using `arrange()`.
 
 ```{r}
@@ -271,6 +287,7 @@ head(disgust_order)
 
 ### mutate()
 
+<a name="#mutate"></a>
 Add new columns. This is one of the most useful functions in the tidyverse.
 
 Refer to other columns by their names (unquoted). You can add more than one column, 
@@ -294,6 +311,7 @@ aren't trying to use the old column value after you redefine it.</p>
 
 ### summarise()
 
+<a name="#summarise"></a>
 Create summary statistics for the dataset. Check the [Data Wrangling Cheat Sheet](https://www.rstudio.org/links/data_wrangling_cheat_sheet) or the 
 [Data Transformation Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf) for various summary functions. Some common ones are: `mean()`, `sd()`, 
 `n()`, `sum()`, and `quantile()`.
@@ -315,6 +333,7 @@ disgust_total %>%
 
 ### group_by()
 
+<a name="#group_by"></a>
 Create subsets of the data. You can use this to create summaries, 
 like the mean value for all of your experimental groups.
 
@@ -452,8 +471,8 @@ Ag = agreeableness, and Ne = neuroticism) and the question number.
     </div>
 
 4. Tidy the dataset and calculate the mean score for each of the 5 personality 
-factors. Count how many of the questions in each domain were answered and 
-filter to only people who answered at least 5 questions in each domain.
+factors. Count how many of the questions in each domain were answered by each 
+user and filter to only people who answered at least 5 questions in each domain.
 
     <div class="solution"><button>Solution</button>
     ```{r}
@@ -471,8 +490,8 @@ filter to only people who answered at least 5 questions in each domain.
       ungroup()
     ```
 
-5. Create a violin plot of score distribution for each the 5 personality factors from 
-the full dataset.
+5. Create a violin plot of mean score distribution for each the 5 personality 
+factors from the full dataset.
 
     <div class="solution"><button>Solution</button>
     ```{r exercise-5}

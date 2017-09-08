@@ -126,12 +126,23 @@ rbind(emp2, sys2) %>%
 
 ```
 
-3. How many people completed both questionnaires on the same day?
+3. How many people completed both questionnaires *for the first time* on the same day?
+
+    Remember to check for people who completed a questionnaire more than once.
 
 ```{r, echo = FALSE, eval = FALSE}
 
-emp_d <- mutate(emp, date = substr(endtime, 1, 10))
-sys_d <- mutate(sys, date = substr(endtime, 1, 10))
+emp_d <- emp %>%
+  group_by(user_id) %>%
+  filter(rank(endtime) == 1) %>%
+  ungroup() %>%
+  mutate(date = substr(endtime, 1, 10))
+
+sys_d <- sys  %>%
+  group_by(user_id) %>%
+  filter(rank(endtime) == 1) %>%
+  ungroup() %>%
+  mutate(date = substr(endtime, 1, 10))
 
 emp_sys <- inner_join(emp_d, sys_d, by=c("user_id", "sex", "age", "date"), suffix = c(".emp", ".sys"))
 
@@ -139,10 +150,10 @@ nrow(emp_sys)
 
 ```
 
-
 4. Create a table of demographic information 
 
-    Include (N, mean age, sd age, number missing age) by sex, only for people who completed both questionnaires on the same day.
+    Include (N, mean age, sd age, number missing age) by sex, only for people who 
+    completed both questionnaires on the same day.
 
     What is wrong with the SD? How would you address it?
 
@@ -170,10 +181,48 @@ emp_sys %>%
 
 ```
 
-5. Create EQ and SQ scores
+5. Exclusions
 
-    Create a table of mean EQ and SQ by sex for people who completed both 
-    questionnaires on the same day. Include how many people have a missing score.
+    What sort of response patterns suggest that someone was not filling in the 
+    questionnaire seriously? Explain your reasoning and filter out non-serious 
+    responders. 
+    
+    Write up your exclusion criteria and numbers of participants excluded as if  
+    for the methods section of a paper. Save your new data frame and use it for 
+    subsequent exercises.
+
+```{r, echo = FALSE, eval = FALSE}
+# find all users who only gave one answer
+excluded <- emp_sys %>%
+  mutate(
+    duration.emp = as.integer(endtime.emp - starttime.emp),
+    duration.sys = as.integer(endtime.sys - starttime.sys)
+  ) %>%
+  gather("q", "score", q2663:q2684, q2616:q2640) %>%
+  mutate(
+    q = as.integer(gsub("q", "", q)),
+    questionnaire = ifelse(q > 2662, "emp", "sys"),
+    duration = ifelse(questionnaire == "emp", duration.emp, duration.sys)
+  ) %>%
+  group_by(user_id, questionnaire, duration) %>%
+  summarise(dist_resp = n_distinct(score)) %>%
+  ungroup() %>%
+  filter(dist_resp == 1 | duration < 30)
+
+# count all excluded
+excluded %>% group_by(user_id) %>% summarise() %>% nrow()
+
+# exclude from emp_sys table
+emp_sys_serious <- anti_join(emp_sys, excluded, by = "user_id")
+
+# save the data frame as a CSV file
+write_csv(emp_sys_serious, "data/emp_sys_cleaned.csv")
+  
+```
+    
+6. Create EQ and SQ scores
+
+    Create a table of mean EQ and SQ by sex. Include how many people have a missing score.
 
 ```{r, echo = FALSE, eval = FALSE}
 
@@ -237,7 +286,7 @@ scores <- rbind(
   mutate(sys_score, questionnaire = "sys")
 )
 
-emp_sys_scores <- emp_sys %>%
+emp_sys_scores <- emp_sys_serious %>%
   gather("q", "score", q2663:q2684, q2616:q2640) %>%
   left_join(scores, by="q") %>%
   mutate(
@@ -265,15 +314,27 @@ emp_sys_scores %>%
   
 ```
 
+7. Graph the relationship between EQ and SQ scores. 
 
-6. Graph the distribution of EQ and SQ for men and women
+```{r, echo = FALSE, eval = FALSE}
+emp_sys_scores %>%
+  spread(questionnaire, score) %>%
+  ggplot(aes(emp, sys)) + 
+  geom_density2d() +
+  geom_smooth(method = "lm")
+```
+
+8. Graph the distribution of EQ and SQ for men and women. 
+
+    What direction are the sex differences in median EQ and SQ scores?
 
 ```{r, echo = FALSE, eval = FALSE}
 emp_sys_scores %>%
   filter(sex %in% c("male", "female")) %>%
-  ggplot(aes(score, fill = questionnaire)) + 
-  geom_density(alpha = 0.5) +
-  facet_grid(.~sex)
+  ggplot(aes(questionnaire, score, fill = sex)) + 
+  geom_violin(alpha = 0.5) +
+  geom_boxplot(width = 0.2, position = position_dodge(width = 0.9)) +
+  scale_fill_manual(values = c("orange", "darkgreen"))
 ```
 
 

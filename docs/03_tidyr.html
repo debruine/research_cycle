@@ -353,10 +353,10 @@ div.tocify {
 <li>Understand the concept of “tidy data”</li>
 <li>Be able to use the 4 basic <code>tidyr</code> verbs
 <ul>
-<li><code>gather()</code></li>
-<li><code>separate()</code></li>
-<li><code>spread()</code></li>
-<li><code>unite()</code></li>
+<li><a href="#gather"><code>gather()</code></a></li>
+<li><a href="#separate"><code>separate()</code></a></li>
+<li><a href="#spread"><code>spread()</code></a></li>
+<li><a href="#unite"><code>unite()</code></a></li>
 </ul></li>
 </ol>
 </div>
@@ -364,13 +364,13 @@ div.tocify {
 <h3>Intermediate</h3>
 <ol start="3" style="list-style-type: decimal">
 <li>Be able to chain functions to load and tidy a dataset without creating several intermediate datasets</li>
-<li>Be able to use arguments like <code>sep</code>, <code>extra</code>, and <code>convert</code> to handle less straighforward data cleaning</li>
+<li>Be able to use arguments like <a href="#sep"><code>sep</code></a>, <a href="#extra"><code>extra</code></a>, and <a href="#convert"><code>convert</code></a> to handle less straightforward data cleaning</li>
 </ol>
 </div>
 <div id="advanced" class="section level3">
 <h3>Advanced</h3>
 <ol start="5" style="list-style-type: decimal">
-<li>Be able to use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html">regular expressions</a> to separate complex columns</li>
+<li>Be able to use <a href="#regex">regular expressions</a> to separate complex columns</li>
 </ol>
 </div>
 </div>
@@ -428,14 +428,14 @@ div.tocify {
 </div>
 <div id="gather" class="section level3">
 <h3>gather()</h3>
-<p><code>gather(data, key = &quot;key&quot;, value = &quot;value&quot;, ..., na.rm = FALSE, convert = FALSE, factor_key = FALSE)</code></p>
+<p><a name="#gather"></a> <code>gather(data, key = &quot;key&quot;, value = &quot;value&quot;, ..., na.rm = FALSE, convert = FALSE, factor_key = FALSE)</code></p>
 <p><code>matmort</code> is in wide format, with a separate column for each year. Change it to long format, with a row for each County/Year observation.</p>
 <ul>
 <li><code>key</code> is what you want to call the row headers; it’s “year” in this example.</li>
 <li><code>value</code> is what you want to call the values in the gathered columns; they’re “stats” in this example.</li>
 <li>The <code>...</code> refers to the columns you want to gather. You can refer to them by their names, like <code>col1, col2, col3, col4</code> or <code>col1:col4</code> or by their numbers, like <code>8, 9, 10</code> or <code>8:10</code>.</li>
 </ul>
-<p>This example is complicated because the column names to gether <em>are</em> numbers. If the column names are non-standard (e.g., have spaces, start with numbers, or have special characters), you can enclose them in backticks (`) like the example below.</p>
+<p>This example is complicated because the column names to gather <em>are</em> numbers. If the column names are non-standard (e.g., have spaces, start with numbers, or have special characters), you can enclose them in backticks (`) like the example below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort_long &lt;-<span class="st"> </span>matmort %&gt;%
 <span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;Year&quot;</span>, <span class="st">&quot;stats&quot;</span>, <span class="st">`</span><span class="dt">1990</span><span class="st">`</span>:<span class="st">`</span><span class="dt">2015</span><span class="st">`</span>)
 
@@ -448,7 +448,7 @@ div.tocify {
 </div>
 <div id="separate" class="section level3">
 <h3>separate()</h3>
-<p><code>separate(data, col, into, sep = &quot;[^[:alnum:]]+&quot;, remove = TRUE, convert = FALSE, extra = &quot;warn&quot;, fill = &quot;warn&quot;)</code></p>
+<p><a name="#separate"></a> <code>separate(data, col, into, sep = &quot;[^[:alnum:]]+&quot;, remove = TRUE, convert = FALSE, extra = &quot;warn&quot;, fill = &quot;warn&quot;)</code></p>
 <p>The data in the <code>stats</code> column is in a crazy format with some sort of confidence interval in brackets and lots of extra spaces. We don’t need any of the spaces, so first we’ll remove them with <code>mutate</code>.</p>
 <p>The <code>separate</code> function will separate your data on anything that is not a number or letter, so try it first without specifying the <code>sep</code> argument. The <code>into</code> argument is a list of the new column names.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matmort_split &lt;-<span class="st"> </span>matmort_long %&gt;%
@@ -463,8 +463,12 @@ div.tocify {
 ## $ rate    &lt;chr&gt; &quot;1340&quot;, &quot;71&quot;, &quot;216&quot;, &quot;1160&quot;, &quot;72&quot;, &quot;58&quot;, &quot;8&quot;, &quot;8&quot;, &quot;64...
 ## $ ci_low  &lt;chr&gt; &quot;878&quot;, &quot;58&quot;, &quot;141&quot;, &quot;627&quot;, &quot;64&quot;, &quot;51&quot;, &quot;7&quot;, &quot;7&quot;, &quot;56&quot;,...
 ## $ ci_hi   &lt;chr&gt; &quot;1950&quot;, &quot;88&quot;, &quot;327&quot;, &quot;2020&quot;, &quot;80&quot;, &quot;65&quot;, &quot;9&quot;, &quot;10&quot;, &quot;7...</code></pre>
+<p class="alert alert-info">
+The <code>gsub(pattern, replacement, x)</code> function is a flexible way to do search and replace. The example above replaces all occurances of the <code>pattern</code> &quot; &quot; (a space), with the <code>replacement</code> “” (nothing), in the string <code>x</code> (the <code>stats</code> column). Use <code>sub()</code> instead if you only want to replace the first occurance of a pattern. We only used a simple pattern here, but you can use more complicated <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html">regex</a> patterns to replace, for example, all even numbers (e.g., <code>gsub(&quot;[:02468:]&quot;, &quot;*&quot;, &quot;id = 123456&quot;)</code>) or all occurances of the word colour in US or UK spelling (e.g., <code>gsub(&quot;colo(u)?r&quot;, &quot;***&quot;, &quot;replace color, colour, or colours, but not collors&quot;)</code>).
+</p>
 <div id="handle-spare-columns-with-extra" class="section level4">
 <h4>Handle spare columns with <code>extra</code></h4>
+<a name="#extra"></a>
 <p class="alert alert-warning">
 The previous example should have given you an error warning about “Too many values at 543 locations”. This is because <code>separate</code> splits the column at the brackets and dashes, so the text “100[90-110]” would split into four values c(“100”, “90”, “110”, “”), but we only specified 3 new columns. The fourth value is always empty (just the part after the last bracket), so we are happy to drop it, but <code>separate</code> generates a warning so you don’t do that accidentally. You can turn off the warning by adding the <code>extra</code> argument and setting it to “drop”. Look at the help for <code>??tidyr::separate</code> to see what the other options do.
 </p>
@@ -483,7 +487,7 @@ The previous example should have given you an error warning about “Too many va
 </div>
 <div id="set-delimiters-with-sep" class="section level4">
 <h4>Set delimiters with <code>sep</code></h4>
-<p>Now do the same with <code>infmort</code>. It’s already in long format, so you don’t need to use <code>gather</code>, but the third column has a crazy long name, so we can just refer to it by its column number (3).</p>
+<p><a name="#sep"></a> Now do the same with <code>infmort</code>. It’s already in long format, so you don’t need to use <code>gather</code>, but the third column has a crazy long name, so we can just refer to it by its column number (3).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort_split &lt;-<span class="st"> </span>infmort %&gt;%
 <span class="st">  </span><span class="kw">separate</span>(<span class="dv">3</span>, <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>), <span class="dt">extra =</span> <span class="st">&quot;drop&quot;</span>)
 
@@ -496,6 +500,7 @@ The previous example should have given you an error warning about “Too many va
 ## $ ci_low  &lt;chr&gt; &quot;3&quot;, &quot;1&quot;, &quot;9&quot;, &quot;7&quot;, &quot;4&quot;, &quot;1&quot;, &quot;8&quot;, &quot;6&quot;, &quot;4&quot;, &quot;3&quot;, &quot;4&quot;,...
 ## $ ci_hi   &lt;chr&gt; &quot;52&quot;, &quot;55&quot;, &quot;58&quot;, &quot;61&quot;, &quot;64&quot;, &quot;66&quot;, &quot;69&quot;, &quot;71&quot;, &quot;73&quot;, ...</code></pre>
 <p><em>Wait, that didn’t work at all!</em> It split the column on spaces, brackets, <em>and</em> full stops. We just want to split on the spaces, brackets and dashes. So we need to manually set <code>sep</code> to what the delimiters are. Also, once there are more than a few arguments specified for a function, it’s easier to read them if you put one argument on each line.</p>
+<a name="#regex"></a>
 <p class="alert alert-warning">
 You can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html">regular expressions</a> to separate complex columns. Here, we want to separate on dashes and brackets. You can separate on a list of delimiters by putting them in parentheses, separated by “|”. It’s a little more complicated because brackets have a special meaning in regex, so you need to “escape” the left one with two backslashes “\\”.
 </p>
@@ -518,7 +523,7 @@ You can use <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/reg
 </div>
 <div id="fix-data-types-with-convert" class="section level4">
 <h4>Fix data types with <code>convert</code></h4>
-<p>That’s better. Notice the <em><chr></em> next to <code>Year</code>, <code>rate</code>, <code>ci_low</code> and <code>ci_hi</code>. That means these columns hold characters (like words), not numbers or integers. This can cause problems when you try to do thigs like average the numbers (you can’t average words), so we can fix it by adding the argument <code>convert</code> and setting it to <code>TRUE</code>.</p>
+<p><a name="#convert"></a> That’s better. Notice the <em><chr></em> next to <code>Year</code>, <code>rate</code>, <code>ci_low</code> and <code>ci_hi</code>. That means these columns hold characters (like words), not numbers or integers. This can cause problems when you try to do thigs like average the numbers (you can’t average words), so we can fix it by adding the argument <code>convert</code> and setting it to <code>TRUE</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort_split &lt;-<span class="st"> </span>infmort %&gt;%
 <span class="st">  </span><span class="kw">separate</span>(<span class="dv">3</span>, <span class="kw">c</span>(<span class="st">&quot;rate&quot;</span>, <span class="st">&quot;ci_low&quot;</span>, <span class="st">&quot;ci_hi&quot;</span>), <span class="dt">extra =</span> <span class="st">&quot;drop&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;(</span><span class="ch">\\</span><span class="st">[|-|])&quot;</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>)
 
@@ -586,7 +591,7 @@ matmort &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span cla
 </div>
 <div id="spread" class="section level3">
 <h3>spread()</h3>
-<p><code>spread(data, key, value, fill = NA, convert = FALSE, drop = TRUE, sep = NULL)</code></p>
+<p><a name="#spread"></a> <code>spread(data, key, value, fill = NA, convert = FALSE, drop = TRUE, sep = NULL)</code></p>
 <p>You can reverse the processes above, as well. For example, you can convert data from long format into wide format.</p>
 <ul>
 <li><code>key</code> is the column that contains your new column headers</li>
@@ -634,7 +639,7 @@ Nope, that didn’t work at all, but it’s a really common mistake when spreadi
 </div>
 <div id="unite" class="section level3">
 <h3>unite()</h3>
-<p><code>unite(data, col, ..., sep = &quot;_&quot;, remove = TRUE)</code></p>
+<p><a name="#unite"></a> <code>unite(data, col, ..., sep = &quot;_&quot;, remove = TRUE)</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort_united &lt;-<span class="st"> </span>infmort %&gt;%
 <span class="st">  </span><span class="kw">unite</span>(rate_ci, rate, ci_low, ci_hi)
 
@@ -660,14 +665,16 @@ Nope, that didn’t work at all, but it’s a really common mistake when spreadi
 What if you want to put it back into the format “rate [ci_low - ci_hi]”? Then, <code>mutate</code> and <code>paste</code> are a better choice than <code>unite</code>, but you have to get rid of the <code>rate</code>, <code>ci_low</code> and <code>ci_hi</code> columns with <code>select</code>. You’ll learn more about these function in the <a href="04_dplyr.html">Data Manipulation</a> lesson.
 </p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort_united &lt;-<span class="st"> </span>infmort %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rate_ci =</span> <span class="kw">paste0</span>(rate, <span class="st">&quot; [&quot;</span>, ci_low, <span class="st">&quot; - &quot;</span>, ci_hi, <span class="st">&quot;]&quot;</span>)) %&gt;%
-<span class="st">  </span><span class="kw">select</span>(-rate, -ci_low, -ci_hi)
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rate_ci =</span> <span class="kw">paste0</span>(rate, <span class="st">&quot; [&quot;</span>, ci_low, <span class="st">&quot; - &quot;</span>, ci_hi, <span class="st">&quot;]&quot;</span>))
 
 <span class="kw">glimpse</span>(infmort_united)</code></pre></div>
 <pre><code>## Observations: 5,044
-## Variables: 3
+## Variables: 6
 ## $ Country &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanis...
 ## $ Year    &lt;int&gt; 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, ...
+## $ rate    &lt;dbl&gt; 66.3, 68.1, 69.9, 71.7, 73.4, 75.1, 76.8, 78.6, 80.4, ...
+## $ ci_low  &lt;dbl&gt; 52.7, 55.7, 58.7, 61.6, 64.4, 66.9, 69.0, 71.2, 73.4, ...
+## $ ci_hi   &lt;dbl&gt; 83.9, 83.6, 83.5, 83.7, 84.2, 85.1, 86.1, 87.3, 88.9, ...
 ## $ rate_ci &lt;chr&gt; &quot;66.3 [52.7 - 83.9]&quot;, &quot;68.1 [55.7 - 83.6]&quot;, &quot;69.9 [58....</code></pre>
 <p>Now let’s try spreading on year again. Notice here we’re uniting columns <code>rate:ci_hi</code>, instead of <code>rate, ci_low, ci_hi</code>. The colon just says to select all the columns between the first and last named ones. Check the help documentation for <code>??tidyr::unite</code> and <code>??tidyr::select</code> to see other ways to select columns.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmort_wide &lt;-<span class="st"> </span>infmort %&gt;%
@@ -722,7 +729,9 @@ Solution
 <span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;question&quot;</span>, <span class="st">&quot;score&quot;</span>, Op1:Ex9)</code></pre></div>
 </div></li>
 <li><p>Split the <code>question</code> column into two columns: <code>domain</code> and <code>qnumber</code>.</p>
-<p>There is no character to split on, here, but you can separate a column after a specific number of characters by setting <code>sep</code> to an integer. For example, to split “abcde” after the third characters, use <code>sep = 3</code>, which results in c(“abc”, “de”).</p>
+<p class="alert alert-info'&gt;">
+There is no character to split on, here, but you can separate a column after a specific number of characters by setting <code>sep</code> to an integer. For example, to split “abcde” after the third character, use <code>sep = 3</code>, which results in c(“abc”, “de”). You can also use negative number to split before the <em>n</em>th character from the right. For example, to split a column that has words of various lengths and 2-digit suffixes (like “lisa03”“,”amanda38“), you can use <code>sep = -2</code>.
+</p>
 <div class="solution">
 <button>
 Solution
