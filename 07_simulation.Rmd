@@ -46,7 +46,7 @@ knitr::opts_chunk$set(
 
 ## Resources
 
-* [Text](url)
+* [Improving your statistical inferences](https://www.coursera.org/learn/statistical-inferences/) on Coursera (week 1)
 
 
 ## Distributions
@@ -54,7 +54,7 @@ knitr::opts_chunk$set(
 Simulating data is a very powerful way to test your understanding of statistical 
 concepts. We are going to use simulations to learn the basics of probability.
 
-```{r}
+```{r, results = 'hide', warning = FALSE, message = FALSE}
 # libraries needed for these examples
 library(tidyverse)
 library(MASS)
@@ -407,7 +407,7 @@ variables? We can sample from a _bivariate normal distribution_ using the `MASS`
 
 ```{r}
 n <- 1000 # number of random samples
-rho <- 0.5 # population correlation betwen the two variables
+rho <- 0.5 # population correlation between the two variables
 
 mu <- c(10, 20) # the means of the samples
 stdevs <- c(5, 6) # the SDs of the samples
@@ -416,8 +416,11 @@ stdevs <- c(5, 6) # the SDs of the samples
 cor_mat <- matrix(c(  1, rho, 
                     rho,   1), 2) 
 
+# create the covariance matrix
 sigma <- (stdevs %*% t(stdevs)) * cor_mat
-bvn <- mvrnorm(n, mu, sigma) # sample from bivariate normal distribution
+
+# sample from bivariate normal distribution
+bvn <- mvrnorm(n, mu, sigma) 
 
 cor(bvn) # check correlation matrix
 ```
@@ -440,13 +443,13 @@ bvn %>%
 ##### Sample distribution
 
 ```{r}
-n <- 100 # number of random samples
-rho1_2 <- 0.8 # correlation betwen v1 and v2
-rho1_3 <- 0.6 # correlation betwen v1 and v3
-rho2_3 <- 0.2 # correlation betwen v2 and v3
+n <- 200 # number of random samples
+rho1_2 <- 0.5 # correlation betwen v1 and v2
+rho1_3 <- 0 # correlation betwen v1 and v3
+rho2_3 <- 0.7 # correlation betwen v2 and v3
 
 mu <- c(10, 20, 30) # the means of the samples
-stdevs <- c(5, 6, 7) # the SDs of the samples
+stdevs <- c(8, 9, 10) # the SDs of the samples
 
 # correlation matrix
 cor_mat <- matrix(c(     1, rho1_2, rho1_3, 
@@ -467,9 +470,19 @@ You can use the `plotly` library to make a 3D graph.
 
 library(plotly)
 
+marker_style = list(
+    color = "#ff0000", 
+    line = list(
+      color = "#444", 
+      width = 1
+    ), 
+    opacity = 0.5,
+    size = 5
+  )
+
 bvn3 %>%
   as_tibble() %>%
-  plot_ly(x = ~V1, y = ~V2, z = ~V3) %>%
+  plot_ly(x = ~V1, y = ~V2, z = ~V3, marker = marker_style) %>%
   add_markers()
 ```
 
@@ -749,7 +762,7 @@ a sex difference in height in a sample of 10 male and 10 female 20-year-olds?
     The [poisson distribution(https://en.wikipedia.org/wiki/Poisson_distribution) 
     is good for modeling the rate of something, like the number of texts you 
     receive per day. Then you can test hypotheses like you receive more texts on 
-    weekends than weekdays. The poisson distributiongets more like a normal 
+    weekends than weekdays. The poisson distribution gets more like a normal 
     distribution when the rate gets higher, so it's most useful for low-rate events.
     
     ```{r}
@@ -762,38 +775,24 @@ a sex difference in height in a sample of 10 male and 10 female 20-year-olds?
     ```
     </div>
 
-6. Prove to yourself that the binomial distribution looks like the normal 
+6. Demonstrate to yourself that the binomial distribution looks like the normal 
 distribution when the number of trials is greater than 10.
 
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
->>>>>>> f263a2c0058ee93f683cada986969419867b9833
     <p class="alert alert-info">You can calculate the equivalent mean for the normal 
     distribution as the number of trials times the probability of success 
-    (`mean <- trials * prob`) and the equivalent SD as the square root of the mean 
-    times one minus probability of success (`sd <- sqrt(mean * (1 - prob))`).</p>
-<<<<<<< HEAD
-=======
-=======
-<p class="alert alert-info">You can calculate the equivalent mean for the normal 
-distribution as the number of trials times the probability of success 
-(`mean <- trials * prob`) and the equivalent SD as the square root of the mean 
-times one minus probability of success (`sd <- sqrt(mean * (1 - prob))`).</p>
->>>>>>> 0528fe831db42324e72fe4ebe354975e82cc891e
->>>>>>> f263a2c0058ee93f683cada986969419867b9833
+    (`my_mean <- trials * prob`) and the equivalent SD as the square root of the mean 
+    times one minus probability of success (`my_sd <- sqrt(mean * (1 - prob))`).</p>
 
     <div class="solution"><button>Solution</button>
     ```{r}
     n <- 100000  # use a large n to get good estimates of the distributions
     trials <- 50
     prob <- 0.8
-    mean <- trials * prob
-    sd <- sqrt(mean * (1 - prob))
+    my_mean <- trials * prob
+    my_sd <- sqrt(mean * (1 - prob))
     
     tibble (
-      normal = rnorm(n, mean, sd),
+      normal = rnorm(n, my_mean, my_sd),
       binomial = rbinom(n, trials, prob)
     ) %>%
       gather("distribution", "value", normal:binomial) %>%

@@ -67,6 +67,7 @@ By the end of this course students will be able to:
 - [R for Reproducible Scientific Analysis](http://swcarpentry.github.io/r-novice-gapminder/)
 - [codeschool.com](http://tryr.codeschool.com)
 - [datacamp](https://www.datacamp.com/courses/free-introduction-to-r)
+- [Improving your statistical inferences](https://www.coursera.org/learn/statistical-inferences/) on Coursera
 
 ### Cheat sheets
 
