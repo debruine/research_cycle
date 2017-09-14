@@ -435,7 +435,7 @@ subject</code></pre></div>
 exp</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"0.07967634"},{"1":"3","2":"0.11031045"},{"1":"4","2":"0.76332469"},{"1":"5","2":"0.25947411"},{"1":"6","2":"-0.09884731"},{"1":"4","2":"-0.36387848"},{"1":"5","2":"-0.81565325"},{"1":"6","2":"-0.73808371"},{"1":"7","2":"2.42765775"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"1.0437068"},{"1":"3","2":"-1.4044567"},{"1":"4","2":"-1.2524376"},{"1":"5","2":"1.2598307"},{"1":"6","2":"1.4312638"},{"1":"4","2":"-0.6276617"},{"1":"5","2":"-1.0103657"},{"1":"6","2":"1.7361773"},{"1":"7","2":"1.3312410"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -445,7 +445,7 @@ exp</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(subject, exp, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["score"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19","4":"NA"},{"1":"2","2":"m","3":"22","4":"0.07967634"},{"1":"3","2":"NA","3":"NA","4":"0.11031045"},{"1":"4","2":"f","3":"19","4":"0.76332469"},{"1":"4","2":"f","3":"19","4":"-0.36387848"},{"1":"5","2":"f","3":"18","4":"0.25947411"},{"1":"5","2":"f","3":"18","4":"-0.81565325"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["score"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19","4":"NA"},{"1":"2","2":"m","3":"22","4":"1.0437068"},{"1":"3","2":"NA","3":"NA","4":"-1.4044567"},{"1":"4","2":"f","3":"19","4":"-1.2524376"},{"1":"4","2":"f","3":"19","4":"-0.6276617"},{"1":"5","2":"f","3":"18","4":"1.2598307"},{"1":"5","2":"f","3":"18","4":"-1.0103657"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p>You can leave out the <code>by</code> argument if you’re matching on all of the columns with the same name, but it’s good parctice to always specify it so your code is robust to changes in the loaded data.</p>
@@ -453,7 +453,7 @@ exp</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(exp, subject)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sex"],"name":[3],"type":["chr"],"align":["left"]},{"label":["age"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"0.07967634","3":"m","4":"22"},{"1":"3","2":"0.11031045","3":"NA","4":"NA"},{"1":"4","2":"0.76332469","3":"f","4":"19"},{"1":"5","2":"0.25947411","3":"f","4":"18"},{"1":"6","2":"-0.09884731","3":"NA","4":"NA"},{"1":"4","2":"-0.36387848","3":"f","4":"19"},{"1":"5","2":"-0.81565325","3":"f","4":"18"},{"1":"6","2":"-0.73808371","3":"NA","4":"NA"},{"1":"7","2":"2.42765775","3":"NA","4":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sex"],"name":[3],"type":["chr"],"align":["left"]},{"label":["age"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"1.0437068","3":"m","4":"22"},{"1":"3","2":"-1.4044567","3":"NA","4":"NA"},{"1":"4","2":"-1.2524376","3":"f","4":"19"},{"1":"5","2":"1.2598307","3":"f","4":"18"},{"1":"6","2":"1.4312638","3":"NA","4":"NA"},{"1":"4","2":"-0.6276617","3":"f","4":"19"},{"1":"5","2":"-1.0103657","3":"f","4":"18"},{"1":"6","2":"1.7361773","3":"NA","4":"NA"},{"1":"7","2":"1.3312410","3":"NA","4":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -463,7 +463,7 @@ exp</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">inner_join</span>(subject, exp, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["score"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"m","3":"22","4":"0.07967634"},{"1":"3","2":"NA","3":"NA","4":"0.11031045"},{"1":"4","2":"f","3":"19","4":"0.76332469"},{"1":"4","2":"f","3":"19","4":"-0.36387848"},{"1":"5","2":"f","3":"18","4":"0.25947411"},{"1":"5","2":"f","3":"18","4":"-0.81565325"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["score"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"m","3":"22","4":"1.0437068"},{"1":"3","2":"NA","3":"NA","4":"-1.4044567"},{"1":"4","2":"f","3":"19","4":"-1.2524376"},{"1":"4","2":"f","3":"19","4":"-0.6276617"},{"1":"5","2":"f","3":"18","4":"1.2598307"},{"1":"5","2":"f","3":"18","4":"-1.0103657"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -473,7 +473,7 @@ exp</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">full_join</span>(subject, exp, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["score"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19","4":"NA"},{"1":"2","2":"m","3":"22","4":"0.07967634"},{"1":"3","2":"NA","3":"NA","4":"0.11031045"},{"1":"4","2":"f","3":"19","4":"0.76332469"},{"1":"4","2":"f","3":"19","4":"-0.36387848"},{"1":"5","2":"f","3":"18","4":"0.25947411"},{"1":"5","2":"f","3":"18","4":"-0.81565325"},{"1":"6","2":"NA","3":"NA","4":"-0.09884731"},{"1":"6","2":"NA","3":"NA","4":"-0.73808371"},{"1":"7","2":"NA","3":"NA","4":"2.42765775"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["score"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19","4":"NA"},{"1":"2","2":"m","3":"22","4":"1.0437068"},{"1":"3","2":"NA","3":"NA","4":"-1.4044567"},{"1":"4","2":"f","3":"19","4":"-1.2524376"},{"1":"4","2":"f","3":"19","4":"-0.6276617"},{"1":"5","2":"f","3":"18","4":"1.2598307"},{"1":"5","2":"f","3":"18","4":"-1.0103657"},{"1":"6","2":"NA","3":"NA","4":"1.4312638"},{"1":"6","2":"NA","3":"NA","4":"1.7361773"},{"1":"7","2":"NA","3":"NA","4":"1.3312410"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -491,7 +491,7 @@ exp</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">semi_join</span>(exp, subject, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"0.07967634"},{"1":"3","2":"0.11031045"},{"1":"4","2":"0.76332469"},{"1":"4","2":"-0.36387848"},{"1":"5","2":"0.25947411"},{"1":"5","2":"-0.81565325"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"1.0437068"},{"1":"3","2":"-1.4044567"},{"1":"4","2":"-1.2524376"},{"1":"4","2":"-0.6276617"},{"1":"5","2":"1.2598307"},{"1":"5","2":"-1.0103657"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -504,17 +504,17 @@ exp</code></pre></div>
 {"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>Order matter in an anti join.</p>
+<p>Order matters in an anti join.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anti_join</span>(exp, subject, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"7","2":"2.42765775"},{"1":"6","2":"-0.09884731"},{"1":"6","2":"-0.73808371"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["score"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"7","2":"1.331241"},{"1":"6","2":"1.431264"},{"1":"6","2":"1.736177"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 <div id="bind_rows" class="section level3">
 <h3>bind_rows()</h3>
-<p>You can combine the rows of two table with <code>bind_rows</code>.</p>
+<p>You can combine the rows of two tables with <code>bind_rows</code>.</p>
 <p>Here we’ll add subject data for subjects 6-9 and bind that to the original subject table.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_subjects &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">id =</span> <span class="kw">seq</span>(<span class="dv">6</span>, <span class="dv">9</span>),
@@ -554,7 +554,7 @@ exp</code></pre></div>
 <span class="kw">bind_cols</span>(subject, new_info)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["new"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19","4":"0.9693451"},{"1":"2","2":"m","3":"22","4":"-0.9172166"},{"1":"3","2":"NA","3":"NA","4":"-0.5822069"},{"1":"4","2":"f","3":"19","4":"0.5969719"},{"1":"5","2":"f","3":"18","4":"0.3454062"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["new"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19","4":"0.55367445"},{"1":"2","2":"m","3":"22","4":"0.11446267"},{"1":"3","2":"NA","3":"NA","4":"-0.43234380"},{"1":"4","2":"f","3":"19","4":"-0.07123557"},{"1":"5","2":"f","3":"18","4":"-0.94063453"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -570,7 +570,7 @@ exp</code></pre></div>
 <span class="kw">intersect</span>(subject, new_subjects)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[],"data":[],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"4","2":"f","3":"19"},{"1":"5","2":"f","3":"18"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -578,23 +578,11 @@ exp</code></pre></div>
 <h3>union()</h3>
 <p><code>union()</code> returns all the rows from both tables, removing duplicate rows.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">union</span>(subject, new_subjects)</code></pre></div>
-<pre><code>## [[1]]
-## [1] 1 2 3 4 5
-## 
-## [[2]]
-## [1] &quot;m&quot; &quot;m&quot; NA  &quot;f&quot; &quot;f&quot;
-## 
-## [[3]]
-## [1] 19 22 NA 19 18
-## 
-## [[4]]
-## [1] 4 5 6 7 8 9
-## 
-## [[5]]
-## [1] 19 18 19 16 20 19
-## 
-## [[6]]
-## [1] &quot;f&quot; &quot;f&quot; &quot;m&quot; &quot;m&quot; &quot;f&quot; &quot;f&quot;</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"9","2":"f","3":"19"},{"1":"8","2":"f","3":"20"},{"1":"7","2":"m","3":"16"},{"1":"6","2":"m","3":"19"},{"1":"5","2":"f","3":"18"},{"1":"4","2":"f","3":"19"},{"1":"3","2":"NA","3":"NA"},{"1":"2","2":"m","3":"22"},{"1":"1","2":"m","3":"19"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <div id="setdiff" class="section level3">
 <h3>setdiff()</h3>
@@ -602,14 +590,14 @@ exp</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setdiff</span>(subject, new_subjects)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"m","3":"19"},{"1":"2","2":"m","3":"22"},{"1":"3","2":"NA","3":"NA"},{"1":"4","2":"f","3":"19"},{"1":"5","2":"f","3":"18"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["age"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sex"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"1","2":"19","3":"m"},{"1":"2","2":"22","3":"m"},{"1":"3","2":"NA","3":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p>Order matters for <code>setdiff</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setdiff</span>(new_subjects, subject)</code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["age"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sex"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"4","2":"19","3":"f"},{"1":"5","2":"18","3":"f"},{"1":"6","2":"19","3":"m"},{"1":"7","2":"16","3":"m"},{"1":"8","2":"20","3":"f"},{"1":"9","2":"19","3":"f"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"6","2":"m","3":"19"},{"1":"7","2":"m","3":"16"},{"1":"8","2":"f","3":"20"},{"1":"9","2":"f","3":"19"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -645,14 +633,7 @@ matmort &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span cla
 <div id="inner_join-1" class="section level3">
 <h3>inner_join()</h3>
 <p><code>inner_join(x, y, by = NULL, suffix = c(&quot;.x&quot;, &quot;.y&quot;)</code></p>
-<p>Use an <code>inner_join()</code> if you only want matching data between two tables and want to exclude any data from either table that doesn’t have a match in the other table.</p>
-<ul>
-<li>x = the first table (order doesn’t matter here)</li>
-<li>y = the second table (order doesn’t matter here)</li>
-<li>by = what columns to match on. If you leave this blank, it will match on any columns with the same names in the two tables.</li>
-<li>suffix = if columns have the same name in the two tables, but you aren’t joining by them, they get a suffix to make them unambiguous. This defaults to “.x” and “.y”, but you can change it to something more meaningful.</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#infmatmort &lt;- inner_join(matmort, infmort, by = c(&quot;Country&quot;, &quot;Year&quot;))</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">infmatmort &lt;-<span class="st"> </span><span class="kw">inner_join</span>(matmort, infmort, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;Country&quot;</span>, <span class="st">&quot;Year&quot;</span>))</code></pre></div>
 <pre><code>Error in inner_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, check_na_matches(na_matches)) : 
   Can't join on 'Year' x 'Year' because of incompatible types (character / integer)</code></pre>
 <div id="incompatible-tpyes" class="section level4">
@@ -792,7 +773,7 @@ Remember to switch the order of the <code>by</code> columns if they have differe
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) +
 <span class="st">  </span><span class="kw">geom_point</span>() +
 <span class="st">  </span><span class="kw">facet_grid</span>(.~region)</code></pre></div>
-<p><img src="images/05/unnamed-chunk-26-1.png" width="768" /></p>
+<p><img src="images/05/unnamed-chunk-42-1.png" width="768" /></p>
 </div>
 </div>
 <div id="exercises" class="section level2">
@@ -888,15 +869,15 @@ users_all &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(user, 
 Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">intersect</span>(user, user2) %&gt;%<span class="st"> </span><span class="kw">nrow</span>()</code></pre></div>
-<pre><code>## [1] 0</code></pre>
+<pre><code>## [1] 11602</code></pre>
 </div></li>
-<li><p>How many users are there in total across the first and second user tables?</p>
+<li><p>How many unique users are there in total across the first and second user tables?</p>
 <div class="solution">
 <button>
 Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">union</span>(user, user2) %&gt;%<span class="st"> </span><span class="kw">nrow</span>()</code></pre></div>
-<pre><code>## NULL</code></pre>
+<pre><code>## [1] 100441</code></pre>
 </div></li>
 <li><p>How many users are in the first, but not the second, user table?</p>
 <div class="solution">
@@ -904,7 +885,7 @@ Solution
 Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setdiff</span>(user, user2) %&gt;%<span class="st"> </span><span class="kw">nrow</span>()</code></pre></div>
-<pre><code>## [1] 52043</code></pre>
+<pre><code>## [1] 40441</code></pre>
 </div></li>
 <li><p>How many users are in the second, but not the first, user table?</p>
 <div class="solution">
@@ -912,7 +893,7 @@ Solution
 Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setdiff</span>(user2, user) %&gt;%<span class="st"> </span><span class="kw">nrow</span>()</code></pre></div>
-<pre><code>## [1] 60000</code></pre>
+<pre><code>## [1] 48398</code></pre>
 </div></li>
 </ol>
 </div>

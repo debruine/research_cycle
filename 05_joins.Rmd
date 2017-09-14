@@ -165,7 +165,7 @@ values in the right table, keeping just columns from the left table.
 anti_join(subject, exp, by = "id")
 ```
 
-Order matter in an anti join.
+Order matters in an anti join.
 
 ```{r}
 anti_join(exp, subject, by = "id")
@@ -173,7 +173,7 @@ anti_join(exp, subject, by = "id")
 
 ### bind_rows()
 
-You can combine the rows of two table with `bind_rows`.
+You can combine the rows of two tables with `bind_rows`.
 
 Here we'll add subject data for subjects 6-9 and bind that to the original subject table.
 
@@ -299,17 +299,9 @@ matmort <- read_xls("data/matmort.xls") %>%   # load maternal mortality data fro
 
 `inner_join(x, y, by = NULL, suffix = c(".x", ".y")`
 
-Use an `inner_join()` if you only want matching data between two tables and want 
-to exclude any data from either table that doesn't have a match in the other table.
+```{r, eval = FALSE}
 
-* x = the first table (order doesn't matter here)
-* y = the second table (order doesn't matter here)
-* by = what columns to match on. If you leave this blank, it will match on any columns with the same names in the two tables.
-* suffix = if columns have the same name in the two tables, but you aren't joining by them, they get a suffix to make them unambiguous. This defaults to ".x" and ".y", but you can change it to something more meaningful.
-
-```{r}
-
-#infmatmort <- inner_join(matmort, infmort, by = c("Country", "Year"))
+infmatmort <- inner_join(matmort, infmort, by = c("Country", "Year"))
 
 ```
 
@@ -458,7 +450,7 @@ warnings when loading datasets.</p>
 1. Add participant data to the disgust table.
 
     <div class="solution"><button>Solution</button>
-    ```{r}
+    ```{r, message = FALSE}
     disgust <- read_csv("data/disgust.csv")
     ocean <- read_csv("data/personality.csv")
     user <- read_csv("data/users.csv",
@@ -522,7 +514,7 @@ warnings when loading datasets.</p>
 7. Load new user data from [users2.csv](data/users2.csv). Bind them into a single table.
 
     <div class="solution"><button>Solution</button>
-    ```{r}
+    ```{r, message = FALSE}
     user2 <- read_csv("data/users2.csv",
                      col_types = list(
                        col_integer(), 
@@ -542,7 +534,7 @@ warnings when loading datasets.</p>
     ```
     </div>
 
-9. How many users are there in total across the first and second user tables?
+9. How many unique users are there in total across the first and second user tables?
 
     <div class="solution"><button>Solution</button>
     ```{r}
