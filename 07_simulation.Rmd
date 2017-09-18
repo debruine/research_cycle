@@ -23,21 +23,28 @@ knitr::opts_chunk$set(
     + binomial
     + normal
     + poisson
-2. Be able to generate and plot data randomly sampled from the above distributions
-3. Be able to test sampled distributions against a null hypothesis
+2. Generate and plot data randomly sampled from the above distributions
+3. Test sampled distributions against a null hypothesis
     + exact binomial test
     + t-test (1-sample, independent samples, paired samples)
     + correlation (pearson, kendall and spearman)
+4. Define the following statistical terms:
+    + p-value
+    + alpha
+    + power
+    + false positive (type I error)
+    + false negative (type II error)
+    + confidence interval
 
 ### Intermediate
 
-4. Create a function to generate a sample with specific properties and run an inferential test
-5. Calculate power using `replicate` and a sampling function
-6. Calculate the minimum sample size for a specific power level and design
+5. Create a function to generate a sample with specific properties and run an inferential test
+6. Calculate power using `replicate` and a sampling function
+7. Calculate the minimum sample size for a specific power level and design
 
 ### Advanced
 
-7. Generate 3+ variables from a multivariate normal distribution and plot them
+8. Generate 3+ variables from a multivariate normal distribution and plot them
 
 ## Prep
 
@@ -195,9 +202,17 @@ binom.test(biased_coin, n, p = 0.5)
 
 ```
 
-<p class="alert alert-info">Run the code above several times. How often do you 
-conclude the fair coin is biased (false positives)? How often do you conclude 
-the biased coin is fair (false negatives)?</p>
+<div class="alert alert-info">
+Run the code above several times, noting the p-values for the fair and biased coins. 
+Alternatively, you can [simulate coin flips](https://debruine.shinyapps.io/coinsim/) 
+online and build up a graph of results and p-values. 
+
+* How does the p-value vary for the fair and biased coins?
+* What happens to the confidence intervals if you increase n from 10 to 100?
+* What criterion would you use to tell if the observed data indicate the coin is fair or biased?
+* How often do you conclude the fair coin is biased (false positives)? 
+* How often do you conclude the biased coin is fair (false negatives)?
+</div>
 
 #### False positives & negatives
 
@@ -248,12 +263,17 @@ proportion of your simulated analyses that have a p-value less than your _alpha_
 
 ```{r}
 
-my_reps <- replicate(10000, sim_binom_test(100, 0.6))
+my_reps <- replicate(1e4, sim_binom_test(100, 0.6))
 
 mean(my_reps < 0.05)
 
 ```
 
+<p class="alert alert-info">`1e4` is just scientific notation for a 1 followed 
+by 4 zeros (`10000`). When youre running simulations, you usually want to run a 
+lot of them and it's a pain to keep track of whether you've typed 5 or 6 zeros 
+(100000 vs 1000000) and this will change your running time by an order of 
+magnitude.</p>
 
 ### Normal
 
@@ -300,8 +320,8 @@ or compare pairs of values (paired-samples t-test).
 
 You can run a one-sample t-test comparing the mean of your data to `mu`. Here is 
 a simulated distribution with a mean of 0.5 and an SD of 1, creating an effect 
-size of 0.5 SD when tested against a `mu` of 0. Run the simulation a few time to 
-see how often the t-test returns a significant p-value.
+size of 0.5 SD when tested against a `mu` of 0. Run the simulation a few times to 
+see how often the t-test returns a significant p-value (or run it in the [shiny app](https://debruine.shinyapps.io/normsim/).
 
 ```{r}
 sim_norm <- rnorm(100, 0.5, 1)
@@ -582,13 +602,13 @@ sim_t_ind(50, m_mean, m_sd, f_mean, f_sd)
 
 ### Replicate simulation
 
-Now replicate this 10000 times using the `replicate()` function. This function 
+Now replicate this 1e4 times using the `replicate()` function. This function 
 will save the returned p-values in a list (`my_reps`). We can then check what 
 proportion of those p-values are less than our alpha value. This is the power of 
 our test.
 
 ```{r}
-my_reps <- replicate(10000, sim_t_ind(50, m_mean, m_sd, f_mean, f_sd))
+my_reps <- replicate(1e4, sim_t_ind(50, m_mean, m_sd, f_mean, f_sd))
 
 alpha <- 0.05
 power <- mean(my_reps < alpha)
@@ -614,7 +634,7 @@ sim_t_ind <- function(n, m1, sd1, m2, sd2, alternative = "two.sided") {
   return(t_ind$p.value)
 }
 
-my_reps <- replicate(10000, sim_t_ind(50, m_mean, m_sd, f_mean, f_sd, "greater"))
+my_reps <- replicate(1e4, sim_t_ind(50, m_mean, m_sd, f_mean, f_sd, "greater"))
 mean(my_reps < alpha)
 
 ```
@@ -640,7 +660,7 @@ sample_size <- seq(20, 100, by = 5)
 
 power_list  <- sapply(sample_size, 
                       function(n) { 
-                        my_reps <- replicate(1000, sim_t_ind(n, m_mean, m_sd, f_mean, f_sd, "greater"))
+                        my_reps <- replicate(1e3, sim_t_ind(n, m_mean, m_sd, f_mean, f_sd, "greater"))
                         mean(my_reps < 0.05)
                       }
                      )
@@ -658,7 +678,7 @@ ggplot(power_table, aes(n, power)) +
 ```
 
 Now we can narrow down our search to values around 55 (plus or minus 5) and 
-increase the number of replications from 1000 to 10000.
+increase the number of replications from 1e3 to 1e4.
 
 ```{r}
 
@@ -666,7 +686,7 @@ sample_size <- seq(50, 60)
 
 power_list  <- sapply(sample_size, 
                       function(n) { 
-                        my_reps <- replicate(10000, sim_t_ind(n, m_mean, m_sd, f_mean, f_sd, "greater"))
+                        my_reps <- replicate(1e4, sim_t_ind(n, m_mean, m_sd, f_mean, f_sd, "greater"))
                         mean(my_reps < 0.05)
                       }
                      )
@@ -707,7 +727,7 @@ a difference between two independent samples of 100 with an effect size of 0.2?
 
     <div class="solution"><button>Solution</button>
     ```{r}
-    my_reps <- replicate(10000, sim_t_ind(100, 0, 1, 0.2, 1))
+    my_reps <- replicate(1e4, sim_t_ind(100, 0, 1, 0.2, 1))
     mean(my_reps < 0.05)
     ```
     </div>
@@ -731,7 +751,7 @@ sample sizes. Use it to calculate the power of the following design:
       return(t_ind$p.value)
     }
     
-    my_reps <- replicate(10000, sim_t_ind(20, 10, 4, 30, 13, 4.5))
+    my_reps <- replicate(1e4, sim_t_ind(20, 10, 4, 30, 13, 4.5))
     mean(my_reps < 0.05)
     ```
     </div>
@@ -748,7 +768,7 @@ a sex difference in height in a sample of 10 male and 10 female 20-year-olds?
     f_mean <- (height_sub %>% filter(sex == "female") %>% dplyr::select(mean))[[1]]
     f_sd   <- (height_sub %>% filter(sex == "female") %>% dplyr::select(sd))[[1]]
 
-    my_reps <- replicate(10000, sim_t_ind(10, m_mean, m_sd, 10, f_mean, f_sd))
+    my_reps <- replicate(1e4, sim_t_ind(10, m_mean, m_sd, 10, f_mean, f_sd))
     mean(my_reps < 0.005)
 
     ```
@@ -785,11 +805,11 @@ distribution when the number of trials is greater than 10.
 
     <div class="solution"><button>Solution</button>
     ```{r}
-    n <- 100000  # use a large n to get good estimates of the distributions
+    n <- 1e5  # use a large n to get good estimates of the distributions
     trials <- 50
     prob <- 0.8
     my_mean <- trials * prob
-    my_sd <- sqrt(mean * (1 - prob))
+    my_sd <- sqrt(my_mean * (1 - prob))
     
     tibble (
       normal = rnorm(n, my_mean, my_sd),
