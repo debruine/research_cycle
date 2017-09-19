@@ -263,6 +263,29 @@ ggplot(demog, aes(sex, height, fill=sex)) +
 <p class="alert alert-info">Try changing the numbers in the `draw_quantiles` 
 argument.</p>
 
+
+```{r stat-summary}
+
+ggplot(demog, aes(sex, height, fill=sex)) +
+  geom_violin(
+    trim = FALSE,
+    alpha = 0.5
+  ) +
+  stat_summary(
+    fun.data = function(x) {
+      m <- mean(x)
+      sd <- sd(x)
+      
+      c(y    = m,
+        ymin = m - sd,
+        ymax = m + sd)
+    }, 
+    geom="pointrange")
+
+```
+ 
+
+
 ### Violinbox plot
 
 To demonstrate the use of `facet_grid()` for factorial designs, I created a new 
@@ -664,7 +687,7 @@ legend items.</p>
       geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25)
     ```
     </div>
-
+    
 2. Represent the relationships among moral, sexual and pathogen disgust scores from the dataset [disgust_scores.csv](data/disgust_scores.csv). 
 
     Create a 3x3 grid of plots with columns representing the x-axis and rows 
@@ -683,7 +706,7 @@ legend items.</p>
 
     disgust <- read_csv("data/disgust_scores.csv")
 
-    moral_sexual <- ggplot(disgust, aes(moral, sexual)) +
+    moral_sexual <- ggplot(disgust, aes(moral, sexual, color)) +
       geom_smooth() +
       labs(title = "Moral vs Sexual") +
       xlim(0, 6) + ylim(0, 6)

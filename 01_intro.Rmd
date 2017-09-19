@@ -37,11 +37,73 @@ knitr::opts_chunk$set(
 * [Chapter 11: Data Import](http://r4ds.had.co.nz/data-import.html) in *R for Data Science*
 
 
-## Examples {.tabset .tabset-pills}
+## Examples
 
-```{r}
+```{r, results = 'hide', warning = FALSE, message = FALSE}
 
 # libraries needed for these examples
 library(tidyverse)
 
 ```
+
+
+
+
+## Exercises
+
+1. Create a tibble with the name, age, and sex of 3-5 members of your family. 
+
+    What are three ways to look at the data and table setup?
+
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    # you can do this with an inline csv file using read_csv
+    family <- read_csv("name,  age, sex
+                        Lisa,   40, female
+                        Ben,    41, male
+                        Robbie, 10, male")
+    
+    # or you can do this with the tibble function
+    family <- tibble(name = c("Lisa", "Ben", "Robbie"),
+                     age = c(40, 41, 10),
+                     sex = c("female", "male", "male") )
+    
+    glimpse(family)
+    head(family)
+    View(family)
+    ```
+    </div>
+
+2. Download the dataset [disgust_scores.csv](data/disgust_scores.csv) and read it into a table.
+
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    disgust <- read_csv("data/disgust_scores.csv")
+    ```
+    </div>
+    
+3. What are the different values in the `sex` column?
+
+  <div class="solution"><button>Solution</button>
+    ```{r}
+    unique(disgust$sex)
+    ```
+    </div>
+    
+4. Override the default column specifications to make `sex` a factor and skip the `id` column.
+
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    my_cols <- cols(
+      id = col_skip(),
+      user_id = col_integer(),
+      sex = col_factor(c("female", "male", "intersex")),
+      date = col_datetime(format = ""),
+      moral = col_double(),
+      pathogen = col_double(),
+      sexual = col_double()
+    )
+    
+    disgust <- read_csv("data/disgust_scores.csv", col_types = my_cols)
+    head(disgust)
+    ```

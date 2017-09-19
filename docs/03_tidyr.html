@@ -755,6 +755,40 @@ Solution
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ocean_spread &lt;-<span class="st"> </span>ocean_unite %&gt;%
 <span class="st">  </span><span class="kw">spread</span>(domain_n, score)</code></pre></div>
 </div></li>
+<li><p>Load the dataset <a href="data/family_composition.csv">family_composition.csv</a>.</p>
+<p>The columns <code>oldbro</code> through <code>twinsis</code> give the number of sibling of that age and sex. Put this into long format.</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">family &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/family_composition.csv&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">gather</span>(<span class="st">&quot;sibtype&quot;</span>, <span class="st">&quot;n&quot;</span>, oldbro:twinsis) %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(sibtype, <span class="kw">c</span>(<span class="st">&quot;sibage&quot;</span>, <span class="st">&quot;sibsex&quot;</span>), <span class="dt">sep =</span> -<span class="dv">4</span>)</code></pre></div>
+</div></li>
+<li><p>Calculcate how many siblings of each sex each person has, narrow the dataset down to people with fewer than 6 siblings, and generate at least two different ways to graph this.</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">family %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(user_id, sex, sibsex) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">sum</span>(n)) %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(user_id) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(sex %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;male&quot;</span>, <span class="st">&quot;female&quot;</span>), <span class="kw">sum</span>(n) &lt;<span class="st"> </span><span class="dv">6</span>) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(n, <span class="dt">fill =</span> sibsex)) +
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</code></pre></div>
+<p><img src="images/03/exercise-sibs1-1.png" width="768" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">family %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(user_id, sex, sibsex) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">sum</span>(n)) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(sex %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;male&quot;</span>, <span class="st">&quot;female&quot;</span>)) %&gt;%
+<span class="st">  </span><span class="kw">spread</span>(sibsex, n) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(bro +<span class="st"> </span>sis &lt;<span class="st"> </span><span class="dv">6</span>) %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(bro, sis)) +
+<span class="st">  </span><span class="kw">geom_bin2d</span>(<span class="dt">binwidth =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) +
+<span class="st">  </span><span class="kw">scale_fill_viridis</span>()</code></pre></div>
+<p><img src="images/03/exercise-sibs2-1.png" width="768" /></p>
+</div></li>
 </ol>
 </div>
 

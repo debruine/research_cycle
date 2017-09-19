@@ -374,10 +374,90 @@ div.tocify {
 <li><a href="http://r4ds.had.co.nz/data-import.html">Chapter 11: Data Import</a> in <em>R for Data Science</em></li>
 </ul>
 </div>
-<div id="examples" class="section level2 tabset tabset-pills">
+<div id="examples" class="section level2">
 <h2>Examples</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># libraries needed for these examples</span>
 <span class="kw">library</span>(tidyverse)</code></pre></div>
+</div>
+<div id="exercises" class="section level2">
+<h2>Exercises</h2>
+<ol style="list-style-type: decimal">
+<li><p>Create a tibble with the name, age, and sex of 3-5 members of your family.</p>
+<p>What are three ways to look at the data and table setup?</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># you can do this with an inline csv file using read_csv</span>
+family &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;name,  age, sex</span>
+<span class="st">                    Lisa,   40, female</span>
+<span class="st">                    Ben,    41, male</span>
+<span class="st">                    Robbie, 10, male&quot;</span>)
+
+<span class="co"># or you can do this with the tibble function</span>
+family &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;Lisa&quot;</span>, <span class="st">&quot;Ben&quot;</span>, <span class="st">&quot;Robbie&quot;</span>),
+                 <span class="dt">age =</span> <span class="kw">c</span>(<span class="dv">40</span>, <span class="dv">41</span>, <span class="dv">10</span>),
+                 <span class="dt">sex =</span> <span class="kw">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>, <span class="st">&quot;male&quot;</span>) )
+
+<span class="kw">glimpse</span>(family)</code></pre></div>
+<pre><code>## Observations: 3
+## Variables: 3
+## $ name &lt;chr&gt; &quot;Lisa&quot;, &quot;Ben&quot;, &quot;Robbie&quot;
+## $ age  &lt;dbl&gt; 40, 41, 10
+## $ sex  &lt;chr&gt; &quot;female&quot;, &quot;male&quot;, &quot;male&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(family)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["age"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sex"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"Lisa","2":"40","3":"female"},{"1":"Ben","2":"41","3":"male"},{"1":"Robbie","2":"10","3":"male"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">View</span>(family)</code></pre></div>
+</div></li>
+<li><p>Download the dataset <a href="data/disgust_scores.csv">disgust_scores.csv</a> and read it into a table.</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/disgust_scores.csv&quot;</span>)</code></pre></div>
+</div></li>
+<li><p>What are the different values in the <code>sex</code> column?</p></li>
+</ol>
+<div class="solution">
+<button>
+Solution
+</button>
+<pre><code>```r
+unique(disgust$sex)
+```
+
+```
+## [1] &quot;female&quot;   &quot;male&quot;     NA         &quot;intersex&quot;
+```
+&lt;/div&gt;</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Override the default column specifications to make <code>sex</code> a factor and skip the <code>id</code> column.</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_cols &lt;-<span class="st"> </span><span class="kw">cols</span>(
+  <span class="dt">id =</span> <span class="kw">col_skip</span>(),
+  <span class="dt">user_id =</span> <span class="kw">col_integer</span>(),
+  <span class="dt">sex =</span> <span class="kw">col_factor</span>(<span class="kw">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>, <span class="st">&quot;intersex&quot;</span>)),
+  <span class="dt">date =</span> <span class="kw">col_datetime</span>(<span class="dt">format =</span> <span class="st">&quot;&quot;</span>),
+  <span class="dt">moral =</span> <span class="kw">col_double</span>(),
+  <span class="dt">pathogen =</span> <span class="kw">col_double</span>(),
+  <span class="dt">sexual =</span> <span class="kw">col_double</span>()
+)
+
+disgust &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/disgust_scores.csv&quot;</span>, <span class="dt">col_types =</span> my_cols)
+<span class="kw">head</span>(disgust)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["user_id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["date"],"name":[3],"type":["S3: POSIXct"],"align":["right"]},{"label":["moral"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["pathogen"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["sexual"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"female","3":"2008-07-10 13:33:31","4":"1.428571","5":"2.714286","6":"1.7142857"},{"1":"155324","2":"female","3":"2008-07-11 21:46:34","4":"3.000000","5":"2.571429","6":"1.8571429"},{"1":"155366","2":"male","3":"2008-07-12 07:47:54","4":"5.571429","5":"4.000000","6":"0.4285714"},{"1":"155370","2":"female","3":"2008-07-12 09:30:17","4":"5.714286","5":"4.857143","6":"4.7142857"},{"1":"155386","2":"male","3":"2008-07-12 17:08:53","4":"1.428571","5":"3.857143","6":"3.7142857"},{"1":"155409","2":"male","3":"2008-07-12 22:17:52","4":"4.142857","5":"4.142857","6":"1.5714286"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div></li>
+</ol>
 </div>
 
 <!--

@@ -411,3 +411,47 @@ Ag = agreeableness, and Ne = neuroticism) and the question number.
       spread(domain_n, score)
     ```
     </div>
+    
+5. Load the dataset [family_composition.csv](data/family_composition.csv).
+
+    The columns `oldbro` through `twinsis` give the number of sibling of that 
+    age and sex. Put this into long format.
+
+    <div class="solution"><button>Solution</button>
+    ```{r, message = FALSE}
+    
+    family <- read_csv("data/family_composition.csv") %>%
+      gather("sibtype", "n", oldbro:twinsis) %>%
+      separate(sibtype, c("sibage", "sibsex"), sep = -4)
+    
+    ```
+    </div>
+    
+6. Calculcate how many siblings of each sex each person has, narrow the dataset down to people with fewer than 6 siblings, and generate at least two different ways to graph this.
+
+    <div class="solution"><button>Solution</button>
+    ```{r exercise-sibs1}
+    
+    family %>%
+      group_by(user_id, sex, sibsex) %>%
+      summarise(n = sum(n)) %>%
+      group_by(user_id) %>%
+      filter(sex %in% c("male", "female"), sum(n) < 6) %>%
+      ggplot(aes(n, fill = sibsex)) +
+      geom_histogram(binwidth = 1, colour = "black", position = "dodge")
+    
+    ```
+    
+    ```{r exercise-sibs2}
+    family %>%
+      group_by(user_id, sex, sibsex) %>%
+      summarise(n = sum(n)) %>%
+      filter(sex %in% c("male", "female")) %>%
+      spread(sibsex, n) %>%
+      filter(bro + sis < 6) %>%
+      ggplot(aes(bro, sis)) +
+      geom_bin2d(binwidth = c(1,1)) +
+      scale_fill_viridis()
+    ```    
+    </div>
+

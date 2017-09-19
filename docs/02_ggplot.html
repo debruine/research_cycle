@@ -563,6 +563,22 @@ Try changing the <code>position</code> argument to “identity”, “fill”, �
 <p class="alert alert-info">
 Try changing the numbers in the <code>draw_quantiles</code> argument.
 </p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(demog, <span class="kw">aes</span>(sex, height, <span class="dt">fill=</span>sex)) +
+<span class="st">  </span><span class="kw">geom_violin</span>(
+    <span class="dt">trim =</span> <span class="ot">FALSE</span>,
+    <span class="dt">alpha =</span> <span class="fl">0.5</span>
+  ) +
+<span class="st">  </span><span class="kw">stat_summary</span>(
+    <span class="dt">fun.data =</span> function(x) {
+      m &lt;-<span class="st"> </span><span class="kw">mean</span>(x)
+      sd &lt;-<span class="st"> </span><span class="kw">sd</span>(x)
+      
+      <span class="kw">c</span>(<span class="dt">y    =</span> m,
+        <span class="dt">ymin =</span> m -<span class="st"> </span>sd,
+        <span class="dt">ymax =</span> m +<span class="st"> </span>sd)
+    }, 
+    <span class="dt">geom=</span><span class="st">&quot;pointrange&quot;</span>)</code></pre></div>
+<p><img src="images/02/stat-summary-1.png" width="768" /></p>
 </div>
 <div id="violinbox-plot" class="section level3">
 <h3>Violinbox plot</h3>
@@ -895,7 +911,7 @@ Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/disgust_scores.csv&quot;</span>)
 
-moral_sexual &lt;-<span class="st"> </span><span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(moral, sexual)) +
+moral_sexual &lt;-<span class="st"> </span><span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(moral, sexual, color)) +
 <span class="st">  </span><span class="kw">geom_smooth</span>() +
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Moral vs Sexual&quot;</span>) +
 <span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>) +<span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)
