@@ -10,7 +10,8 @@ knitr::opts_chunk$set(
   fig.path   = 'images/08/',
   echo       = TRUE, 
   warning    = FALSE, 
-  message    = FALSE
+  message    = FALSE,
+  cache      = TRUE
 )
 ```
 

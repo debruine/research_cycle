@@ -10,7 +10,8 @@ knitr::opts_chunk$set(
   fig.path   = 'images/03/',
   echo       = TRUE, 
   warning    = FALSE, 
-  message    = FALSE
+  message    = FALSE,
+  cache      = TRUE
 )
 ```
 
@@ -47,7 +48,7 @@ knitr::opts_chunk$set(
 
 ## Examples
 
-```{r}
+```{r, results = 'hide', warning = FALSE, message = FALSE}
 
 # libraries needed for these graphs
 library(tidyverse)

@@ -24,23 +24,24 @@ knitr::opts_chunk$set(
 
 ### Basic
 
-1. Understand what types of graphs are best for different types of data
+1. Understand what types of graphs are best for [different types of data](#vartypes)
+    + 1 discrete
     + 1 continuous
-    + 1 categorical
+    + 2 discrete
     + 2 continuous
-    + 1 categorical, 1 continuous
-    + continuous bivariate
+    + 1 discrete, 1 continuous
     + 3 continuous
 2. Create common types of graphs with ggplot2
-    + <a href="#geom_bar">`geom_bar()`</a>
-    + `geom_density()`
-    + `geom_histogram()`
-    + `geom_violin()`
-    + `geom_boxplot()`
-    + `geom_col()`
-    + `geom_point()`
-    + `geom_smooth()`
-3. Save plots as an image file
+    + [`geom_bar()`](#geom_bar)
+    + [`geom_density()`](#geom_density)
+    + [`geom_freqpoly()`](#geom_freqpoly)
+    + [`geom_histogram()`](#geom_histogram)
+    + [`geom_violin()`](#geom_violin)
+    + [`geom_boxplot()`](#geom_boxplot)
+    + [`geom_col()`](#geom_col)
+    + [`geom_point()`](#geom_point)
+    + [`geom_smooth()`](#geom_smooth)
+3. [Save plots](#ggsave) as an image file
     
 ### Intermediate
 
@@ -48,20 +49,21 @@ knitr::opts_chunk$set(
 5. Superimpose different types of graphs
 6. Add lines to graphs
 7. Create less common types of graphs
-    + `geom_tile()`
-    + `geom_density2d()`
-    + `geom_bin2d()`
-    + `geom_hex()`
-8. Deal with overlapping data
-9. Use the `viridis` package to set colours
+    + [`geom_tile()`](#geom_tile)
+    + [`geom_density2d()`](#geom_density2d)
+    + [`geom_bin2d()`](#geom_bin2d)
+    + [`geom_hex()`](#geom_hex)
+    + [`geom_count()`](#geom_count)
+8. Deal with [overlapping data](#overlap)
+9. Use the [`viridis`](#viridis) package to set colours
 10. Set custom labels
 
 ### Advanced
 
-11. Arrange plots in a grid using `cowplot`
+11. Arrange plots in a grid using [`cowplot`](#cowplot)
 12. Adjust axes (e.g., flip coordinates, set axis limits)
-13. Change the theme
-14. Create interactive graphs with `plotly`
+13. Change the [theme](#theme)
+14. Create interactive graphs with [`plotly`](#plotly)
 
 
 ## Prep
@@ -82,7 +84,7 @@ knitr::opts_chunk$set(
 
 ## Examples
 
-```{r}
+```{r, results = 'hide', warning = FALSE, message = FALSE}
 
 # libraries needed for these graphs
 library(tidyverse)
@@ -94,11 +96,25 @@ library(plotly)
 
 ```
 
+### Common Variable Combinations
+<a name="vartypes"></a>
+
+* 1 discrete
+* 1 continuous
+* 2 discrete
+* 2 continuous
+* 1 discrete, 1 continuous
+* 3 continuous
+
+<p class="alert alert-info">Before you read ahead, come up with an example of 
+each type of variable combination and sketch the types of graphs that would 
+best display these data.</p> 
+
 ### Data
 
 Here we've created some data frames with different types of data. 
 
-* `pets` has a single column with 100 pet types
+* `pets` has a column with pet type
 * `demog` has `height` and `age` for 500 men and 500 women.
 * `x_vs_y` has two correlated continuous variables (`x` and `y`)
 * `overlap` has two correlated ordinal variables and 1000 observations so there is a lot of overlap
@@ -140,21 +156,9 @@ overplot <- tibble(
 
 ```
 
-Common Variable Combinations:
-
-* 1 continuous
-* 1 categorical
-* 2 continuous
-* 1 categorical, 1 continuous
-* continuous bivariate
-* 3 continuous
-
-<p class="alert alert-info">Before you read ahead, come up with an example of 
-each type of variable combination and sketch the types of graphs that would 
-best display these data.</p> 
 
 ### Bar plot
-<a name="#geom_bar"></a>
+<a name="geom_bar"></a>
 Bar plots are good for categorical data where you want to represent the count.
 
 ```{r barplot}
@@ -163,7 +167,7 @@ ggplot(pets, aes(pet)) +
 ```
 
 ### Density plot
-
+<a name="geom_density"></a>
 Density plots are good for one continuous variable, but only if you have a fairly 
 large number of observations.
 
@@ -189,7 +193,7 @@ it does.</p>
 
 
 ### Frequency Polygons
-
+<a name="geom_freqpoly"></a>
 If you don't want smoothed distributions, try `geom_freqpoly()`.
 
 ```{r freqpoly}
@@ -203,7 +207,7 @@ ggplot(demog, aes(height, color = sex)) +
 How do you figure out the right value? </p>
 
 ### Histogram
-
+<a name="geom_histogram"></a>
 Histograms are also good for one continuous variable, and work well if you don't 
 have many observations. Set the `binwidth` to control how wide each bar is.
 
@@ -228,7 +232,7 @@ ggplot(demog, aes(height, fill=sex)) +
 "fill", "dodge", and "stack".</p>
 
 ### Boxplot
-
+<a name="geom_boxplot"></a>
 Boxplots are great for representing the distribution of grouped continuous 
 variables. They fix most of the problems with using barplots for continuous data.
 
@@ -240,7 +244,7 @@ ggplot(demog, aes(sex, height, fill=sex)) +
 ```
 
 ### Violin plot
-
+<a name="geom_violin"></a>
 Violin pots are like sideways, mirrored density plots. They give even more information 
 than a boxplot about distribution and are especially useful when you have non-normal 
 distributions.
@@ -300,7 +304,7 @@ demog %>%
 ```
 
 ### Column plot
-
+<a name="geom_col"></a>
 Column plots are the worst way to represent grouped continuous data, but also 
 one of the most common.
 
@@ -327,7 +331,7 @@ ggplot(aes(sex, mean, fill=sex)) +
 <p class="alert alert-info">What do you think `geom_hline()` does?</p>
 
 ### Save as File
-
+<a name="ggsave"></a>
 You can save a ggplot using `ggsave()`. It saves the last ggplot you made, 
 by default, but you can specify which plot you want to save if you assigned that 
 plot to a variable.
@@ -351,15 +355,16 @@ ggsave("demog_box_plot.jpg", plot = demog_box, width = 5, height = 7)
 ```
 
 ### Grid of plots
-
+<a name="cowplot"></a>
 You can use the [ `cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) 
 package to easily make grids of different graphs. First, you have to assign each 
 plot a name. Then you list all the plots as the first arguments of `plot_grid()` 
 and provide a list of labels.
 
+<a name="theme"></a>
 You can get back the default ggplot theme with `+ theme_set(theme_grey())`.
 
-```{r}
+```{r cowplot}
 
 library(cowplot)
 
@@ -409,7 +414,7 @@ plot_grid(
 default theme will change.</p>
 
 ### Scatter plot
-
+<a name="geom_point"></a>
 Scatter plots are a good way to represent the relationship between two continuous variables.
 
 ```{r scatter}
@@ -420,7 +425,7 @@ ggplot(x_vs_y, aes(x, y)) +
 ```
 
 ### Line graph
-
+<a name="geom_smooth"></a>
 You often want to represent the relationship as a single line.
 
 ```{r line}
@@ -443,7 +448,7 @@ ggplot(x_vs_y, aes(x, y)) +
 ```
 
 ### Overlapping Discrete Data
-
+<a name="overlap"></a>
 You can deal with overlapping data points (very common if you're using Likert scales) by reducing the opacity of the points. You need to use trial and error to adjust these so they look right.
 
 ```{r overlap_alpha}
@@ -454,7 +459,21 @@ ggplot(overlap, aes(x, y)) +
 
 ```
 
-Alternatively, you can transform your data to create a count column and use the count to set the dot colour.
+<a name="geom_count"></a>
+Or you can set the size of the dot proportional to the number of overlapping 
+observations using `geom_count()`.
+
+```{r overlap_size}
+
+overlap %>%
+  ggplot(aes(x, y)) +
+  geom_count(color = "#663399")
+
+```
+
+<a name="viridis"></a>
+Alternatively, you can transform your data to create a count column and use the 
+count to set the dot colour.
 
 ```{r overlap_colour}
 
@@ -467,17 +486,14 @@ overlap %>%
 
 ```
 
-Or you can set the size of the dot proportional to the number of overlapping observations.
+<p class="alert alert-info">The [viridis package](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) 
+changes the colour themes to be easier to read by people with colourblindness 
+and to print better in greyscale. Use `scale_color_viridis()` to set the colour 
+palette and `scale_fill_viridis()` to set the fill palette in ggplot. If you need 
+discrete (as opposed to continuous) colours, use `scale_color_viridis(discrete=TRUE)` 
+or `scale_fill_viridis(discrete=TRUE)` instead.</p> 
 
-```{r overlap_size}
 
-overlap %>%
-  group_by(x, y) %>%
-  summarise(count = n()) %>%
-  ggplot(aes(x, y, size=count)) +
-  geom_point(colour = "#663399")
-
-```
 
 ### Overlapping Continuous Data
 
@@ -490,23 +506,37 @@ overplot %>%
   geom_point()
 ```
 
+<a name="geom_density2d"></a>
 Use `geom_density2d()` to create a contour map.
 
-```{r}
+```{r density2d}
 overplot %>%
   ggplot(aes(x, y)) + 
   geom_density2d()
 ```
 
+You can use `stat_density_2d(aes(fill = ..level..), geom = "polygon")` to create 
+a heatmap-style density plot. 
+
+```{r density2d-fill}
+overplot %>%
+  ggplot(aes(x, y)) + 
+  stat_density_2d(aes(fill = ..level..), geom = "polygon") +
+  scale_fill_viridis()
+```
+
+
+<a name="geom_bin2d"></a>
 Use `geom_bin2d()` to create a rectangular heatmap of bin counts. Set the 
 `binwidth` to the x and y dimensions to capture in each box.
 
-```{r}
+```{r bin2d}
 overplot %>%
   ggplot(aes(x, y)) + 
   geom_bin2d(binwidth = c(1,1))
 ```
 
+<a name="geom_hex"></a>
 Use `geomhex()` to create a hexagonal heatmap of bin counts. Adjust the 
 `binwidth`, `xlim()`, `ylim()` and/or the figure dimensions to make the hexagons 
 more or less stretched.
@@ -518,7 +548,7 @@ overplot %>%
 ```
 
 ### Heat map
-
+<a name="geom_tile"></a>
 I've included the code for creating a correlation matrix from a table of variables, 
 but you don't need to understand how this is done yet. We'll cover `mutate` and 
 `gather` functions in the `dplyr` and `tidyr` lessons.
@@ -557,11 +587,11 @@ specifying the argument `device`, which can take the following values:
 "eps", "ps", "tex", "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf".</p>
 
 ### Interactive Plots
-
+<a name="plotly"></a>
 You can use the `plotly` package to make interactive graphs. Just assign your 
 ggplot to a variable and use the function `ggplotly()`.
 
-```{r}
+```{r plotly, message = FALSE}
 
 demog_plot <- ggplot(demog, aes(age, height, fill=sex)) +
   geom_point(position = position_jitter(width= 0.2, height = 0), size = 2)
@@ -573,114 +603,175 @@ ggplotly(demog_plot)
 <p class="alert alert-info">Hover over the data points above and click on the 
 legend items.</p>
 
-## Exercises{.tabset .tabset-pills}
+## Exercises
 
-### Distribution
+1. Generate a violin plot, boxplot, histogram, density plot, and barplot for the following data. Save each plot as a PNG file.
 
-Generate a violin plot, boxplot, histogram, density plot, and barplot for the 
-following data. Save each plot as a PNG file.
+    ```{r}
+    
+    # dog weights estimated from http://petobesityprevention.org/ideal-weight-ranges/
+    
+    dogs <- tibble(
+      breed = rep(c("beagle", "boxer", "bulldog"), each = 100),
+      weight = c(
+        rnorm(100, 24, 6),
+        rnorm(100, 62.5, 12.5),
+        rnorm(100, 45, 5)
+      )
+    )
+    
+    ```
+    
+    <div class="solution"><button>Violin Plot Solution</button>
+    ```{r exercise-violin}
+    ggplot(dogs, aes(breed, weight, fill = breed)) +
+      geom_violin(draw_quantiles = c(0.5), show.legend = FALSE)
+    ```
+    </div>
+    
+    <div class="solution"><button>Boxplot Solution</button>
+    ```{r exercise-boxplot}
+    ggplot(dogs, aes(breed, weight, fill = breed)) +
+      geom_boxplot(show.legend = FALSE)
+    ```
+    </div>
+    
+    <div class="solution"><button>Histogram Solution</button>
+    ```{r exercise-histogram}
+    ggplot(dogs, aes(weight, fill = breed)) +
+      geom_histogram(binwidth = 3, position = "dodge")
+    ```
+    </div>
+    
+    <div class="solution"><button>Density plot Solution</button>
+    ```{r exercise-density}
+    ggplot(dogs, aes(weight, fill = breed)) +
+      geom_density(alpha = 0.5) +
+      xlim(0, 110)
+    ```
+    </div>
+    
+    <div class="solution"><button>Barplot Solution</button>
+    ```{r exercise-barplot}
+    dogs %>%
+      group_by(breed) %>%
+      summarise(
+        mean = mean(weight),
+        sd = sd(weight)
+      ) %>%
+    ggplot(aes(breed, mean, fill = breed)) +
+      geom_col(alpha = 0.5) +
+      geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25)
+    ```
+    </div>
 
-```{r}
+2. Represent the relationships among moral, sexual and pathogen disgust scores from the dataset [disgust_scores.csv](data/disgust_scores.csv). 
 
-# dog weights estimated from http://petobesityprevention.org/ideal-weight-ranges/
+    Create a 3x3 grid of plots with columns representing the x-axis and rows 
+    representing the y-axis. Put a density plot of each variable along the 
+    diagonal. Make sure the graphs have appropriate titles and axis labels and 
+    that the rangeof the axes are the same in all graphs.
+    
+    |              | moral   | sexual  | pathogen |
+    |--------------|---------|---------|----------|
+    | **moral**    | density | line    | line     | 
+    | **sexual**   | line    | density | line     |
+    | **pathogen** | line    | line    | density  |
 
-dogs <- tibble(
-  breed = rep(c("beagle", "boxer", "bulldog"), each = 100),
-  weight = c(
-    rnorm(100, 24, 6),
-    rnorm(100, 62.5, 12.5),
-    rnorm(100, 45, 5)
-  )
-)
+    <div class="solution"><button>Solution</button>
+    ```{r exercise-cor, message = FALSE, warning = FALSE}
 
-```
+    disgust <- read_csv("data/disgust_scores.csv")
 
-<div class="solution"><button>Violin Plot Solution</button>
-```{r exercise-violin}
-ggplot(dogs, aes(breed, weight, fill = breed)) +
-  geom_violin(draw_quantiles = c(0.5), show.legend = FALSE)
-```
-</div>
+    moral_sexual <- ggplot(disgust, aes(moral, sexual)) +
+      geom_smooth() +
+      labs(title = "Moral vs Sexual") +
+      xlim(0, 6) + ylim(0, 6)
 
-<div class="solution"><button>Boxplot Solution</button>
-```{r exercise-boxplot}
-ggplot(dogs, aes(breed, weight, fill = breed)) +
-  geom_boxplot(show.legend = FALSE)
-```
-</div>
+    moral_pathogen <- ggplot(disgust, aes(moral, pathogen)) +
+      geom_smooth() +
+      labs(title = "Moral vs Pathogen") +
+      xlim(0, 6) + ylim(0, 6)
+    
+    pathogen_moral <- ggplot(disgust, aes(pathogen, moral)) +
+      geom_smooth() +
+      labs(title = "Pathogen vs Moral") +
+      xlim(0, 6) + ylim(0, 6)
 
-<div class="solution"><button>Histogram Solution</button>
-```{r exercise-histogram}
-ggplot(dogs, aes(weight, fill = breed)) +
-  geom_histogram(binwidth = 3, position = "dodge")
-```
-</div>
+    pathogen_sexual <- ggplot(disgust, aes(pathogen, sexual)) +
+      geom_smooth() +
+      labs(title = "Pathogen vs Sexual") +
+      xlim(0, 6) + ylim(0, 6)
+    
+    sexual_moral <- ggplot(disgust, aes(sexual, moral)) +
+      geom_smooth() +
+      labs(title = "Sexual vs Moral") +
+      xlim(0, 6) + ylim(0, 6)
+    
+    sexual_pathogen <- ggplot(disgust, aes(sexual, pathogen)) +
+      geom_smooth() +
+      labs(title = "Sexual vs Pathogen") +
+      xlim(0, 6) + ylim(0, 6)
+    
+    moral_moral <- ggplot(disgust, aes(moral)) +
+      geom_density() +
+      labs(title = "Moral Disgust") +
+      xlim(0, 6)
+    
+    sexual_sexual <- ggplot(disgust, aes(sexual)) +
+      geom_density() +
+      labs(title = "Sexual Disgust") +
+      xlim(0, 6)
+    
+    pathogen_pathogen <- ggplot(disgust, aes(pathogen)) +
+      geom_density() +
+      labs(title = "Pathogen Disgust") +
+      xlim(0, 6)
 
-<div class="solution"><button>Density plot Solution</button>
-```{r exercise-density}
-ggplot(dogs, aes(weight, fill = breed)) +
-  geom_density(alpha = 0.5) +
-  xlim(0, 110)
-```
-</div>
-
-<div class="solution"><button>Barplot Solution</button>
-```{r exercise-barplot}
-dogs %>%
-  group_by(breed) %>%
-  summarise(
-    mean = mean(weight),
-    sd = sd(weight)
-  ) %>%
-ggplot(aes(breed, mean, fill = breed)) +
-  geom_col(alpha = 0.5) +
-  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25)
-```
-</div>
-
-### Correlation
-
-Represent the relationships among moral, sexual and pathogen disgust scores from 
-the dataset [disgust_scores.csv](data/disgust_scores.csv). 
-
-Make sure the graphs have appropriate titles and axis labels and that the range 
-of the axes are the same in all graphs.
-
-<div class="solution"><button>Solution</button>
-```{r exercise-cor}
-
-disgust <- read_csv("data/disgust_scores.csv")
-
-ggplot(disgust, aes(moral, sexual)) +
-  geom_smooth() +
-  labs(title = "Moral vs Sexual Disgust") +
-  xlim(0, 6) + ylim(0, 6)
-
-ggplot(disgust, aes(moral, pathogen)) +
-  geom_smooth() +
-  labs(title = "Moral vs Pathogen Disgust") +
-  xlim(0, 6) + ylim(0, 6)
-
-ggplot(disgust, aes(pathogen, sexual)) +
-  geom_smooth() +
-  labs(title = "Pathogen vs Sexual Disgust") +
-  xlim(0, 6) + ylim(0, 6)
+    plot_grid(
+      moral_moral,    sexual_moral,    pathogen_moral, 
+      moral_sexual,   sexual_sexual,   pathogen_sexual, 
+      moral_pathogen, sexual_pathogen, pathogen_pathogen
+    )
   
-```
-</div>
+    ```
+    </div>
 
-### Many correlated variables
+3. Create a 2d density plot of the relationship between pathogen and sexual disgust. 
 
-Create a heatmap of the relationships among all the questions in 
-[disgust_cors.csv](data/disgust_cors.csv) 
-(the correlations have already been calculated for you). 
+    Use `stat_density_2d(aes(fill = ..level..), geom = "polygon", n = ?, 
+    h = c(?, ?))`, set n and h to values that make the graph look good, and 
+    figure out what `n` and `h` represent.
 
-<div class="solution"><button>Solution</button>
-```{r exercise-heatmap}
-read_csv("data/disgust_cors.csv") %>%
-  ggplot(aes(V1, V2, fill=r)) +
-  geom_tile() +
-  scale_fill_viridis() +
-  theme(axis.text.x = element_text(angle=90, hjust=1))
-```
-</div>
+    <div class="solution"><button>Solution</button>
+    
+    * `n` changes the smoothness of the contours (number of grid points in each direction)
+    * `h` changes how densely the contours are drawn (bandwidth)
+    
+    ```{r exercise-density2d}
+    ggplot(disgust, aes(pathogen, sexual)) +
+      stat_density_2d(
+        aes(fill = ..level..), 
+        geom = "polygon", 
+        n = 100, 
+        h = c(1, 1)
+      ) +
+      scale_fill_viridis()
+    ```
+    </div>
+
+4. Many correlated variables
+
+    Create a heatmap of the relationships among all the questions in 
+    [disgust_cors.csv](data/disgust_cors.csv) 
+    (the correlations have already been calculated for you). 
+
+    <div class="solution"><button>Solution</button>
+    ```{r exercise-heatmap}
+    read_csv("data/disgust_cors.csv") %>%
+      ggplot(aes(V1, V2, fill=r)) +
+      geom_tile() +
+      scale_fill_viridis() +
+      theme(axis.text.x = element_text(angle=90, hjust=1))
+    ```
+    </div>

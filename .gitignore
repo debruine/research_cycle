@@ -3,3 +3,9 @@
 .RData
 .Ruserdata
 02_ggplot_cache
+03_tidyr_cache
+04_dplyr_cache
+05_joins_cache
+06_functions_cache
+07_simulation_cache
+08_glm_cache
