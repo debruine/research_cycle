@@ -38,6 +38,7 @@ knitr::opts_chunk$set(
 
 ## Resources
 
+* [Notes from Introductory Lecture](01_intro_walkthrough.Rmd)
 * [RStudio IDE Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/rstudio-IDE-cheatsheet.pdf)
 * [RStudio Data Import Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-import-cheatsheet.pdf)
 * [Chapter 11: Data Import](http://r4ds.had.co.nz/data-import.html) in *R for Data Science*
@@ -141,7 +142,7 @@ library("cowsay")
 
 8. Restart R and re-run the script to check whether it is reproducible.
 
-9. (advanced) Create an RMarkdown file including your answers below the question headings (1-7), and compile it to HTML.
+9. (advanced) Create an RMarkdown file including each answer below each question heading (question 1-7 only), and compile it to HTML.
 
 ### Tabular data: Creating tibbles and data import
 
