@@ -426,16 +426,10 @@ save(pog2, file = &quot;pog2.RData&quot;)</code></pre>
 <p>A reproducible script will contain sections of code in code blocks. A code block is delimited using three backtick symbols in a row, like so:</p>
 <pre><code>This is just some text before the code block
 
-
-```r
+```{r blockname}
 # now we are inside the R code block
 rnorm(10)  # generate some random numbers
-```
-
-```
-##  [1] -0.302668612  0.168295859  0.005009303  0.198464023 -0.480587569
-##  [6] -2.192022714  1.000426323 -1.696502109  1.210271384 -0.335518022
-```
+```
 
 now we&#39;re back outside the code block</code></pre>
 <p>If you open up a new RMarkdown file from a template, you will see an example document with several code blocks in it.</p>

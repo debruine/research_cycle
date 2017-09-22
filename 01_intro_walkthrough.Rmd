@@ -134,10 +134,10 @@ A reproducible script will contain sections of code in code blocks.  A code bloc
 
     This is just some text before the code block
     
-    ```{r blockname}
+    ```{r blockname}
     # now we are inside the R code block
     rnorm(10)  # generate some random numbers
-    ```
+    ```
     
     now we're back outside the code block
 
