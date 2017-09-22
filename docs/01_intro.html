@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8" />
+<meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -345,21 +345,27 @@ div.tocify {
 </div>
 
 
-<div id="learning-objectives" class="section level2 tabset">
+<div id="learning-objectives" class="section level2">
 <h2>Learning Objectives</h2>
-<div id="basic" class="section level3">
-<h3>Basic</h3>
+<div id="introduction-to-rrstudio" class="section level3">
+<h3>Introduction to R/RStudio</h3>
 <ol style="list-style-type: decimal">
-<li>Access <a href="http://rstudio1.psy.gla.ac.uk">Glasgow Psychology RStudio</a> online</li>
-<li>Create a simple data table</li>
-<li>Load data from a CSV and Excel files</li>
+<li>Understand the R console and the components of the RStudio IDE</li>
+<li>Use R as a calculator</li>
+<li>Creating vectors and storing as variables</li>
+<li>Understand the basic data types (integer, double, character, factor)</li>
+<li>Understand vectorized operations</li>
+<li>Call functions and supply arguments</li>
 </ol>
 </div>
-<div id="intermediate" class="section level3">
-<h3>Intermediate</h3>
-</div>
-<div id="advanced" class="section level3">
-<h3>Advanced</h3>
+<div id="developing-an-analysis-in-rrstudio" class="section level3">
+<h3>Developing an analysis in R/RStudio</h3>
+<ol style="list-style-type: decimal">
+<li>Appropriately structure an R script</li>
+<li>Create a simple data table</li>
+<li>Load data from a CSV and Excel files</li>
+<li>Create and compile an Rmarkdown document</li>
+</ol>
 </div>
 </div>
 <div id="prep" class="section level2">
@@ -371,18 +377,93 @@ div.tocify {
 <div id="resources" class="section level2">
 <h2>Resources</h2>
 <ul>
+<li><a href="https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/rstudio-IDE-cheatsheet.pdf">RStudio IDE Cheatsheet</a></li>
+<li><a href="https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-import-cheatsheet.pdf">RStudio Data Import Cheatsheet</a></li>
 <li><a href="http://r4ds.had.co.nz/data-import.html">Chapter 11: Data Import</a> in <em>R for Data Science</em></li>
+<li><a href="https://www.nrscotland.gov.uk/files//statistics/babies-first-names-full-list/summary-records/babies-names16-all-names-years.csv">Scottish Babynames</a></li>
+<li><a href="https://www.youtube.com/watch?v=lAaVPMcMs1w">Developing an analysis in R/RStudio: Scottish babynames (1/2)</a></li>
+<li><a href="https://www.youtube.com/watch?v=lzdTHCcClqo">Developing an analysis in R/RStudio: Scottish babynames (2/2)</a></li>
 </ul>
 </div>
 <div id="examples" class="section level2">
 <h2>Examples</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># libraries needed for these examples</span>
-<span class="kw">library</span>(tidyverse)</code></pre></div>
+<span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</code></pre></div>
 </div>
 <div id="exercises" class="section level2">
 <h2>Exercises</h2>
+<div id="calling-functions-and-supplying-arguments" class="section level3">
+<h3>Calling functions and supplying arguments</h3>
+<p>We will be working with the <code>cowsay</code> add-on package (<code>help(package = &quot;cowsay&quot;)</code>)</p>
+<p>Check to see if there are any <em>vignettes</em> available for this package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vignette</span>(<span class="dt">package =</span> <span class="st">&quot;cowsay&quot;</span>)</code></pre></div>
+<p>Load in and read the vignette to get an idea of how the package works.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vignette</span>(<span class="st">&quot;cowsay_tutorial&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;cowsay&quot;</span>)</code></pre></div>
+<p>Your first task is to develop a reproducible script that accomplishes the tasks below. Compile the RMarkdown (rmd) document into HTML. Make sure the report includes the code in addition to the output.</p>
+<p>Important! Try to perform each task making the shortest function call you can by taking advantage of the function defaults and include the results in an R script.</p>
 <ol style="list-style-type: decimal">
-<li><p>Create a tibble with the name, age, and sex of 3-5 members of your family.</p>
+<li><p>Make a cat say, “FEED ME”</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">say</span>(<span class="st">&quot;FEED ME&quot;</span>)</code></pre></div>
+</div></li>
+<li><p>Make a shark say “Hello world!”</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">say</span>(<span class="st">&quot;Hello world!&quot;</span>, <span class="st">&quot;shark&quot;</span>)</code></pre></div>
+</div></li>
+<li><p>Make anything produce a famous quote</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">say</span>(<span class="st">&quot;If you want to know what God thinks of money, just look at the people he gave it to. ~Dorothy Parker&quot;</span>, 
+    <span class="st">&quot;grumpycat&quot;</span>)</code></pre></div>
+</div></li>
+<li><p>Make a clippy warn the user about the impending apocalypse</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">say</span>(<span class="st">&quot;It looks like you are trying to annihilate the planet with a particle beam. Are you sure you want to do this?&quot;</span>, <span class="st">&quot;clippy&quot;</span>)</code></pre></div>
+</div></li>
+<li><p>Make a cat produce a random quote from an R coder. You should get a different quote every time you run the code (hint: read the documentation for <code>cowsay::say()</code>).</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">say</span>(<span class="st">&quot;fortune&quot;</span>)</code></pre></div>
+</div></li>
+<li><p>Define a variable creature and assign to it the value of one of the types of creatures accepted by the say() function. Then use the variable to output the current time.</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">creature &lt;-<span class="st"> &quot;spider&quot;</span>
+
+<span class="kw">say</span>(<span class="kw">date</span>(), creature)</code></pre></div>
+</div></li>
+<li><p>Change the value of the variable creature to some other thing, and make it display the time.</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">creature &lt;-<span class="st"> &quot;buffalo&quot;</span>
+
+<span class="kw">say</span>(<span class="kw">date</span>(), creature)</code></pre></div>
+</div></li>
+<li><p>Restart R and re-run the script to check whether it is reproducible.</p></li>
+<li><p>(advanced) Create an RMarkdown file including your answers below the question headings (1-7), and compile it to HTML.</p></li>
+</ol>
+</div>
+<div id="tabular-data-creating-tibbles-and-data-import" class="section level3">
+<h3>Tabular data: Creating tibbles and data import</h3>
+<ol style="list-style-type: decimal">
+<li><p>Create a tibble with the name, age, and sex of 3-5 friends or family members.</p>
 <p>What are three ways to look at the data and table setup?</p>
 <div class="solution">
 <button>
@@ -420,21 +501,25 @@ Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/disgust_scores.csv&quot;</span>)</code></pre></div>
 </div></li>
-<li><p>What are the different values in the <code>sex</code> column?</p></li>
-</ol>
+<li><p>What are the different values in the <code>sex</code> column?</p>
 <div class="solution">
 <button>
 Solution
 </button>
-<pre><code>```r
-unique(disgust$sex)
-```
-
-```
-## [1] &quot;female&quot;   &quot;male&quot;     NA         &quot;intersex&quot;
-```
-&lt;/div&gt;</code></pre>
-<ol start="4" style="list-style-type: decimal">
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">distinct</span>(disgust, sex)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["sex"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"female"},{"1":"male"},{"1":"NA"},{"1":"intersex"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## or
+<span class="kw">count</span>(disgust, sex)</code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["sex"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"female","2":"13890"},{"1":"intersex","2":"3"},{"1":"male","2":"6016"},{"1":"NA","2":"91"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div></li>
 <li><p>Override the default column specifications to make <code>sex</code> a factor and skip the <code>id</code> column.</p>
 <div class="solution">
 <button>
@@ -458,6 +543,7 @@ disgust &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
   </script>
 </div></li>
 </ol>
+</div>
 </div>
 
 <!--
@@ -497,7 +583,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

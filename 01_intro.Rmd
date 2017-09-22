@@ -14,44 +14,138 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Learning Objectives {.tabset}
+## Learning Objectives
 
-### Basic
+### Introduction to R/RStudio
 
-1. Access [Glasgow Psychology RStudio](http://rstudio1.psy.gla.ac.uk) online
+1. Understand the R console and the components of the RStudio IDE
+2. Use R as a calculator
+3. Creating vectors and storing as variables
+4. Understand the basic data types (integer, double, character, factor)
+4. Understand vectorized operations
+5. Call functions and supply arguments
+
+### Developing an analysis in R/RStudio
+
+1. Appropriately structure an R script
 2. Create a simple data table
 3. Load data from a CSV and Excel files
-
-### Intermediate
-
-### Advanced
-
+4. Create and compile an Rmarkdown document
 
 ## Prep
 
 * Read [Chapter 1: Introduction](http://r4ds.had.co.nz/introduction.html) in *R for Data Science*
 
-
 ## Resources
 
+* [RStudio IDE Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/rstudio-IDE-cheatsheet.pdf)
+* [RStudio Data Import Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-import-cheatsheet.pdf)
 * [Chapter 11: Data Import](http://r4ds.had.co.nz/data-import.html) in *R for Data Science*
-
+* [Scottish Babynames](https://www.nrscotland.gov.uk/files//statistics/babies-first-names-full-list/summary-records/babies-names16-all-names-years.csv)
+* [Developing an analysis in R/RStudio: Scottish babynames (1/2)](https://www.youtube.com/watch?v=lAaVPMcMs1w)
+* [Developing an analysis in R/RStudio: Scottish babynames (2/2)](https://www.youtube.com/watch?v=lzdTHCcClqo)
 
 ## Examples
 
 ```{r, results = 'hide', warning = FALSE, message = FALSE}
-
 # libraries needed for these examples
-library(tidyverse)
-
+library("tidyverse")
 ```
-
-
-
 
 ## Exercises
 
-1. Create a tibble with the name, age, and sex of 3-5 members of your family. 
+### Calling functions and supplying arguments
+
+We will be working with the `cowsay` add-on package (`help(package = "cowsay")`)
+
+Check to see if there are any *vignettes* available for this package.
+
+```{r, eval = FALSE}
+vignette(package = "cowsay")
+```
+
+Load in and read the vignette to get an idea of how the package works.
+
+```{r, eval = FALSE}
+vignette("cowsay_tutorial", package = "cowsay")
+```
+
+Your first task is to develop a reproducible script that accomplishes the tasks below. Compile the RMarkdown (rmd) document into HTML. Make sure the report includes the code in addition to the output.
+
+Important! Try to perform each task making the shortest function call you can by taking advantage of the function defaults and include the results in an R script.
+
+```{r, include = FALSE}
+library("cowsay")
+```
+
+1. Make a cat say, “FEED ME”
+
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    say("FEED ME")
+    ```
+    </div>
+
+2. Make a shark say “Hello world!”
+
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    say("Hello world!", "shark")
+    ```
+    </div>
+
+3. Make anything produce a famous quote
+
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    say("If you want to know what God thinks of money, just look at the people he gave it to. ~Dorothy Parker", 
+        "grumpycat")
+    ```
+    </div>
+
+4. Make a clippy warn the user about the impending apocalypse
+
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    say("It looks like you are trying to annihilate the planet with a particle beam. Are you sure you want to do this?", "clippy")
+    ```
+    </div>
+
+5. Make a cat produce a random quote from an R coder. You should get a different quote every time you run the code (hint: read the documentation for `cowsay::say()`).
+
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    say("fortune")
+    ```
+    </div>
+
+6. Define a variable creature and assign to it the value of one of the types of creatures accepted by the say() function. Then use the variable to output the current time.
+
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    creature <- "spider"
+
+    say(date(), creature)
+    ```
+    </div>
+
+7. Change the value of the variable creature to some other thing, and make it display the time.
+
+    <div class="solution"><button>Solution</button>
+    ```{r}
+    creature <- "buffalo"
+
+    say(date(), creature)
+    ```
+    </div>
+
+8. Restart R and re-run the script to check whether it is reproducible.
+
+9. (advanced) Create an RMarkdown file including your answers below the question headings (1-7), and compile it to HTML.
+
+### Tabular data: Creating tibbles and data import
+
+1. Create a tibble with the name, age, and sex of 3-5 friends or family members. 
 
     What are three ways to look at the data and table setup?
 
@@ -84,9 +178,12 @@ library(tidyverse)
     
 3. What are the different values in the `sex` column?
 
-  <div class="solution"><button>Solution</button>
+    <div class="solution"><button>Solution</button>
     ```{r}
-    unique(disgust$sex)
+    distinct(disgust, sex)
+    
+    ## or
+    count(disgust, sex)
     ```
     </div>
     
