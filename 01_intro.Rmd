@@ -38,7 +38,7 @@ knitr::opts_chunk$set(
 
 ## Resources
 
-* [Notes from Introductory Lecture: Intro to R/RStudio](01_intro_walkthrough.Rmd)
+* [Notes from Introductory Lecture: Intro to R/RStudio](http://debruine.github.io/research_cycle/01_intro_walkthrough.html)
 * [RStudio IDE Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/rstudio-IDE-cheatsheet.pdf)
 * [RStudio Data Import Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-import-cheatsheet.pdf)
 * [Chapter 11: Data Import](http://r4ds.had.co.nz/data-import.html) in *R for Data Science*
