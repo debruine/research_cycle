@@ -669,10 +669,15 @@ iq &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">86</
 <p>Once you have typed this, you can run the function <code>fortune()</code>, which spouts random wisdom from one of the R help lists:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fortune</span>()</code></pre></div>
 <pre><code>## 
-## Nothing exceeds like Excel.
-##    -- Roger Koenker (in reply to a question why it takes so long to paste
-##       19,000 lines of R code from Excel into R)
-##       R-help (October 2008)</code></pre>
+## Liang Che: For example, if coefficient&#39;s p-value is less than 0.1 I want
+## the stepwise to automatically drop that variable. Can the stepAIC be
+## customized to do that? SAS seems to be able to customized stepwise
+## function with p-value or cooks&#39;d.
+## David Winsemius: You might take some time to ponder the possibility that
+## the fact that it&#39;s not easy in R might be useful information in its own
+## right.
+##    -- Liang Che and David Winsemius
+##       R-help (September 2012)</code></pre>
 <p>Note that we will use the convention <code>package::function()</code> and <code>package::object</code> to indicate in which add-on package a function or object resides. For instance, if you see <code>readr::read_csv()</code>, that refers to the function <code>read_csv()</code> in the <code>readr</code> add-on package. If you see a function introduced without a package name, that means it is part of the base R system and not an add-on package (depending on the context). Sometimes I will make this explicit by using <code>base</code> in the place of the package name; for instance, I might refer to <code>rnorm()</code> in base as <code>base::rnorm()</code>.</p>
 </div>
 <div id="getting-help" class="section level3">
@@ -794,20 +799,20 @@ Also note the convention of using forward slashes, unlike the Windows specific c
 <p><code>Error in rnorm() : argument &quot;n&quot; is missing, with no default</code></p>
 <p>If you want 10 random numbers from a distribution with mean of 0 and standard deviation, you can just use the defaults.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rnorm</span>(<span class="dv">10</span>)</code></pre></div>
-<pre><code>##  [1] -0.5169965  0.6445225  0.2479916 -0.3151453 -0.7034079  0.1550502
-##  [7] -1.3532244  1.5551348 -0.7765324 -1.2092828</code></pre>
+<pre><code>##  [1] -0.5160979  0.4353839 -1.0204136 -1.1118857  1.0650426  2.0299829
+##  [7] -0.2887691 -0.6418523  1.0350109  0.0466039</code></pre>
 <p>If you want 10 numbers from a distribution with a mean of 100:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">100</span>)</code></pre></div>
-<pre><code>##  [1] 100.32069  99.40217  99.32666 100.73918  99.06663 102.01424  98.23321
-##  [8] 100.35493 100.03178 100.61453</code></pre>
+<pre><code>##  [1] 100.61884  99.83363 102.16786 101.71634 100.47675  99.76293 100.39848
+##  [8] 100.82335  99.47121  99.26765</code></pre>
 <p>This would be an equivalent but less equivalent way of calling the function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">mean =</span> <span class="dv">100</span>)</code></pre></div>
-<pre><code>##  [1]  99.01926 100.64104 100.84894 101.37944 100.20439 100.46817 100.31570
-##  [8]  99.75688  99.27838 100.10009</code></pre>
+<pre><code>##  [1] 101.80264 100.63281  99.41551  97.78011  98.33817 100.70113 101.40058
+##  [8]  99.66211  99.79269 100.51704</code></pre>
 <p>We don’t need to name the arguments because R will recognize that we intended to fill in the first and second arguments by their position in the function call. However, if we want to change the default for an argument coming later in the list, then we need to name it. For instance, if we wanted to keep the default <code>mean = 0</code> but change the standard deviation to 100 we would do it this way:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dt">sd =</span> <span class="dv">100</span>)</code></pre></div>
-<pre><code>##  [1]  -30.711893  166.718900  100.822905  -65.717591 -120.648117
-##  [6]   17.512123   -6.309048  -79.508434 -206.213012  175.756281</code></pre>
+<pre><code>##  [1]  -67.029180   37.445980    4.287405   64.514624  -24.297548
+##  [6]  194.846837 -284.648781   -9.668671  150.103938  133.481123</code></pre>
 </div>
 </div>
 <div id="some-basic-data-types" class="section level3">

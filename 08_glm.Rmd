@@ -34,7 +34,10 @@ knitr::opts_chunk$set(
 * [Text](url)
 
 
-## Examples {.tabset .tabset-pills}
+## Class Notes
+
+
+## Examples
 
 ```{r}
 

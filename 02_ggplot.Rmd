@@ -82,7 +82,7 @@ knitr::opts_chunk$set(
 * [ggplot extensions](https://www.ggplot2-exts.org/)
 * [plotly](https://plot.ly/ggplot2/) for creating interactive graphs
 
-## Examples
+## Class Notes
 
 ```{r, results = 'hide', warning = FALSE, message = FALSE}
 

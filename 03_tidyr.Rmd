@@ -46,7 +46,7 @@ knitr::opts_chunk$set(
 * [Data wrangling cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
 * [Chapter 12: Tidy Data](http://r4ds.had.co.nz/tidy-data.html) in *R for Data Science*
 
-## Examples
+## Class Notes
 
 ```{r, results = 'hide', warning = FALSE, message = FALSE}
 

@@ -51,7 +51,7 @@ knitr::opts_chunk$set(
 * [Chapter 16: Date and times](http://r4ds.had.co.nz/dates-and-times.html) in *R for Data Science*
 * [Data transformation cheat sheet](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf)
 
-## Examples
+## Class Notes
 
 ```{r, results = 'hide', warning = FALSE, message = FALSE}
 # libraries needed for these examples

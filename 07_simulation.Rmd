@@ -57,7 +57,7 @@ knitr::opts_chunk$set(
 * [Improving your statistical inferences](https://www.coursera.org/learn/statistical-inferences/) on Coursera (week 1)
 
 
-## Distributions
+## Class Notes
 
 Simulating data is a very powerful way to test your understanding of statistical 
 concepts. We are going to use simulations to learn the basics of probability.
@@ -68,7 +68,7 @@ library(tidyverse)
 library(MASS)
 ```
 
-### Uniform
+### Uniform Distribution
 
 The uniform distribution is the simplest distribution. All numbers in the range 
 have an equal probability of being sampled. 
@@ -117,7 +117,7 @@ pet_prob <- c(0.3, 0.4, 0.1, 0.1, 0.1)
 sample(pet_types, 10, replace = TRUE, prob = pet_prob)
 ```
 
-### Binomial
+### Binomial Distribution
 
 The binomial distribution is useful for modeling binary data, where each 
 observation can have one of two outcomes, like success/failure, yes/no or 
@@ -276,7 +276,7 @@ lot of them and it's a pain to keep track of whether you've typed 5 or 6 zeros
 (100000 vs 1000000) and this will change your running time by an order of 
 magnitude.</p>
 
-### Normal
+### Normal Distribution
 
 #### Sample distribution
 

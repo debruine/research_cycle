@@ -53,7 +53,7 @@ knitr::opts_chunk$set(
 * [Cheatsheet for dplyr join functions](http://stat545.com/bit001_dplyr-cheatsheet.html#full_joinsuperheroes-publishers)
 
 
-## Simple Example
+## Class Notes
 
 ```{r}
 # libraries needed for these examples
@@ -263,7 +263,7 @@ setdiff(new_subjects, subject)
 
 
 
-## Realistic Example
+## Example
 
 ### Load and process data
 
