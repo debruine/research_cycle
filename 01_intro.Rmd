@@ -205,3 +205,4 @@ library("cowsay")
     disgust <- read_csv("data/disgust_scores.csv", col_types = my_cols)
     head(disgust)
     ```
+  </div>

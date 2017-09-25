@@ -58,8 +58,14 @@ By the end of this course students will be able to:
 
 ## Resources
 
-<a href="http://rstudio1.psy.gla.ac.uk" target="_blank">Glasgow Psychology RStudio</a>  
-[R for Data Science](http://r4ds.had.co.nz) by Grolemund and Wickham
+<div style="width: 300px; max-width: 100%; float: right;">
+  <img src="images/changing-stuff.jpg" style="width:100%;" />
+</div>
+
+- <a href="http://rstudio1.psy.gla.ac.uk" target="_blank">Glasgow Psychology RStudio</a> 
+- [rguppies Slack forum](http://rguppies.slack.com) for class help and discussion  
+    (make sure to join `#the_research_cycle`)
+- [R for Data Science](http://r4ds.had.co.nz) by Grolemund and Wickham
 
 ### Online tutorials
 
@@ -70,13 +76,9 @@ By the end of this course students will be able to:
 - [Improving your statistical inferences](https://www.coursera.org/learn/statistical-inferences/) on Coursera
 
 ### Cheat sheets
-
+  
 - You can access several cheatsheets in RStudio under the `Help` menu
 - Or get the most recent [RStudio Cheat Sheets](https://www.rstudio.com/resources/cheatsheets/) 
-    <div style="width: 500px; max-width: 100%; text-align: right;">
-      <img src="images/lisa-desktop.jpg" alt="Lisa's Desktop" style="width:100%;" />
-      <i>All coders use cheat sheets and online resources constantly</i>
-    </div>
 
 ### Other
 
