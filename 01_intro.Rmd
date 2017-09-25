@@ -38,7 +38,6 @@ knitr::opts_chunk$set(
 
 ## Resources
 
-* [Notes from Introductory Lecture: Intro to R/RStudio](http://debruine.github.io/research_cycle/01_intro_walkthrough.html)
 * [RStudio IDE Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/rstudio-IDE-cheatsheet.pdf)
 * [RStudio Data Import Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-import-cheatsheet.pdf)
 * [Chapter 11: Data Import](http://r4ds.had.co.nz/data-import.html) in *R for Data Science*
@@ -46,12 +45,692 @@ knitr::opts_chunk$set(
 * [Developing an analysis in R/RStudio: Scottish babynames (1/2)](https://www.youtube.com/watch?v=lAaVPMcMs1w)
 * [Developing an analysis in R/RStudio: Scottish babynames (2/2)](https://www.youtube.com/watch?v=lzdTHCcClqo)
 
-## Examples
+## Class Notes
 
-```{r, results = 'hide', warning = FALSE, message = FALSE}
-# libraries needed for these examples
-library("tidyverse")
+### What is `R`?
+
+*A programming environment for data processing and statistical analysis*
+
+![](images/01_walkthrough/new_R_logo.png)
+
+-   free and open-source
+-   community supported
+-   continually evolving
+-   promotes *reproducible research*
+
+### Interacting with `R`
+
+#### The Base R Console
+
+R is was developed almost two decades ago, and has a longer history as a derivative language of the scripting language S-PLUS developed in Bell Labs in the 70s and 80s.  &ldquo;Base R&rdquo; consists of a &ldquo;Read Evaluate Print Loop&rdquo; (REPL) command interpreter, in which you type in text commands, which are evaluated, and the results of which are printed to the screen.  This &ldquo;R Console&rdquo; window looks something like this.
+
+![](images/01_walkthrough/repl.png)
+
+#### The RStudio Integrated Development Environment (IDE)
+
+However, when you are developing a script, you will want to work in a text editor and send commands to the console, rather than typing directly into the console.  Developing an analysis script is R is essentially an exercise in programming, and for developing code it is best to use an Integrated Development Environment or IDE.  An IDE provides additional functionality that wraps around the basic console.  
+
+![](images/01_walkthrough/rstudio.png)
+
+The IDE that is highly recommended for this class is by RStudio (<http://www.rstudio.com>) and is depicted above.  This IDE provides multiple windows in additional to the console that greatly facilitate developing code.  In addition to the console (appearing as the bottom left window in the above figure), there is a script editor (top left), which provides syntax highlighting, autocompletion, and pop-up tool tips, a window showing functions and objects residing in memory for the session in the &ldquo;Environment&rdquo; tab (top right window in the figure), and a window that shows plots, files in the working directory, available add-on packages, and documentation (bottom right).
+
+You will install both base R and RStudio, but will interact with R through the RStudio IDE.  You will have icons for both RStudio and for a very primitive IDE called &ldquo;R commander&rdquo; which comes packaged with R.  R commander is not as sophisticated or user-friendly as RStudio, so make sure you launch the RStudio IDE and not R commander by clicking on the correct icon.  Launch RStudio will also launch the R console, so that is all you need to click.
+
+<p class="alert alert-warning">ALWAYS REMEMBER: Launch R though the RStudio IDE</p>
+
+![](images/01_walkthrough/launch.png)
+
+If you are an experienced programmer, you might want to consider using Emacs + ESS + Org Mode as an IDE instead of RStudio.  (In fact, the document you are currently reading was written in emacs using org-mode markdown and exported to HTML).  See [this link](http://orgmode.org/worg/org-contrib/babel/how-to-use-Org-Babel-for-R.html) if you want to go this advanced route.
+
+### Installing `R`
+
+It is recommended that you at least attempt to install R and RStudio on your own workstation.  In the long run, it will be better to have it on your own system, and moreover, it won't cost you anything.  However, you don't have to be that ambitious.  There are workstations in the Boyd Orr labs that have R/RStudio installed; additionally, library workstations may also have copies installed. The upside of using these workstations is that everything has been installed and tested.  The downside (apart from the obvious of not being able to take them home with you) is that you will have limited ability to configure it to your needs because you lack access privileges.  There may be some packages that won't install, and those that do install successfully will be wiped away after you logout.  These annoyances can be avoided by having your own version.
+
+Installing R and RStudio is very easy. The sections below explain how, but in case you find it confusing, [there is a helpful YouTube video here](https://www.youtube.com/watch?v=lVKMsaWju8w).
+
+#### Installing Base R
+
+Install base R from one of the mirrors near you.They are listed at
+<http://cran.r-project.org/mirrors.html>. If a particular mirror is
+down, try another one.  Once you have chosen a mirror, choose the
+download link for your operating system (Linux, Mac OS X, or Windows)
+and install &lsquo;base&rsquo; binaries for distribution. If you are using Linux
+or Mac OS, you are done; skip to the next section on RStudio. If you
+are installing the Windows version, after you install R, you should
+also install RTools. Follow the link below (on the same page on the
+mirror where you downloaded base R) to RTools, and then click on a
+&lsquo;frozen&rsquo; version nearest to the top of the list (`Rtools33.exe` at the
+time of writing, but there might be a later frozen version by the time
+you are reading this).
+
+#### Installing RStudio
+
+This is very easy: just go to <https://www.rstudio.com/products/rstudio/download3/> and download the RStudio Desktop (Free License) version for your operating system.
+
+#### Additional tweaks you might want to try
+
+Although installing R and RStudio is itself very easy, there is an additional optional tweak that may not be so easy but you might want to try it.  This is installing the LaTeX typesetting system so that you can produce PDF reports from RStudio.  Without this additional tweak, you will be able to produce reports in HTML but not PDF.  To generate PDF reports, you will additionally need: 
+
+1.  [pandoc](http://pandoc.org/installing.html), and
+2.  LaTeX, a typesetting language, available through
+    -   WINDOWS: <http://miktex.org/>
+    -   Mac OS: [MacTex](https://tug.org/mactex/downloading.html) (2.6GB download) or [BasicTeX](http://ww.tug.org/mactex/morepackages.html) (100MB download, but should work fine)
+
+Again, these additional tweaks are optional, and if you have problems installing these, don't get hung up on it; you can just generate HTML reports, and if you want a PDF, just use one of the Boyd Orr computers.
+
+### Developing Reproducible Scripts
+
+Here is what an R script looks like.  Don't worry about the details for now.
+
+```{r, eval = FALSE}
+# load add-on packages
+library(tidyverse)
+
+# define custom functions
+cumulativeToTarget <- function(x) {
+    sessID <- x$SessionID[1]
+    # etc... do some other stuff
+    return(res)
+}
+
+## SCRIPT BEGINS HERE
+load(file = "pog.RData")
+
+pog2 <- pog %>% filter(ms >= -200 & ms <= 1000) %>%
+  filter(FrameID <= 600) %>% 
+  select(-ms) %>%
+  do(cumulativeToTarget(.)) %>% 
+  ungroup %>%
+  mutate(ms = (FrameID-1) * 2 - 200, ID = factor(ID))
+
+save(pog2, file = "pog2.RData")
 ```
+
+All scripts will have the following structure:
+
+-   load in any add-on packages you need to use
+-   define any custom functions
+-   load in the data you will be working with
+-   work with the data
+-   save anything you need to save
+
+Its best if you follow the above convention when developing your own scripts.
+
+#### Configure RStudio for Maximum Reproducibility
+
+In this class, you will be learning how to develop *reproducible scripts*.  This means scripts that completely and transparently perform some analysis from start to finish in a way that yields the same result for different people using the same software on different computers.  And transparency is a key value of science, as embodied in the &ldquo;trust but verify&rdquo; motto.  When you do things reproducibly, others can understand and check your work.  This benefits science, but there is a selfish reason, too: the most important person who will benefit from a reproducible script is your future self.  When you return to an analysis after two weeks of vacation, you will thank your earlier self for doing things in a transparent, reproducible way, as you can easily pick up right where you left off.
+
+<p class="alert alert-info">There are two tweaks that you should do to your RStudio installation to maximize reproducibility.  Go to the setting menu, and uncheck the box that says &ldquo;Restore .RData into workspace at startup&rdquo;.  If you keep things around in your workspace, things will get messy, and unexpected things will happen.  You should always start with a clear workspace.  This also means that you never want to save your workspace when you exit, so set this to &ldquo;Never&rdquo;.  The only thing you want to save are your scripts.</p>
+
+![](images/01_walkthrough/repro.png)
+
+#### Reproducible reports with RStudio and RMarkdown
+
+We will be working toward producing reproducible reports following the principles of &ldquo;literate programming&rdquo;.  The basic idea is to have the text of the report together in a single document along with the R code needed to perform all analyses and generate the tables.  The report is then &rsquo;compiled&rsquo; from the original format into some other, more portable format, such as HTML or PDF.  This is different from traditional cutting and pasting approaches where, for instance, you create a graph in Microsoft Excel or a statistics program like SPSS and then paste it into Microsoft Word.
+
+We will be using RMarkdown to create reproducible reports, which enables interleaving text with R code blocks.
+
+You can read more about Donald Knuth's idea about literate programming at this [Wikipedia page](https://en.wikipedia.org/wiki/Literate_programming), and about the RMarkdown format [here](http://rmarkdown.rstudio.com/lesson-1.html).
+
+![](images/01_walkthrough/reproducibleScript.png)
+
+A reproducible script will contain sections of code in code blocks.  A code block is delimited using three backtick symbols in a row, like so:
+
+    This is just some text before the code block
+    
+    ```{r blockname}
+    # now we are inside the R code block
+    rnorm(10)  # generate some random numbers
+    ```
+    
+    now we're back outside the code block
+
+If you open up a new RMarkdown file from a template, you will see an example document with several code blocks in it.
+
+To create an HTML or PDF report from an rmarkdown (rmd) document, you compile it.  Compiling a document is called &rsquo;knitting&rsquo; in RStudio.  There is a button that looks like a ball of yarn with needles through it that you click on to compile your file into a report.  Try it with the template file and see what happens!
+
+### Typing in commands
+
+We are first going to learn about how to interact with the console.  In generally, you will be developing R scripts or R markdown files, rather than working directly in the console window.  However, you can consider the console a kind of &rsquo;sandbox&rsquo; where you can try out lines of code and adapt them until you get them to do what you want.  Then you can copy them back into the script editor.
+
+Mostly, however, you will be typing into the script editor window (either into an R script or an RMarkdown file) and then sending the commands to the console by placing the cursor on the line and holding down the Ctrl key while you press Enter.  The Ctrl+Enter key sequence sends the command in the script to the console.
+
+#### Warming up: Use R as a calculator
+
+One simple way to learn about the R console is to use it as a calculator.  Enter the lines of code below and see if your results match.  Be prepared to make lots of typos (at first) :/
+
+```{r}
+## REPL: Read/Evaluate/Print Loop
+## R prints results back at you
+1 + 1
+```
+
+The R console remembers a history of the commands you typed in the past.  Use the up and down arrow keys on your keyboard to scroll backwards and forwards through your history.  It's a lot faster than re-typing.
+
+```{r}
+1 + 1 + 3
+```
+
+You can break up math expressions over multiple lines; R waits for a complete expression before processing it.
+
+```{r}
+## here comes a long expression
+## let's break it over multiple lines
+1 + 2 + 3 + 4 + 5 + 6 +
+    7 + 8 + 9 +
+    10
+```
+
+```{r}
+"Good afternoon"
+```
+
+You can break up text over multiple lines; R waits for a close quote before processing it.
+
+```{r}
+"There is nothing in the world 
+that makes people so unhappy as fear.  
+The misfortune that befalls us is 
+seldom, or never, as bad as that 
+which we fear.
+
+- Friedrich Schiller"
+```
+
+You can add comments to an R script by with the &rsquo;#&rsquo; symbol.  The R interpreter will ignore characters from the # symbol to the end of the line.
+
+```{r}
+## comments: any text from '#' on is ignored until end of line
+22 / 7  # approximation to pi
+```
+
+#### Storing results in a variable
+
+Often you want to store the result of some computation for later use.  You can store it in a *variable*.  There are some important things to consider when naming your variables.
+
+-   capitalization matters (`myVar` is different from `myvar`)
+-   don't use spaces or special characters `(^&"'*+?)` etc.; use the &rsquo;\_&rsquo;
+    where you would use a space (e.g., `my_var` is a legal variable
+    name)
+-   must begin with a letter (`m2` is a valid name, but `2m` is not)
+
+Use the assignment operator `<-` to assign the value on the right to the variable named on the left.
+
+```{r}
+## use the assignment operator '<-'
+## R stores the number in the variable
+x <- 5
+```
+
+Now that we have set `x` to a value, we can do something with it:
+
+```{r}
+x * 2
+
+## R evaluates the expression and stores the result in the variable
+boring_calculation <- 2 + 2
+```
+
+Note that it doesn't print the result back at you when it's stored.  To view the result, just type the variable name on a blank line.
+
+```{r}
+boring_calculation
+```
+
+#### Whitespace
+
+```{r}
+# R waits until next line for evaluation
+(3 + 2) *
+     5
+```
+
+```{r}
+# often useful to spread function arguments over multiple lines
+library(cowsay)
+say("This function call is far too wide to fit all on one line",
+    "stretchycat")
+```
+
+![](images/01_walkthrough/stretchycat.png)
+
+When you see `>` at the beginning of a line, that means R is waiting for you to start a new command.  However, if you see a `+` instead of `>` at the start of the line, that means R is waiting for you to finish a command you started on a previous line.  If you want to cancel whatever command you started, just press the Esc key in the console window and you&rsquo;ll get back to the `>` command prompt.
+
+#### The workspace
+
+Anytime you assign something to a new variable, R creates a new object in your workspace.  Objects in your workspace exist until you end your session; then they disappear forever (unless you save them).
+
+```{r}
+ls()  # print the objects in the workspace
+
+rm("x")   # remove the object named x from the workspace
+
+rm(list = ls()) # clear out the workspace
+```
+
+#### Vectors and vectorized calculations
+
+One of the most fundamental data types in R is the vector.  A vector in R is like a vector in math: a set of ordered elements.  All of the elements in a vector must be of the same *data type* (numeric, character, factor).  You can create a vector by enclosing the elements in `c(...)`, as shown below.
+
+```{r}
+## put information into a vector using c(...)
+c(1, 2, 3)
+
+c("this", "is", "cool")
+
+## what happens when you mix types?
+c(2, "good", 2, "b", "true")
+```
+
+-   Calculating \(z\)-scores
+
+    R performs calculations on vectors in a special way.  Let's look at an example using \(z\)-scores.  \(z\)-scores is *deviation score* (a score minus a mean) divided by a standard deviation.  You will learn more about these concepts later in the course.  Let's say we have a set of four IQ scores.
+
+    ```{r}    
+    ## example IQ scores: mu = 100, sigma = 15
+    iq <- c(86, 101, 127, 99)
+    ```
+
+    If we want to subtract the mean from these four scores, we just use the following code:
+
+    ```{r}    
+    iq - 100
+    ```
+    
+    This subtracts 100 from each element of the vector.  R automatically assumes that this is what you wanted to do; it is called a *vectorized operation* and it makes it possible to express operations more efficiently.
+    
+    To calculate \(z\)-scores we use the formula:
+    
+    \(z = \frac{X - \mu}{\sigma}\)
+    
+    where X are the scores, \(\mu\) is the mean, and \(\sigma\) is the standard deviation.  We can expression this formula in R as follows:
+
+    ```{r}    
+    ## z-scores
+    (iq - 100) / 15
+    ```
+    
+    You can see that it computed all four \(z\)-scores with a single line of code.  Very efficient!
+
+#### Calling functions
+
+R has a lot of build in functions that are useful, like `round()` for rounding numbers, and `sort()` for sorting them.  Here are some examples of how to use these functions.
+
+```{r}
+iq_z <- (iq - 100) / 15
+
+sort(iq_z)
+
+round(iq_z, 2)
+```
+
+If we wanted to sort the scores before rounding them, we can embed the `sort(iq_z)` function into the first argument of `round()`.
+
+```{r}
+round(sort(iq_z), 2)
+```
+
+### Add-on packages
+
+One of the great things about R is that it is *user extensible*: anyone can create a new add-on software package that extends its functionality.  There are currently thousands of add-on packages that R users have created to solve many different kinds of problems, or just simply to have fun.  There are packages for data visualisation, machine learning, neuroimaging, eyetracking, web scraping, and playing games such as Sudoku.
+
+Add-on packages are not distributed with base R, but have to be downloaded and installed from an archive, in the same way that you would, for instance, download and install a fitness app on your smartphone.
+
+The main repository where packages reside is called CRAN, the Comprehensive R Archive Network.  A package has to pass strict tests devised by the R core team to be allowed to be part of the CRAN archive.  You can install from the CRAN archive through R using the `install.packages()` function.
+
+There is an important distinction between *installing* a package and
+*loading* a package.
+
+-   *Installing* a package is done using `install.packages()`.  This is
+    like installing an app on your smartphone: you only have to do it
+    once and the app will remain installed until you remove it.  For
+    instance, if you want to use Facebook on your phone you install it
+    once from the App Store or Play Store, and you don't have to
+    re-install it each time you want to use it.  Once you launch the
+    app, it will run in the background until you close it or restart
+    your phone.  Likewise, when you install a package, the package will
+    be available (but not *loaded*) every time you open up R.
+
+-   *Loading* a package: This is done using `library(packagename)`.
+    This is like **launching** an app on your phone: the functionality is
+    only there where the app is launched and remains there until you
+    close the app or restart.  Likewise, when you run
+    `library(packagename)` within a session, the functionality of the
+    package referred to by `packagename` will be made available for your
+    R session.  The next time you start R, you will need to run the
+    `library()` function again if you want to access its functionality.
+
+You may only be able to permanently install packages if you are using R on your own system; you may not be able to do this on public workstations because you will lack the appropriate privileges.
+
+Try installing the library fortunes on your system:
+
+```{r, eval = FALSE}
+install.packages("fortunes")
+```
+
+If you don't get an error message, the installation was successful. 
+
+You can then access the functionality of `fortune` for your current R session as follows:
+
+```{r}
+library(fortunes)
+```
+
+Once you have typed this, you can run the function `fortune()`, which spouts random wisdom from one of the R help lists:
+
+```{r}
+fortune()
+```
+
+Note that we will use the convention `package::function()` and `package::object` to indicate in which add-on package a function or object resides.  For instance, if you see `readr::read_csv()`, that refers to the function `read_csv()` in the `readr` add-on package.  If you see a function introduced without a package name, that means it is part of the base R system and not an add-on package (depending on the context).  Sometimes I will make this explicit by using `base` in the place of the package name; for instance, I might refer to `rnorm()` in base as `base::rnorm()`.
+
+### Getting help
+
+```{r, eval = FALSE}
+# these methods are all equivalent ways of getting help
+help("say") # if package 'cowsay' is loaded
+?say
+help("say", package="cowsay") # if cowsay not loaded
+
+??say # search for help files with "say"
+
+# start up help in a browser
+help.start()
+```
+
+### Working directory, session environment, and reading/writing data files
+
+When developing an analysis, you usually want to have all of your scripts and data files in one subtree of your computer's directory structure.  Usually there is a single *working directory* where your data and scripts are stored.  
+-   All references to data files in your scripts will be relative to the
+    top level of this directory tree; always use *relative*
+    paths, and never use *absolute* paths.
+
+-   Never set or change your working directory in a script; always store
+    your main script file in the top-level directory and manually set
+    your working directory to that location.
+
+For instance, if on a Windows machine your data and scripts live in the directory `C:\Carla's_files\thesis22\my_thesis\new_analysis`, you will set your working directory to `new_analysis` in one of two ways: (1) by going to the `Session` pull down menu in RStudio and choosing `Set Working Directory`, or (2) by typing `setwd("C:\Carla's_files\thesis22\my_thesis\new_analysis")` in the console window.  
+
+<p class="alert alert-warning">Never put the `setwd()` command in your script, because others will not have the same directory tree as you (and when your laptop dies and you get a new one, neither will you).</p>
+
+If your script needs a file in a subdirectory of `new_analysis`, say, `analysis2/dat.rds`, load it in using a relative path:
+
+```{r, eval = FALSE}
+dat <- readRDS("analysis2/dat.rds")  # right way
+```
+
+Do not load it in using an absolute path:
+
+```{r, eval = FALSE}
+dat <- readRDS("C:/Carla's_files/thesis22/my_thesis/new_analysis/analysis2/dat.rds")   # wrong
+```
+
+<p class="alert alert-info">Also note the convention of using forward slashes, unlike the Windows specific convention of using backward slashes.  This is to make references to files platform independent.</p>
+
+There are many different types of files that you might work with when doing data analysis.  These different file types are usually distinguished by the three letter *extension* following a period at the end of the file name.  Here are some examples of different types of files and the functions you would use to read them in or write them out.
+
+| Extension   | File Type              | Reading                 | Writing |
+|-------------|------------------------|-------------------------|---------|
+| .csv        | Comma-separated values | `readr::read_csv()`    | `readr::write_csv()` |
+| .xls, .xlsx | Excel workbook         | `readxl::read_excel()` | N/A |
+| .rds        | R binary file          | `readRDS()`             | `saveRDS()` |
+| .RData      | R binary file          | `load()`                | `save()` |
+
+Note: following the conventions introduced above in the section about add-on packages, `readr::read_csv()` refers to the `read_csv()` function in the `readr` package, and `readxl::read_excel()` refers to the function `read_excel()` in the package `readxl`.
+
+Probably the most common file type you will encounter is `.csv` (comma-separated values).  As the name suggests, a CSV file distinguishes which values go with which variable by separating them with commas, and text values are sometimes enclosed in double quotes.  The first line of a file usually provides the names of the variables.  For example, here are the first few lines of a CSV containing Scottish baby names (see [the page at National Records Scotland](http://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/names/babies-first-names/babies-first-names-summary-records-comma-separated-value-csv-format)):
+
+    yr,sex,FirstForename,number,rank,position
+    1974,B,David,1794,1,1
+    1974,B,John,1528,2,2
+    1974,B,Paul,1260,3,3
+    1974,B,Mark,1234,4,4
+    1974,B,James,1202,5,5
+    1974,B,Andrew,1067,6,6
+    1974,B,Scott,1060,7,7
+    1974,B,Steven,1020,8,8
+    1974,B,Robert,885,9,9
+    1974,B,Stephen,866,10,10
+
+There are six variables in this dataset, and their names are given in the first line of the file: `yr`, `sex`, `FirstForename`, `number`, `rank`, and `position`.  You can see that the values for each of these variables are given in order, separated by commas, on each subsequent line of the file.
+
+When you read in CSV files, it is best practice to use the `readr::read_csv()` function. The `readr` package is automatically loaaded as part of the `tidyverse` package, which we will be using in almost every script. Note that you would normally want to store the result of the `read_csv()` function to a variable, as so:
+
+```{r load-tidyverse}
+library(tidyverse)
+```
+
+```{r, eval = FALSE}
+dat <- read_csv("my_data_file.csv")
+```
+
+Once loaded, you can view your data using the data viewer.  In the upper right hand window of RStudio, under the Environment tab, you will see the object `dat` listed.
+
+![](images/01_walkthrough/my_data.png)
+
+If you click on the View icon (![](images/01_walkthrough/table_icon.png)), it will bring up a table view of the data you loaded in the top left pane of RStudio.
+
+![](images/01_walkthrough/View.png)
+
+This allows you to check that the data have been loaded in properly.  You can close the tab when you&rsquo;re done looking at it&#x2014;it won't remove the object.
+
+If you have data that you want to save your data to a CSV file, use `readr::write_csv()`, as follows.
+
+```{r, eval = FALSE}
+write_csv(dat, "my_data_file2.csv")
+```
+
+This will save the data in CSV format to your working directory.
+
+### Calling functions
+
+#### Function syntax
+
+Functions have the following generic syntax:
+
+`functionname(arg1, arg2, arg3, ...)`
+
+Each function has *named arguments* which may or may not have default
+values.  Arguments without default values are *mandatory*; arguments
+with these values are *optional*.  If an optional argument is not
+specified, it will take on the default value.  You can *override* default values by supplying your own.
+
+Arguments can be specified by:
+
+-   position (unnamed)
+-   name
+
+Most functions return a value, but may also produce &rsquo;side effects&rsquo;
+like printing to the console.
+
+To illustrate, the function `rnorm()` generates random numbers from the standard normal distribution.  The help page for `rnorm()` (accessed by typing `?rnorm` in the console) shows that it has the syntax 
+
+`rnorm(n, mean = 0, sd = 1)`
+
+where `n` is the number of randomly generated numbers you want, `mean` is the mean of the distribution, and `sd` is the standard deviation.  The default mean is 0, and the default standard deviation is 1.  There is no default for `n` which means you&rsquo;ll get an error if you don't specify it:
+
+```{r, eval = FALSE}
+rnorm()
+```
+
+`Error in rnorm() : argument "n" is missing, with no default`
+
+If you want 10 random numbers from a distribution with mean of 0 and standard deviation, you can just use the defaults.
+
+```{r}
+rnorm(10)
+```
+
+If you want 10 numbers from a distribution with a mean of 100:
+
+```{r}
+rnorm(10, 100)
+```
+
+This would be an equivalent but less equivalent way of calling the function:
+
+```{r}
+rnorm(n = 10, mean = 100)
+```
+
+We don't need to name the arguments because R will recognize that we intended to fill in the first and second arguments by their position in the function call.  However, if we want to change the default for an argument coming later in the list, then we need to name it.  For instance, if we wanted to keep the default `mean = 0` but change the standard deviation to 100 we would do it this way:
+
+```{r}
+rnorm(10, sd = 100)
+```
+
+### Some basic data types
+
+Below are a list of different data types in R.
+
+| type | description | example |
+|------|-------------|---------|
+| double | floating point value | `.333337` |
+| integer | integer | `-1, 0, 1` |
+| numeric | any real number (int,dbl) | `1, .5, -.222` |
+| boolean | >assertion of truth/falsity | `TRUE, FALSE` |
+| character | text string | `"hello world", 'howdy'` |
+
+Wonder what type a particular variable is? Use `class()` to find out
+
+### Container types
+
+Here are some examples of different container types in R.  Container types are structures that hold values.  You will learn more about these as we go along.
+
+#### Vector
+
+-   Defining
+
+```{r, eval = FALSE}
+x <- 1 # is a vector w/one element
+
+v1 <- 7:12 # nums from 7 to 12
+v2 <- c(first=1, second=2, third=3)
+v3 <- c(a="one", b="two", c="three")
+mode(v3)
+length(v1)
+names(v2)
+```
+
+-   Accessing
+
+```{r, eval = FALSE}
+v1[4]
+v2["second"]
+
+v1[c(1:3,5)]
+v2[c("second","third")]
+v3[c(TRUE, FALSE, TRUE)]
+```
+
+#### List
+
+-   Defining
+
+```{r, eval = FALSE}   
+albums <- 
+  list(
+    Michael.Jackson = c(
+      "Off the Wall",
+      "Thriller",
+      "Bad",
+      "Dangerous"
+    ),
+    Nirvana = c(
+      "Bleach",
+      "Nevermind",
+      "In Utero"
+    )
+  )  
+names(albums)
+length(albums)
+```
+
+-   Accessing
+
+```{r, eval = FALSE}   
+albums[[1]]
+albums[["Nirvana"]]
+albums[c(2, 1)]
+albums[c(TRUE, FALSE)]
+```
+
+-   Operations
+
+```{r, eval = FALSE}   
+# lapply is like a 'for' loop
+lapply(albums, length) # apply function "length" to each element
+lapply(albums, sample)
+```
+
+#### Matrix
+
+-   Definition
+
+```{r, eval = FALSE}      
+mx <- matrix(1:6, nrow=2)
+mx2 <- matrix(albums[[1]], ncol=2)
+```
+
+-   Accessing
+
+```{r, eval = FALSE}      
+mx[1,3] # element 1,3
+mx[2,] # second row
+mx[,3] # third column
+```
+
+-   Operations
+
+```{r, eval = FALSE}     
+mx + 1 # vectorized
+mx^2 
+t(mx) # transpose rows and columns
+c(mx) # convert back to a vector
+apply(mx, 1, sum)
+apply(mx, 2, sum)
+```  
+
+    -   elements must all be of same type (numeric or character)
+
+#### Data.frame
+
+-   Define
+
+```{r, eval = FALSE}    
+x <- data.frame(
+  ID = 1:3,
+	Month = c("Jan","Feb","Mar")
+)
+# note: Month defined as a factor
+# internal representation as list
+is.list(x)
+is.data.frame(x)
+nrow(x)               
+colnames(x) # or just names(x)
+# rows can also have names
+# (not recommended)
+x$Abbr <- c("J","F","M") # new column
+```
+
+-   Access
+
+```{r, eval = FALSE}   
+x[1,]
+x[,2]
+x[,c("ID","Month")]
+x$Month
+x[1,2]
+subset(x, ID==2)
+x[x$Month=="Mar",]
+```
+
+-   Operations
+    
+    You'll learn about data frame operations in the [tidyr](03_tidyr.html) and 
+    [dplyr](04_dplyr.html) lessons.
+
+
 
 ## Exercises
 

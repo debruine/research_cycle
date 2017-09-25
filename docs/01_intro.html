@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -376,8 +376,7 @@ div.tocify {
 </div>
 <div id="resources" class="section level2">
 <h2>Resources</h2>
-<ul> 
-<li><a href="http://debruine.github.io/research_cycle/01_intro_walkthrough.html">Notes from Introductory Lecture: Intro to R/RStudio</a></li>
+<ul>
 <li><a href="https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/rstudio-IDE-cheatsheet.pdf">RStudio IDE Cheatsheet</a></li>
 <li><a href="https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-import-cheatsheet.pdf">RStudio Data Import Cheatsheet</a></li>
 <li><a href="http://r4ds.had.co.nz/data-import.html">Chapter 11: Data Import</a> in <em>R for Data Science</em></li>
@@ -386,10 +385,591 @@ div.tocify {
 <li><a href="https://www.youtube.com/watch?v=lzdTHCcClqo">Developing an analysis in R/RStudio: Scottish babynames (2/2)</a></li>
 </ul>
 </div>
-<div id="examples" class="section level2">
-<h2>Examples</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># libraries needed for these examples</span>
-<span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</code></pre></div>
+<div id="class-notes" class="section level2">
+<h2>Class Notes</h2>
+<div id="what-is-r" class="section level3">
+<h3>What is <code>R</code>?</h3>
+<p><em>A programming environment for data processing and statistical analysis</em></p>
+<div class="figure">
+<img src="images/01_walkthrough/new_R_logo.png" />
+
+</div>
+<ul>
+<li>free and open-source</li>
+<li>community supported</li>
+<li>continually evolving</li>
+<li>promotes <em>reproducible research</em></li>
+</ul>
+</div>
+<div id="interacting-with-r" class="section level3">
+<h3>Interacting with <code>R</code></h3>
+<div id="the-base-r-console" class="section level4">
+<h4>The Base R Console</h4>
+<p>R is was developed almost two decades ago, and has a longer history as a derivative language of the scripting language S-PLUS developed in Bell Labs in the 70s and 80s. “Base R” consists of a “Read Evaluate Print Loop” (REPL) command interpreter, in which you type in text commands, which are evaluated, and the results of which are printed to the screen. This “R Console” window looks something like this.</p>
+<div class="figure">
+<img src="images/01_walkthrough/repl.png" />
+
+</div>
+</div>
+<div id="the-rstudio-integrated-development-environment-ide" class="section level4">
+<h4>The RStudio Integrated Development Environment (IDE)</h4>
+<p>However, when you are developing a script, you will want to work in a text editor and send commands to the console, rather than typing directly into the console. Developing an analysis script is R is essentially an exercise in programming, and for developing code it is best to use an Integrated Development Environment or IDE. An IDE provides additional functionality that wraps around the basic console.</p>
+<div class="figure">
+<img src="images/01_walkthrough/rstudio.png" />
+
+</div>
+<p>The IDE that is highly recommended for this class is by RStudio (<a href="http://www.rstudio.com" class="uri">http://www.rstudio.com</a>) and is depicted above. This IDE provides multiple windows in additional to the console that greatly facilitate developing code. In addition to the console (appearing as the bottom left window in the above figure), there is a script editor (top left), which provides syntax highlighting, autocompletion, and pop-up tool tips, a window showing functions and objects residing in memory for the session in the “Environment” tab (top right window in the figure), and a window that shows plots, files in the working directory, available add-on packages, and documentation (bottom right).</p>
+<p>You will install both base R and RStudio, but will interact with R through the RStudio IDE. You will have icons for both RStudio and for a very primitive IDE called “R commander” which comes packaged with R. R commander is not as sophisticated or user-friendly as RStudio, so make sure you launch the RStudio IDE and not R commander by clicking on the correct icon. Launch RStudio will also launch the R console, so that is all you need to click.</p>
+<p class="alert alert-warning">
+ALWAYS REMEMBER: Launch R though the RStudio IDE
+</p>
+<div class="figure">
+<img src="images/01_walkthrough/launch.png" />
+
+</div>
+<p>If you are an experienced programmer, you might want to consider using Emacs + ESS + Org Mode as an IDE instead of RStudio. (In fact, the document you are currently reading was written in emacs using org-mode markdown and exported to HTML). See <a href="http://orgmode.org/worg/org-contrib/babel/how-to-use-Org-Babel-for-R.html">this link</a> if you want to go this advanced route.</p>
+</div>
+</div>
+<div id="installing-r" class="section level3">
+<h3>Installing <code>R</code></h3>
+<p>It is recommended that you at least attempt to install R and RStudio on your own workstation. In the long run, it will be better to have it on your own system, and moreover, it won’t cost you anything. However, you don’t have to be that ambitious. There are workstations in the Boyd Orr labs that have R/RStudio installed; additionally, library workstations may also have copies installed. The upside of using these workstations is that everything has been installed and tested. The downside (apart from the obvious of not being able to take them home with you) is that you will have limited ability to configure it to your needs because you lack access privileges. There may be some packages that won’t install, and those that do install successfully will be wiped away after you logout. These annoyances can be avoided by having your own version.</p>
+<p>Installing R and RStudio is very easy. The sections below explain how, but in case you find it confusing, <a href="https://www.youtube.com/watch?v=lVKMsaWju8w">there is a helpful YouTube video here</a>.</p>
+<div id="installing-base-r" class="section level4">
+<h4>Installing Base R</h4>
+<p>Install base R from one of the mirrors near you.They are listed at <a href="http://cran.r-project.org/mirrors.html" class="uri">http://cran.r-project.org/mirrors.html</a>. If a particular mirror is down, try another one. Once you have chosen a mirror, choose the download link for your operating system (Linux, Mac OS X, or Windows) and install ‘base’ binaries for distribution. If you are using Linux or Mac OS, you are done; skip to the next section on RStudio. If you are installing the Windows version, after you install R, you should also install RTools. Follow the link below (on the same page on the mirror where you downloaded base R) to RTools, and then click on a ‘frozen’ version nearest to the top of the list (<code>Rtools33.exe</code> at the time of writing, but there might be a later frozen version by the time you are reading this).</p>
+</div>
+<div id="installing-rstudio" class="section level4">
+<h4>Installing RStudio</h4>
+<p>This is very easy: just go to <a href="https://www.rstudio.com/products/rstudio/download3/" class="uri">https://www.rstudio.com/products/rstudio/download3/</a> and download the RStudio Desktop (Free License) version for your operating system.</p>
+</div>
+<div id="additional-tweaks-you-might-want-to-try" class="section level4">
+<h4>Additional tweaks you might want to try</h4>
+<p>Although installing R and RStudio is itself very easy, there is an additional optional tweak that may not be so easy but you might want to try it. This is installing the LaTeX typesetting system so that you can produce PDF reports from RStudio. Without this additional tweak, you will be able to produce reports in HTML but not PDF. To generate PDF reports, you will additionally need:</p>
+<ol style="list-style-type: decimal">
+<li><a href="http://pandoc.org/installing.html">pandoc</a>, and</li>
+<li>LaTeX, a typesetting language, available through
+<ul>
+<li>WINDOWS: <a href="http://miktex.org/" class="uri">http://miktex.org/</a></li>
+<li>Mac OS: <a href="https://tug.org/mactex/downloading.html">MacTex</a> (2.6GB download) or <a href="http://ww.tug.org/mactex/morepackages.html">BasicTeX</a> (100MB download, but should work fine)</li>
+</ul></li>
+</ol>
+<p>Again, these additional tweaks are optional, and if you have problems installing these, don’t get hung up on it; you can just generate HTML reports, and if you want a PDF, just use one of the Boyd Orr computers.</p>
+</div>
+</div>
+<div id="developing-reproducible-scripts" class="section level3">
+<h3>Developing Reproducible Scripts</h3>
+<p>Here is what an R script looks like. Don’t worry about the details for now.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load add-on packages</span>
+<span class="kw">library</span>(tidyverse)
+
+<span class="co"># define custom functions</span>
+cumulativeToTarget &lt;-<span class="st"> </span>function(x) {
+    sessID &lt;-<span class="st"> </span>x$SessionID[<span class="dv">1</span>]
+    <span class="co"># etc... do some other stuff</span>
+    <span class="kw">return</span>(res)
+}
+
+## SCRIPT BEGINS HERE
+<span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;pog.RData&quot;</span>)
+
+pog2 &lt;-<span class="st"> </span>pog %&gt;%<span class="st"> </span><span class="kw">filter</span>(ms &gt;=<span class="st"> </span>-<span class="dv">200</span> &amp;<span class="st"> </span>ms &lt;=<span class="st"> </span><span class="dv">1000</span>) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(FrameID &lt;=<span class="st"> </span><span class="dv">600</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(-ms) %&gt;%
+<span class="st">  </span><span class="kw">do</span>(<span class="kw">cumulativeToTarget</span>(.)) %&gt;%<span class="st"> </span>
+<span class="st">  </span>ungroup %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ms =</span> (FrameID<span class="dv">-1</span>) *<span class="st"> </span><span class="dv">2</span> -<span class="st"> </span><span class="dv">200</span>, <span class="dt">ID =</span> <span class="kw">factor</span>(ID))
+
+<span class="kw">save</span>(pog2, <span class="dt">file =</span> <span class="st">&quot;pog2.RData&quot;</span>)</code></pre></div>
+<p>All scripts will have the following structure:</p>
+<ul>
+<li>load in any add-on packages you need to use</li>
+<li>define any custom functions</li>
+<li>load in the data you will be working with</li>
+<li>work with the data</li>
+<li>save anything you need to save</li>
+</ul>
+<p>Its best if you follow the above convention when developing your own scripts.</p>
+<div id="configure-rstudio-for-maximum-reproducibility" class="section level4">
+<h4>Configure RStudio for Maximum Reproducibility</h4>
+<p>In this class, you will be learning how to develop <em>reproducible scripts</em>. This means scripts that completely and transparently perform some analysis from start to finish in a way that yields the same result for different people using the same software on different computers. And transparency is a key value of science, as embodied in the “trust but verify” motto. When you do things reproducibly, others can understand and check your work. This benefits science, but there is a selfish reason, too: the most important person who will benefit from a reproducible script is your future self. When you return to an analysis after two weeks of vacation, you will thank your earlier self for doing things in a transparent, reproducible way, as you can easily pick up right where you left off.</p>
+<p class="alert alert-info">
+There are two tweaks that you should do to your RStudio installation to maximize reproducibility. Go to the setting menu, and uncheck the box that says “Restore .RData into workspace at startup”. If you keep things around in your workspace, things will get messy, and unexpected things will happen. You should always start with a clear workspace. This also means that you never want to save your workspace when you exit, so set this to “Never”. The only thing you want to save are your scripts.
+</p>
+<div class="figure">
+<img src="images/01_walkthrough/repro.png" />
+
+</div>
+</div>
+<div id="reproducible-reports-with-rstudio-and-rmarkdown" class="section level4">
+<h4>Reproducible reports with RStudio and RMarkdown</h4>
+<p>We will be working toward producing reproducible reports following the principles of “literate programming”. The basic idea is to have the text of the report together in a single document along with the R code needed to perform all analyses and generate the tables. The report is then ’compiled’ from the original format into some other, more portable format, such as HTML or PDF. This is different from traditional cutting and pasting approaches where, for instance, you create a graph in Microsoft Excel or a statistics program like SPSS and then paste it into Microsoft Word.</p>
+<p>We will be using RMarkdown to create reproducible reports, which enables interleaving text with R code blocks.</p>
+<p>You can read more about Donald Knuth’s idea about literate programming at this <a href="https://en.wikipedia.org/wiki/Literate_programming">Wikipedia page</a>, and about the RMarkdown format <a href="http://rmarkdown.rstudio.com/lesson-1.html">here</a>.</p>
+<div class="figure">
+<img src="images/01_walkthrough/reproducibleScript.png" />
+
+</div>
+<p>A reproducible script will contain sections of code in code blocks. A code block is delimited using three backtick symbols in a row, like so:</p>
+<pre><code>This is just some text before the code block
+
+```{r blockname}
+# now we are inside the R code block
+rnorm(10)  # generate some random numbers
+```
+
+now we&#39;re back outside the code block</code></pre>
+<p>If you open up a new RMarkdown file from a template, you will see an example document with several code blocks in it.</p>
+<p>To create an HTML or PDF report from an rmarkdown (rmd) document, you compile it. Compiling a document is called ’knitting’ in RStudio. There is a button that looks like a ball of yarn with needles through it that you click on to compile your file into a report. Try it with the template file and see what happens!</p>
+</div>
+</div>
+<div id="typing-in-commands" class="section level3">
+<h3>Typing in commands</h3>
+<p>We are first going to learn about how to interact with the console. In generally, you will be developing R scripts or R markdown files, rather than working directly in the console window. However, you can consider the console a kind of ’sandbox’ where you can try out lines of code and adapt them until you get them to do what you want. Then you can copy them back into the script editor.</p>
+<p>Mostly, however, you will be typing into the script editor window (either into an R script or an RMarkdown file) and then sending the commands to the console by placing the cursor on the line and holding down the Ctrl key while you press Enter. The Ctrl+Enter key sequence sends the command in the script to the console.</p>
+<div id="warming-up-use-r-as-a-calculator" class="section level4">
+<h4>Warming up: Use R as a calculator</h4>
+<p>One simple way to learn about the R console is to use it as a calculator. Enter the lines of code below and see if your results match. Be prepared to make lots of typos (at first) :/</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## REPL: Read/Evaluate/Print Loop
+## R prints results back at you
+<span class="dv">1</span> +<span class="st"> </span><span class="dv">1</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>The R console remembers a history of the commands you typed in the past. Use the up and down arrow keys on your keyboard to scroll backwards and forwards through your history. It’s a lot faster than re-typing.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> +<span class="st"> </span><span class="dv">1</span> +<span class="st"> </span><span class="dv">3</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<p>You can break up math expressions over multiple lines; R waits for a complete expression before processing it.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## here comes a long expression
+## let&#39;s break it over multiple lines
+<span class="dv">1</span> +<span class="st"> </span><span class="dv">2</span> +<span class="st"> </span><span class="dv">3</span> +<span class="st"> </span><span class="dv">4</span> +<span class="st"> </span><span class="dv">5</span> +<span class="st"> </span><span class="dv">6</span> +
+<span class="st">    </span><span class="dv">7</span> +<span class="st"> </span><span class="dv">8</span> +<span class="st"> </span><span class="dv">9</span> +
+<span class="st">    </span><span class="dv">10</span></code></pre></div>
+<pre><code>## [1] 55</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">&quot;Good afternoon&quot;</span></code></pre></div>
+<pre><code>## [1] &quot;Good afternoon&quot;</code></pre>
+<p>You can break up text over multiple lines; R waits for a close quote before processing it.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">&quot;There is nothing in the world </span>
+<span class="st">that makes people so unhappy as fear.  </span>
+<span class="st">The misfortune that befalls us is </span>
+<span class="st">seldom, or never, as bad as that </span>
+<span class="st">which we fear.</span>
+
+<span class="st">- Friedrich Schiller&quot;</span></code></pre></div>
+<pre><code>## [1] &quot;There is nothing in the world \nthat makes people so unhappy as fear.  \nThe misfortune that befalls us is \nseldom, or never, as bad as that \nwhich we fear.\n\n- Friedrich Schiller&quot;</code></pre>
+<p>You can add comments to an R script by with the ’#’ symbol. The R interpreter will ignore characters from the # symbol to the end of the line.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## comments: any text from &#39;#&#39; on is ignored until end of line
+<span class="dv">22</span> /<span class="st"> </span><span class="dv">7</span>  <span class="co"># approximation to pi</span></code></pre></div>
+<pre><code>## [1] 3.142857</code></pre>
+</div>
+<div id="storing-results-in-a-variable" class="section level4">
+<h4>Storing results in a variable</h4>
+<p>Often you want to store the result of some computation for later use. You can store it in a <em>variable</em>. There are some important things to consider when naming your variables.</p>
+<ul>
+<li>capitalization matters (<code>myVar</code> is different from <code>myvar</code>)</li>
+<li>don’t use spaces or special characters <code>(^&amp;&quot;'*+?)</code> etc.; use the ’_’ where you would use a space (e.g., <code>my_var</code> is a legal variable name)</li>
+<li>must begin with a letter (<code>m2</code> is a valid name, but <code>2m</code> is not)</li>
+</ul>
+<p>Use the assignment operator <code>&lt;-</code> to assign the value on the right to the variable named on the left.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## use the assignment operator &#39;&lt;-&#39;
+## R stores the number in the variable
+x &lt;-<span class="st"> </span><span class="dv">5</span></code></pre></div>
+<p>Now that we have set <code>x</code> to a value, we can do something with it:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x *<span class="st"> </span><span class="dv">2</span></code></pre></div>
+<pre><code>## [1] 10</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## R evaluates the expression and stores the result in the variable
+boring_calculation &lt;-<span class="st"> </span><span class="dv">2</span> +<span class="st"> </span><span class="dv">2</span></code></pre></div>
+<p>Note that it doesn’t print the result back at you when it’s stored. To view the result, just type the variable name on a blank line.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">boring_calculation</code></pre></div>
+<pre><code>## [1] 4</code></pre>
+</div>
+<div id="whitespace" class="section level4">
+<h4>Whitespace</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># R waits until next line for evaluation</span>
+(<span class="dv">3</span> +<span class="st"> </span><span class="dv">2</span>) *
+<span class="st">     </span><span class="dv">5</span></code></pre></div>
+<pre><code>## [1] 25</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># often useful to spread function arguments over multiple lines</span>
+<span class="kw">library</span>(cowsay)
+<span class="kw">say</span>(<span class="st">&quot;This function call is far too wide to fit all on one line&quot;</span>,
+    <span class="st">&quot;stretchycat&quot;</span>)</code></pre></div>
+<div class="figure">
+<img src="images/01_walkthrough/stretchycat.png" />
+
+</div>
+<p>When you see <code>&gt;</code> at the beginning of a line, that means R is waiting for you to start a new command. However, if you see a <code>+</code> instead of <code>&gt;</code> at the start of the line, that means R is waiting for you to finish a command you started on a previous line. If you want to cancel whatever command you started, just press the Esc key in the console window and you’ll get back to the <code>&gt;</code> command prompt.</p>
+</div>
+<div id="the-workspace" class="section level4">
+<h4>The workspace</h4>
+<p>Anytime you assign something to a new variable, R creates a new object in your workspace. Objects in your workspace exist until you end your session; then they disappear forever (unless you save them).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ls</span>()  <span class="co"># print the objects in the workspace</span></code></pre></div>
+<pre><code>## [1] &quot;boring_calculation&quot; &quot;creature&quot;           &quot;disgust&quot;           
+## [4] &quot;family&quot;             &quot;iq&quot;                 &quot;iq_z&quot;              
+## [7] &quot;my_cols&quot;            &quot;x&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(<span class="st">&quot;x&quot;</span>)   <span class="co"># remove the object named x from the workspace</span>
+
+<span class="kw">rm</span>(<span class="dt">list =</span> <span class="kw">ls</span>()) <span class="co"># clear out the workspace</span></code></pre></div>
+</div>
+<div id="vectors-and-vectorized-calculations" class="section level4">
+<h4>Vectors and vectorized calculations</h4>
+<p>One of the most fundamental data types in R is the vector. A vector in R is like a vector in math: a set of ordered elements. All of the elements in a vector must be of the same <em>data type</em> (numeric, character, factor). You can create a vector by enclosing the elements in <code>c(...)</code>, as shown below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## put information into a vector using c(...)
+<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</code></pre></div>
+<pre><code>## [1] 1 2 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">&quot;this&quot;</span>, <span class="st">&quot;is&quot;</span>, <span class="st">&quot;cool&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;this&quot; &quot;is&quot;   &quot;cool&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## what happens when you mix types?
+<span class="kw">c</span>(<span class="dv">2</span>, <span class="st">&quot;good&quot;</span>, <span class="dv">2</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;true&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;2&quot;    &quot;good&quot; &quot;2&quot;    &quot;b&quot;    &quot;true&quot;</code></pre>
+<ul>
+<li><p>Calculating <span class="math inline">\(z\)</span>-scores</p>
+<p>R performs calculations on vectors in a special way. Let’s look at an example using <span class="math inline">\(z\)</span>-scores. <span class="math inline">\(z\)</span>-scores is <em>deviation score</em> (a score minus a mean) divided by a standard deviation. You will learn more about these concepts later in the course. Let’s say we have a set of four IQ scores.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## example IQ scores: mu = 100, sigma = 15
+iq &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">86</span>, <span class="dv">101</span>, <span class="dv">127</span>, <span class="dv">99</span>)</code></pre></div>
+<p>If we want to subtract the mean from these four scores, we just use the following code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iq -<span class="st"> </span><span class="dv">100</span></code></pre></div>
+<pre><code>## [1] -14   1  27  -1</code></pre>
+<p>This subtracts 100 from each element of the vector. R automatically assumes that this is what you wanted to do; it is called a <em>vectorized operation</em> and it makes it possible to express operations more efficiently.</p>
+<p>To calculate <span class="math inline">\(z\)</span>-scores we use the formula:</p>
+<p><span class="math inline">\(z = \frac{X - \mu}{\sigma}\)</span></p>
+<p>where X are the scores, <span class="math inline">\(\mu\)</span> is the mean, and <span class="math inline">\(\sigma\)</span> is the standard deviation. We can expression this formula in R as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## z-scores
+(iq -<span class="st"> </span><span class="dv">100</span>) /<span class="st"> </span><span class="dv">15</span></code></pre></div>
+<pre><code>## [1] -0.93333333  0.06666667  1.80000000 -0.06666667</code></pre>
+<p>You can see that it computed all four <span class="math inline">\(z\)</span>-scores with a single line of code. Very efficient!</p></li>
+</ul>
+</div>
+<div id="calling-functions" class="section level4">
+<h4>Calling functions</h4>
+<p>R has a lot of build in functions that are useful, like <code>round()</code> for rounding numbers, and <code>sort()</code> for sorting them. Here are some examples of how to use these functions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iq_z &lt;-<span class="st"> </span>(iq -<span class="st"> </span><span class="dv">100</span>) /<span class="st"> </span><span class="dv">15</span>
+
+<span class="kw">sort</span>(iq_z)</code></pre></div>
+<pre><code>## [1] -0.93333333 -0.06666667  0.06666667  1.80000000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(iq_z, <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1] -0.93  0.07  1.80 -0.07</code></pre>
+<p>If we wanted to sort the scores before rounding them, we can embed the <code>sort(iq_z)</code> function into the first argument of <code>round()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="kw">sort</span>(iq_z), <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1] -0.93 -0.07  0.07  1.80</code></pre>
+</div>
+</div>
+<div id="add-on-packages" class="section level3">
+<h3>Add-on packages</h3>
+<p>One of the great things about R is that it is <em>user extensible</em>: anyone can create a new add-on software package that extends its functionality. There are currently thousands of add-on packages that R users have created to solve many different kinds of problems, or just simply to have fun. There are packages for data visualisation, machine learning, neuroimaging, eyetracking, web scraping, and playing games such as Sudoku.</p>
+<p>Add-on packages are not distributed with base R, but have to be downloaded and installed from an archive, in the same way that you would, for instance, download and install a fitness app on your smartphone.</p>
+<p>The main repository where packages reside is called CRAN, the Comprehensive R Archive Network. A package has to pass strict tests devised by the R core team to be allowed to be part of the CRAN archive. You can install from the CRAN archive through R using the <code>install.packages()</code> function.</p>
+<p>There is an important distinction between <em>installing</em> a package and <em>loading</em> a package.</p>
+<ul>
+<li><p><em>Installing</em> a package is done using <code>install.packages()</code>. This is like installing an app on your smartphone: you only have to do it once and the app will remain installed until you remove it. For instance, if you want to use Facebook on your phone you install it once from the App Store or Play Store, and you don’t have to re-install it each time you want to use it. Once you launch the app, it will run in the background until you close it or restart your phone. Likewise, when you install a package, the package will be available (but not <em>loaded</em>) every time you open up R.</p></li>
+<li><p><em>Loading</em> a package: This is done using <code>library(packagename)</code>. This is like <strong>launching</strong> an app on your phone: the functionality is only there where the app is launched and remains there until you close the app or restart. Likewise, when you run <code>library(packagename)</code> within a session, the functionality of the package referred to by <code>packagename</code> will be made available for your R session. The next time you start R, you will need to run the <code>library()</code> function again if you want to access its functionality.</p></li>
+</ul>
+<p>You may only be able to permanently install packages if you are using R on your own system; you may not be able to do this on public workstations because you will lack the appropriate privileges.</p>
+<p>Try installing the library fortunes on your system:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;fortunes&quot;</span>)</code></pre></div>
+<p>If you don’t get an error message, the installation was successful.</p>
+<p>You can then access the functionality of <code>fortune</code> for your current R session as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(fortunes)</code></pre></div>
+<p>Once you have typed this, you can run the function <code>fortune()</code>, which spouts random wisdom from one of the R help lists:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fortune</span>()</code></pre></div>
+<pre><code>## 
+## Nothing exceeds like Excel.
+##    -- Roger Koenker (in reply to a question why it takes so long to paste
+##       19,000 lines of R code from Excel into R)
+##       R-help (October 2008)</code></pre>
+<p>Note that we will use the convention <code>package::function()</code> and <code>package::object</code> to indicate in which add-on package a function or object resides. For instance, if you see <code>readr::read_csv()</code>, that refers to the function <code>read_csv()</code> in the <code>readr</code> add-on package. If you see a function introduced without a package name, that means it is part of the base R system and not an add-on package (depending on the context). Sometimes I will make this explicit by using <code>base</code> in the place of the package name; for instance, I might refer to <code>rnorm()</code> in base as <code>base::rnorm()</code>.</p>
+</div>
+<div id="getting-help" class="section level3">
+<h3>Getting help</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># these methods are all equivalent ways of getting help</span>
+<span class="kw">help</span>(<span class="st">&quot;say&quot;</span>) <span class="co"># if package &#39;cowsay&#39; is loaded</span>
+?say
+<span class="kw">help</span>(<span class="st">&quot;say&quot;</span>, <span class="dt">package=</span><span class="st">&quot;cowsay&quot;</span>) <span class="co"># if cowsay not loaded</span>
+
+??say <span class="co"># search for help files with &quot;say&quot;</span>
+
+<span class="co"># start up help in a browser</span>
+<span class="kw">help.start</span>()</code></pre></div>
+</div>
+<div id="working-directory-session-environment-and-readingwriting-data-files" class="section level3">
+<h3>Working directory, session environment, and reading/writing data files</h3>
+<p>When developing an analysis, you usually want to have all of your scripts and data files in one subtree of your computer’s directory structure. Usually there is a single <em>working directory</em> where your data and scripts are stored.<br />
+- All references to data files in your scripts will be relative to the top level of this directory tree; always use <em>relative</em> paths, and never use <em>absolute</em> paths.</p>
+<ul>
+<li>Never set or change your working directory in a script; always store your main script file in the top-level directory and manually set your working directory to that location.</li>
+</ul>
+<p>For instance, if on a Windows machine your data and scripts live in the directory <code>C:\Carla's_files\thesis22\my_thesis\new_analysis</code>, you will set your working directory to <code>new_analysis</code> in one of two ways: (1) by going to the <code>Session</code> pull down menu in RStudio and choosing <code>Set Working Directory</code>, or (2) by typing <code>setwd(&quot;C:\Carla's_files\thesis22\my_thesis\new_analysis&quot;)</code> in the console window.</p>
+<p class="alert alert-warning">
+Never put the <code>setwd()</code> command in your script, because others will not have the same directory tree as you (and when your laptop dies and you get a new one, neither will you).
+</p>
+<p>If your script needs a file in a subdirectory of <code>new_analysis</code>, say, <code>analysis2/dat.rds</code>, load it in using a relative path:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;analysis2/dat.rds&quot;</span>)  <span class="co"># right way</span></code></pre></div>
+<p>Do not load it in using an absolute path:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;C:/Carla&#39;s_files/thesis22/my_thesis/new_analysis/analysis2/dat.rds&quot;</span>)   <span class="co"># wrong</span></code></pre></div>
+<p class="alert alert-info">
+Also note the convention of using forward slashes, unlike the Windows specific convention of using backward slashes. This is to make references to files platform independent.
+</p>
+<p>There are many different types of files that you might work with when doing data analysis. These different file types are usually distinguished by the three letter <em>extension</em> following a period at the end of the file name. Here are some examples of different types of files and the functions you would use to read them in or write them out.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Extension</th>
+<th>File Type</th>
+<th>Reading</th>
+<th>Writing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>.csv</td>
+<td>Comma-separated values</td>
+<td><code>readr::read_csv()</code></td>
+<td><code>readr::write_csv()</code></td>
+</tr>
+<tr class="even">
+<td>.xls, .xlsx</td>
+<td>Excel workbook</td>
+<td><code>readxl::read_excel()</code></td>
+<td>N/A</td>
+</tr>
+<tr class="odd">
+<td>.rds</td>
+<td>R binary file</td>
+<td><code>readRDS()</code></td>
+<td><code>saveRDS()</code></td>
+</tr>
+<tr class="even">
+<td>.RData</td>
+<td>R binary file</td>
+<td><code>load()</code></td>
+<td><code>save()</code></td>
+</tr>
+</tbody>
+</table>
+<p>Note: following the conventions introduced above in the section about add-on packages, <code>readr::read_csv()</code> refers to the <code>read_csv()</code> function in the <code>readr</code> package, and <code>readxl::read_excel()</code> refers to the function <code>read_excel()</code> in the package <code>readxl</code>.</p>
+<p>Probably the most common file type you will encounter is <code>.csv</code> (comma-separated values). As the name suggests, a CSV file distinguishes which values go with which variable by separating them with commas, and text values are sometimes enclosed in double quotes. The first line of a file usually provides the names of the variables. For example, here are the first few lines of a CSV containing Scottish baby names (see <a href="http://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/names/babies-first-names/babies-first-names-summary-records-comma-separated-value-csv-format">the page at National Records Scotland</a>):</p>
+<pre><code>yr,sex,FirstForename,number,rank,position
+1974,B,David,1794,1,1
+1974,B,John,1528,2,2
+1974,B,Paul,1260,3,3
+1974,B,Mark,1234,4,4
+1974,B,James,1202,5,5
+1974,B,Andrew,1067,6,6
+1974,B,Scott,1060,7,7
+1974,B,Steven,1020,8,8
+1974,B,Robert,885,9,9
+1974,B,Stephen,866,10,10</code></pre>
+<p>There are six variables in this dataset, and their names are given in the first line of the file: <code>yr</code>, <code>sex</code>, <code>FirstForename</code>, <code>number</code>, <code>rank</code>, and <code>position</code>. You can see that the values for each of these variables are given in order, separated by commas, on each subsequent line of the file.</p>
+<p>When you read in CSV files, it is best practice to use the <code>readr::read_csv()</code> function. The <code>readr</code> package is automatically loaaded as part of the <code>tidyverse</code> package, which we will be using in almost every script. Note that you would normally want to store the result of the <code>read_csv()</code> function to a variable, as so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;my_data_file.csv&quot;</span>)</code></pre></div>
+<p>Once loaded, you can view your data using the data viewer. In the upper right hand window of RStudio, under the Environment tab, you will see the object <code>dat</code> listed.</p>
+<div class="figure">
+<img src="images/01_walkthrough/my_data.png" />
+
+</div>
+<p>If you click on the View icon (<img src="images/01_walkthrough/table_icon.png" />), it will bring up a table view of the data you loaded in the top left pane of RStudio.</p>
+<div class="figure">
+<img src="images/01_walkthrough/View.png" />
+
+</div>
+<p>This allows you to check that the data have been loaded in properly. You can close the tab when you’re done looking at it—it won’t remove the object.</p>
+<p>If you have data that you want to save your data to a CSV file, use <code>readr::write_csv()</code>, as follows.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_csv</span>(dat, <span class="st">&quot;my_data_file2.csv&quot;</span>)</code></pre></div>
+<p>This will save the data in CSV format to your working directory.</p>
+</div>
+<div id="calling-functions-1" class="section level3">
+<h3>Calling functions</h3>
+<div id="function-syntax" class="section level4">
+<h4>Function syntax</h4>
+<p>Functions have the following generic syntax:</p>
+<p><code>functionname(arg1, arg2, arg3, ...)</code></p>
+<p>Each function has <em>named arguments</em> which may or may not have default values. Arguments without default values are <em>mandatory</em>; arguments with these values are <em>optional</em>. If an optional argument is not specified, it will take on the default value. You can <em>override</em> default values by supplying your own.</p>
+<p>Arguments can be specified by:</p>
+<ul>
+<li>position (unnamed)</li>
+<li>name</li>
+</ul>
+<p>Most functions return a value, but may also produce ’side effects’ like printing to the console.</p>
+<p>To illustrate, the function <code>rnorm()</code> generates random numbers from the standard normal distribution. The help page for <code>rnorm()</code> (accessed by typing <code>?rnorm</code> in the console) shows that it has the syntax</p>
+<p><code>rnorm(n, mean = 0, sd = 1)</code></p>
+<p>where <code>n</code> is the number of randomly generated numbers you want, <code>mean</code> is the mean of the distribution, and <code>sd</code> is the standard deviation. The default mean is 0, and the default standard deviation is 1. There is no default for <code>n</code> which means you’ll get an error if you don’t specify it:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rnorm</span>()</code></pre></div>
+<p><code>Error in rnorm() : argument &quot;n&quot; is missing, with no default</code></p>
+<p>If you want 10 random numbers from a distribution with mean of 0 and standard deviation, you can just use the defaults.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rnorm</span>(<span class="dv">10</span>)</code></pre></div>
+<pre><code>##  [1] -0.5169965  0.6445225  0.2479916 -0.3151453 -0.7034079  0.1550502
+##  [7] -1.3532244  1.5551348 -0.7765324 -1.2092828</code></pre>
+<p>If you want 10 numbers from a distribution with a mean of 100:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">100</span>)</code></pre></div>
+<pre><code>##  [1] 100.32069  99.40217  99.32666 100.73918  99.06663 102.01424  98.23321
+##  [8] 100.35493 100.03178 100.61453</code></pre>
+<p>This would be an equivalent but less equivalent way of calling the function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">mean =</span> <span class="dv">100</span>)</code></pre></div>
+<pre><code>##  [1]  99.01926 100.64104 100.84894 101.37944 100.20439 100.46817 100.31570
+##  [8]  99.75688  99.27838 100.10009</code></pre>
+<p>We don’t need to name the arguments because R will recognize that we intended to fill in the first and second arguments by their position in the function call. However, if we want to change the default for an argument coming later in the list, then we need to name it. For instance, if we wanted to keep the default <code>mean = 0</code> but change the standard deviation to 100 we would do it this way:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dt">sd =</span> <span class="dv">100</span>)</code></pre></div>
+<pre><code>##  [1]  -30.711893  166.718900  100.822905  -65.717591 -120.648117
+##  [6]   17.512123   -6.309048  -79.508434 -206.213012  175.756281</code></pre>
+</div>
+</div>
+<div id="some-basic-data-types" class="section level3">
+<h3>Some basic data types</h3>
+<p>Below are a list of different data types in R.</p>
+<table>
+<thead>
+<tr class="header">
+<th>type</th>
+<th>description</th>
+<th>example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>double</td>
+<td>floating point value</td>
+<td><code>.333337</code></td>
+</tr>
+<tr class="even">
+<td>integer</td>
+<td>integer</td>
+<td><code>-1, 0, 1</code></td>
+</tr>
+<tr class="odd">
+<td>numeric</td>
+<td>any real number (int,dbl)</td>
+<td><code>1, .5, -.222</code></td>
+</tr>
+<tr class="even">
+<td>boolean</td>
+<td>&gt;assertion of truth/falsity</td>
+<td><code>TRUE, FALSE</code></td>
+</tr>
+<tr class="odd">
+<td>character</td>
+<td>text string</td>
+<td><code>&quot;hello world&quot;, 'howdy'</code></td>
+</tr>
+</tbody>
+</table>
+<p>Wonder what type a particular variable is? Use <code>class()</code> to find out</p>
+</div>
+<div id="container-types" class="section level3">
+<h3>Container types</h3>
+<p>Here are some examples of different container types in R. Container types are structures that hold values. You will learn more about these as we go along.</p>
+<div id="vector" class="section level4">
+<h4>Vector</h4>
+<ul>
+<li>Defining</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># is a vector w/one element</span>
+
+v1 &lt;-<span class="st"> </span><span class="dv">7</span>:<span class="dv">12</span> <span class="co"># nums from 7 to 12</span>
+v2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">first=</span><span class="dv">1</span>, <span class="dt">second=</span><span class="dv">2</span>, <span class="dt">third=</span><span class="dv">3</span>)
+v3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">a=</span><span class="st">&quot;one&quot;</span>, <span class="dt">b=</span><span class="st">&quot;two&quot;</span>, <span class="dt">c=</span><span class="st">&quot;three&quot;</span>)
+<span class="kw">mode</span>(v3)
+<span class="kw">length</span>(v1)
+<span class="kw">names</span>(v2)</code></pre></div>
+<ul>
+<li>Accessing</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v1[<span class="dv">4</span>]
+v2[<span class="st">&quot;second&quot;</span>]
+
+v1[<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">3</span>,<span class="dv">5</span>)]
+v2[<span class="kw">c</span>(<span class="st">&quot;second&quot;</span>,<span class="st">&quot;third&quot;</span>)]
+v3[<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>)]</code></pre></div>
+</div>
+<div id="list" class="section level4">
+<h4>List</h4>
+<ul>
+<li>Defining</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">albums &lt;-<span class="st"> </span>
+<span class="st">  </span><span class="kw">list</span>(
+    <span class="dt">Michael.Jackson =</span> <span class="kw">c</span>(
+      <span class="st">&quot;Off the Wall&quot;</span>,
+      <span class="st">&quot;Thriller&quot;</span>,
+      <span class="st">&quot;Bad&quot;</span>,
+      <span class="st">&quot;Dangerous&quot;</span>
+    ),
+    <span class="dt">Nirvana =</span> <span class="kw">c</span>(
+      <span class="st">&quot;Bleach&quot;</span>,
+      <span class="st">&quot;Nevermind&quot;</span>,
+      <span class="st">&quot;In Utero&quot;</span>
+    )
+  )  
+<span class="kw">names</span>(albums)
+<span class="kw">length</span>(albums)</code></pre></div>
+<ul>
+<li>Accessing</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">albums[[<span class="dv">1</span>]]
+albums[[<span class="st">&quot;Nirvana&quot;</span>]]
+albums[<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)]
+albums[<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>)]</code></pre></div>
+<ul>
+<li>Operations</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># lapply is like a &#39;for&#39; loop</span>
+<span class="kw">lapply</span>(albums, length) <span class="co"># apply function &quot;length&quot; to each element</span>
+<span class="kw">lapply</span>(albums, sample)</code></pre></div>
+</div>
+<div id="matrix" class="section level4">
+<h4>Matrix</h4>
+<ul>
+<li>Definition</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mx &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">6</span>, <span class="dt">nrow=</span><span class="dv">2</span>)
+mx2 &lt;-<span class="st"> </span><span class="kw">matrix</span>(albums[[<span class="dv">1</span>]], <span class="dt">ncol=</span><span class="dv">2</span>)</code></pre></div>
+<ul>
+<li>Accessing</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mx[<span class="dv">1</span>,<span class="dv">3</span>] <span class="co"># element 1,3</span>
+mx[<span class="dv">2</span>,] <span class="co"># second row</span>
+mx[,<span class="dv">3</span>] <span class="co"># third column</span></code></pre></div>
+<ul>
+<li>Operations</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mx +<span class="st"> </span><span class="dv">1</span> <span class="co"># vectorized</span>
+mx^<span class="dv">2</span> 
+<span class="kw">t</span>(mx) <span class="co"># transpose rows and columns</span>
+<span class="kw">c</span>(mx) <span class="co"># convert back to a vector</span>
+<span class="kw">apply</span>(mx, <span class="dv">1</span>, sum)
+<span class="kw">apply</span>(mx, <span class="dv">2</span>, sum)</code></pre></div>
+<pre><code>-   elements must all be of same type (numeric or character)</code></pre>
+</div>
+<div id="data.frame" class="section level4">
+<h4>Data.frame</h4>
+<ul>
+<li>Define</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">ID =</span> <span class="dv">1</span>:<span class="dv">3</span>,
+    <span class="dt">Month =</span> <span class="kw">c</span>(<span class="st">&quot;Jan&quot;</span>,<span class="st">&quot;Feb&quot;</span>,<span class="st">&quot;Mar&quot;</span>)
+)
+<span class="co"># note: Month defined as a factor</span>
+<span class="co"># internal representation as list</span>
+<span class="kw">is.list</span>(x)
+<span class="kw">is.data.frame</span>(x)
+<span class="kw">nrow</span>(x)               
+<span class="kw">colnames</span>(x) <span class="co"># or just names(x)</span>
+<span class="co"># rows can also have names</span>
+<span class="co"># (not recommended)</span>
+x$Abbr &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;J&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;M&quot;</span>) <span class="co"># new column</span></code></pre></div>
+<ul>
+<li>Access</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="dv">1</span>,]
+x[,<span class="dv">2</span>]
+x[,<span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>,<span class="st">&quot;Month&quot;</span>)]
+x$Month
+x[<span class="dv">1</span>,<span class="dv">2</span>]
+<span class="kw">subset</span>(x, ID==<span class="dv">2</span>)
+x[x$Month==<span class="st">&quot;Mar&quot;</span>,]</code></pre></div>
+<ul>
+<li><p>Operations</p>
+<p>You’ll learn about data frame operations in the <a href="03_tidyr.html">tidyr</a> and <a href="04_dplyr.html">dplyr</a> lessons.</p></li>
+</ul>
+</div>
+</div>
 </div>
 <div id="exercises" class="section level2">
 <h2>Exercises</h2>
@@ -542,6 +1122,7 @@ disgust &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["user_id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["date"],"name":[3],"type":["S3: POSIXct"],"align":["right"]},{"label":["moral"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["pathogen"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["sexual"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"female","3":"2008-07-10 13:33:31","4":"1.428571","5":"2.714286","6":"1.7142857"},{"1":"155324","2":"female","3":"2008-07-11 21:46:34","4":"3.000000","5":"2.571429","6":"1.8571429"},{"1":"155366","2":"male","3":"2008-07-12 07:47:54","4":"5.571429","5":"4.000000","6":"0.4285714"},{"1":"155370","2":"female","3":"2008-07-12 09:30:17","4":"5.714286","5":"4.857143","6":"4.7142857"},{"1":"155386","2":"male","3":"2008-07-12 17:08:53","4":"1.428571","5":"3.857143","6":"3.7142857"},{"1":"155409","2":"male","3":"2008-07-12 22:17:52","4":"4.142857","5":"4.142857","6":"1.5714286"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
+</div>
 </div></li>
 </ol>
 </div>
@@ -584,7 +1165,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
