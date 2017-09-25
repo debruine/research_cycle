@@ -813,8 +813,9 @@ Hover over the data points above and click on the legend items.
 </div>
 <div id="exercises" class="section level2">
 <h2>Exercises</h2>
-<ol style="list-style-type: decimal">
-<li><p>Generate a violin plot, boxplot, histogram, density plot, and barplot for the following data. Save each plot as a PNG file.</p>
+<div id="common-plots" class="section level3">
+<h3>Common Plots</h3>
+<p>Generate a violin plot, boxplot, histogram, density plot, and column plot for the following data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># dog weights estimated from http://petobesityprevention.org/ideal-weight-ranges/</span>
 
 dogs &lt;-<span class="st"> </span><span class="kw">tibble</span>(
@@ -825,6 +826,9 @@ dogs &lt;-<span class="st"> </span><span class="kw">tibble</span>(
     <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">45</span>, <span class="dv">5</span>)
   )
 )</code></pre></div>
+<p><em>Basic</em>: Create each plot.</p>
+<p><em>Intermediate</em>: Change the axis labels and colours. Save each plot as a PNG file.</p>
+<p><em>Advanced</em>: Create a grid of different plot styles. In your RMarkdown file, display just the graph, but not the <code>r</code> code for the graph.</p>
 <div class="solution">
 <button>
 Violin Plot Solution
@@ -860,7 +864,7 @@ Density plot Solution
 </div>
 <div class="solution">
 <button>
-Barplot Solution
+Column Plot Solution
 </button>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dogs %&gt;%
 <span class="st">  </span><span class="kw">group_by</span>(breed) %&gt;%
@@ -871,10 +875,50 @@ Barplot Solution
 <span class="kw">ggplot</span>(<span class="kw">aes</span>(breed, mean, <span class="dt">fill =</span> breed)) +
 <span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) +
 <span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean -<span class="st"> </span>sd, <span class="dt">ymax =</span> mean +<span class="st"> </span>sd), <span class="dt">width =</span> <span class="fl">0.25</span>)</code></pre></div>
-<p><img src="images/02/exercise-barplot-1.png" width="768" /></p>
-</div></li>
-<li><p>Represent the relationships among moral, sexual and pathogen disgust scores from the dataset <a href="data/disgust_scores.csv">disgust_scores.csv</a>.</p>
-<p>Create a 3x3 grid of plots with columns representing the x-axis and rows representing the y-axis. Put a density plot of each variable along the diagonal. Make sure the graphs have appropriate titles and axis labels and that the rangeof the axes are the same in all graphs.</p>
+<p><img src="images/02/exercise-colplot-1.png" width="768" /></p>
+</div>
+</div>
+<div id="two-continuous-variables" class="section level3">
+<h3>Two continuous variables</h3>
+<p>Represent the relationships among moral, sexual and pathogen disgust scores from the dataset <a href="data/disgust_scores.csv">disgust_scores.csv</a>.</p>
+<p><em>Basic</em>: Graph the linear relationship between moral and pathogen disgust. Make sure the axes run from the minimum to maximum possible scores on both axes. Give the graph an appropriate title and axis lables.</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/disgust_scores.csv&quot;</span>)
+
+<span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(moral, pathogen)) +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) +
+<span class="st">  </span><span class="kw">labs</span>(
+    <span class="dt">title =</span> <span class="st">&quot;Moral vs Pathogen&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;Moral Disgust Score&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Pathogen Disgust Score&quot;</span>
+  ) +
+<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>) +<span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)</code></pre></div>
+<p><img src="images/02/exercise-cor-basic-1.png" width="768" /></p>
+</div>
+<p><em>Intermediate</em>: Create a 2d density plot of the relationship between pathogen and sexual disgust.</p>
+<p>Use <code>stat_density_2d(aes(fill = ..level..), geom = &quot;polygon&quot;, n = ?,  h = c(?, ?))</code>, set n and h to values that make the graph look good, and figure out what <code>n</code> and <code>h</code> represent.</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<ul>
+<li><code>n</code> changes the smoothness of the contours (number of grid points in each direction)</li>
+<li><code>h</code> changes how densely the contours are drawn (bandwidth)</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(pathogen, sexual)) +
+<span class="st">  </span><span class="kw">stat_density_2d</span>(
+    <span class="kw">aes</span>(<span class="dt">fill =</span> ..level..), 
+    <span class="dt">geom =</span> <span class="st">&quot;polygon&quot;</span>, 
+    <span class="dt">n =</span> <span class="dv">100</span>, 
+    <span class="dt">h =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)
+  ) +
+<span class="st">  </span><span class="kw">scale_fill_viridis</span>()</code></pre></div>
+<p><img src="images/02/exercise-density2d-1.png" width="768" /></p>
+</div>
+<p><em>Advanced</em>: Create a 3x3 grid of plots with columns representing the x-axis and rows representing the y-axis. Put a density plot of each variable along the diagonal. Make sure the graphs have appropriate titles and axis labels and that the range of the axes are the same in all graphs.</p>
 <table>
 <thead>
 <tr class="header">
@@ -909,9 +953,7 @@ Barplot Solution
 <button>
 Solution
 </button>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disgust &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/disgust_scores.csv&quot;</span>)
-
-moral_sexual &lt;-<span class="st"> </span><span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(moral, sexual, color)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">moral_sexual &lt;-<span class="st"> </span><span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(moral, sexual, color)) +
 <span class="st">  </span><span class="kw">geom_smooth</span>() +
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Moral vs Sexual&quot;</span>) +
 <span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">6</span>) +<span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">6</span>)
@@ -961,30 +1003,13 @@ pathogen_pathogen &lt;-<span class="st"> </span><span class="kw">ggplot</span>(d
   moral_sexual,   sexual_sexual,   pathogen_sexual, 
   moral_pathogen, sexual_pathogen, pathogen_pathogen
 )</code></pre></div>
-<p><img src="images/02/exercise-cor-1.png" width="768" /></p>
-</div></li>
-<li><p>Create a 2d density plot of the relationship between pathogen and sexual disgust.</p>
-<p>Use <code>stat_density_2d(aes(fill = ..level..), geom = &quot;polygon&quot;, n = ?,  h = c(?, ?))</code>, set n and h to values that make the graph look good, and figure out what <code>n</code> and <code>h</code> represent.</p>
-<div class="solution">
-<button>
-Solution
-</button>
-<ul>
-<li><code>n</code> changes the smoothness of the contours (number of grid points in each direction)</li>
-<li><code>h</code> changes how densely the contours are drawn (bandwidth)</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(disgust, <span class="kw">aes</span>(pathogen, sexual)) +
-<span class="st">  </span><span class="kw">stat_density_2d</span>(
-    <span class="kw">aes</span>(<span class="dt">fill =</span> ..level..), 
-    <span class="dt">geom =</span> <span class="st">&quot;polygon&quot;</span>, 
-    <span class="dt">n =</span> <span class="dv">100</span>, 
-    <span class="dt">h =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)
-  ) +
-<span class="st">  </span><span class="kw">scale_fill_viridis</span>()</code></pre></div>
-<p><img src="images/02/exercise-density2d-1.png" width="768" /></p>
-</div></li>
-<li><p>Many correlated variables</p>
-<p>Create a heatmap of the relationships among all the questions in <a href="data/disgust_cors.csv">disgust_cors.csv</a> (the correlations have already been calculated for you).</p>
+<p><img src="images/02/exercise-cor-advanced-1.png" width="768" /></p>
+</div>
+</div>
+<div id="many-correlated-variables" class="section level3">
+<h3>Many correlated variables</h3>
+<p><em>Basic</em>: Create a heatmap of the relationships among all the questions in <a href="data/disgust_cors.csv">disgust_cors.csv</a> (the correlations have already been calculated for you).</p>
+<p><em>Intermediate</em>: Figure out how to rotate the text on the x-axis so it’s readable.</p>
 <div class="solution">
 <button>
 Solution
@@ -995,8 +1020,8 @@ Solution
 <span class="st">  </span><span class="kw">scale_fill_viridis</span>() +
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">1</span>))</code></pre></div>
 <p><img src="images/02/exercise-heatmap-1.png" width="768" /></p>
-</div></li>
-</ol>
+</div>
+</div>
 </div>
 
 <!--

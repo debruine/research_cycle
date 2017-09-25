@@ -628,173 +628,206 @@ legend items.</p>
 
 ## Exercises
 
-1. Generate a violin plot, boxplot, histogram, density plot, and barplot for the following data. Save each plot as a PNG file.
+### Common Plots
 
-    ```{r}
-    
-    # dog weights estimated from http://petobesityprevention.org/ideal-weight-ranges/
-    
-    dogs <- tibble(
-      breed = rep(c("beagle", "boxer", "bulldog"), each = 100),
-      weight = c(
-        rnorm(100, 24, 6),
-        rnorm(100, 62.5, 12.5),
-        rnorm(100, 45, 5)
-      )
-    )
-    
-    ```
-    
-    <div class="solution"><button>Violin Plot Solution</button>
-    ```{r exercise-violin}
-    ggplot(dogs, aes(breed, weight, fill = breed)) +
-      geom_violin(draw_quantiles = c(0.5), show.legend = FALSE)
-    ```
-    </div>
-    
-    <div class="solution"><button>Boxplot Solution</button>
-    ```{r exercise-boxplot}
-    ggplot(dogs, aes(breed, weight, fill = breed)) +
-      geom_boxplot(show.legend = FALSE)
-    ```
-    </div>
-    
-    <div class="solution"><button>Histogram Solution</button>
-    ```{r exercise-histogram}
-    ggplot(dogs, aes(weight, fill = breed)) +
-      geom_histogram(binwidth = 3, position = "dodge")
-    ```
-    </div>
-    
-    <div class="solution"><button>Density plot Solution</button>
-    ```{r exercise-density}
-    ggplot(dogs, aes(weight, fill = breed)) +
-      geom_density(alpha = 0.5) +
-      xlim(0, 110)
-    ```
-    </div>
-    
-    <div class="solution"><button>Barplot Solution</button>
-    ```{r exercise-barplot}
-    dogs %>%
-      group_by(breed) %>%
-      summarise(
-        mean = mean(weight),
-        sd = sd(weight)
-      ) %>%
-    ggplot(aes(breed, mean, fill = breed)) +
-      geom_col(alpha = 0.5) +
-      geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25)
-    ```
-    </div>
-    
-2. Represent the relationships among moral, sexual and pathogen disgust scores from the dataset [disgust_scores.csv](data/disgust_scores.csv). 
+Generate a violin plot, boxplot, histogram, density plot, and column plot for the following data. 
 
-    Create a 3x3 grid of plots with columns representing the x-axis and rows 
-    representing the y-axis. Put a density plot of each variable along the 
-    diagonal. Make sure the graphs have appropriate titles and axis labels and 
-    that the rangeof the axes are the same in all graphs.
-    
-    |              | moral   | sexual  | pathogen |
-    |--------------|---------|---------|----------|
-    | **moral**    | density | line    | line     | 
-    | **sexual**   | line    | density | line     |
-    | **pathogen** | line    | line    | density  |
+```{r}
 
-    <div class="solution"><button>Solution</button>
-    ```{r exercise-cor, message = FALSE, warning = FALSE}
+# dog weights estimated from http://petobesityprevention.org/ideal-weight-ranges/
 
-    disgust <- read_csv("data/disgust_scores.csv")
+dogs <- tibble(
+  breed = rep(c("beagle", "boxer", "bulldog"), each = 100),
+  weight = c(
+    rnorm(100, 24, 6),
+    rnorm(100, 62.5, 12.5),
+    rnorm(100, 45, 5)
+  )
+)
 
-    moral_sexual <- ggplot(disgust, aes(moral, sexual, color)) +
-      geom_smooth() +
-      labs(title = "Moral vs Sexual") +
-      xlim(0, 6) + ylim(0, 6)
+```
 
-    moral_pathogen <- ggplot(disgust, aes(moral, pathogen)) +
-      geom_smooth() +
-      labs(title = "Moral vs Pathogen") +
-      xlim(0, 6) + ylim(0, 6)
-    
-    pathogen_moral <- ggplot(disgust, aes(pathogen, moral)) +
-      geom_smooth() +
-      labs(title = "Pathogen vs Moral") +
-      xlim(0, 6) + ylim(0, 6)
+*Basic*: Create each plot.
 
-    pathogen_sexual <- ggplot(disgust, aes(pathogen, sexual)) +
-      geom_smooth() +
-      labs(title = "Pathogen vs Sexual") +
-      xlim(0, 6) + ylim(0, 6)
-    
-    sexual_moral <- ggplot(disgust, aes(sexual, moral)) +
-      geom_smooth() +
-      labs(title = "Sexual vs Moral") +
-      xlim(0, 6) + ylim(0, 6)
-    
-    sexual_pathogen <- ggplot(disgust, aes(sexual, pathogen)) +
-      geom_smooth() +
-      labs(title = "Sexual vs Pathogen") +
-      xlim(0, 6) + ylim(0, 6)
-    
-    moral_moral <- ggplot(disgust, aes(moral)) +
-      geom_density() +
-      labs(title = "Moral Disgust") +
-      xlim(0, 6)
-    
-    sexual_sexual <- ggplot(disgust, aes(sexual)) +
-      geom_density() +
-      labs(title = "Sexual Disgust") +
-      xlim(0, 6)
-    
-    pathogen_pathogen <- ggplot(disgust, aes(pathogen)) +
-      geom_density() +
-      labs(title = "Pathogen Disgust") +
-      xlim(0, 6)
+*Intermediate*: Change the axis labels and colours. Save each plot as a PNG file.
 
-    plot_grid(
-      moral_moral,    sexual_moral,    pathogen_moral, 
-      moral_sexual,   sexual_sexual,   pathogen_sexual, 
-      moral_pathogen, sexual_pathogen, pathogen_pathogen
-    )
+*Advanced*: Create a grid of different plot styles. In your RMarkdown file, 
+display just the graph, but not the `r` code for the graph. 
+    
+<div class="solution"><button>Violin Plot Solution</button>
+```{r exercise-violin}
+ggplot(dogs, aes(breed, weight, fill = breed)) +
+  geom_violin(draw_quantiles = c(0.5), show.legend = FALSE)
+```
+</div>
+
+<div class="solution"><button>Boxplot Solution</button>
+```{r exercise-boxplot}
+ggplot(dogs, aes(breed, weight, fill = breed)) +
+  geom_boxplot(show.legend = FALSE)
+```
+</div>
+
+<div class="solution"><button>Histogram Solution</button>
+```{r exercise-histogram}
+ggplot(dogs, aes(weight, fill = breed)) +
+  geom_histogram(binwidth = 3, position = "dodge")
+```
+</div>
+
+<div class="solution"><button>Density plot Solution</button>
+```{r exercise-density}
+ggplot(dogs, aes(weight, fill = breed)) +
+  geom_density(alpha = 0.5) +
+  xlim(0, 110)
+```
+</div>
+
+<div class="solution"><button>Column Plot Solution</button>
+```{r exercise-colplot}
+dogs %>%
+  group_by(breed) %>%
+  summarise(
+    mean = mean(weight),
+    sd = sd(weight)
+  ) %>%
+ggplot(aes(breed, mean, fill = breed)) +
+  geom_col(alpha = 0.5) +
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25)
+```
+</div>
+
+### Two continuous variables
+
+Represent the relationships among moral, sexual and pathogen disgust scores from the dataset [disgust_scores.csv](data/disgust_scores.csv). 
+
+*Basic*: Graph the linear relationship between moral and pathogen disgust. Make sure the 
+axes run from the minimum to maximum possible scores on both axes. Give the 
+graph an appropriate title and axis lables.
   
-    ```
-    </div>
+<div class="solution"><button>Solution</button>
+```{r exercise-cor-basic, message = FALSE, warning = FALSE}
 
-3. Create a 2d density plot of the relationship between pathogen and sexual disgust. 
+disgust <- read_csv("data/disgust_scores.csv")
 
-    Use `stat_density_2d(aes(fill = ..level..), geom = "polygon", n = ?, 
-    h = c(?, ?))`, set n and h to values that make the graph look good, and 
-    figure out what `n` and `h` represent.
+ggplot(disgust, aes(moral, pathogen)) +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Moral vs Pathogen",
+    x = "Moral Disgust Score",
+    y = "Pathogen Disgust Score"
+  ) +
+  xlim(0, 6) + ylim(0, 6)
 
-    <div class="solution"><button>Solution</button>
-    
-    * `n` changes the smoothness of the contours (number of grid points in each direction)
-    * `h` changes how densely the contours are drawn (bandwidth)
-    
-    ```{r exercise-density2d}
-    ggplot(disgust, aes(pathogen, sexual)) +
-      stat_density_2d(
-        aes(fill = ..level..), 
-        geom = "polygon", 
-        n = 100, 
-        h = c(1, 1)
-      ) +
-      scale_fill_viridis()
-    ```
-    </div>
+```
+</div>
+  
+*Intermediate*: Create a 2d density plot of the relationship between pathogen and sexual disgust. 
 
-4. Many correlated variables
+Use `stat_density_2d(aes(fill = ..level..), geom = "polygon", n = ?, 
+h = c(?, ?))`, set n and h to values that make the graph look good, and 
+figure out what `n` and `h` represent.
 
-    Create a heatmap of the relationships among all the questions in 
-    [disgust_cors.csv](data/disgust_cors.csv) 
-    (the correlations have already been calculated for you). 
+<div class="solution"><button>Solution</button>
 
-    <div class="solution"><button>Solution</button>
-    ```{r exercise-heatmap}
-    read_csv("data/disgust_cors.csv") %>%
-      ggplot(aes(V1, V2, fill=r)) +
-      geom_tile() +
-      scale_fill_viridis() +
-      theme(axis.text.x = element_text(angle=90, hjust=1))
-    ```
-    </div>
+* `n` changes the smoothness of the contours (number of grid points in each direction)
+* `h` changes how densely the contours are drawn (bandwidth)
+
+```{r exercise-density2d}
+ggplot(disgust, aes(pathogen, sexual)) +
+  stat_density_2d(
+    aes(fill = ..level..), 
+    geom = "polygon", 
+    n = 100, 
+    h = c(1, 1)
+  ) +
+  scale_fill_viridis()
+```
+</div>
+
+*Advanced*: Create a 3x3 grid of plots with columns representing the x-axis and 
+rows representing the y-axis. Put a density plot of each variable along the 
+diagonal. Make sure the graphs have appropriate titles and axis labels and 
+that the range of the axes are the same in all graphs.
+
+|              | moral   | sexual  | pathogen |
+|--------------|---------|---------|----------|
+| **moral**    | density | line    | line     | 
+| **sexual**   | line    | density | line     |
+| **pathogen** | line    | line    | density  |
+
+<div class="solution"><button>Solution</button>
+```{r exercise-cor-advanced, message = FALSE, warning = FALSE}
+
+moral_sexual <- ggplot(disgust, aes(moral, sexual, color)) +
+  geom_smooth() +
+  labs(title = "Moral vs Sexual") +
+  xlim(0, 6) + ylim(0, 6)
+
+moral_pathogen <- ggplot(disgust, aes(moral, pathogen)) +
+  geom_smooth() +
+  labs(title = "Moral vs Pathogen") +
+  xlim(0, 6) + ylim(0, 6)
+
+pathogen_moral <- ggplot(disgust, aes(pathogen, moral)) +
+  geom_smooth() +
+  labs(title = "Pathogen vs Moral") +
+  xlim(0, 6) + ylim(0, 6)
+
+pathogen_sexual <- ggplot(disgust, aes(pathogen, sexual)) +
+  geom_smooth() +
+  labs(title = "Pathogen vs Sexual") +
+  xlim(0, 6) + ylim(0, 6)
+
+sexual_moral <- ggplot(disgust, aes(sexual, moral)) +
+  geom_smooth() +
+  labs(title = "Sexual vs Moral") +
+  xlim(0, 6) + ylim(0, 6)
+
+sexual_pathogen <- ggplot(disgust, aes(sexual, pathogen)) +
+  geom_smooth() +
+  labs(title = "Sexual vs Pathogen") +
+  xlim(0, 6) + ylim(0, 6)
+
+moral_moral <- ggplot(disgust, aes(moral)) +
+  geom_density() +
+  labs(title = "Moral Disgust") +
+  xlim(0, 6)
+
+sexual_sexual <- ggplot(disgust, aes(sexual)) +
+  geom_density() +
+  labs(title = "Sexual Disgust") +
+  xlim(0, 6)
+
+pathogen_pathogen <- ggplot(disgust, aes(pathogen)) +
+  geom_density() +
+  labs(title = "Pathogen Disgust") +
+  xlim(0, 6)
+
+plot_grid(
+  moral_moral,    sexual_moral,    pathogen_moral, 
+  moral_sexual,   sexual_sexual,   pathogen_sexual, 
+  moral_pathogen, sexual_pathogen, pathogen_pathogen
+)
+
+```
+</div>
+
+
+### Many correlated variables
+
+*Basic*: Create a heatmap of the relationships among all the questions in 
+[disgust_cors.csv](data/disgust_cors.csv) 
+(the correlations have already been calculated for you). 
+
+*Intermediate*: Figure out how to rotate the text on the x-axis so it's readable.
+
+<div class="solution"><button>Solution</button>
+```{r exercise-heatmap}
+read_csv("data/disgust_cors.csv") %>%
+  ggplot(aes(V1, V2, fill=r)) +
+  geom_tile() +
+  scale_fill_viridis() +
+  theme(axis.text.x = element_text(angle=90, hjust=1))
+```
+</div>
