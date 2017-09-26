@@ -18,19 +18,19 @@ knitr::opts_chunk$set(
 
 ### Introduction to R/RStudio
 
-1. Understand the R console and the components of the RStudio IDE
-2. Use R as a calculator
-3. Creating vectors and storing as variables
-4. Understand the basic data types (integer, double, character, factor)
-4. Understand vectorized operations
-5. Call functions and supply arguments
+1. Understand the [R console](#rconsole) and the components of the [RStudio IDE](#rstudio_ide)
+2. Use R as a [calculator](#rcalc)
+3. [Creating vectors](#vectors) and storing as [variables](#vars)
+4. Understand the [basic data types](#data_types) (integer, double, character, factor)
+4. Understand [vectorized operations](#vectorized_ops)
+5. Call [functions](#functions) and supply arguments
 
 ### Developing an analysis in R/RStudio
 
-1. Appropriately structure an R script
-2. Create a simple data table
-3. Load data from a CSV and Excel files
-4. Create and compile an Rmarkdown document
+1. Appropriately [structure an R script](#structure)
+2. Create a simple [data table](#data_table)
+3. [Load data](#load_data) from a CSV and Excel files
+4. Create and compile an [Rmarkdown document](#rmarkdown)
 
 ## Prep
 
@@ -61,12 +61,14 @@ knitr::opts_chunk$set(
 ### Interacting with `R`
 
 #### The Base R Console
+<a name="rconsole"></a>
 
 R is was developed almost two decades ago, and has a longer history as a derivative language of the scripting language S-PLUS developed in Bell Labs in the 70s and 80s.  &ldquo;Base R&rdquo; consists of a &ldquo;Read Evaluate Print Loop&rdquo; (REPL) command interpreter, in which you type in text commands, which are evaluated, and the results of which are printed to the screen.  This &ldquo;R Console&rdquo; window looks something like this.
 
 ![](images/01_walkthrough/repl.png)
 
 #### The RStudio Integrated Development Environment (IDE)
+<a name="rstudio_ide"></a>
 
 However, when you are developing a script, you will want to work in a text editor and send commands to the console, rather than typing directly into the console.  Developing an analysis script is R is essentially an exercise in programming, and for developing code it is best to use an Integrated Development Environment or IDE.  An IDE provides additional functionality that wraps around the basic console.  
 
@@ -147,6 +149,7 @@ save(pog2, file = "pog2.RData")
 ```
 
 All scripts will have the following structure:
+<a name="structure"></a>
 
 -   load in any add-on packages you need to use
 -   define any custom functions
@@ -165,6 +168,7 @@ In this class, you will be learning how to develop *reproducible scripts*.  This
 ![](images/01_walkthrough/repro.png)
 
 #### Reproducible reports with RStudio and RMarkdown
+<a name="rmarkdown"></a>
 
 We will be working toward producing reproducible reports following the principles of &ldquo;literate programming&rdquo;.  The basic idea is to have the text of the report together in a single document along with the R code needed to perform all analyses and generate the tables.  The report is then &rsquo;compiled&rsquo; from the original format into some other, more portable format, such as HTML or PDF.  This is different from traditional cutting and pasting approaches where, for instance, you create a graph in Microsoft Excel or a statistics program like SPSS and then paste it into Microsoft Word.
 
@@ -196,6 +200,7 @@ We are first going to learn about how to interact with the console.  In generall
 Mostly, however, you will be typing into the script editor window (either into an R script or an RMarkdown file) and then sending the commands to the console by placing the cursor on the line and holding down the Ctrl key while you press Enter.  The Ctrl+Enter key sequence sends the command in the script to the console.
 
 #### Warming up: Use R as a calculator
+<a name="rcalc"></a>
 
 One simple way to learn about the R console is to use it as a calculator.  Enter the lines of code below and see if your results match.  Be prepared to make lots of typos (at first) :/
 
@@ -245,6 +250,7 @@ You can add comments to an R script by with the &rsquo;#&rsquo; symbol.  The R i
 ```
 
 #### Storing results in a variable
+<a name="vars"></a>
 
 Often you want to store the result of some computation for later use.  You can store it in a *variable*.  There are some important things to consider when naming your variables.
 
@@ -308,7 +314,8 @@ rm("x")   # remove the object named x from the workspace
 rm(list = ls()) # clear out the workspace
 ```
 
-#### Vectors and vectorized calculations
+#### Vectors
+<a name="vectors"></a>
 
 One of the most fundamental data types in R is the vector.  A vector in R is like a vector in math: a set of ordered elements.  All of the elements in a vector must be of the same *data type* (numeric, character, factor).  You can create a vector by enclosing the elements in `c(...)`, as shown below.
 
@@ -322,53 +329,36 @@ c("this", "is", "cool")
 c(2, "good", 2, "b", "true")
 ```
 
--   Calculating \(z\)-scores
+#### Vectorized Operations
+<a name="vectorized_ops"></a>
 
-    R performs calculations on vectors in a special way.  Let's look at an example using \(z\)-scores.  \(z\)-scores is *deviation score* (a score minus a mean) divided by a standard deviation.  You will learn more about these concepts later in the course.  Let's say we have a set of four IQ scores.
+R performs calculations on vectors in a special way.  Let's look at an example using \(z\)-scores.  \(z\)-scores is *deviation score* (a score minus a mean) divided by a standard deviation.  You will learn more about these concepts later in the course.  Let's say we have a set of four IQ scores.
 
-    ```{r}    
-    ## example IQ scores: mu = 100, sigma = 15
-    iq <- c(86, 101, 127, 99)
-    ```
-
-    If we want to subtract the mean from these four scores, we just use the following code:
-
-    ```{r}    
-    iq - 100
-    ```
-    
-    This subtracts 100 from each element of the vector.  R automatically assumes that this is what you wanted to do; it is called a *vectorized operation* and it makes it possible to express operations more efficiently.
-    
-    To calculate \(z\)-scores we use the formula:
-    
-    \(z = \frac{X - \mu}{\sigma}\)
-    
-    where X are the scores, \(\mu\) is the mean, and \(\sigma\) is the standard deviation.  We can expression this formula in R as follows:
-
-    ```{r}    
-    ## z-scores
-    (iq - 100) / 15
-    ```
-    
-    You can see that it computed all four \(z\)-scores with a single line of code.  Very efficient!
-
-#### Calling functions
-
-R has a lot of build in functions that are useful, like `round()` for rounding numbers, and `sort()` for sorting them.  Here are some examples of how to use these functions.
-
-```{r}
-iq_z <- (iq - 100) / 15
-
-sort(iq_z)
-
-round(iq_z, 2)
+```{r}    
+## example IQ scores: mu = 100, sigma = 15
+iq <- c(86, 101, 127, 99)
 ```
 
-If we wanted to sort the scores before rounding them, we can embed the `sort(iq_z)` function into the first argument of `round()`.
+If we want to subtract the mean from these four scores, we just use the following code:
 
-```{r}
-round(sort(iq_z), 2)
+```{r}    
+iq - 100
 ```
+
+This subtracts 100 from each element of the vector.  R automatically assumes that this is what you wanted to do; it is called a *vectorized operation* and it makes it possible to express operations more efficiently.
+
+To calculate \(z\)-scores we use the formula:
+
+\(z = \frac{X - \mu}{\sigma}\)
+
+where X are the scores, \(\mu\) is the mean, and \(\sigma\) is the standard deviation.  We can expression this formula in R as follows:
+
+```{r}    
+## z-scores
+(iq - 100) / 15
+```
+
+You can see that it computed all four \(z\)-scores with a single line of code.  Very efficient!
 
 ### Add-on packages
 
@@ -438,9 +428,12 @@ help("say", package="cowsay") # if cowsay not loaded
 help.start()
 ```
 
-### Working directory, session environment, and reading/writing data files
+### Working with files
+
+#### Working Directory
 
 When developing an analysis, you usually want to have all of your scripts and data files in one subtree of your computer's directory structure.  Usually there is a single *working directory* where your data and scripts are stored.  
+
 -   All references to data files in your scripts will be relative to the
     top level of this directory tree; always use *relative*
     paths, and never use *absolute* paths.
@@ -466,6 +459,9 @@ dat <- readRDS("C:/Carla's_files/thesis22/my_thesis/new_analysis/analysis2/dat.r
 ```
 
 <p class="alert alert-info">Also note the convention of using forward slashes, unlike the Windows specific convention of using backward slashes.  This is to make references to files platform independent.</p>
+
+#### Loading Data
+<a name="load_data"></a>
 
 There are many different types of files that you might work with when doing data analysis.  These different file types are usually distinguished by the three letter *extension* following a period at the end of the file name.  Here are some examples of different types of files and the functions you would use to read them in or write them out.
 
@@ -514,6 +510,8 @@ If you click on the View icon (![](images/01_walkthrough/table_icon.png)), it wi
 
 This allows you to check that the data have been loaded in properly.  You can close the tab when you&rsquo;re done looking at it&#x2014;it won't remove the object.
 
+#### Writing Data
+
 If you have data that you want to save your data to a CSV file, use `readr::write_csv()`, as follows.
 
 ```{r, eval = FALSE}
@@ -523,6 +521,23 @@ write_csv(dat, "my_data_file2.csv")
 This will save the data in CSV format to your working directory.
 
 ### Calling functions
+<a name="functions"></a>
+
+R has a lot of build in functions that are useful, like `round()` for rounding numbers, and `sort()` for sorting them.  Here are some examples of how to use these functions.
+
+```{r}
+iq_z <- (iq - 100) / 15
+
+sort(iq_z)
+
+round(iq_z, 2)
+```
+
+If we wanted to sort the scores before rounding them, we can embed the `sort(iq_z)` function into the first argument of `round()`.
+
+```{r}
+round(sort(iq_z), 2)
+```
 
 #### Function syntax
 
@@ -618,6 +633,7 @@ sample(1:10, 5, replace = TRUE) %>%
 R will calculate the result of `sample(1:10, 5, replace = TRUE)` and then pass this result as the first argument of `unique()`; then, the result of `unique()` will in turn be passed along as the first argument of `sort()` with the second argument set to `TRUE`. The thing to note here is that for any function call on the right hand side of a pipe, you should omit the first argument and start with the second, because the pipe automatically places the result of the call on the left in that spot.
 
 ### Some basic data types
+<a name="data_types"></a>
 
 Below are a list of different data types in R.
 
@@ -626,7 +642,7 @@ Below are a list of different data types in R.
 | double | floating point value | `.333337` |
 | integer | integer | `-1, 0, 1` |
 | numeric | any real number (int,dbl) | `1, .5, -.222` |
-| boolean | >assertion of truth/falsity | `TRUE, FALSE` |
+| boolean | assertion of truth/falsity | `TRUE, FALSE` |
 | character | text string | `"hello world", 'howdy'` |
 
 Wonder what type a particular variable is? Use `class()` to find out
@@ -732,6 +748,7 @@ apply(mx, 2, sum)
     -   elements must all be of same type (numeric or character)
 
 #### Data.frame
+<a name="data_table"></a>
 
 -   Define
 

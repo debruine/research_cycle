@@ -350,21 +350,21 @@ div.tocify {
 <div id="introduction-to-rrstudio" class="section level3">
 <h3>Introduction to R/RStudio</h3>
 <ol style="list-style-type: decimal">
-<li>Understand the R console and the components of the RStudio IDE</li>
-<li>Use R as a calculator</li>
-<li>Creating vectors and storing as variables</li>
-<li>Understand the basic data types (integer, double, character, factor)</li>
-<li>Understand vectorized operations</li>
-<li>Call functions and supply arguments</li>
+<li>Understand the <a href="#rconsole">R console</a> and the components of the <a href="#rstudio_ide">RStudio IDE</a></li>
+<li>Use R as a <a href="#rcalc">calculator</a></li>
+<li><a href="#vectors">Creating vectors</a> and storing as <a href="#vars">variables</a></li>
+<li>Understand the <a href="#data_types">basic data types</a> (integer, double, character, factor)</li>
+<li>Understand <a href="#vectorized_ops">vectorized operations</a></li>
+<li>Call <a href="#functions">functions</a> and supply arguments</li>
 </ol>
 </div>
 <div id="developing-an-analysis-in-rrstudio" class="section level3">
 <h3>Developing an analysis in R/RStudio</h3>
 <ol style="list-style-type: decimal">
-<li>Appropriately structure an R script</li>
-<li>Create a simple data table</li>
-<li>Load data from a CSV and Excel files</li>
-<li>Create and compile an Rmarkdown document</li>
+<li>Appropriately <a href="#structure">structure an R script</a></li>
+<li>Create a simple <a href="#data_table">data table</a></li>
+<li><a href="#load_data">Load data</a> from a CSV and Excel files</li>
+<li>Create and compile an <a href="#rmarkdown">Rmarkdown document</a></li>
 </ol>
 </div>
 </div>
@@ -405,6 +405,7 @@ div.tocify {
 <h3>Interacting with <code>R</code></h3>
 <div id="the-base-r-console" class="section level4">
 <h4>The Base R Console</h4>
+<p><a name="rconsole"></a></p>
 <p>R is was developed almost two decades ago, and has a longer history as a derivative language of the scripting language S-PLUS developed in Bell Labs in the 70s and 80s. “Base R” consists of a “Read Evaluate Print Loop” (REPL) command interpreter, in which you type in text commands, which are evaluated, and the results of which are printed to the screen. This “R Console” window looks something like this.</p>
 <div class="figure">
 <img src="images/01_walkthrough/repl.png" />
@@ -413,6 +414,7 @@ div.tocify {
 </div>
 <div id="the-rstudio-integrated-development-environment-ide" class="section level4">
 <h4>The RStudio Integrated Development Environment (IDE)</h4>
+<p><a name="rstudio_ide"></a></p>
 <p>However, when you are developing a script, you will want to work in a text editor and send commands to the console, rather than typing directly into the console. Developing an analysis script is R is essentially an exercise in programming, and for developing code it is best to use an Integrated Development Environment or IDE. An IDE provides additional functionality that wraps around the basic console.</p>
 <div class="figure">
 <img src="images/01_walkthrough/rstudio.png" />
@@ -480,7 +482,7 @@ pog2 &lt;-<span class="st"> </span>pog %&gt;%<span class="st"> </span><span clas
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ms =</span> (FrameID<span class="dv">-1</span>) *<span class="st"> </span><span class="dv">2</span> -<span class="st"> </span><span class="dv">200</span>, <span class="dt">ID =</span> <span class="kw">factor</span>(ID))
 
 <span class="kw">save</span>(pog2, <span class="dt">file =</span> <span class="st">&quot;pog2.RData&quot;</span>)</code></pre></div>
-<p>All scripts will have the following structure:</p>
+<p>All scripts will have the following structure: <a name="structure"></a></p>
 <ul>
 <li>load in any add-on packages you need to use</li>
 <li>define any custom functions</li>
@@ -502,6 +504,7 @@ There are two tweaks that you should do to your RStudio installation to maximize
 </div>
 <div id="reproducible-reports-with-rstudio-and-rmarkdown" class="section level4">
 <h4>Reproducible reports with RStudio and RMarkdown</h4>
+<p><a name="rmarkdown"></a></p>
 <p>We will be working toward producing reproducible reports following the principles of “literate programming”. The basic idea is to have the text of the report together in a single document along with the R code needed to perform all analyses and generate the tables. The report is then ’compiled’ from the original format into some other, more portable format, such as HTML or PDF. This is different from traditional cutting and pasting approaches where, for instance, you create a graph in Microsoft Excel or a statistics program like SPSS and then paste it into Microsoft Word.</p>
 <p>We will be using RMarkdown to create reproducible reports, which enables interleaving text with R code blocks.</p>
 <p>You can read more about Donald Knuth’s idea about literate programming at this <a href="https://en.wikipedia.org/wiki/Literate_programming">Wikipedia page</a>, and about the RMarkdown format <a href="http://rmarkdown.rstudio.com/lesson-1.html">here</a>.</p>
@@ -528,6 +531,7 @@ now we&#39;re back outside the code block</code></pre>
 <p>Mostly, however, you will be typing into the script editor window (either into an R script or an RMarkdown file) and then sending the commands to the console by placing the cursor on the line and holding down the Ctrl key while you press Enter. The Ctrl+Enter key sequence sends the command in the script to the console.</p>
 <div id="warming-up-use-r-as-a-calculator" class="section level4">
 <h4>Warming up: Use R as a calculator</h4>
+<p><a name="rcalc"></a></p>
 <p>One simple way to learn about the R console is to use it as a calculator. Enter the lines of code below and see if your results match. Be prepared to make lots of typos (at first) :/</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## REPL: Read/Evaluate/Print Loop
 ## R prints results back at you
@@ -561,6 +565,7 @@ now we&#39;re back outside the code block</code></pre>
 </div>
 <div id="storing-results-in-a-variable" class="section level4">
 <h4>Storing results in a variable</h4>
+<p><a name="vars"></a></p>
 <p>Often you want to store the result of some computation for later use. You can store it in a <em>variable</em>. There are some important things to consider when naming your variables.</p>
 <ul>
 <li>capitalization matters (<code>myVar</code> is different from <code>myvar</code>)</li>
@@ -600,13 +605,16 @@ boring_calculation &lt;-<span class="st"> </span><span class="dv">2</span> +<spa
 <h4>The workspace</h4>
 <p>Anytime you assign something to a new variable, R creates a new object in your workspace. Objects in your workspace exist until you end your session; then they disappear forever (unless you save them).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ls</span>()  <span class="co"># print the objects in the workspace</span></code></pre></div>
-<pre><code>## [1] &quot;boring_calculation&quot; &quot;x&quot;</code></pre>
+<pre><code>## [1] &quot;boring_calculation&quot; &quot;creature&quot;           &quot;disgust&quot;           
+## [4] &quot;family&quot;             &quot;iq&quot;                 &quot;iq_z&quot;              
+## [7] &quot;my_cols&quot;            &quot;x&quot;                  &quot;y&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(<span class="st">&quot;x&quot;</span>)   <span class="co"># remove the object named x from the workspace</span>
 
 <span class="kw">rm</span>(<span class="dt">list =</span> <span class="kw">ls</span>()) <span class="co"># clear out the workspace</span></code></pre></div>
 </div>
-<div id="vectors-and-vectorized-calculations" class="section level4">
-<h4>Vectors and vectorized calculations</h4>
+<div id="vectors" class="section level4">
+<h4>Vectors</h4>
+<p><a name="vectors"></a></p>
 <p>One of the most fundamental data types in R is the vector. A vector in R is like a vector in math: a set of ordered elements. All of the elements in a vector must be of the same <em>data type</em> (numeric, character, factor). You can create a vector by enclosing the elements in <code>c(...)</code>, as shown below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## put information into a vector using c(...)
 <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</code></pre></div>
@@ -616,8 +624,10 @@ boring_calculation &lt;-<span class="st"> </span><span class="dv">2</span> +<spa
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## what happens when you mix types?
 <span class="kw">c</span>(<span class="dv">2</span>, <span class="st">&quot;good&quot;</span>, <span class="dv">2</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;true&quot;</span>)</code></pre></div>
 <pre><code>## [1] &quot;2&quot;    &quot;good&quot; &quot;2&quot;    &quot;b&quot;    &quot;true&quot;</code></pre>
-<ul>
-<li><p>Calculating <span class="math inline">\(z\)</span>-scores</p>
+</div>
+<div id="vectorized-operations" class="section level4">
+<h4>Vectorized Operations</h4>
+<p><a name="vectorized_ops"></a></p>
 <p>R performs calculations on vectors in a special way. Let’s look at an example using <span class="math inline">\(z\)</span>-scores. <span class="math inline">\(z\)</span>-scores is <em>deviation score</em> (a score minus a mean) divided by a standard deviation. You will learn more about these concepts later in the course. Let’s say we have a set of four IQ scores.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## example IQ scores: mu = 100, sigma = 15
 iq &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">86</span>, <span class="dv">101</span>, <span class="dv">127</span>, <span class="dv">99</span>)</code></pre></div>
@@ -631,21 +641,7 @@ iq &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">86</
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## z-scores
 (iq -<span class="st"> </span><span class="dv">100</span>) /<span class="st"> </span><span class="dv">15</span></code></pre></div>
 <pre><code>## [1] -0.93333333  0.06666667  1.80000000 -0.06666667</code></pre>
-<p>You can see that it computed all four <span class="math inline">\(z\)</span>-scores with a single line of code. Very efficient!</p></li>
-</ul>
-</div>
-<div id="calling-functions" class="section level4">
-<h4>Calling functions</h4>
-<p>R has a lot of build in functions that are useful, like <code>round()</code> for rounding numbers, and <code>sort()</code> for sorting them. Here are some examples of how to use these functions.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iq_z &lt;-<span class="st"> </span>(iq -<span class="st"> </span><span class="dv">100</span>) /<span class="st"> </span><span class="dv">15</span>
-
-<span class="kw">sort</span>(iq_z)</code></pre></div>
-<pre><code>## [1] -0.93333333 -0.06666667  0.06666667  1.80000000</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(iq_z, <span class="dv">2</span>)</code></pre></div>
-<pre><code>## [1] -0.93  0.07  1.80 -0.07</code></pre>
-<p>If we wanted to sort the scores before rounding them, we can embed the <code>sort(iq_z)</code> function into the first argument of <code>round()</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="kw">sort</span>(iq_z), <span class="dv">2</span>)</code></pre></div>
-<pre><code>## [1] -0.93 -0.07  0.07  1.80</code></pre>
+<p>You can see that it computed all four <span class="math inline">\(z\)</span>-scores with a single line of code. Very efficient!</p>
 </div>
 </div>
 <div id="add-on-packages" class="section level3">
@@ -667,10 +663,11 @@ iq &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">86</
 <p>Once you have typed this, you can run the function <code>fortune()</code>, which spouts random wisdom from one of the R help lists:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fortune</span>()</code></pre></div>
 <pre><code>## 
-## They&#39;re just statistics. How could it hurt to look at them?
-##    -- Duncan Murdoch (in a discussion about the merits and perils of
-##       p-values)
-##       R-help (April 2016)</code></pre>
+## As to whether you can do a Lilliefors test for several groups, that
+## depends entirely on your ability to understand what the underlying
+## question would be (see Adams D 1979).
+##    -- Knut M. Wittkowski
+##       R-help (February 2004)</code></pre>
 <p>Note that we will use the convention <code>package::function()</code> and <code>package::object</code> to indicate in which add-on package a function or object resides. For instance, if you see <code>readr::read_csv()</code>, that refers to the function <code>read_csv()</code> in the <code>readr</code> add-on package. If you see a function introduced without a package name, that means it is part of the base R system and not an add-on package (depending on the context). Sometimes I will make this explicit by using <code>base</code> in the place of the package name; for instance, I might refer to <code>rnorm()</code> in base as <code>base::rnorm()</code>.</p>
 </div>
 <div id="getting-help" class="section level3">
@@ -685,12 +682,14 @@ iq &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">86</
 <span class="co"># start up help in a browser</span>
 <span class="kw">help.start</span>()</code></pre></div>
 </div>
-<div id="working-directory-session-environment-and-readingwriting-data-files" class="section level3">
-<h3>Working directory, session environment, and reading/writing data files</h3>
-<p>When developing an analysis, you usually want to have all of your scripts and data files in one subtree of your computer’s directory structure. Usually there is a single <em>working directory</em> where your data and scripts are stored.<br />
-- All references to data files in your scripts will be relative to the top level of this directory tree; always use <em>relative</em> paths, and never use <em>absolute</em> paths.</p>
+<div id="working-with-files" class="section level3">
+<h3>Working with files</h3>
+<div id="working-directory" class="section level4">
+<h4>Working Directory</h4>
+<p>When developing an analysis, you usually want to have all of your scripts and data files in one subtree of your computer’s directory structure. Usually there is a single <em>working directory</em> where your data and scripts are stored.</p>
 <ul>
-<li>Never set or change your working directory in a script; always store your main script file in the top-level directory and manually set your working directory to that location.</li>
+<li><p>All references to data files in your scripts will be relative to the top level of this directory tree; always use <em>relative</em> paths, and never use <em>absolute</em> paths.</p></li>
+<li><p>Never set or change your working directory in a script; always store your main script file in the top-level directory and manually set your working directory to that location.</p></li>
 </ul>
 <p>For instance, if on a Windows machine your data and scripts live in the directory <code>C:\Carla's_files\thesis22\my_thesis\new_analysis</code>, you will set your working directory to <code>new_analysis</code> in one of two ways: (1) by going to the <code>Session</code> pull down menu in RStudio and choosing <code>Set Working Directory</code>, or (2) by typing <code>setwd(&quot;C:\Carla's_files\thesis22\my_thesis\new_analysis&quot;)</code> in the console window.</p>
 <p class="alert alert-warning">
@@ -703,6 +702,10 @@ Never put the <code>setwd()</code> command in your script, because others will n
 <p class="alert alert-info">
 Also note the convention of using forward slashes, unlike the Windows specific convention of using backward slashes. This is to make references to files platform independent.
 </p>
+</div>
+<div id="loading-data" class="section level4">
+<h4>Loading Data</h4>
+<p><a name="load_data"></a></p>
 <p>There are many different types of files that you might work with when doing data analysis. These different file types are usually distinguished by the three letter <em>extension</em> following a period at the end of the file name. Here are some examples of different types of files and the functions you would use to read them in or write them out.</p>
 <table>
 <thead>
@@ -768,12 +771,27 @@ Also note the convention of using forward slashes, unlike the Windows specific c
 
 </div>
 <p>This allows you to check that the data have been loaded in properly. You can close the tab when you’re done looking at it—it won’t remove the object.</p>
+</div>
+<div id="writing-data" class="section level4">
+<h4>Writing Data</h4>
 <p>If you have data that you want to save your data to a CSV file, use <code>readr::write_csv()</code>, as follows.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_csv</span>(dat, <span class="st">&quot;my_data_file2.csv&quot;</span>)</code></pre></div>
 <p>This will save the data in CSV format to your working directory.</p>
 </div>
-<div id="calling-functions-1" class="section level3">
+</div>
+<div id="calling-functions" class="section level3">
 <h3>Calling functions</h3>
+<p><a name="functions"></a></p>
+<p>R has a lot of build in functions that are useful, like <code>round()</code> for rounding numbers, and <code>sort()</code> for sorting them. Here are some examples of how to use these functions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iq_z &lt;-<span class="st"> </span>(iq -<span class="st"> </span><span class="dv">100</span>) /<span class="st"> </span><span class="dv">15</span>
+
+<span class="kw">sort</span>(iq_z)</code></pre></div>
+<pre><code>## [1] -0.93333333 -0.06666667  0.06666667  1.80000000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(iq_z, <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1] -0.93  0.07  1.80 -0.07</code></pre>
+<p>If we wanted to sort the scores before rounding them, we can embed the <code>sort(iq_z)</code> function into the first argument of <code>round()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="kw">sort</span>(iq_z), <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1] -0.93 -0.07  0.07  1.80</code></pre>
 <div id="function-syntax" class="section level4">
 <h4>Function syntax</h4>
 <p>Functions have the following generic syntax:</p>
@@ -792,20 +810,20 @@ Also note the convention of using forward slashes, unlike the Windows specific c
 <p><code>Error in rnorm() : argument &quot;n&quot; is missing, with no default</code></p>
 <p>If you want 10 random numbers from a distribution with mean of 0 and standard deviation, you can just use the defaults.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rnorm</span>(<span class="dv">10</span>)</code></pre></div>
-<pre><code>##  [1]  0.4344060 -0.2912784  0.4897372  1.4992084  2.7726500  0.9671712
-##  [7]  0.4058463  0.6937705 -0.4579292  1.1231160</code></pre>
+<pre><code>##  [1] -0.5200089 -1.0310553 -0.8969003 -1.2704859 -0.4612409 -0.4688824
+##  [7]  0.1425327  0.8728873  0.8510710  0.1513029</code></pre>
 <p>If you want 10 numbers from a distribution with a mean of 100:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">100</span>)</code></pre></div>
-<pre><code>##  [1]  99.89098  99.81550 100.62017  99.85917 100.66654 100.08188 100.42473
-##  [8]  98.41717  99.48525  99.12454</code></pre>
+<pre><code>##  [1]  99.07018  99.30031 100.68376 100.50981  98.40253  99.92619 100.10727
+##  [8]  99.03462  98.17332 101.39342</code></pre>
 <p>This would be an equivalent but less equivalent way of calling the function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">mean =</span> <span class="dv">100</span>)</code></pre></div>
-<pre><code>##  [1]  98.88973 100.50204 100.67486  98.79957  99.17257  99.64721  99.92771
-##  [8] 101.67014 100.72196 100.42078</code></pre>
+<pre><code>##  [1]  99.89040  99.60941  99.97148  98.74426 100.19802 101.35009  99.68958
+##  [8] 100.61366  97.87584  99.46749</code></pre>
 <p>We don’t need to name the arguments because R will recognize that we intended to fill in the first and second arguments by their position in the function call. However, if we want to change the default for an argument coming later in the list, then we need to name it. For instance, if we wanted to keep the default <code>mean = 0</code> but change the standard deviation to 100 we would do it this way:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dt">sd =</span> <span class="dv">100</span>)</code></pre></div>
-<pre><code>##  [1]  67.505974   4.207699  53.471644 -56.768948  57.839147  65.824127
-##  [7] -47.478387 -74.086656 -10.499110 -43.084822</code></pre>
+<pre><code>##  [1]   11.56246 -167.19980 -162.09821  -29.26802  -43.67089  -71.97335
+##  [7]  135.92037  -80.72293   44.78068 -118.47570</code></pre>
 </div>
 <div id="pipes" class="section level4">
 <h4>Pipes</h4>
@@ -818,21 +836,22 @@ or<br />
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span>:<span class="dv">10</span>, <span class="dv">5</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
 y &lt;-<span class="st"> </span><span class="kw">unique</span>(x)
 <span class="kw">sort</span>(y, <span class="ot">TRUE</span>) <span class="co"># set second argument to &#39;TRUE&#39; so that sort order is descending</span></code></pre></div>
-<pre><code>## [1] 10  6  3  2</code></pre>
+<pre><code>## [1] 10  7  6  5  1</code></pre>
 <p>While there is nothing wrong with this code, it required us to define variables x and y which we won’t ever need again, and which clutter up our environment. To avoid this you could rewrite this code using nested function calls like so:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sort</span>(<span class="kw">unique</span>(<span class="kw">sample</span>(<span class="dv">1</span>:<span class="dv">10</span>, <span class="dv">5</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)), <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## [1] 10  9  8  6  2</code></pre>
+<pre><code>## [1] 10  8  5</code></pre>
 <p>(If the above call looks confusing, it should!) The call to <code>sample()</code> is embedded within a call to <code>unique()</code> which in turn is embedded within a call to <code>sort()</code>. The functions are executed from most embedded (the “bottom”) to least embedded (the “top”), starting with the function <code>sample()</code>, whose result is then passed in as the first argument to <code>unique(</code>), whose result in turn is passed in as the first argument to <code>sort()</code>; notice the second argument of sort (<code>TRUE</code>) is all the way at the end of the statement, making it hard to figure out which of the three functions it belongs to. We read from left to right; however, understanding this code requires us to work our way from right to left, and therefore unnatural. Moreover it is simply an ugly line of code.</p>
 <p>This is where pipes come in. You can re-write the original code using pipes like so:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sample</span>(<span class="dv">1</span>:<span class="dv">10</span>, <span class="dv">5</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>) %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">unique</span>() %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">sort</span>(<span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## [1] 10  8  6  2</code></pre>
+<pre><code>## [1] 8 6 4 2 1</code></pre>
 <p>R will calculate the result of <code>sample(1:10, 5, replace = TRUE)</code> and then pass this result as the first argument of <code>unique()</code>; then, the result of <code>unique()</code> will in turn be passed along as the first argument of <code>sort()</code> with the second argument set to <code>TRUE</code>. The thing to note here is that for any function call on the right hand side of a pipe, you should omit the first argument and start with the second, because the pipe automatically places the result of the call on the left in that spot.</p>
 </div>
 </div>
 <div id="some-basic-data-types" class="section level3">
 <h3>Some basic data types</h3>
+<p><a name="data_types"></a></p>
 <p>Below are a list of different data types in R.</p>
 <table>
 <thead>
@@ -860,7 +879,7 @@ y &lt;-<span class="st"> </span><span class="kw">unique</span>(x)
 </tr>
 <tr class="even">
 <td>boolean</td>
-<td>&gt;assertion of truth/falsity</td>
+<td>assertion of truth/falsity</td>
 <td><code>TRUE, FALSE</code></td>
 </tr>
 <tr class="odd">
@@ -959,6 +978,7 @@ mx^<span class="dv">2</span>
 </div>
 <div id="data.frame" class="section level4">
 <h4>Data.frame</h4>
+<p><a name="data_table"></a></p>
 <ul>
 <li>Define</li>
 </ul>
