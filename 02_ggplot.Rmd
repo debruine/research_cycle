@@ -41,22 +41,23 @@ knitr::opts_chunk$set(
     + [`geom_col()`](#geom_col)
     + [`geom_point()`](#geom_point)
     + [`geom_smooth()`](#geom_smooth)
-3. [Save plots](#ggsave) as an image file
+3. Set custom labels
+4. [Save plots](#ggsave) as an image file
     
 ### Intermediate
 
-4. Represent factorial designs with different colours or facets
-5. Superimpose different types of graphs
-6. Add lines to graphs
-7. Create less common types of graphs
+5. Represent factorial designs with different colours or facets
+6. Superimpose different types of graphs
+7. Add lines to graphs
+8. Create less common types of graphs
     + [`geom_tile()`](#geom_tile)
     + [`geom_density2d()`](#geom_density2d)
     + [`geom_bin2d()`](#geom_bin2d)
     + [`geom_hex()`](#geom_hex)
     + [`geom_count()`](#geom_count)
-8. Deal with [overlapping data](#overlap)
-9. Use the [`viridis`](#viridis) package to set colours
-10. Set custom labels
+9. Deal with [overlapping data](#overlap)
+10. Use the [`viridis`](#viridis) package to set colours
+
 
 ### Advanced
 
@@ -68,15 +69,16 @@ knitr::opts_chunk$set(
 
 ## Prep
 
-* [Chapter 3: Data Visualisation](http://r4ds.had.co.nz/data-visualisation.html) of *R for Data Science*
-* [Chapter 28: Graphics for communication](http://r4ds.had.co.nz/graphics-for-communication.html) of *R for Data Science*
+* [Look at Data](http://socviz.co/look-at-data.html) from [Data Vizualization for Social Science](http://socviz.co/)
 
 ## Resources
 
+* [Chapter 3: Data Visualisation](http://r4ds.had.co.nz/data-visualisation.html) of *R for Data Science*
+* [Chapter 28: Graphics for communication](http://r4ds.had.co.nz/graphics-for-communication.html) of *R for Data Science*
 * [ggplot2 cheat sheet](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf)
 * [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/)
 * [The R Graph Gallery](http://www.r-graph-gallery.com/) (this is really useful)
-* [Top 50 ggplot2 Visulaizations](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
+* [Top 50 ggplot2 Visualizations](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
 * [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/) by Winston Chang
 * [The viridis color palettes](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
 * [ggplot extensions](https://www.ggplot2-exts.org/)
